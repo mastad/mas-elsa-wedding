@@ -10,13 +10,12 @@
 body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow-x:hidden}
 
 /* SPLASH */
-#splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#fdf8ef 0%,#f9f0e0 45%,#fdf5e8 100%);cursor:pointer;transition:opacity 0.8s ease;overflow:hidden}
-#splash.hide{opacity:0;pointer-events:none}
+#splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#fdf8ef 0%,#f9f0e0 45%,#fdf5e8 100%);transition:opacity 0.8s ease;overflow:hidden}
 .petal{position:absolute;top:-40px;opacity:0;animation:fall linear infinite;pointer-events:none;z-index:1}
 @keyframes fall{0%{opacity:0;transform:translateY(0) rotate(0deg) scale(0.8)}10%{opacity:0.8}80%{opacity:0.6}100%{opacity:0;transform:translateY(110vh) rotate(360deg) scale(1.1)}}
 .floral-tl,.floral-tr,.floral-bl,.floral-br{position:absolute;z-index:1;width:190px;height:190px;opacity:0.6}
 .floral-tl{top:0;left:0}.floral-tr{top:0;right:0;transform:scaleX(-1)}.floral-bl{bottom:0;left:0;transform:scaleY(-1)}.floral-br{bottom:0;right:0;transform:scale(-1)}
-.splash-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:440px;height:440px;background:radial-gradient(ellipse at center,rgba(201,169,110,0.15) 0%,rgba(255,230,170,0.08) 50%,transparent 75%);pointer-events:none;z-index:1}
+.splash-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:440px;height:440px;background:radial-gradient(ellipse at center,rgba(201,169,110,0.15) 0%,transparent 75%);pointer-events:none;z-index:1}
 .splash-rays{position:absolute;inset:0;overflow:hidden;z-index:1}
 .splash-rays::before,.splash-rays::after{content:'';position:absolute;bottom:42%;left:50%;width:1px;background:linear-gradient(to top,rgba(201,169,110,0),rgba(201,169,110,0.35),rgba(201,169,110,0));transform-origin:bottom center}
 .splash-rays::before{height:55%;transform:translateX(-50%) rotate(-30deg);box-shadow:0 0 60px 30px rgba(201,169,110,0.1)}
@@ -56,8 +55,9 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 
 /* HERO */
 .hero{display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}
-.hero-photo{width:100%;max-height:70vh;overflow:hidden}
-.hero-photo img{width:100%;height:70vh;object-fit:cover;object-position:center top;display:block}
+.hero-photo{width:100%;overflow:hidden;height:70vh}
+.hero-photo img{width:100%;height:70vh;object-fit:cover;object-position:center top;display:block;animation:cinematicZoom 14s ease-in-out infinite alternate}
+@keyframes cinematicZoom{0%{transform:scale(1) translateX(0)}33%{transform:scale(1.06) translateX(-1%)}66%{transform:scale(1.04) translateX(1%)}100%{transform:scale(1.08) translateX(0)}}
 .hero-text-box{width:100%;background:#f9f5ee;padding:2.5rem 1.5rem;display:flex;flex-direction:column;align-items:center}
 .hero-eyebrow{font-family:sans-serif;font-size:0.68rem;letter-spacing:0.35em;color:#c9a96e;text-transform:uppercase;margin-bottom:0.75rem}
 .hero-names{font-size:clamp(1.8rem,5vw,3.2rem);font-weight:400;color:#1a1a1a;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;line-height:1.1}
@@ -69,12 +69,11 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .hero-scroll span{font-family:sans-serif;font-size:0.62rem;letter-spacing:0.3em;color:#888;text-transform:uppercase}
 .hero-scroll-arrow{width:1px;height:35px;background:linear-gradient(to bottom,#888,transparent);animation:scrollPulse 2s ease-in-out infinite}
 @keyframes scrollPulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
 .btn{display:inline-block;padding:0.75rem 2.5rem;border:1px solid var(--gold);color:var(--gold);font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;background:transparent;transition:all 0.25s}
 .btn:hover{background:var(--gold);color:var(--white)}
 .btn-solid{background:var(--gold);color:var(--white);border-color:var(--gold)}
 .btn-solid:hover{background:var(--gold-dark)}
-.btn-white{border-color:rgba(255,255,255,0.7);color:#fff}
-.btn-white:hover{background:rgba(255,255,255,0.15)}
 .section{padding:5rem 1.5rem;max-width:900px;margin:0 auto;text-align:center}
 .section-tag{font-family:sans-serif;font-size:0.7rem;letter-spacing:0.35em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem}
 .section-title{font-size:clamp(1.8rem,4vw,3rem);font-weight:400;color:var(--dark);margin-bottom:1.5rem}
@@ -87,15 +86,15 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .count-lbl{font-family:sans-serif;font-size:0.7rem;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:0.25rem}
 
 /* TIMELINE */
-.timeline{display:flex;flex-direction:column;max-width:500px;margin:2rem auto;text-align:left;position:relative}
-.tl-line-full{position:absolute;left:calc(80px + 1rem + 8px);top:8px;bottom:8px;width:1px;background:var(--gold-light)}
-.tl-item{display:flex;gap:1rem;align-items:flex-start;padding-bottom:2.5rem}
+.timeline{display:flex;flex-direction:column;max-width:600px;margin:2rem auto;text-align:left;position:relative}
+.tl-line-full{position:absolute;left:calc(90px + 1rem + 8px);top:8px;bottom:8px;width:1px;background:var(--gold-light)}
+.tl-item{display:flex;gap:1rem;align-items:flex-start;padding-bottom:2rem}
 .tl-item:last-child{padding-bottom:0}
-.tl-left{width:80px;flex-shrink:0;text-align:right}
-.tl-time{font-family:sans-serif;font-size:0.78rem;color:var(--gold);font-weight:600;letter-spacing:0.05em}
+.tl-left{width:90px;flex-shrink:0;text-align:right}
+.tl-time{font-family:sans-serif;font-size:0.75rem;color:var(--gold);font-weight:600;letter-spacing:0.05em}
 .tl-dot{width:10px;height:10px;border:2px solid var(--gold);border-radius:50%;background:var(--bg);flex-shrink:0;margin-top:3px}
-.tl-name{font-size:1rem;color:var(--dark);margin-bottom:0.2rem}
-.tl-venue{font-family:sans-serif;font-size:0.8rem;color:var(--muted)}
+.tl-name{font-size:0.95rem;color:var(--dark);margin-bottom:0.15rem;font-weight:500}
+.tl-venue{font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.5}
 
 /* STORY */
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;text-align:left;max-width:800px;margin:2rem auto;align-items:start}
@@ -113,9 +112,11 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .photo-strip-item:hover img{transform:scale(1.05)}
 
 /* PARTY */
-.party-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2rem;max-width:800px;margin:1.5rem auto;text-align:center}
-.party-card .avatar{width:90px;height:90px;border-radius:50%;background:var(--gold-light);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:2px solid var(--gold)}
-.party-card .name{font-size:0.95rem;color:var(--dark);margin-bottom:0.25rem}
+.party-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2rem;max-width:860px;margin:1.5rem auto;text-align:center}
+.party-card .avatar{width:110px;height:110px;border-radius:50%;background:var(--gold-light);margin:0 auto 1rem;overflow:hidden;border:3px solid var(--gold)}
+.party-card .avatar img{width:100%;height:100%;object-fit:cover}
+.party-card .avatar-placeholder{width:110px;height:110px;border-radius:50%;background:var(--gold-light);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.8rem;border:3px solid var(--gold)}
+.party-card .name{font-size:0.95rem;color:var(--dark);margin-bottom:0.25rem;font-weight:500}
 .party-card .role{font-family:sans-serif;font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
 .party-section-title{font-family:sans-serif;font-size:0.75rem;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin:3rem 0 1.5rem;border-top:1px solid var(--gold-light);padding-top:2rem}
 
@@ -136,7 +137,14 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .photo-cell{aspect-ratio:1;background:var(--gold-light);border-radius:2px;overflow:hidden;cursor:pointer;transition:opacity 0.2s}
 .photo-cell:hover{opacity:0.88}
 .photo-cell img{width:100%;height:100%;object-fit:cover}
-.photo-cell.empty{display:flex;align-items:center;justify-content:center;font-family:sans-serif;font-size:0.75rem;color:var(--muted);letter-spacing:0.1em}
+
+/* SHARE MEMORIES */
+.share-memories-hero{position:relative;width:100%;min-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:4rem 1.5rem}
+.share-memories-bg{position:absolute;inset:0;background-image:url('photo1.jpg');background-size:cover;background-position:center;filter:brightness(0.35)}
+.share-memories-content{position:relative;z-index:1}
+.share-tabs{display:flex;gap:0.75rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
+.share-tab{font-family:sans-serif;font-size:0.78rem;letter-spacing:0.1em;padding:0.6rem 1.4rem;border-radius:50px;border:1.5px solid rgba(255,255,255,0.6);color:#fff;cursor:pointer;background:rgba(0,0,0,0.3);transition:all 0.2s;text-transform:uppercase}
+.share-tab.active,.share-tab:hover{background:var(--gold);border-color:var(--gold);color:#fff}
 
 /* LIGHTBOX */
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;align-items:center;justify-content:center}
@@ -192,23 +200,15 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </div>
 
 <audio id="bgMusic" loop>
-  <!-- Replace src with your Ethiopian music URL when ready -->
+  <!-- Replace with your music: <source src="music.mp3" type="audio/mpeg"/> -->
 </audio>
 
 <!-- SPLASH -->
 <div id="splash">
-  <svg class="floral-tl" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="30" cy="30" r="18" fill="#e8d5a0" opacity="0.75"/><circle cx="62" cy="18" r="13" fill="#f0dfa8" opacity="0.65"/><circle cx="18" cy="62" r="15" fill="#ddc880" opacity="0.7"/><circle cx="85" cy="42" r="11" fill="#f5e8b8" opacity="0.55"/><circle cx="42" cy="85" r="12" fill="#e8d090" opacity="0.65"/><circle cx="105" cy="28" r="8" fill="#faf0d0" opacity="0.45"/><circle cx="28" cy="105" r="9" fill="#ead8a0" opacity="0.5"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a050" opacity="0.35" transform="rotate(45 55 55)"/><ellipse cx="35" cy="75" rx="5" ry="13" fill="#d4b060" opacity="0.35" transform="rotate(-30 35 75)"/><ellipse cx="75" cy="35" rx="5" ry="13" fill="#c8a050" opacity="0.35" transform="rotate(60 75 35)"/>
-  </svg>
-  <svg class="floral-tr" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="30" cy="30" r="18" fill="#e8d5a0" opacity="0.75"/><circle cx="62" cy="18" r="13" fill="#f0dfa8" opacity="0.65"/><circle cx="18" cy="62" r="15" fill="#ddc880" opacity="0.7"/><circle cx="85" cy="42" r="11" fill="#f5e8b8" opacity="0.55"/><circle cx="42" cy="85" r="12" fill="#e8d090" opacity="0.65"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a050" opacity="0.35" transform="rotate(45 55 55)"/>
-  </svg>
-  <svg class="floral-bl" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="30" cy="30" r="18" fill="#f0e0b0" opacity="0.7"/><circle cx="62" cy="18" r="13" fill="#e8d898" opacity="0.6"/><circle cx="18" cy="62" r="15" fill="#ddc878" opacity="0.65"/><circle cx="85" cy="42" r="11" fill="#f5e8b0" opacity="0.5"/><circle cx="42" cy="85" r="12" fill="#e8d088" opacity="0.6"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a048" opacity="0.35" transform="rotate(45 55 55)"/>
-  </svg>
-  <svg class="floral-br" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="30" cy="30" r="18" fill="#f0e0b0" opacity="0.7"/><circle cx="62" cy="18" r="13" fill="#e8d898" opacity="0.6"/><circle cx="18" cy="62" r="15" fill="#ddc878" opacity="0.65"/><circle cx="85" cy="42" r="11" fill="#f5e8b0" opacity="0.5"/><circle cx="42" cy="85" r="12" fill="#e8d088" opacity="0.6"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a048" opacity="0.35" transform="rotate(45 55 55)"/>
-  </svg>
+  <svg class="floral-tl" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#e8d5a0" opacity="0.75"/><circle cx="62" cy="18" r="13" fill="#f0dfa8" opacity="0.65"/><circle cx="18" cy="62" r="15" fill="#ddc880" opacity="0.7"/><circle cx="85" cy="42" r="11" fill="#f5e8b8" opacity="0.55"/><circle cx="42" cy="85" r="12" fill="#e8d090" opacity="0.65"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a050" opacity="0.35" transform="rotate(45 55 55)"/></svg>
+  <svg class="floral-tr" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#e8d5a0" opacity="0.75"/><circle cx="62" cy="18" r="13" fill="#f0dfa8" opacity="0.65"/><circle cx="18" cy="62" r="15" fill="#ddc880" opacity="0.7"/><circle cx="85" cy="42" r="11" fill="#f5e8b8" opacity="0.55"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a050" opacity="0.35" transform="rotate(45 55 55)"/></svg>
+  <svg class="floral-bl" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#f0e0b0" opacity="0.7"/><circle cx="62" cy="18" r="13" fill="#e8d898" opacity="0.6"/><circle cx="18" cy="62" r="15" fill="#ddc878" opacity="0.65"/><circle cx="85" cy="42" r="11" fill="#f5e8b0" opacity="0.5"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a048" opacity="0.35" transform="rotate(45 55 55)"/></svg>
+  <svg class="floral-br" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#f0e0b0" opacity="0.7"/><circle cx="62" cy="18" r="13" fill="#e8d898" opacity="0.6"/><circle cx="18" cy="62" r="15" fill="#ddc878" opacity="0.65"/><circle cx="85" cy="42" r="11" fill="#f5e8b0" opacity="0.5"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a048" opacity="0.35" transform="rotate(45 55 55)"/></svg>
   <div class="splash-rays"></div>
   <div class="splash-glow"></div>
   <div class="splash-monogram"><span>A&amp;B</span></div>
@@ -227,7 +227,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <p style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-top:0.5rem">Tap anywhere to enter</p>
   </div>
   <div id="musicBtn" onclick="event.stopPropagation();toggleMusic()" style="position:absolute;bottom:2rem;right:2rem;z-index:12;width:40px;height:40px;border-radius:50%;border:1px solid var(--gold-light);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--gold);background:rgba(255,255,255,0.6)">🎵</div>
-  <!-- Full clickable overlay -->
   <div onclick="enterSite()" style="position:absolute;inset:0;z-index:10;cursor:pointer"></div>
 </div>
 
@@ -242,7 +241,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <li><a href="#" onclick="show('qa',this);return false">Q&amp;A</a></li>
     <li><a href="#" onclick="show('fund',this);return false">Honeymoon Fund</a></li>
   </ul>
-  <button onclick="toggleMusic()" id="navMusicBtn" style="background:none;border:1px solid var(--gold-light);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:0.9rem;color:var(--gold);flex-shrink:0" title="Toggle music">🎵</button>
+  <button onclick="toggleMusic()" id="navMusicBtn" style="background:none;border:1px solid var(--gold-light);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:0.9rem;color:var(--gold);flex-shrink:0">🎵</button>
   <button class="hamburger" onclick="document.getElementById('navMenu').classList.toggle('open')" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
@@ -252,16 +251,8 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 <div id="home" class="page active">
   <div class="hero">
     <div class="hero-photo">
-      <img src="photo1.jpg" alt="Abrham and Blen" style="width:100%;height:70vh;object-fit:cover;object-position:center top;display:block;animation:cinematicZoom 14s ease-in-out infinite alternate"/>
+      <img src="photo1.jpg" alt="Abrham and Blen"/>
     </div>
-    <style>
-      @keyframes cinematicZoom{
-        0%{transform:scale(1) translateX(0)}
-        33%{transform:scale(1.06) translateX(-1%)}
-        66%{transform:scale(1.04) translateX(1%)}
-        100%{transform:scale(1.08) translateX(0)}
-      }
-    </style>
     <div class="hero-text-box">
       <p class="hero-eyebrow">Save the Date</p>
       <h1 class="hero-names">Abrham <span class="hero-amp">&amp;</span> Blen</h1>
@@ -269,10 +260,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="hero-divider"></div>
       <p class="hero-verse">"So they are no longer two, but one flesh. Therefore what God has joined together, let no one separate." — Matthew 19:6</p>
       <a class="btn btn-solid" href="#" onclick="show('rsvp',null);return false" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">RSVP Now</a>
-      <div class="hero-scroll" onclick="document.querySelector('.section').scrollIntoView({behavior:'smooth'})" style="margin-top:1.5rem">
-        <span>Scroll</span>
-        <div class="hero-scroll-arrow"></div>
-      </div>
     </div>
   </div>
 
@@ -288,13 +275,14 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
 
-  <div class="photo-strip" id="stripRow">
+  <div class="photo-strip">
     <div class="photo-strip-item"><img src="photo2.jpg" alt="" onclick="openLightbox('photo2.jpg')"/></div>
     <div class="photo-strip-item"><img src="photo3.jpg" alt="" onclick="openLightbox('photo3.jpg')"/></div>
     <div class="photo-strip-item"><img src="photo5.jpg" alt="" onclick="openLightbox('photo5.jpg')"/></div>
     <div class="photo-strip-item"><img src="photo7.jpg" alt="" onclick="openLightbox('photo7.jpg')"/></div>
   </div>
 
+  <!-- EVENT TIMELINE -->
   <div style="background:var(--section-alt);padding:5rem 1.5rem">
     <div style="max-width:900px;margin:0 auto;text-align:center">
       <p class="section-tag">The Day's Events</p>
@@ -302,40 +290,39 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="divider"></div>
       <div class="timeline">
         <div class="tl-line-full"></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Ceremony</div><div class="tl-venue">Beza Event Center</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Cocktail Hour</div><div class="tl-venue">Immediately following ceremony</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Reception</div><div class="tl-venue">Beza Event Center</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Ceremony Begins</div><div class="tl-venue">Beza Event Center — Doors open, guests seated</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride & Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb & Kene</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Food & Drinks Served</div><div class="tl-venue">Dinner served · Drinks available 5:00 PM – 10:30 PM</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Mezmure</div><div class="tl-venue">Ethiopian spiritual songs & celebration</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">8:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Kene</div><div class="tl-venue">Traditional Ethiopian poetry recitation</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">8:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Cake Cutting 🎂</div><div class="tl-venue">Cake time + Mezmure continues</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">9:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Family Speeches</div><div class="tl-venue">Heartfelt words from loved ones</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">10:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Closing Mezmure</div><div class="tl-venue">Final celebration & program ends at 10:30 PM</div></div></div>
       </div>
     </div>
   </div>
 
+  <!-- LOCATION -->
   <div class="section">
     <p class="section-tag">Location</p>
     <h2 class="section-title">Getting There</h2>
     <div class="divider"></div>
     <p style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem">Beza Event Center · 1815 Woodland Ave, Columbus, Ohio 43219</p>
-    <!-- Embedded Google Map -->
     <div style="width:100%;border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);margin-bottom:1.5rem">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3056.123456789!2d-82.9799!3d39.9612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88388f0000000001%3A0x0!2s1815+Woodland+Ave%2C+Columbus%2C+OH+43219!5e0!3m2!1sen!2sus!4v1234567890"
-        width="100%"
-        height="420"
-        style="border:0;display:block"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3056.123456789!2d-82.9799!3d39.9612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88388f0000000001%3A0x0!2s1815+Woodland+Ave%2C+Columbus%2C+OH+43219!5e0!3m2!1sen!2sus!4v1234567890" width="100%" height="420" style="border:0;display:block" allowfullscreen="" loading="lazy"></iframe>
     </div>
     <a href="https://maps.google.com/?q=1815+Woodland+Ave+Columbus+Ohio+43219" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">📍 Get Directions</a>
   </div>
 
+  <!-- HOTELS -->
   <div style="background:var(--section-alt);padding:5rem 1.5rem">
     <div style="max-width:900px;margin:0 auto;text-align:center">
       <p class="section-tag">For Our Traveling Guests</p>
       <h2 class="section-title">Nearby Hotels</h2>
       <div class="divider"></div>
       <div class="hotels-grid">
-        <div class="hotel-card"><div class="hotel-name">Comfort Inn</div><div class="hotel-dist">Pickerington, OH</div><div class="hotel-note">1800 Hill Rd N, Pickerington, OH — a comfortable, convenient stay for our out-of-town guests.</div><a href="https://maps.google.com/?q=1800+Hill+Rd+N+Pickerington+OH" target="_blank" class="btn" style="display:inline-block;margin-top:1rem;font-size:0.72rem">View on Map</a></div>
+        <div class="hotel-card"><div class="hotel-name">Comfort Inn</div><div class="hotel-dist">Pickerington, OH</div><div class="hotel-note">1800 Hill Rd N, Pickerington, OH — convenient stay for out-of-town guests.</div><a href="https://maps.google.com/?q=1800+Hill+Rd+N+Pickerington+OH" target="_blank" class="btn" style="display:inline-block;margin-top:1rem;font-size:0.72rem">View on Map</a></div>
         <div class="hotel-card"><div class="hotel-name">Hampton Inn Columbus East</div><div class="hotel-dist">~8 min from venue</div><div class="hotel-note">Comfortable and affordable option close to Beza Event Center.</div></div>
         <div class="hotel-card"><div class="hotel-name">Hilton Garden Inn Columbus</div><div class="hotel-dist">~12 min from venue</div><div class="hotel-note">Modern rooms with great amenities for a relaxing stay.</div></div>
       </div>
@@ -383,18 +370,20 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div class="divider"></div>
     <div class="party-section-title" style="border-top:none;padding-top:0;margin-top:0">Groomsmen</div>
     <div class="party-grid">
-      <div class="party-card"><div class="avatar">★</div><div class="name">Keb</div><div class="role">Best Man</div></div>
-      <div class="party-card"><div class="avatar">★</div><div class="name">Bele</div><div class="role">Groomsman</div></div>
-      <div class="party-card"><div class="avatar">★</div><div class="name">Hermon</div><div class="role">Groomsman</div></div>
-      <div class="party-card"><div class="avatar">★</div><div class="name">Mike</div><div class="role">Groomsman</div></div>
+      <div class="party-card"><div class="avatar-placeholder">★</div><div class="name">Keb</div><div class="role">Best Man</div></div>
+      <div class="party-card"><div class="avatar-placeholder">★</div><div class="name">Bele</div><div class="role">Groomsman</div></div>
+      <div class="party-card"><div class="avatar-placeholder">★</div><div class="name">Hermon</div><div class="role">Groomsman</div></div>
+      <div class="party-card"><div class="avatar-placeholder">★</div><div class="name">Mike</div><div class="role">Groomsman</div></div>
     </div>
+    <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-top:1rem">📸 Upload photos for each member to replace the placeholders</p>
     <div class="party-section-title">Bridesmaids</div>
     <div class="party-grid">
-      <div class="party-card"><div class="avatar">♡</div><div class="name">Bri</div><div class="role">Maid of Honor</div></div>
-      <div class="party-card"><div class="avatar">♡</div><div class="name">Ruth</div><div class="role">Bridesmaid</div></div>
-      <div class="party-card"><div class="avatar">♡</div><div class="name">Hana</div><div class="role">Bridesmaid</div></div>
-      <div class="party-card"><div class="avatar">♡</div><div class="name">Sosi</div><div class="role">Bridesmaid</div></div>
+      <div class="party-card"><div class="avatar-placeholder">♡</div><div class="name">Bri</div><div class="role">Maid of Honor</div></div>
+      <div class="party-card"><div class="avatar-placeholder">♡</div><div class="name">Ruth</div><div class="role">Bridesmaid</div></div>
+      <div class="party-card"><div class="avatar-placeholder">♡</div><div class="name">Hana</div><div class="role">Bridesmaid</div></div>
+      <div class="party-card"><div class="avatar-placeholder">♡</div><div class="name">Sosi</div><div class="role">Bridesmaid</div></div>
     </div>
+    <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-top:1rem">To add photos: upload files named <code>keb.jpg</code>, <code>bele.jpg</code>, <code>bri.jpg</code> etc. to GitHub and let me know!</p>
   </div>
 </div>
 
@@ -404,18 +393,18 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <p class="section-tag">Kindly Reply By July 30, 2026</p>
     <h2 class="section-title">RSVP</h2>
     <div class="divider"></div>
-    <p style="color:var(--muted);font-size:0.92rem;margin-bottom:2rem;line-height:1.8">We would be so honored to have you celebrate with us. Please let us know if you'll be joining Abrham and Blen on their big day!</p>
+    <p style="color:var(--muted);font-size:0.92rem;margin-bottom:2rem;line-height:1.8">We would be so honored to have you celebrate with us!</p>
     <div id="rsvpForm" class="rsvp-form">
       <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your full name"/></div>
       <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com"/></div>
       <div class="form-group"><label>Number of Guests</label><select><option>1 guest</option><option>2 guests</option><option>3 guests</option></select></div>
       <div class="form-group"><label>Will you attend?</label><div class="radio-group"><label><input type="radio" name="attend" value="yes"/> Joyfully accepts</label><label><input type="radio" name="attend" value="no"/> Regretfully declines</label></div></div>
       <div class="form-group"><label>Meal Preference</label><select><option>No preference</option><option>Chicken</option><option>Fish</option><option>Vegetarian</option></select></div>
-      <div class="form-group"><label>Dietary Requirements or Allergies</label><input type="text" placeholder="Any dietary needs?"/></div>
-      <div class="form-group"><label>Message for Abrham &amp; Blen (optional)</label><textarea placeholder="Share your wishes and blessings..."></textarea></div>
+      <div class="form-group"><label>Dietary Requirements</label><input type="text" placeholder="Any dietary needs?"/></div>
+      <div class="form-group"><label>Message (optional)</label><textarea placeholder="Share your wishes and blessings..."></textarea></div>
       <button class="btn btn-solid" style="width:100%;font-family:sans-serif;font-size:0.8rem;letter-spacing:0.2em;border:none;cursor:pointer" onclick="submitRSVP()">Send RSVP</button>
     </div>
-    <div id="rsvpSuccess" class="rsvp-success"><h3>Thank You! 🤍</h3><p>Your RSVP has been received. Abrham and Blen are so grateful and can't wait to celebrate with you on August 2nd!</p></div>
+    <div id="rsvpSuccess" class="rsvp-success"><h3>Thank You! 🤍</h3><p>Your RSVP has been received. Abrham and Blen can't wait to celebrate with you on August 2nd!</p></div>
   </div>
 </div>
 
@@ -432,33 +421,39 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="photo-cell" onclick="openLightbox('photo4.jpg')"><img src="photo4.jpg" alt=""/></div>
       <div class="photo-cell" onclick="openLightbox('photo5.jpg')"><img src="photo5.jpg" alt=""/></div>
       <div class="photo-cell" onclick="openLightbox('photo6.jpg')"><img src="photo6.jpg" alt=""/></div>
+      <div class="photo-cell" onclick="openLightbox('photo7.jpg')"><img src="photo7.jpg" alt=""/></div>
     </div>
-    <div style="margin-top:4rem">
-      <p class="section-tag">Share Your Memories</p>
-      <h3 style="font-size:1.4rem;font-weight:400;color:var(--dark);margin-bottom:0.5rem">Upload Your Photos &amp; Videos</h3>
-      <p style="color:var(--muted);font-size:0.88rem;margin-bottom:1.5rem;line-height:1.8">Help us capture every beautiful moment from the big day!</p>
-      <div style="max-width:500px;margin:0 auto">
-        <label id="dropZone" style="display:block;border:1.5px dashed var(--gold-light);padding:2.5rem;text-align:center;border-radius:4px;cursor:pointer;transition:border-color 0.2s"
-          ondragover="event.preventDefault();this.style.borderColor='var(--gold)'"
-          ondragleave="this.style.borderColor='var(--gold-light)'"
-          ondrop="handleDrop(event)">
-          <div style="font-size:2.5rem;color:var(--gold);margin-bottom:0.5rem">↑</div>
-          <p style="font-size:0.9rem;color:var(--dark);font-family:sans-serif">Click or drag &amp; drop to upload</p>
-          <p style="font-family:sans-serif;font-size:0.75rem;color:var(--muted);margin-top:0.4rem">Photos &amp; Videos — JPG, PNG, MP4, MOV up to 100MB</p>
-          <input type="file" id="fileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files)"/>
-        </label>
-        <script>document.getElementById('dropZone').addEventListener('click',()=>document.getElementById('fileUpload').click())</script>
-        <div id="uploadProgress" style="display:none;margin-top:1rem">
-          <div style="background:#eee;border-radius:2px;height:4px;overflow:hidden"><div id="progressBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s"></div></div>
-          <p id="uploadStatus" style="font-family:sans-serif;font-size:0.82rem;color:var(--gold);margin-top:0.5rem;text-align:center"></p>
-        </div>
-        <div style="margin-top:1.5rem;padding:1.25rem;border:1px solid var(--gold-light);border-radius:4px;background:var(--section-alt);text-align:center">
-          <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem">Having trouble uploading? Use Google Photos instead:</p>
-          <a href="https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">📸 Upload to Google Photos Album</a>
-        </div>
+  </div>
+
+  <!-- SHARE MEMORIES SECTION -->
+  <div class="share-memories-hero">
+    <div class="share-memories-bg"></div>
+    <div class="share-memories-content">
+      <div class="share-tabs">
+        <div class="share-tab active">Groom Location</div>
+        <div class="share-tab">Venue Location</div>
+        <div class="share-tab">Bride Location</div>
       </div>
-      <div id="uploadedGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;max-width:800px;margin:2rem auto"></div>
+      <h2 style="font-family:'Georgia',serif;font-size:2rem;color:#fff;margin-bottom:1rem;text-shadow:0 2px 10px rgba(0,0,0,0.5)">Share Your Memories</h2>
+      <p style="font-family:sans-serif;font-size:0.9rem;color:rgba(255,255,255,0.85);max-width:380px;line-height:1.8;margin:0 auto 2rem">Upload your photos &amp; videos to preserve the elegance of this unforgettable day!</p>
+      <button onclick="document.getElementById('fileUpload').click()" class="btn btn-solid" style="font-family:sans-serif;font-size:0.8rem;letter-spacing:0.15em;display:inline-flex;align-items:center;gap:0.5rem">
+        ↗ Share
+      </button>
+      <input type="file" id="fileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files)"/>
     </div>
+  </div>
+
+  <!-- UPLOAD AREA -->
+  <div style="max-width:600px;margin:3rem auto;padding:0 1.5rem;text-align:center">
+    <div id="uploadProgress" style="display:none;margin-bottom:1rem">
+      <div style="background:#eee;border-radius:2px;height:4px;overflow:hidden"><div id="progressBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s"></div></div>
+      <p id="uploadStatus" style="font-family:sans-serif;font-size:0.82rem;color:var(--gold);margin-top:0.5rem;text-align:center"></p>
+    </div>
+    <div style="padding:1.25rem;border:1px solid var(--gold-light);border-radius:4px;background:var(--section-alt);text-align:center">
+      <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem">Backup option — Upload via Google Photos:</p>
+      <a href="https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">📸 Upload to Google Photos</a>
+    </div>
+    <div id="uploadedGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-top:2rem"></div>
   </div>
 </div>
 
@@ -469,13 +464,12 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <h2 class="section-title">Questions &amp; Answers</h2>
     <div class="divider"></div>
     <div class="qa-list">
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div><div class="qa-a">We kindly ask all guests to dress in <strong>white or silver</strong> attire — formal or semi-formal. Please avoid bright colors and any shade other than white or silver. Let's keep the look elegant and cohesive!</div></div>
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Are children allowed? <span class="arrow">▾</span></div><div class="qa-a">Children are welcome! However, parents and guardians are fully responsible for supervising their children throughout the event. Please keep them close and ensure they do not disrupt the ceremony or reception.</div></div>
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where is the venue located? <span class="arrow">▾</span></div><div class="qa-a">Beza Event Center, 1815 Woodland Ave, Columbus, Ohio 43219. Complimentary parking is available on site.</div></div>
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Can I take photos during the ceremony? <span class="arrow">▾</span></div><div class="qa-a">We are having an unplugged ceremony — please put phones and cameras away so everyone can be fully present. You're welcome to take photos during the reception!</div></div>
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">When should I RSVP by? <span class="arrow">▾</span></div><div class="qa-a">Please RSVP by July 30, 2026 so we can finalize seating and catering. We appreciate your timely response!</div></div>
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Is there parking at the venue? <span class="arrow">▾</span></div><div class="qa-a">Yes! Complimentary parking is available at Beza Event Center. We encourage carpooling or arranging a ride share if you plan to enjoy the evening fully.</div></div>
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What time should I arrive? <span class="arrow">▾</span></div><div class="qa-a">The ceremony begins promptly at 5:00 PM. We recommend arriving 15–20 minutes early to find your seat.</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div><div class="qa-a">We kindly ask all guests to dress in <strong>white or silver</strong> attire — formal or semi-formal. Please avoid bright colors. Let's keep the look elegant and cohesive!</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Are children allowed? <span class="arrow">▾</span></div><div class="qa-a">Children are welcome! However, parents are fully responsible for supervising their children throughout the event.</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where is the venue? <span class="arrow">▾</span></div><div class="qa-a">Beza Event Center, 1815 Woodland Ave, Columbus, Ohio 43219. Complimentary parking available.</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Can I take photos during the ceremony? <span class="arrow">▾</span></div><div class="qa-a">We are having an unplugged ceremony — please put phones away. You're welcome to take photos during the reception!</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">When should I RSVP by? <span class="arrow">▾</span></div><div class="qa-a">Please RSVP by July 30, 2026. We appreciate your timely response!</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What time should I arrive? <span class="arrow">▾</span></div><div class="qa-a">The ceremony begins at 5:00 PM. We recommend arriving 15–20 minutes early.</div></div>
     </div>
   </div>
 </div>
@@ -486,11 +480,11 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <p class="section-tag">A Gift from the Heart</p>
     <h2 class="section-title">Honeymoon Fund</h2>
     <div class="divider"></div>
-    <p style="color:var(--muted);font-size:0.95rem;max-width:520px;margin:0 auto 3rem;line-height:1.95">Your presence is the greatest gift. If you'd like to contribute to the start of our adventure together, we are truly grateful.</p>
+    <p style="color:var(--muted);font-size:0.95rem;max-width:520px;margin:0 auto 3rem;line-height:1.95">Your presence is the greatest gift. If you'd like to contribute to the start of our adventure, we are truly grateful.</p>
     <div class="fund-grid">
-      <div class="fund-card"><div class="fund-icon">✈️</div><div class="fund-title">Flights</div><div class="fund-amt">Goal: $1,500</div><div class="fund-desc">Help us take flight to our dream honeymoon destination.</div><div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div><div class="progress-lbl">$825 raised</div><button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem">Contribute</button></div>
-      <div class="fund-card"><div class="fund-icon">🏨</div><div class="fund-title">Accommodation</div><div class="fund-amt">Goal: $1,000</div><div class="fund-desc">Give us a beautiful night as we begin life as husband and wife.</div><div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div><div class="progress-lbl">$350 raised</div><button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem">Contribute</button></div>
-      <div class="fund-card"><div class="fund-icon">🍽️</div><div class="fund-title">Experiences</div><div class="fund-amt">Goal: $600</div><div class="fund-desc">Treat us to a romantic dinner or a memory we'll carry forever.</div><div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div><div class="progress-lbl">$120 raised</div><button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem">Contribute</button></div>
+      <div class="fund-card"><div class="fund-icon">✈️</div><div class="fund-title">Flights</div><div class="fund-amt">Goal: $1,500</div><div class="fund-desc">Help us take flight to our dream honeymoon.</div><div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div><div class="progress-lbl">$825 raised</div><button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem">Contribute</button></div>
+      <div class="fund-card"><div class="fund-icon">🏨</div><div class="fund-title">Accommodation</div><div class="fund-amt">Goal: $1,000</div><div class="fund-desc">Give us a beautiful night as we begin life together.</div><div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div><div class="progress-lbl">$350 raised</div><button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem">Contribute</button></div>
+      <div class="fund-card"><div class="fund-icon">🍽️</div><div class="fund-title">Experiences</div><div class="fund-amt">Goal: $600</div><div class="fund-desc">Treat us to a romantic dinner or adventure.</div><div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div><div class="progress-lbl">$120 raised</div><button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem">Contribute</button></div>
     </div>
   </div>
 </div>
@@ -502,53 +496,35 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </footer>
 
 <script>
-// Music
-const music = document.getElementById('bgMusic');
-let musicPlaying = false;
+const music=document.getElementById('bgMusic');
+let musicPlaying=false;
+function tryAutoplay(){ music.volume=0.4; music.play().then(()=>{ musicPlaying=true; updateMusicBtn(); }).catch(()=>{}); }
+function toggleMusic(){ if(musicPlaying){ music.pause(); musicPlaying=false; } else { music.play(); musicPlaying=true; } updateMusicBtn(); }
+function updateMusicBtn(){ const i=musicPlaying?'🔊':'🔇'; document.getElementById('musicBtn').textContent=i; document.getElementById('navMusicBtn').textContent=i; }
+window.addEventListener('load',tryAutoplay);
 
-function tryAutoplay(){
-  music.volume = 0.4;
-  music.play().then(()=>{ musicPlaying=true; updateMusicBtn(); }).catch(()=>{});
-}
-function toggleMusic(){
-  if(musicPlaying){ music.pause(); musicPlaying=false; }
-  else { music.play(); musicPlaying=true; }
-  updateMusicBtn();
-}
-function updateMusicBtn(){
-  const icon = musicPlaying ? '🔊' : '🔇';
-  document.getElementById('musicBtn').textContent = icon;
-  document.getElementById('navMusicBtn').textContent = icon;
-}
-window.addEventListener('load', tryAutoplay);
-
-// Splash
 function enterSite(){
-  const s = document.getElementById('splash');
-  s.style.opacity = '0';
-  s.style.pointerEvents = 'none';
-  setTimeout(()=>s.style.display='none', 800);
+  const s=document.getElementById('splash');
+  s.style.opacity='0'; s.style.pointerEvents='none';
+  setTimeout(()=>s.style.display='none',800);
   music.play().then(()=>{ musicPlaying=true; updateMusicBtn(); }).catch(()=>{});
 }
 
-// Falling petals
 const petalEmojis=['🌸','✿','🌼','🌺','🪷','💐'];
 function createPetals(){
-  const splash = document.getElementById('splash');
+  const splash=document.getElementById('splash');
   for(let i=0;i<18;i++){
-    const p = document.createElement('div');
-    p.className = 'petal';
-    p.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
-    p.style.left = Math.random()*100+'vw';
-    p.style.fontSize = (0.9+Math.random()*1.2)+'rem';
-    p.style.animationDuration = (4+Math.random()*6)+'s';
-    p.style.animationDelay = (Math.random()*6)+'s';
+    const p=document.createElement('div'); p.className='petal';
+    p.textContent=petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+    p.style.left=Math.random()*100+'vw';
+    p.style.fontSize=(0.9+Math.random()*1.2)+'rem';
+    p.style.animationDuration=(4+Math.random()*6)+'s';
+    p.style.animationDelay=(Math.random()*6)+'s';
     splash.appendChild(p);
   }
 }
 createPetals();
 
-// Nav & UI
 function show(id,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -563,9 +539,7 @@ function openLightbox(src){ document.getElementById('lightbox-img').src=src; doc
 function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
 
-// Upload
 const CLOUD_NAME='dta5qfkow', UPLOAD_PRESET='Abrham';
-function handleDrop(e){ e.preventDefault(); document.getElementById('dropZone').style.borderColor='var(--gold-light)'; handleFiles(e.dataTransfer.files); }
 async function handleFiles(files){
   if(!files.length) return;
   const arr=Array.from(files);
@@ -597,10 +571,9 @@ function addToUploadedGrid(url,type){
   grid.appendChild(d);
 }
 
-// Countdown
-const weddingDate = new Date('2026-08-02T17:00:00');
+const weddingDate=new Date('2026-08-02T17:00:00');
 function updateCountdown(){
-  const diff = weddingDate - new Date();
+  const diff=weddingDate-new Date();
   if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='0');return}
   document.getElementById('cd-d').textContent=Math.floor(diff/86400000);
   document.getElementById('cd-h').textContent=Math.floor((diff%86400000)/3600000);
@@ -609,11 +582,10 @@ function updateCountdown(){
 }
 updateCountdown(); setInterval(updateCountdown,1000);
 
-// Debug: test if photo1.jpg loads
-const testImg = new Image();
-testImg.onload = ()=>{ console.log('✅ photo1.jpg loaded OK'); };
-testImg.onerror = ()=>{ console.error('❌ photo1.jpg failed to load'); };
-testImg.src = 'photo1.jpg';
+const testImg=new Image();
+testImg.onload=()=>console.log('✅ photo1.jpg loaded OK');
+testImg.onerror=()=>console.error('❌ photo1.jpg failed to load');
+testImg.src='photo1.jpg';
 </script>
 </body>
 </html>
