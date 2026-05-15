@@ -107,7 +107,7 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .milestone-desc{font-size:0.9rem;color:#666;line-height:1.6}
 
 /* PHOTO STRIP */
-.photo-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.photo-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
 .photo-strip-item{aspect-ratio:1;overflow:hidden;cursor:pointer}
 .photo-strip-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
 .photo-strip-item:hover img{transform:scale(1.05)}
@@ -252,8 +252,16 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 <div id="home" class="page active">
   <div class="hero">
     <div class="hero-photo">
-      <img src="photo1.jpg" alt="Abrham and Blen"/>
+      <img src="photo1.jpg" alt="Abrham and Blen" style="width:100%;height:70vh;object-fit:cover;object-position:center top;display:block;animation:cinematicZoom 14s ease-in-out infinite alternate"/>
     </div>
+    <style>
+      @keyframes cinematicZoom{
+        0%{transform:scale(1) translateX(0)}
+        33%{transform:scale(1.06) translateX(-1%)}
+        66%{transform:scale(1.04) translateX(1%)}
+        100%{transform:scale(1.08) translateX(0)}
+      }
+    </style>
     <div class="hero-text-box">
       <p class="hero-eyebrow">Save the Date</p>
       <h1 class="hero-names">Abrham <span class="hero-amp">&amp;</span> Blen</h1>
@@ -284,6 +292,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div class="photo-strip-item"><img src="photo2.jpg" alt="" onclick="openLightbox('photo2.jpg')"/></div>
     <div class="photo-strip-item"><img src="photo3.jpg" alt="" onclick="openLightbox('photo3.jpg')"/></div>
     <div class="photo-strip-item"><img src="photo5.jpg" alt="" onclick="openLightbox('photo5.jpg')"/></div>
+    <div class="photo-strip-item"><img src="photo7.jpg" alt="" onclick="openLightbox('photo7.jpg')"/></div>
   </div>
 
   <div style="background:var(--section-alt);padding:5rem 1.5rem">
