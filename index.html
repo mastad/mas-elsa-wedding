@@ -6,13 +6,76 @@
 <title>Abrham & Blen — August 2, 2026</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--gold:#c9a96e;--gold-light:#e8d5b0;--dark:#1a1a1a;--text:#333;--muted:#888;--bg:#fdfaf6;--white:#fff;--nav-h:60px}
+:root{
+  --lilac:#c3aed6;
+  --lilac-light:#e8dff2;
+  --lilac-dark:#9b85bb;
+  --champagne:#e8dcc8;
+  --champagne-dark:#c8b89a;
+  --dark:#2a2035;
+  --text:#3d3050;
+  --muted:#9a8faa;
+  --bg:#faf8fc;
+  --white:#fff;
+  --nav-h:60px;
+}
 body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow-x:hidden}
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,250,246,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--gold-light);height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
-nav .logo{font-size:1rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+
+/* SPLASH */
+#splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#f9f0f8 0%,#f0e6f6 40%,#fdf5e8 100%);cursor:pointer;transition:opacity 0.8s ease;overflow:hidden}
+#splash.hide{opacity:0;pointer-events:none}
+
+/* Falling petals */
+.petal{position:absolute;top:-40px;font-size:1.4rem;opacity:0;animation:fall linear infinite;pointer-events:none;z-index:1}
+@keyframes fall{0%{opacity:0;transform:translateY(0) rotate(0deg) scale(0.8)}10%{opacity:0.85}80%{opacity:0.7}100%{opacity:0;transform:translateY(110vh) rotate(360deg) scale(1.1)}}
+
+/* Corner floral SVG decorations */
+.floral-tl,.floral-tr,.floral-bl,.floral-br{position:absolute;z-index:1;width:180px;height:180px;opacity:0.55}
+.floral-tl{top:0;left:0}
+.floral-tr{top:0;right:0;transform:scaleX(-1)}
+.floral-bl{bottom:0;left:0;transform:scaleY(-1)}
+.floral-br{bottom:0;right:0;transform:scale(-1)}
+
+/* Center glow */
+.splash-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:420px;height:420px;background:radial-gradient(ellipse at center,rgba(195,160,220,0.18) 0%,rgba(255,220,180,0.1) 50%,transparent 75%);pointer-events:none;z-index:1}
+
+/* Gold rays */
+.splash-rays{position:absolute;inset:0;overflow:hidden;z-index:1}
+.splash-rays::before,.splash-rays::after{content:'';position:absolute;bottom:42%;left:50%;width:1px;background:linear-gradient(to top,rgba(210,170,100,0.0),rgba(210,170,100,0.3),rgba(210,170,100,0.0));transform-origin:bottom center}
+.splash-rays::before{height:55%;transform:translateX(-50%) rotate(-30deg);box-shadow:0 0 60px 30px rgba(210,170,100,0.08)}
+.splash-rays::after{height:55%;transform:translateX(-50%) rotate(30deg);box-shadow:0 0 60px 30px rgba(210,170,100,0.08)}
+
+.splash-monogram{position:relative;z-index:2;width:120px;height:120px;border-radius:50%;border:2px solid rgba(180,140,210,0.7);background:radial-gradient(circle,#fff 50%,#f5eaff 100%);display:flex;align-items:center;justify-content:center;margin-bottom:1.8rem;animation:monogramGlow 3s ease-in-out infinite;box-shadow:0 8px 32px rgba(180,140,210,0.25)}
+@keyframes monogramGlow{0%,100%{box-shadow:0 8px 32px rgba(180,140,210,0.2),0 0 0 0 rgba(180,140,210,0)}50%{box-shadow:0 8px 48px rgba(180,140,210,0.4),0 0 0 8px rgba(180,140,210,0.06)}}
+.splash-monogram::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:1.5px dashed rgba(180,140,210,0.35);animation:rotateBorder 10s linear infinite}
+@keyframes rotateBorder{to{transform:rotate(360deg)}}
+.splash-monogram span{font-family:'Georgia',serif;font-style:italic;font-size:2.4rem;color:#9b6fc0;letter-spacing:-0.05em;animation:letterDance 4s ease-in-out infinite;display:inline-block}
+@keyframes letterDance{0%,100%{transform:scale(1) rotate(0deg)}25%{transform:scale(1.12) rotate(-3deg)}50%{transform:scale(1.07)}75%{transform:scale(1.12) rotate(3deg)}}
+
+.splash-flowers-row{position:relative;z-index:2;font-size:1.6rem;letter-spacing:0.3em;margin-bottom:0.8rem;animation:floatRow 3s ease-in-out infinite}
+@keyframes floatRow{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.splash-names{position:relative;z-index:2;font-family:'Georgia',serif;font-size:1.6rem;font-style:italic;color:#6b4a8a;letter-spacing:0.08em;margin-bottom:0.6rem}
+.splash-line{width:280px;height:1px;background:linear-gradient(to right,transparent,rgba(180,140,210,0.6),transparent);margin:0 auto 0.8rem}
+.splash-savedate{position:relative;z-index:2;font-family:sans-serif;font-size:0.7rem;letter-spacing:0.3em;color:#a07cc0;text-transform:uppercase;margin-bottom:0.3rem}
+.splash-date{position:relative;z-index:2;font-family:sans-serif;font-size:0.7rem;letter-spacing:0.3em;color:#a07cc0;text-transform:uppercase;margin-bottom:0.8rem}
+.splash-guest{position:relative;z-index:2;font-family:sans-serif;font-size:0.72rem;letter-spacing:0.2em;color:#b899d4;font-style:italic}
+.splash-enter{position:relative;z-index:2;margin-top:0.8rem;font-family:sans-serif;font-size:0.68rem;letter-spacing:0.3em;color:#c4a8d8;text-transform:uppercase;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:0.5}50%{opacity:1}}
+.ripple-btn{position:relative;z-index:2;width:64px;height:64px;display:flex;align-items:center;justify-content:center}
+.ripple-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(180,140,210,0.45);animation:ripple 2.5s ease-out infinite}
+.r1{width:64px;height:64px;animation-delay:0s}
+.r2{width:64px;height:64px;animation-delay:0.8s}
+.r3{width:64px;height:64px;animation-delay:1.6s}
+@keyframes ripple{0%{transform:scale(1);opacity:0.7}100%{transform:scale(2.4);opacity:0}}
+.ripple-core{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(180,140,210,0.8);background:rgba(180,140,210,0.12);display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:#9b6fc0;animation:corePulse 2s ease-in-out infinite}
+@keyframes corePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(250,248,252,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--lilac-light);height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
+nav .logo{font-size:1rem;letter-spacing:0.15em;color:var(--lilac-dark);text-transform:uppercase;white-space:nowrap}
 nav ul{list-style:none;display:flex;gap:1.2rem;flex-wrap:wrap}
 nav ul li a{text-decoration:none;font-family:sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--text);text-transform:uppercase;cursor:pointer;transition:color 0.2s}
-nav ul li a:hover,nav ul li a.active{color:var(--gold)}
+nav ul li a:hover,nav ul li a.active{color:var(--lilac-dark)}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
 .hamburger span{width:22px;height:1.5px;background:var(--dark);display:block}
 .page{display:none;min-height:100vh;padding-top:var(--nav-h)}
@@ -21,24 +84,24 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 /* HERO */
 .hero{position:relative;height:calc(100vh - var(--nav-h));display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background-size:cover;background-position:center top;filter:brightness(0.45)}
-.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.55) 100%)}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(45,35,64,0.2) 0%,rgba(45,35,64,0.6) 100%)}
 .hero *{position:relative;z-index:1}
-.hero-eyebrow{font-family:sans-serif;font-size:0.75rem;letter-spacing:0.35em;color:#f0d9b5;text-transform:uppercase;margin-bottom:1.5rem}
-.hero-names{font-size:clamp(2.8rem,6vw,5rem);font-weight:400;color:#fff;line-height:1.1;letter-spacing:0.04em;margin-bottom:0.5rem;text-shadow:0 2px 20px rgba(0,0,0,0.4)}
-.hero-amp{color:#f0d9b5;font-style:italic}
+.hero-eyebrow{font-family:sans-serif;font-size:0.75rem;letter-spacing:0.35em;color:var(--lilac-light);text-transform:uppercase;margin-bottom:1.5rem}
+.hero-names{font-size:clamp(2.8rem,6vw,5rem);font-weight:400;color:#fff;line-height:1.1;letter-spacing:0.04em;margin-bottom:0.5rem;text-shadow:0 2px 20px rgba(45,35,64,0.5)}
+.hero-amp{color:var(--lilac-light);font-style:italic}
 .hero-date{font-family:sans-serif;font-size:0.82rem;letter-spacing:0.25em;color:rgba(255,255,255,0.8);text-transform:uppercase;margin:1.5rem 0}
 .hero-verse{font-style:italic;color:rgba(255,255,255,0.75);font-size:0.95rem;max-width:420px;line-height:1.9;margin:0 auto 2rem}
-.btn{display:inline-block;padding:0.75rem 2.5rem;border:1px solid var(--gold);color:var(--gold);font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;background:transparent;transition:all 0.25s}
-.btn:hover{background:var(--gold);color:var(--white)}
-.btn-solid{background:var(--gold);color:var(--white);border-color:var(--gold)}
-.btn-solid:hover{background:#b8935a}
+.btn{display:inline-block;padding:0.75rem 2.5rem;border:1px solid var(--lilac);color:var(--lilac-dark);font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;background:transparent;transition:all 0.25s}
+.btn:hover{background:var(--lilac);color:var(--white)}
+.btn-solid{background:var(--lilac);color:var(--white);border-color:var(--lilac)}
+.btn-solid:hover{background:var(--lilac-dark)}
 .btn-white{border-color:rgba(255,255,255,0.7);color:#fff}
 .btn-white:hover{background:rgba(255,255,255,0.15)}
 
 .section{padding:5rem 1.5rem;max-width:900px;margin:0 auto;text-align:center}
-.section-tag{font-family:sans-serif;font-size:0.7rem;letter-spacing:0.35em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem}
+.section-tag{font-family:sans-serif;font-size:0.7rem;letter-spacing:0.35em;color:var(--lilac-dark);text-transform:uppercase;margin-bottom:1rem}
 .section-title{font-size:clamp(1.8rem,4vw,3rem);font-weight:400;color:var(--dark);margin-bottom:1.5rem}
-.divider{width:60px;height:1px;background:var(--gold);margin:1.5rem auto}
+.divider{width:60px;height:1px;background:var(--lilac);margin:1.5rem auto}
 
 /* COUNTDOWN */
 .countdown{display:flex;gap:2.5rem;justify-content:center;margin:3rem 0;flex-wrap:wrap}
@@ -48,22 +111,22 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 
 /* TIMELINE */
 .timeline{display:flex;flex-direction:column;gap:0;max-width:500px;margin:2rem auto;text-align:left;position:relative}
-.tl-line-full{position:absolute;left:calc(80px + 1rem + 8px);top:8px;bottom:8px;width:1px;background:var(--gold-light)}
+.tl-line-full{position:absolute;left:calc(80px + 1rem + 8px);top:8px;bottom:8px;width:1px;background:var(--lilac-light)}
 .tl-item{display:flex;gap:1rem;align-items:flex-start;padding-bottom:2.5rem}
 .tl-item:last-child{padding-bottom:0}
 .tl-left{width:80px;flex-shrink:0;text-align:right}
-.tl-time{font-family:sans-serif;font-size:0.78rem;color:var(--gold);font-weight:600;letter-spacing:0.05em}
-.tl-dot{width:10px;height:10px;border:2px solid var(--gold);border-radius:50%;background:var(--bg);flex-shrink:0;margin-top:3px}
+.tl-time{font-family:sans-serif;font-size:0.78rem;color:var(--lilac-dark);font-weight:600;letter-spacing:0.05em}
+.tl-dot{width:10px;height:10px;border:2px solid var(--lilac);border-radius:50%;background:var(--bg);flex-shrink:0;margin-top:3px}
 .tl-name{font-size:1rem;color:var(--dark);margin-bottom:0.2rem}
 .tl-venue{font-family:sans-serif;font-size:0.8rem;color:var(--muted)}
 
 /* STORY */
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;text-align:left;max-width:800px;margin:2rem auto;align-items:start}
-.story-img{width:100%;aspect-ratio:3/4;background:var(--gold-light);border-radius:4px;overflow:hidden}
+.story-img{width:100%;aspect-ratio:3/4;background:var(--lilac-light);border-radius:4px;overflow:hidden}
 .story-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
 .story-text p{font-size:0.95rem;line-height:1.95;color:#555;margin-bottom:1.2rem}
 .milestone-item{display:flex;gap:1rem;margin-bottom:1rem;align-items:flex-start}
-.milestone-year{font-family:sans-serif;font-size:0.75rem;color:var(--gold);font-weight:600;min-width:44px;padding-top:2px}
+.milestone-year{font-family:sans-serif;font-size:0.75rem;color:var(--lilac-dark);font-weight:600;min-width:44px;padding-top:2px}
 .milestone-desc{font-size:0.9rem;color:#666;line-height:1.6}
 
 /* PHOTO STRIP */
@@ -74,70 +137,69 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 
 /* PARTY */
 .party-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:2rem;max-width:800px;margin:1.5rem auto;text-align:center}
-.party-card .avatar{width:90px;height:90px;border-radius:50%;background:var(--gold-light);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:2px solid var(--gold)}
+.party-card .avatar{width:90px;height:90px;border-radius:50%;background:var(--lilac-light);margin:0 auto 1rem;display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:2px solid var(--lilac)}
 .party-card .name{font-size:0.95rem;color:var(--dark);margin-bottom:0.25rem}
 .party-card .role{font-family:sans-serif;font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
-.party-section-title{font-family:sans-serif;font-size:0.75rem;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin:3rem 0 1.5rem;border-top:1px solid var(--gold-light);padding-top:2rem}
+.party-section-title{font-family:sans-serif;font-size:0.75rem;letter-spacing:0.25em;color:var(--lilac-dark);text-transform:uppercase;margin:3rem 0 1.5rem;border-top:1px solid var(--lilac-light);padding-top:2rem}
 
 /* RSVP */
 .rsvp-form{max-width:520px;margin:2rem auto;text-align:left}
 .form-group{margin-bottom:1.5rem}
 .form-group label{display:block;font-family:sans-serif;font-size:0.72rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:0.5rem}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:0.75rem 1rem;border:1px solid #ddd;background:var(--white);font-family:'Georgia',serif;font-size:0.95rem;color:var(--text);outline:none;transition:border-color 0.2s;border-radius:2px}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold)}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:0.75rem 1rem;border:1px solid var(--lilac-light);background:var(--white);font-family:'Georgia',serif;font-size:0.95rem;color:var(--text);outline:none;transition:border-color 0.2s;border-radius:2px}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--lilac)}
 .form-group textarea{height:100px;resize:vertical}
 .radio-group{display:flex;gap:1.5rem;margin-top:0.5rem;flex-wrap:wrap}
 .radio-group label{font-family:sans-serif;font-size:0.85rem;color:var(--text);display:flex;align-items:center;gap:0.5rem;letter-spacing:0;text-transform:none;cursor:pointer}
-.rsvp-success{display:none;text-align:center;padding:3rem;border:1px solid var(--gold-light);background:#fffdf9;border-radius:4px}
-.rsvp-success h3{color:var(--gold);font-size:1.8rem;margin-bottom:1rem}
+.rsvp-success{display:none;text-align:center;padding:3rem;border:1px solid var(--lilac-light);background:#fdf8ff;border-radius:4px}
+.rsvp-success h3{color:var(--lilac-dark);font-size:1.8rem;margin-bottom:1rem}
 
-/* PHOTOS PAGE */
+/* PHOTOS */
 .photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;max-width:800px;margin:2rem auto}
-.photo-cell{aspect-ratio:1;background:var(--gold-light);border-radius:2px;overflow:hidden;cursor:pointer;transition:opacity 0.2s}
+.photo-cell{aspect-ratio:1;background:var(--lilac-light);border-radius:2px;overflow:hidden;cursor:pointer;transition:opacity 0.2s}
 .photo-cell:hover{opacity:0.88}
 .photo-cell img{width:100%;height:100%;object-fit:cover}
 .photo-cell.empty{display:flex;align-items:center;justify-content:center;font-family:sans-serif;font-size:0.75rem;color:var(--muted);letter-spacing:0.1em}
-.upload-area{border:1.5px dashed var(--gold-light);padding:3rem;text-align:center;max-width:500px;margin:2rem auto;cursor:pointer;transition:border-color 0.2s;border-radius:4px}
-.upload-area:hover{border-color:var(--gold)}
-.upload-area .up-icon{font-size:2.5rem;color:var(--gold);margin-bottom:0.5rem}
+.upload-area{border:1.5px dashed var(--lilac-light);padding:3rem;text-align:center;max-width:500px;margin:2rem auto;cursor:pointer;transition:border-color 0.2s;border-radius:4px}
+.upload-area:hover{border-color:var(--lilac)}
 
 /* LIGHTBOX */
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;align-items:center;justify-content:center}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(30,22,48,0.95);z-index:999;align-items:center;justify-content:center}
 .lightbox.open{display:flex}
 .lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:2px}
-.lightbox-close{position:absolute;top:1.5rem;right:2rem;font-size:2rem;color:#fff;cursor:pointer;line-height:1;background:none;border:none}
+.lightbox-close{position:absolute;top:1.5rem;right:2rem;font-size:2rem;color:#fff;cursor:pointer;background:none;border:none}
 
 /* QA */
 .qa-list{max-width:640px;margin:2rem auto;text-align:left}
-.qa-item{border-bottom:1px solid var(--gold-light)}
+.qa-item{border-bottom:1px solid var(--lilac-light)}
 .qa-q{font-size:0.98rem;color:var(--dark);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.25rem 0}
-.qa-q .arrow{color:var(--gold);font-size:1.1rem;transition:transform 0.3s;flex-shrink:0}
+.qa-q .arrow{color:var(--lilac);font-size:1.1rem;transition:transform 0.3s;flex-shrink:0}
 .qa-q.open .arrow{transform:rotate(180deg)}
 .qa-a{font-size:0.88rem;color:#666;line-height:1.85;padding-bottom:1.25rem;display:none}
 .qa-a.open{display:block}
 
 /* FUND */
 .fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;max-width:800px;margin:2rem auto}
-.fund-card{border:1px solid var(--gold-light);padding:2rem;text-align:center;border-radius:4px;background:var(--white)}
+.fund-card{border:1px solid var(--lilac-light);padding:2rem;text-align:center;border-radius:4px;background:var(--white)}
 .fund-icon{font-size:2.5rem;margin-bottom:1rem}
 .fund-title{font-size:1rem;color:var(--dark);margin-bottom:0.4rem}
-.fund-amt{font-family:sans-serif;font-size:0.78rem;color:var(--gold);margin-bottom:0.75rem}
+.fund-amt{font-family:sans-serif;font-size:0.78rem;color:var(--lilac-dark);margin-bottom:0.75rem}
 .fund-desc{font-size:0.83rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem}
 .progress-bar{height:4px;background:#eee;border-radius:2px;overflow:hidden;margin-bottom:0.4rem}
-.progress-fill{height:100%;background:var(--gold);border-radius:2px}
+.progress-fill{height:100%;background:var(--lilac);border-radius:2px}
 .progress-lbl{font-family:sans-serif;font-size:0.7rem;color:var(--muted);text-align:right}
 
 /* HOTELS */
 .hotels-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:800px;margin:2rem auto;text-align:left}
-.hotel-card{border:1px solid var(--gold-light);padding:1.5rem;border-radius:4px;background:var(--white)}
+.hotel-card{border:1px solid var(--lilac-light);padding:1.5rem;border-radius:4px;background:var(--white)}
 .hotel-name{font-size:0.95rem;color:var(--dark);margin-bottom:0.4rem}
-.hotel-dist{font-family:sans-serif;font-size:0.75rem;color:var(--gold);margin-bottom:0.5rem}
+.hotel-dist{font-family:sans-serif;font-size:0.75rem;color:var(--lilac-dark);margin-bottom:0.5rem}
 .hotel-note{font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.6}
 
-footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light);font-family:sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.1em}
+footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--lilac-light);font-family:sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.1em}
 
 @media(max-width:640px){
-  nav ul{display:none;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--bg);padding:1rem 2rem;border-bottom:1px solid var(--gold-light);gap:1rem;z-index:99}
+  nav ul{display:none;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--bg);padding:1rem 2rem;border-bottom:1px solid var(--lilac-light);gap:1rem;z-index:99}
   nav ul.open{display:flex}
   .hamburger{display:flex}
   .story-grid{grid-template-columns:1fr}
@@ -152,8 +214,79 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 
 <!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lightbox-close">✕</button>
   <img id="lightbox-img" src="" alt=""/>
+</div>
+
+<!-- AUDIO -->
+<audio id="bgMusic" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg"/>
+</audio>
+
+<!-- SPLASH -->
+<div id="splash" onclick="enterSite()">
+
+  <!-- Corner florals -->
+  <svg class="floral-tl" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="30" cy="30" r="18" fill="#e8c8f0" opacity="0.7"/>
+    <circle cx="60" cy="20" r="12" fill="#f0d4f8" opacity="0.6"/>
+    <circle cx="20" cy="60" r="14" fill="#ddb8ec" opacity="0.65"/>
+    <circle cx="80" cy="45" r="10" fill="#f5e0fc" opacity="0.5"/>
+    <circle cx="45" cy="80" r="11" fill="#e0c0f0" opacity="0.6"/>
+    <circle cx="100" cy="30" r="8" fill="#f8eaff" opacity="0.45"/>
+    <circle cx="30" cy="100" r="9" fill="#e8d0f5" opacity="0.5"/>
+    <ellipse cx="55" cy="55" rx="6" ry="14" fill="#c8a0e0" opacity="0.4" transform="rotate(45 55 55)"/>
+    <ellipse cx="35" cy="75" rx="5" ry="12" fill="#d4b0e8" opacity="0.4" transform="rotate(-30 35 75)"/>
+    <ellipse cx="75" cy="35" rx="5" ry="12" fill="#c8a0e0" opacity="0.4" transform="rotate(60 75 35)"/>
+    <circle cx="110" cy="15" r="6" fill="#f0d8ff" opacity="0.35"/>
+    <circle cx="15" cy="110" r="7" fill="#e8d0f8" opacity="0.35"/>
+  </svg>
+  <svg class="floral-tr" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="30" cy="30" r="18" fill="#e8c8f0" opacity="0.7"/>
+    <circle cx="60" cy="20" r="12" fill="#f0d4f8" opacity="0.6"/>
+    <circle cx="20" cy="60" r="14" fill="#ddb8ec" opacity="0.65"/>
+    <circle cx="80" cy="45" r="10" fill="#f5e0fc" opacity="0.5"/>
+    <circle cx="45" cy="80" r="11" fill="#e0c0f0" opacity="0.6"/>
+    <ellipse cx="55" cy="55" rx="6" ry="14" fill="#c8a0e0" opacity="0.4" transform="rotate(45 55 55)"/>
+    <ellipse cx="35" cy="75" rx="5" ry="12" fill="#d4b0e8" opacity="0.4" transform="rotate(-30 35 75)"/>
+  </svg>
+  <svg class="floral-bl" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="30" cy="30" r="18" fill="#fce8d0" opacity="0.7"/>
+    <circle cx="60" cy="20" r="12" fill="#f8d8c0" opacity="0.6"/>
+    <circle cx="20" cy="60" r="14" fill="#f5d0b8" opacity="0.65"/>
+    <circle cx="80" cy="45" r="10" fill="#fce0c8" opacity="0.5"/>
+    <circle cx="45" cy="80" r="11" fill="#f8d4b8" opacity="0.6"/>
+    <ellipse cx="55" cy="55" rx="6" ry="14" fill="#e8b890" opacity="0.4" transform="rotate(45 55 55)"/>
+  </svg>
+  <svg class="floral-br" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="30" cy="30" r="18" fill="#fce8d0" opacity="0.7"/>
+    <circle cx="60" cy="20" r="12" fill="#f8d8c0" opacity="0.6"/>
+    <circle cx="20" cy="60" r="14" fill="#f5d0b8" opacity="0.65"/>
+    <circle cx="80" cy="45" r="10" fill="#fce0c8" opacity="0.5"/>
+    <circle cx="45" cy="80" r="11" fill="#f8d4b8" opacity="0.6"/>
+    <ellipse cx="55" cy="55" rx="6" ry="14" fill="#e8b890" opacity="0.4" transform="rotate(45 55 55)"/>
+  </svg>
+
+  <div class="splash-rays"></div>
+  <div class="splash-glow"></div>
+  <div class="splash-monogram"><span>A&amp;B</span></div>
+  <div class="splash-flowers-row">🌸 ✿ 🌸</div>
+  <div class="splash-names">Abrham &amp; Blen</div>
+  <div class="splash-line"></div>
+  <div class="splash-savedate">Save the Date</div>
+  <div class="splash-date">August 2, 2026</div>
+  <div class="splash-guest">To : Guest</div>
+  <div class="splash-enter">✦ Click to Open Invitation ✦</div>
+  <div style="position:relative;z-index:2;margin-top:1.2rem;display:flex;flex-direction:column;align-items:center;gap:0.4rem">
+    <div class="ripple-btn">
+      <div class="ripple-ring r1"></div>
+      <div class="ripple-ring r2"></div>
+      <div class="ripple-ring r3"></div>
+      <div class="ripple-core">💍</div>
+    </div>
+    <p style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.25em;color:#c4a8d8;text-transform:uppercase;margin-top:0.5rem">Tap anywhere to enter</p>
+  </div>
+  <div id="musicBtn" onclick="event.stopPropagation();toggleMusic()" style="position:absolute;bottom:2rem;right:2rem;width:40px;height:40px;border-radius:50%;border:1px solid rgba(180,140,210,0.4);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:rgba(155,111,192,0.8);background:rgba(255,255,255,0.5);transition:all 0.2s">🎵</div>
 </div>
 
 <nav>
@@ -174,7 +307,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 
 <!-- HOME -->
 <div id="home" class="page active">
-  <!-- HERO — Image 1 (couple in front of rose heart arch) -->
   <div class="hero">
     <div class="hero-bg" id="heroBg"></div>
     <div class="hero-overlay"></div>
@@ -197,31 +329,18 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
 
-  <!-- PHOTO STRIP — Images 2,3,5 between sections -->
   <div class="photo-strip" id="stripRow"></div>
 
-  <div style="background:#fffdf9;padding:5rem 1.5rem">
+  <div style="background:#f5f0fa;padding:5rem 1.5rem">
     <div style="max-width:900px;margin:0 auto;text-align:center">
       <p class="section-tag">The Day's Events</p>
       <h2 class="section-title">Event Timeline</h2>
       <div class="divider"></div>
       <div class="timeline">
         <div class="tl-line-full"></div>
-        <div class="tl-item">
-          <div class="tl-left"><div class="tl-time">5:00 PM</div></div>
-          <div class="tl-dot"></div>
-          <div><div class="tl-name">Ceremony</div><div class="tl-venue">Beza Event Center</div></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-left"><div class="tl-time">6:00 PM</div></div>
-          <div class="tl-dot"></div>
-          <div><div class="tl-name">Cocktail Hour</div><div class="tl-venue">Immediately following ceremony</div></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-left"><div class="tl-time">7:30 PM</div></div>
-          <div class="tl-dot"></div>
-          <div><div class="tl-name">Reception</div><div class="tl-venue">Beza Event Center</div></div>
-        </div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Ceremony</div><div class="tl-venue">Beza Event Center</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Cocktail Hour</div><div class="tl-venue">Immediately following ceremony</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Reception</div><div class="tl-venue">Beza Event Center</div></div></div>
       </div>
     </div>
   </div>
@@ -230,7 +349,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <p class="section-tag">Location</p>
     <h2 class="section-title">Getting There</h2>
     <div class="divider"></div>
-    <div style="background:#f5f0e8;height:240px;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:1.5rem 0;gap:0.75rem">
+    <div style="background:#f5f0fa;height:240px;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:1.5rem 0;gap:0.75rem">
       <div style="font-size:2rem">📍</div>
       <p style="font-family:sans-serif;font-size:1rem;color:var(--dark);font-weight:500">Beza Event Center</p>
       <p style="font-family:sans-serif;font-size:0.85rem;color:var(--muted)">1815 Woodland Ave, Columbus, Ohio 43219</p>
@@ -238,28 +357,15 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
 
-  <div style="background:#fffdf9;padding:5rem 1.5rem">
+  <div style="background:#f5f0fa;padding:5rem 1.5rem">
     <div style="max-width:900px;margin:0 auto;text-align:center">
       <p class="section-tag">For Our Traveling Guests</p>
       <h2 class="section-title">Nearby Hotels</h2>
       <div class="divider"></div>
       <div class="hotels-grid">
-        <div class="hotel-card">
-          <div class="hotel-name">Comfort Inn</div>
-          <div class="hotel-dist">Pickerington, OH</div>
-          <div class="hotel-note">1800 Hill Rd N, Pickerington, OH — a comfortable, convenient stay for our out-of-town guests.</div>
-          <a href="https://maps.google.com/?q=1800+Hill+Rd+N+Pickerington+OH" target="_blank" class="btn" style="display:inline-block;margin-top:1rem;font-size:0.72rem;letter-spacing:0.12em">View on Map</a>
-        </div>
-        <div class="hotel-card">
-          <div class="hotel-name">Hampton Inn Columbus East</div>
-          <div class="hotel-dist">~8 min from venue</div>
-          <div class="hotel-note">Comfortable and affordable option close to Beza Event Center.</div>
-        </div>
-        <div class="hotel-card">
-          <div class="hotel-name">Hilton Garden Inn Columbus</div>
-          <div class="hotel-dist">~12 min from venue</div>
-          <div class="hotel-note">Modern rooms with great amenities for a relaxing stay.</div>
-        </div>
+        <div class="hotel-card"><div class="hotel-name">Comfort Inn</div><div class="hotel-dist">Pickerington, OH</div><div class="hotel-note">1800 Hill Rd N, Pickerington, OH — a comfortable, convenient stay for our out-of-town guests.</div><a href="https://maps.google.com/?q=1800+Hill+Rd+N+Pickerington+OH" target="_blank" class="btn" style="display:inline-block;margin-top:1rem;font-size:0.72rem">View on Map</a></div>
+        <div class="hotel-card"><div class="hotel-name">Hampton Inn Columbus East</div><div class="hotel-dist">~8 min from venue</div><div class="hotel-note">Comfortable and affordable option close to Beza Event Center.</div></div>
+        <div class="hotel-card"><div class="hotel-name">Hilton Garden Inn Columbus</div><div class="hotel-dist">~12 min from venue</div><div class="hotel-note">Modern rooms with great amenities for a relaxing stay.</div></div>
       </div>
     </div>
   </div>
@@ -274,7 +380,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   </div>
   <div style="padding:0 2rem 5rem;max-width:800px;margin:0 auto">
     <div class="story-grid">
-      <!-- Image 6 — full body, smiling, holding roses — perfect for story -->
       <div class="story-img"><img id="storyImg" src="" alt="Abrham and Blen"/></div>
       <div class="story-text">
         <p>Some love stories begin with a glance across a crowded room. Ours began with a smile that neither of us could quite explain — warm, familiar, and full of quiet promise.</p>
@@ -290,7 +395,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       </div>
     </div>
   </div>
-  <!-- Image 4 — ring close-up — beautiful accent below story -->
   <div style="max-width:500px;margin:0 auto 5rem;padding:0 1.5rem">
     <div style="border-radius:4px;overflow:hidden;cursor:pointer" onclick="openLightbox(imgs[3])">
       <img id="ringImg" src="" alt="The ring" style="width:100%;display:block;object-fit:cover;max-height:400px"/>
@@ -333,22 +437,13 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your full name"/></div>
       <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com"/></div>
       <div class="form-group"><label>Number of Guests</label><select><option>1 guest</option><option>2 guests</option><option>3 guests</option></select></div>
-      <div class="form-group">
-        <label>Will you attend?</label>
-        <div class="radio-group">
-          <label><input type="radio" name="attend" value="yes"/> Joyfully accepts</label>
-          <label><input type="radio" name="attend" value="no"/> Regretfully declines</label>
-        </div>
-      </div>
+      <div class="form-group"><label>Will you attend?</label><div class="radio-group"><label><input type="radio" name="attend" value="yes"/> Joyfully accepts</label><label><input type="radio" name="attend" value="no"/> Regretfully declines</label></div></div>
       <div class="form-group"><label>Meal Preference</label><select><option>No preference</option><option>Chicken</option><option>Fish</option><option>Vegetarian</option></select></div>
       <div class="form-group"><label>Dietary Requirements or Allergies</label><input type="text" placeholder="Any dietary needs?"/></div>
       <div class="form-group"><label>Message for Abrham &amp; Blen (optional)</label><textarea placeholder="Share your wishes and blessings..."></textarea></div>
       <button class="btn btn-solid" style="width:100%;font-family:sans-serif;font-size:0.8rem;letter-spacing:0.2em;border:none;cursor:pointer" onclick="submitRSVP()">Send RSVP</button>
     </div>
-    <div id="rsvpSuccess" class="rsvp-success">
-      <h3>Thank You! 🤍</h3>
-      <p>Your RSVP has been received. Abrham and Blen are so grateful and can't wait to celebrate with you on August 2nd!</p>
-    </div>
+    <div id="rsvpSuccess" class="rsvp-success"><h3>Thank You! 🤍</h3><p>Your RSVP has been received. Abrham and Blen are so grateful and can't wait to celebrate with you on August 2nd!</p></div>
   </div>
 </div>
 
@@ -362,38 +457,27 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div style="margin-top:4rem">
       <p class="section-tag">Share Your Memories</p>
       <h3 style="font-size:1.4rem;font-weight:400;color:var(--dark);margin-bottom:0.5rem">Upload Your Photos &amp; Videos</h3>
-      <p style="color:var(--muted);font-size:0.88rem;margin-bottom:1.5rem;line-height:1.8">Help us capture every beautiful moment from the big day! Upload directly below or use Google Photos.</p>
-
-      <!-- CLOUDINARY UPLOAD -->
+      <p style="color:var(--muted);font-size:0.88rem;margin-bottom:1.5rem;line-height:1.8">Help us capture every beautiful moment from the big day!</p>
       <div style="max-width:500px;margin:0 auto">
-        <label id="dropZone" style="display:block;border:1.5px dashed var(--gold-light);padding:2.5rem;text-align:center;border-radius:4px;cursor:pointer;transition:border-color 0.2s" 
-          ondragover="event.preventDefault();this.style.borderColor='var(--gold)'" 
-          ondragleave="this.style.borderColor='var(--gold-light)'"
+        <label id="dropZone" style="display:block;border:1.5px dashed var(--lilac-light);padding:2.5rem;text-align:center;border-radius:4px;cursor:pointer;transition:border-color 0.2s"
+          ondragover="event.preventDefault();this.style.borderColor='var(--lilac)'"
+          ondragleave="this.style.borderColor='var(--lilac-light)'"
           ondrop="handleDrop(event)">
-          <div style="font-size:2.5rem;color:var(--gold);margin-bottom:0.5rem">↑</div>
+          <div style="font-size:2.5rem;color:var(--lilac);margin-bottom:0.5rem">↑</div>
           <p style="font-size:0.9rem;color:var(--dark);font-family:sans-serif">Click or drag &amp; drop to upload</p>
           <p style="font-family:sans-serif;font-size:0.75rem;color:var(--muted);margin-top:0.4rem">Photos &amp; Videos — JPG, PNG, MP4, MOV up to 100MB</p>
           <input type="file" id="fileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files)"/>
         </label>
         <script>document.getElementById('dropZone').addEventListener('click',()=>document.getElementById('fileUpload').click())</script>
-
-        <!-- PROGRESS -->
         <div id="uploadProgress" style="display:none;margin-top:1rem">
-          <div style="background:#eee;border-radius:2px;height:4px;overflow:hidden">
-            <div id="progressBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s"></div>
-          </div>
-          <p id="uploadStatus" style="font-family:sans-serif;font-size:0.82rem;color:var(--gold);margin-top:0.5rem;text-align:center"></p>
+          <div style="background:#eee;border-radius:2px;height:4px;overflow:hidden"><div id="progressBar" style="height:100%;background:var(--lilac);width:0%;transition:width 0.3s"></div></div>
+          <p id="uploadStatus" style="font-family:sans-serif;font-size:0.82rem;color:var(--lilac-dark);margin-top:0.5rem;text-align:center"></p>
         </div>
-
-        <!-- FALLBACK GOOGLE PHOTOS -->
-        <div style="margin-top:1.5rem;padding:1.25rem;border:1px solid var(--gold-light);border-radius:4px;background:#fffdf9;text-align:center">
+        <div style="margin-top:1.5rem;padding:1.25rem;border:1px solid var(--lilac-light);border-radius:4px;background:#fdf8ff;text-align:center">
           <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem">Having trouble uploading? Use Google Photos instead:</p>
-          <a id="googlePhotosLink" href="#" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">📸 Upload to Google Photos Album</a>
-          <p style="font-family:sans-serif;font-size:0.7rem;color:var(--muted);margin-top:0.6rem">Opens in a new tab — works great for videos too!</p>
+          <a id="googlePhotosLink" href="https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">📸 Upload to Google Photos Album</a>
         </div>
       </div>
-
-      <!-- UPLOADED PREVIEWS -->
       <div id="uploadedGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;max-width:800px;margin:2rem auto"></div>
     </div>
   </div>
@@ -406,34 +490,13 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <h2 class="section-title">Questions &amp; Answers</h2>
     <div class="divider"></div>
     <div class="qa-list">
-      <div class="qa-item">
-        <div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div>
-        <div class="qa-a">We kindly ask all guests to dress in <strong>white or silver</strong> attire — formal or semi-formal. Please avoid bright colors and any shade other than white or silver. Let's keep the look elegant and cohesive as we celebrate together!</div>
-      </div>
-      <div class="qa-item">
-        <div class="qa-q" onclick="toggleQA(this)">Are children allowed? <span class="arrow">▾</span></div>
-        <div class="qa-a">Children are welcome! However, parents and guardians are fully responsible for supervising and managing their children throughout the event. We kindly ask that you keep them close and ensure they do not disrupt the ceremony or reception. Thank you for your cooperation!</div>
-      </div>
-      <div class="qa-item">
-        <div class="qa-q" onclick="toggleQA(this)">Where is the venue located? <span class="arrow">▾</span></div>
-        <div class="qa-a">The wedding will be held at Beza Event Center, located at 1815 Woodland Ave, Columbus, Ohio 43219. Complimentary parking is available on site.</div>
-      </div>
-      <div class="qa-item">
-        <div class="qa-q" onclick="toggleQA(this)">Can I take photos during the ceremony? <span class="arrow">▾</span></div>
-        <div class="qa-a">We are having an unplugged ceremony — we kindly ask that phones and cameras be put away so everyone can be fully present. Our photographer will beautifully capture every moment. You're absolutely welcome to take photos during the reception!</div>
-      </div>
-      <div class="qa-item">
-        <div class="qa-q" onclick="toggleQA(this)">When should I RSVP by? <span class="arrow">▾</span></div>
-        <div class="qa-a">Please RSVP by July 30, 2026 so we can finalize our seating and catering arrangements. We appreciate your timely response!</div>
-      </div>
-      <div class="qa-item">
-        <div class="qa-q" onclick="toggleQA(this)">Is there parking at the venue? <span class="arrow">▾</span></div>
-        <div class="qa-a">Yes! Complimentary parking is available at Beza Event Center. We encourage carpooling or arranging a ride share if you plan to enjoy the evening fully.</div>
-      </div>
-      <div class="qa-item">
-        <div class="qa-q" onclick="toggleQA(this)">What time should I arrive? <span class="arrow">▾</span></div>
-        <div class="qa-a">The ceremony begins promptly at 5:00 PM. We recommend arriving 15–20 minutes early to find your seat and get settled before the celebration begins.</div>
-      </div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div><div class="qa-a">We kindly ask all guests to dress in <strong>white or silver</strong> attire — formal or semi-formal. Please avoid bright colors. Let's keep the look elegant and cohesive!</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Are children allowed? <span class="arrow">▾</span></div><div class="qa-a">Children are welcome! However, parents and guardians are fully responsible for supervising their children throughout the event. Please keep them close and ensure they do not disrupt the ceremony or reception.</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where is the venue located? <span class="arrow">▾</span></div><div class="qa-a">Beza Event Center, 1815 Woodland Ave, Columbus, Ohio 43219. Complimentary parking is available on site.</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Can I take photos during the ceremony? <span class="arrow">▾</span></div><div class="qa-a">We are having an unplugged ceremony — please put phones and cameras away so everyone can be fully present. You're welcome to take photos during the reception!</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">When should I RSVP by? <span class="arrow">▾</span></div><div class="qa-a">Please RSVP by July 30, 2026 so we can finalize seating and catering. We appreciate your timely response!</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Is there parking at the venue? <span class="arrow">▾</span></div><div class="qa-a">Yes! Complimentary parking is available at Beza Event Center. We encourage carpooling or arranging a ride share if you plan to enjoy the evening fully.</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What time should I arrive? <span class="arrow">▾</span></div><div class="qa-a">The ceremony begins promptly at 5:00 PM. We recommend arriving 15–20 minutes early to find your seat.</div></div>
     </div>
   </div>
 </div>
@@ -444,246 +507,114 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <p class="section-tag">A Gift from the Heart</p>
     <h2 class="section-title">Honeymoon Fund</h2>
     <div class="divider"></div>
-    <p style="color:var(--muted);font-size:0.95rem;max-width:520px;margin:0 auto 3rem;line-height:1.95">Your presence at our wedding is the greatest gift we could ask for. If you'd like to contribute to the start of our adventure together, we are truly grateful for anything you choose to give.</p>
+    <p style="color:var(--muted);font-size:0.95rem;max-width:520px;margin:0 auto 3rem;line-height:1.95">Your presence is the greatest gift. If you'd like to contribute to the start of our adventure together, we are truly grateful.</p>
     <div class="fund-grid">
-      <div class="fund-card">
-        <div class="fund-icon">✈️</div>
-        <div class="fund-title">Flights</div>
-        <div class="fund-amt">Goal: $1,500</div>
-        <div class="fund-desc">Help us take flight to our dream honeymoon destination.</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div>
-        <div class="progress-lbl">$825 raised</div>
-        <button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">Contribute</button>
-      </div>
-      <div class="fund-card">
-        <div class="fund-icon">🏨</div>
-        <div class="fund-title">Accommodation</div>
-        <div class="fund-amt">Goal: $1,000</div>
-        <div class="fund-desc">Give us a beautiful night as we begin life as husband and wife.</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div>
-        <div class="progress-lbl">$350 raised</div>
-        <button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">Contribute</button>
-      </div>
-      <div class="fund-card">
-        <div class="fund-icon">🍽️</div>
-        <div class="fund-title">Experiences</div>
-        <div class="fund-amt">Goal: $600</div>
-        <div class="fund-desc">Treat us to a romantic dinner or a memory we'll carry forever.</div>
-        <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
-        <div class="progress-lbl">$120 raised</div>
-        <button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">Contribute</button>
-      </div>
+      <div class="fund-card"><div class="fund-icon">✈️</div><div class="fund-title">Flights</div><div class="fund-amt">Goal: $1,500</div><div class="fund-desc">Help us take flight to our dream honeymoon destination.</div><div class="progress-bar"><div class="progress-fill" style="width:55%"></div></div><div class="progress-lbl">$825 raised</div><button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem">Contribute</button></div>
+      <div class="fund-card"><div class="fund-icon">🏨</div><div class="fund-title">Accommodation</div><div class="fund-amt">Goal: $1,000</div><div class="fund-desc">Give us a beautiful night as we begin life as husband and wife.</div><div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div><div class="progress-lbl">$350 raised</div><button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem">Contribute</button></div>
+      <div class="fund-card"><div class="fund-icon">🍽️</div><div class="fund-title">Experiences</div><div class="fund-amt">Goal: $600</div><div class="fund-desc">Treat us to a romantic dinner or a memory we'll carry forever.</div><div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div><div class="progress-lbl">$120 raised</div><button class="btn" style="margin-top:1.25rem;width:100%;font-family:sans-serif;font-size:0.75rem">Contribute</button></div>
     </div>
   </div>
 </div>
 
 <footer>
-  <p style="font-size:1.2rem;font-family:Georgia,serif;color:var(--gold);margin-bottom:0.5rem">Abrham &amp; Blen</p>
+  <p style="font-size:1.2rem;font-family:Georgia,serif;color:var(--lilac-dark);margin-bottom:0.5rem">Abrham &amp; Blen</p>
   <p>August 2nd, 2026 · Beza Event Center · Columbus, Ohio</p>
   <p style="margin-top:0.75rem;font-size:0.7rem">Made with love ♡</p>
 </footer>
 
 <script>
-// ── IMAGE DATA ──────────────────────────────────────────────────────────────
-// We load all 6 uploaded images via the canvas trick so they're usable as data URLs.
-// The user's browser already has them; we read them from the <img> tags Anthropic injected.
-
-const IMGS_META = [
-  {role:'hero',   alt:'Couple in front of red rose heart arch'},   // img 1
-  {role:'strip',  alt:'Toasting champagne on the beach'},          // img 2
-  {role:'strip',  alt:'Smiling and toasting together'},            // img 3
-  {role:'ring',   alt:'The engagement ring'},                      // img 4
-  {role:'strip',  alt:'Embrace showing the ring'},                 // img 5
-  {role:'story',  alt:'Full couple shot with roses'},              // img 6
-];
-
-let imgs = [
-  'https://images.unsplash.com/photo-1519741497674-611481863552?w=1200',
-  'https://images.unsplash.com/photo-1529636798458-92182e662485?w=800',
-  'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=800',
-  'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=800',
-  'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=800',
-  'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800',
-];
-
-function loadImagesFromPage(){
-  // Anthropic renders uploaded images as <img> tags in the page; we grab them by order
-  const allImgs = Array.from(document.querySelectorAll('img')).filter(i=>
-    !i.closest('nav') && !i.id && i.src && !i.src.startsWith('data:') === false || i.src.startsWith('blob') || i.naturalWidth > 0
-  );
-  // Fallback: use object URLs from the file input previews injected by the chat UI
-  // Since we can't directly access uploaded files from artifacts, we use placeholder gradients
-  // and rely on the background-image approach with injected src attributes set externally.
-  applyImages();
-}
+const CLOUD_NAME='dta5qfkow', UPLOAD_PRESET='Abrham';
+let imgs=['photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg','photo5.jpg','photo6.jpg'];
 
 function applyImages(){
-  // Hero background
-  const heroBg = document.getElementById('heroBg');
-  if(imgs[0]) heroBg.style.backgroundImage = `url('${imgs[0]}')`;
-  else heroBg.style.background = 'linear-gradient(160deg,#3a1a1a 0%,#5c2020 50%,#2a1010 100%)';
-
-  // Story image
-  const si = document.getElementById('storyImg');
-  if(imgs[5]) si.src = imgs[5];
-  else si.style.display='none', si.parentElement.style.background='linear-gradient(135deg,var(--gold-light),#e0c8a0)';
-
-  // Ring image
-  const ri = document.getElementById('ringImg');
-  if(imgs[3]) ri.src = imgs[3];
-  else ri.parentElement.parentElement.style.display='none';
-
-  // Photo strip (imgs 2,3,5 → indices 1,2,4)
-  const stripIndices = [1,2,4];
-  const strip = document.getElementById('stripRow');
-  strip.innerHTML = '';
-  stripIndices.forEach(i => {
-    const div = document.createElement('div');
-    div.className = 'photo-strip-item';
-    if(imgs[i]){
-      const im = document.createElement('img');
-      im.src = imgs[i]; im.alt = IMGS_META[i].alt;
-      im.onclick = ()=>openLightbox(imgs[i]);
-      div.appendChild(im);
-    } else {
-      div.style.background='linear-gradient(135deg,#e8d5b0,#d4b896)';
-      div.style.minHeight='200px';
-    }
-    strip.appendChild(div);
+  const heroBg=document.getElementById('heroBg');
+  heroBg.style.backgroundImage=`url('${imgs[0]}')`;
+  const si=document.getElementById('storyImg');
+  si.src=imgs[5];
+  const ri=document.getElementById('ringImg');
+  ri.src=imgs[3];
+  const stripIndices=[1,2,4];
+  const strip=document.getElementById('stripRow');
+  strip.innerHTML='';
+  stripIndices.forEach(i=>{
+    const div=document.createElement('div');
+    div.className='photo-strip-item';
+    const im=document.createElement('img');
+    im.src=imgs[i]; im.alt='';
+    im.onclick=()=>openLightbox(imgs[i]);
+    div.appendChild(im); strip.appendChild(div);
   });
-
-  // Photos page grid — all 6
-  const grid = document.getElementById('photoGrid');
-  grid.innerHTML = '';
-  imgs.forEach((src,i) => {
-    const div = document.createElement('div');
-    if(src){
-      div.className='photo-cell';
-      const im = document.createElement('img');
-      im.src=src; im.alt=IMGS_META[i].alt;
-      div.appendChild(im);
-      div.onclick = ()=>openLightbox(src);
-    } else {
-      div.className='photo-cell empty';
-      div.textContent='Photo '+(i+1);
-    }
+  const grid=document.getElementById('photoGrid');
+  grid.innerHTML='';
+  imgs.forEach((src,i)=>{
+    const div=document.createElement('div');
+    div.className='photo-cell';
+    const im=document.createElement('img');
+    im.src=src; div.appendChild(im);
+    div.onclick=()=>openLightbox(src);
     grid.appendChild(div);
   });
 }
+applyImages();
 
-// Try to pull images from the chat UI's injected img tags (Anthropic artifact environment)
-window.addEventListener('message', e => {
-  if(e.data && e.data.type==='images' && Array.isArray(e.data.urls)){
-    imgs = e.data.urls;
-    applyImages();
-  }
-});
-
-// Attempt to find images already in the DOM (injected by Claude's rendering)
-function tryGrabFromDOM(){
-  // Look for images in parent frames that Claude may have passed
-  try {
-    const pi = window.parent.document.querySelectorAll('.uploaded-image img, [data-testid="user-message"] img');
-    if(pi.length >= 1){
-      const cvs = document.createElement('canvas');
-      const ctx = cvs.getContext('2d');
-      pi.forEach((el,i)=>{
-        if(i>=6) return;
-        cvs.width=el.naturalWidth||800; cvs.height=el.naturalHeight||600;
-        try{ ctx.drawImage(el,0,0); imgs[i]=cvs.toDataURL(); } catch(e){}
-      });
-      applyImages();
-    }
-  } catch(e){ applyImages(); }
-}
-
-document.addEventListener('DOMContentLoaded',()=>{ tryGrabFromDOM(); });
-
-// ── NAV & UI ───────────────────────────────────────────────────────────────
 function show(id,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
   if(el) el.classList.add('active');
   document.getElementById('navMenu').classList.remove('open');
-  window.scrollTo(0,0);
-  return false;
+  window.scrollTo(0,0); return false;
 }
-function toggleQA(el){
-  el.classList.toggle('open');
-  el.nextElementSibling.classList.toggle('open');
-}
-function submitRSVP(){
-  document.getElementById('rsvpForm').style.display='none';
-  document.getElementById('rsvpSuccess').style.display='block';
-}
-const CLOUD_NAME = 'dta5qfkow';
-const UPLOAD_PRESET = 'Abrham';
-const GOOGLE_PHOTOS_URL = 'https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6';
-
-document.getElementById('googlePhotosLink').href = GOOGLE_PHOTOS_URL;
-
-function handleDrop(e){
-  e.preventDefault();
-  document.getElementById('dropZone').style.borderColor='var(--gold-light)';
-  handleFiles(e.dataTransfer.files);
-}
-
-async function handleFiles(files){
-  if(!files.length) return;
-  const arr = Array.from(files);
-  document.getElementById('uploadProgress').style.display='block';
-  for(let i=0;i<arr.length;i++){
-    const file = arr[i];
-    document.getElementById('uploadStatus').textContent=`Uploading ${i+1} of ${arr.length}: ${file.name}`;
-    document.getElementById('progressBar').style.width=((i/arr.length)*100)+'%';
-    try {
-      const url = await uploadToCloudinary(file);
-      addToUploadedGrid(url, file.type);
-    } catch(err) {
-      console.error('Cloudinary upload failed:',err);
-      document.getElementById('uploadStatus').textContent=`Upload failed for ${file.name}. Please try Google Photos below.`;
-      document.getElementById('uploadProgress').style.borderColor='red';
-    }
-  }
-  document.getElementById('progressBar').style.width='100%';
-  document.getElementById('uploadStatus').textContent=`✓ ${arr.length} file${arr.length>1?'s':''} uploaded successfully! Thank you! 🤍`;
-}
-
-function uploadToCloudinary(file){
-  return new Promise((resolve,reject)=>{
-    const fd = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', UPLOAD_PRESET);
-    fd.append('folder','abrham-blen-wedding');
-    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,{method:'POST',body:fd})
-      .then(r=>r.json())
-      .then(data=>{ if(data.secure_url) resolve(data.secure_url); else reject(data); })
-      .catch(reject);
-  });
-}
-
-function addToUploadedGrid(url, type){
-  const grid = document.getElementById('uploadedGrid');
-  const div = document.createElement('div');
-  div.style.cssText='aspect-ratio:1;border-radius:2px;overflow:hidden;cursor:pointer;background:var(--gold-light)';
-  if(type.startsWith('video/')){
-    const v = document.createElement('video');
-    v.src=url; v.controls=true; v.style.cssText='width:100%;height:100%;object-fit:cover';
-    div.appendChild(v);
-  } else {
-    const img = document.createElement('img');
-    img.src=url; img.style.cssText='width:100%;height:100%;object-fit:cover';
-    img.onclick=()=>openLightbox(url);
-    div.appendChild(img);
-  }
-  grid.appendChild(div);
-}
+function toggleQA(el){ el.classList.toggle('open'); el.nextElementSibling.classList.toggle('open'); }
+function submitRSVP(){ document.getElementById('rsvpForm').style.display='none'; document.getElementById('rsvpSuccess').style.display='block'; }
 function openLightbox(src){ if(!src) return; document.getElementById('lightbox-img').src=src; document.getElementById('lightbox').classList.add('open'); }
 function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
 
-// Countdown
+function enterSite(){
+  document.getElementById('splash').classList.add('hide');
+  setTimeout(()=>document.getElementById('splash').style.display='none',800);
+}
+
+const music=document.getElementById('bgMusic');
+let musicPlaying=false;
+function tryAutoplay(){ music.volume=0.4; music.play().then(()=>{ musicPlaying=true; updateMusicBtn(); }).catch(()=>{}); }
+function toggleMusic(){ if(musicPlaying){ music.pause(); musicPlaying=false; } else { music.play(); musicPlaying=true; } updateMusicBtn(); }
+function updateMusicBtn(){ document.getElementById('musicBtn').textContent=musicPlaying?'🔊':'🔇'; }
+window.addEventListener('load',tryAutoplay);
+
+function handleDrop(e){ e.preventDefault(); document.getElementById('dropZone').style.borderColor='var(--lilac-light)'; handleFiles(e.dataTransfer.files); }
+async function handleFiles(files){
+  if(!files.length) return;
+  const arr=Array.from(files);
+  document.getElementById('uploadProgress').style.display='block';
+  for(let i=0;i<arr.length;i++){
+    const file=arr[i];
+    document.getElementById('uploadStatus').textContent=`Uploading ${i+1} of ${arr.length}: ${file.name}`;
+    document.getElementById('progressBar').style.width=((i/arr.length)*100)+'%';
+    try{ const url=await uploadToCloudinary(file); addToUploadedGrid(url,file.type); }
+    catch(err){ document.getElementById('uploadStatus').textContent=`Upload failed. Please try Google Photos below.`; }
+  }
+  document.getElementById('progressBar').style.width='100%';
+  document.getElementById('uploadStatus').textContent=`✓ ${arr.length} file${arr.length>1?'s':''} uploaded! Thank you! 🤍`;
+}
+function uploadToCloudinary(file){
+  return new Promise((resolve,reject)=>{
+    const fd=new FormData();
+    fd.append('file',file); fd.append('upload_preset',UPLOAD_PRESET); fd.append('folder','abrham-blen-wedding');
+    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,{method:'POST',body:fd})
+      .then(r=>r.json()).then(d=>{ if(d.secure_url) resolve(d.secure_url); else reject(d); }).catch(reject);
+  });
+}
+function addToUploadedGrid(url,type){
+  const grid=document.getElementById('uploadedGrid');
+  const div=document.createElement('div');
+  div.style.cssText='aspect-ratio:1;border-radius:2px;overflow:hidden;background:var(--lilac-light)';
+  if(type.startsWith('video/')){ const v=document.createElement('video'); v.src=url; v.controls=true; v.style.cssText='width:100%;height:100%;object-fit:cover'; div.appendChild(v); }
+  else { const img=document.createElement('img'); img.src=url; img.style.cssText='width:100%;height:100%;object-fit:cover'; img.onclick=()=>openLightbox(url); div.appendChild(img); }
+  grid.appendChild(div);
+}
+
 const weddingDate=new Date('2026-08-02T17:00:00');
 function updateCountdown(){
   const diff=weddingDate-new Date();
