@@ -138,10 +138,16 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .photo-cell:hover{opacity:0.88}
 .photo-cell img{width:100%;height:100%;object-fit:cover}
 
-/* SHARE MEMORIES */
-.share-memories-hero{position:relative;width:100%;min-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:4rem 1.5rem}
+/* SHARE MEMORIES HERO — dark overlay banner */
+.share-memories-hero{position:relative;width:100%;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:3.5rem 1.5rem}
 .share-memories-bg{position:absolute;inset:0;background-image:url('photo1.jpg');background-size:cover;background-position:center;filter:brightness(0.35)}
 .share-memories-content{position:relative;z-index:1}
+
+/* SHARE MEMORIES BOTTOM — clean white upload area */
+.share-upload-area{background:var(--section-alt);padding:3rem 1.5rem;border-top:1px solid var(--gold-light)}
+.share-upload-inner{max-width:600px;margin:0 auto;text-align:center}
+
+/* UPLOAD TABS */
 .share-tabs{display:flex;gap:0.75rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
 .share-tab{font-family:sans-serif;font-size:0.78rem;letter-spacing:0.1em;padding:0.6rem 1.4rem;border-radius:50px;border:1.5px solid rgba(255,255,255,0.6);color:#fff;cursor:pointer;background:rgba(0,0,0,0.3);transition:all 0.2s;text-transform:uppercase}
 .share-tab.active,.share-tab:hover{background:var(--gold);border-color:var(--gold);color:#fff}
@@ -179,6 +185,10 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .hotel-dist{font-family:sans-serif;font-size:0.75rem;color:var(--gold);margin-bottom:0.5rem}
 .hotel-note{font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.6}
 
+/* MUSIC NOTICE BANNER */
+.music-notice{display:none;position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:200;background:var(--dark);color:#fff;font-family:sans-serif;font-size:0.75rem;letter-spacing:0.1em;padding:0.6rem 1.4rem;border-radius:50px;white-space:nowrap;animation:fadeNotice 3s ease forwards}
+@keyframes fadeNotice{0%{opacity:0;transform:translateX(-50%) translateY(10px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0}}
+
 footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light);font-family:sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.1em}
 
 @media(max-width:640px){
@@ -199,9 +209,14 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   <img id="lightbox-img" src="" alt=""/>
 </div>
 
+<!-- MUSIC NOTE: Replace music.mp3 with your actual file name.
+     Upload your MP3 alongside this HTML file on GitHub/your host. -->
 <audio id="bgMusic" loop>
-  <!-- Replace with your music: <source src="music.mp3" type="audio/mpeg"/> -->
+  <source src="music.mp3" type="audio/mpeg"/>
 </audio>
+
+<!-- Music notice toast -->
+<div class="music-notice" id="musicNotice">🎵 Add music.mp3 to enable background music</div>
 
 <!-- SPLASH -->
 <div id="splash">
@@ -240,7 +255,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <li><a href="#" onclick="show('photos',this);return false">Photos</a></li>
     <li><a href="#" onclick="show('qa',this);return false">Q&amp;A</a></li>
   </ul>
-  <button onclick="toggleMusic()" id="navMusicBtn" style="background:none;border:1px solid var(--gold-light);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:0.9rem;color:var(--gold);flex-shrink:0">🎵</button>
+  <button onclick="toggleMusic()" id="navMusicBtn" style="background:none;border:1px solid var(--gold-light);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:0.9rem;color:var(--gold);flex-shrink:0" title="Toggle music">🎵</button>
   <button class="hamburger" onclick="document.getElementById('navMenu').classList.toggle('open')" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
@@ -302,7 +317,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
 
-  <!-- SHARE MEMORIES - HOME PAGE -->
+  <!-- SHARE MEMORIES - HOME PAGE (dark hero banner only) -->
   <div class="share-memories-hero">
     <div class="share-memories-bg"></div>
     <div class="share-memories-content">
@@ -316,7 +331,22 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <button onclick="document.getElementById('homeFileUpload').click()" class="btn btn-solid" style="font-family:sans-serif;font-size:0.82rem;letter-spacing:0.2em;display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 2.5rem">
         ↗ &nbsp;Share
       </button>
-      <input type="file" id="homeFileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files)"/>
+      <input type="file" id="homeFileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files,'homeUploadProgress','homeProgressBar','homeUploadStatus','homeUploadedGrid')"/>
+    </div>
+  </div>
+
+  <!-- HOME UPLOAD PROGRESS & GOOGLE BACKUP — clean white section below dark banner -->
+  <div class="share-upload-area">
+    <div class="share-upload-inner">
+      <div id="homeUploadProgress" style="display:none;margin-bottom:1.5rem">
+        <div style="background:#eee;border-radius:2px;height:4px;overflow:hidden"><div id="homeProgressBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s"></div></div>
+        <p id="homeUploadStatus" style="font-family:sans-serif;font-size:0.82rem;color:var(--gold);margin-top:0.5rem;text-align:center"></p>
+      </div>
+      <div style="padding:1.25rem;border:1px solid var(--gold-light);border-radius:4px;background:var(--white);text-align:center">
+        <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem">Backup option — Upload via Google Photos:</p>
+        <a href="https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">📸 Upload to Google Photos</a>
+      </div>
+      <div id="homeUploadedGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-top:2rem"></div>
     </div>
   </div>
 
@@ -442,7 +472,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
 
-  <!-- SHARE MEMORIES SECTION -->
+  <!-- SHARE MEMORIES — dark hero banner (upload button only) -->
   <div class="share-memories-hero">
     <div class="share-memories-bg"></div>
     <div class="share-memories-content">
@@ -451,19 +481,26 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <button onclick="document.getElementById('fileUpload').click()" class="btn btn-solid" style="font-family:sans-serif;font-size:0.8rem;letter-spacing:0.15em;display:inline-flex;align-items:center;gap:0.5rem">
         ↗ Share
       </button>
-      <input type="file" id="fileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files)"/>
+      <input type="file" id="fileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files,'uploadProgress','progressBar','uploadStatus','uploadedGrid')"/>
     </div>
-        <!-- UPLOAD AREA -->
-    <div style="max-width:600px;margin:3rem auto;padding:0 1.5rem;text-align:center">
-      <div id="uploadProgress" style="display:none;margin-bottom:1rem">
+  </div>
+
+  <!-- UPLOAD PROGRESS + GOOGLE PHOTOS BACKUP — clean white section, always visible -->
+  <div class="share-upload-area">
+    <div class="share-upload-inner">
+      <div id="uploadProgress" style="display:none;margin-bottom:1.5rem">
         <div style="background:#eee;border-radius:2px;height:4px;overflow:hidden"><div id="progressBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s"></div></div>
         <p id="uploadStatus" style="font-family:sans-serif;font-size:0.82rem;color:var(--gold);margin-top:0.5rem;text-align:center"></p>
       </div>
-      <div style="padding:1.25rem;border:1px solid var(--gold-light);border-radius:4px;background:var(--section-alt);text-align:center">
-        <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem">Backup option — Upload via Google Photos:</p>
-        <a href="https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">📸 Upload to Google Photos</a>
+
+      <!-- Google Photos backup — always visible -->
+      <div style="padding:1.5rem;border:1px solid var(--gold-light);border-radius:4px;background:var(--white);text-align:center;margin-bottom:1.5rem">
+        <p style="font-family:sans-serif;font-size:0.85rem;color:var(--dark);font-weight:500;margin-bottom:0.4rem">📸 Backup Option</p>
+        <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1rem;line-height:1.6">Prefer Google Photos? Upload directly to our shared album:</p>
+        <a href="https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.15em">Upload to Google Photos</a>
       </div>
-      <div id="uploadedGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-top:2rem"></div>
+
+      <div id="uploadedGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-top:1rem"></div>
     </div>
   </div>
 </div>
@@ -492,97 +529,179 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </footer>
 
 <script>
-const music=document.getElementById('bgMusic');
-let musicPlaying=false;
-function tryAutoplay(){ music.volume=0.4; music.play().then(()=>{ musicPlaying=true; updateMusicBtn(); }).catch(()=>{}); }
-function toggleMusic(){ if(musicPlaying){ music.pause(); musicPlaying=false; } else { music.play(); musicPlaying=true; } updateMusicBtn(); }
-function updateMusicBtn(){ const i=musicPlaying?'🔊':'🔇'; document.getElementById('musicBtn').textContent=i; document.getElementById('navMusicBtn').textContent=i; }
-window.addEventListener('load',tryAutoplay);
+/* ── MUSIC ─────────────────────────────────────────────────────────────── */
+const music = document.getElementById('bgMusic');
+let musicPlaying = false;
+let musicAvailable = false;
 
-function enterSite(){
-  const s=document.getElementById('splash');
-  s.style.opacity='0'; s.style.pointerEvents='none';
-  setTimeout(()=>s.style.display='none',800);
-  music.play().then(()=>{ musicPlaying=true; updateMusicBtn(); }).catch(()=>{});
+music.addEventListener('canplay', () => { musicAvailable = true; });
+music.addEventListener('error', () => {
+  musicAvailable = false;
+  updateMusicBtn();
+});
+
+function tryAutoplay() {
+  music.volume = 0.4;
+  music.play()
+    .then(() => { musicPlaying = true; musicAvailable = true; updateMusicBtn(); })
+    .catch(() => {});
 }
 
-const petalEmojis=['🌸','✿','🌼','🌺','🪷','💐'];
-function createPetals(){
-  const splash=document.getElementById('splash');
-  for(let i=0;i<18;i++){
-    const p=document.createElement('div'); p.className='petal';
-    p.textContent=petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
-    p.style.left=Math.random()*100+'vw';
-    p.style.fontSize=(0.9+Math.random()*1.2)+'rem';
-    p.style.animationDuration=(4+Math.random()*6)+'s';
-    p.style.animationDelay=(Math.random()*6)+'s';
+function toggleMusic() {
+  if (!musicAvailable && !musicPlaying) {
+    /* Show a brief notice if no file is loaded */
+    const notice = document.getElementById('musicNotice');
+    notice.style.display = 'block';
+    notice.style.animation = 'none';
+    void notice.offsetWidth; /* reflow to restart animation */
+    notice.style.animation = 'fadeNotice 3.5s ease forwards';
+    setTimeout(() => { notice.style.display = 'none'; }, 3600);
+    return;
+  }
+  if (musicPlaying) {
+    music.pause();
+    musicPlaying = false;
+  } else {
+    music.play().then(() => { musicPlaying = true; }).catch(() => {});
+  }
+  updateMusicBtn();
+}
+
+function updateMusicBtn() {
+  const icon = musicPlaying ? '🔊' : '🔇';
+  document.getElementById('musicBtn').textContent = icon;
+  document.getElementById('navMusicBtn').textContent = icon;
+}
+
+window.addEventListener('load', tryAutoplay);
+
+/* ── SPLASH ─────────────────────────────────────────────────────────────── */
+function enterSite() {
+  const s = document.getElementById('splash');
+  s.style.opacity = '0';
+  s.style.pointerEvents = 'none';
+  setTimeout(() => s.style.display = 'none', 800);
+  music.play().then(() => { musicPlaying = true; musicAvailable = true; updateMusicBtn(); }).catch(() => {});
+}
+
+const petalEmojis = ['🌸','✿','🌼','🌺','🪷','💐'];
+function createPetals() {
+  const splash = document.getElementById('splash');
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.fontSize = (0.9 + Math.random() * 1.2) + 'rem';
+    p.style.animationDuration = (4 + Math.random() * 6) + 's';
+    p.style.animationDelay = (Math.random() * 6) + 's';
     splash.appendChild(p);
   }
 }
 createPetals();
 
-function setTab(el){ document.querySelectorAll('.share-tab').forEach(t=>t.classList.remove('active')); el.classList.add('active'); }
-function show(id,el){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
-  if(el) el.classList.add('active');
-  document.getElementById('navMenu').classList.remove('open');
-  window.scrollTo(0,0); return false;
+/* ── NAV / TABS ──────────────────────────────────────────────────────────── */
+function setTab(el) {
+  document.querySelectorAll('.share-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
 }
-function toggleQA(el){ el.classList.toggle('open'); el.nextElementSibling.classList.toggle('open'); }
-function submitRSVP(){ document.getElementById('rsvpForm').style.display='none'; document.getElementById('rsvpSuccess').style.display='block'; }
-function openLightbox(src){ document.getElementById('lightbox-img').src=src; document.getElementById('lightbox').classList.add('open'); }
-function closeLightbox(){ document.getElementById('lightbox').classList.remove('open'); }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLightbox(); });
 
-const CLOUD_NAME='dta5qfkow', UPLOAD_PRESET='Abrham';
-async function handleFiles(files){
-  if(!files.length) return;
-  const arr=Array.from(files);
-  document.getElementById('uploadProgress').style.display='block';
-  for(let i=0;i<arr.length;i++){
-    const file=arr[i];
-    document.getElementById('uploadStatus').textContent=`Uploading ${i+1} of ${arr.length}: ${file.name}`;
-    document.getElementById('progressBar').style.width=((i/arr.length)*100)+'%';
-    try{ const url=await uploadToCloudinary(file); addToUploadedGrid(url,file.type); }
-    catch(err){ document.getElementById('uploadStatus').textContent='Upload failed. Please try Google Photos below.'; }
-  }
-  document.getElementById('progressBar').style.width='100%';
-  document.getElementById('uploadStatus').textContent=`✓ ${arr.length} file${arr.length>1?'s':''} uploaded! Thank you! 🤍`;
+function show(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+  if (el) el.classList.add('active');
+  document.getElementById('navMenu').classList.remove('open');
+  window.scrollTo(0, 0);
+  return false;
 }
-function uploadToCloudinary(file){
-  return new Promise((res,rej)=>{
-    const fd=new FormData();
-    fd.append('file',file); fd.append('upload_preset',UPLOAD_PRESET); fd.append('folder','abrham-blen-wedding');
-    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,{method:'POST',body:fd})
-      .then(r=>r.json()).then(d=>{ if(d.secure_url) res(d.secure_url); else rej(d); }).catch(rej);
+
+function toggleQA(el) {
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+
+function submitRSVP() {
+  document.getElementById('rsvpForm').style.display = 'none';
+  document.getElementById('rsvpSuccess').style.display = 'block';
+}
+
+/* ── LIGHTBOX ────────────────────────────────────────────────────────────── */
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+/* ── CLOUDINARY UPLOAD ───────────────────────────────────────────────────── */
+const CLOUD_NAME = 'dta5qfkow', UPLOAD_PRESET = 'Abrham';
+
+async function handleFiles(files, progressId, barId, statusId, gridId) {
+  if (!files.length) return;
+  const arr = Array.from(files);
+  document.getElementById(progressId).style.display = 'block';
+  for (let i = 0; i < arr.length; i++) {
+    const file = arr[i];
+    document.getElementById(statusId).textContent = `Uploading ${i + 1} of ${arr.length}: ${file.name}`;
+    document.getElementById(barId).style.width = ((i / arr.length) * 100) + '%';
+    try {
+      const url = await uploadToCloudinary(file);
+      addToUploadedGrid(url, file.type, gridId);
+    } catch (err) {
+      document.getElementById(statusId).textContent = 'Upload failed. Please try Google Photos below.';
+    }
+  }
+  document.getElementById(barId).style.width = '100%';
+  document.getElementById(statusId).textContent = `✓ ${arr.length} file${arr.length > 1 ? 's' : ''} uploaded! Thank you! 🤍`;
+}
+
+function uploadToCloudinary(file) {
+  return new Promise((res, rej) => {
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', UPLOAD_PRESET);
+    fd.append('folder', 'abrham-blen-wedding');
+    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: fd })
+      .then(r => r.json())
+      .then(d => { if (d.secure_url) res(d.secure_url); else rej(d); })
+      .catch(rej);
   });
 }
-function addToUploadedGrid(url,type){
-  const grid=document.getElementById('uploadedGrid');
-  const d=document.createElement('div');
-  d.style.cssText='aspect-ratio:1;border-radius:2px;overflow:hidden;background:var(--gold-light)';
-  if(type.startsWith('video/')){ const v=document.createElement('video'); v.src=url; v.controls=true; v.style.cssText='width:100%;height:100%;object-fit:cover'; d.appendChild(v); }
-  else { const im=document.createElement('img'); im.src=url; im.style.cssText='width:100%;height:100%;object-fit:cover'; im.onclick=()=>openLightbox(url); d.appendChild(im); }
+
+function addToUploadedGrid(url, type, gridId) {
+  const grid = document.getElementById(gridId);
+  const d = document.createElement('div');
+  d.style.cssText = 'aspect-ratio:1;border-radius:2px;overflow:hidden;background:var(--gold-light)';
+  if (type.startsWith('video/')) {
+    const v = document.createElement('video');
+    v.src = url; v.controls = true;
+    v.style.cssText = 'width:100%;height:100%;object-fit:cover';
+    d.appendChild(v);
+  } else {
+    const im = document.createElement('img');
+    im.src = url;
+    im.style.cssText = 'width:100%;height:100%;object-fit:cover;cursor:pointer';
+    im.onclick = () => openLightbox(url);
+    d.appendChild(im);
+  }
   grid.appendChild(d);
 }
 
-const weddingDate=new Date('2026-08-02T17:00:00');
-function updateCountdown(){
-  const diff=weddingDate-new Date();
-  if(diff<=0){['cd-d','cd-h','cd-m','cd-s'].forEach(id=>document.getElementById(id).textContent='0');return}
-  document.getElementById('cd-d').textContent=Math.floor(diff/86400000);
-  document.getElementById('cd-h').textContent=Math.floor((diff%86400000)/3600000);
-  document.getElementById('cd-m').textContent=Math.floor((diff%3600000)/60000);
-  document.getElementById('cd-s').textContent=Math.floor((diff%60000)/1000);
+/* ── COUNTDOWN ───────────────────────────────────────────────────────────── */
+const weddingDate = new Date('2026-08-02T17:00:00');
+function updateCountdown() {
+  const diff = weddingDate - new Date();
+  if (diff <= 0) { ['cd-d','cd-h','cd-m','cd-s'].forEach(id => document.getElementById(id).textContent = '0'); return; }
+  document.getElementById('cd-d').textContent = Math.floor(diff / 86400000);
+  document.getElementById('cd-h').textContent = Math.floor((diff % 86400000) / 3600000);
+  document.getElementById('cd-m').textContent = Math.floor((diff % 3600000) / 60000);
+  document.getElementById('cd-s').textContent = Math.floor((diff % 60000) / 1000);
 }
-updateCountdown(); setInterval(updateCountdown,1000);
-
-const testImg=new Image();
-testImg.onload=()=>console.log('✅ photo1.jpg loaded OK');
-testImg.onerror=()=>console.error('❌ photo1.jpg failed to load');
-testImg.src='photo1.jpg';
+updateCountdown();
+setInterval(updateCountdown, 1000);
 </script>
 </body>
 </html>
