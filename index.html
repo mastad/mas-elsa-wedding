@@ -321,11 +321,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   <div class="share-memories-hero">
     <div class="share-memories-bg"></div>
     <div class="share-memories-content">
-      <div class="share-tabs">
-        <div class="share-tab active" onclick="setTab(this)">Groom Location</div>
-        <div class="share-tab" onclick="setTab(this)">Venue Location</div>
-        <div class="share-tab" onclick="setTab(this)">Bride Location</div>
-      </div>
       <h2 style="font-family:'Georgia',serif;font-size:2.2rem;color:#fff;margin-bottom:1rem;text-shadow:0 2px 10px rgba(0,0,0,0.5);font-weight:400">Share Your Memories</h2>
       <p style="font-family:sans-serif;font-size:0.9rem;color:rgba(255,255,255,0.85);max-width:340px;line-height:1.8;margin:0 auto 2rem">Upload your photos &amp; videos to preserve the elegance of this unforgettable day!</p>
       <button onclick="document.getElementById('homeFileUpload').click()" class="btn btn-solid" style="font-family:sans-serif;font-size:0.82rem;letter-spacing:0.2em;display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 2.5rem">
@@ -335,25 +330,15 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
 
-  <!-- HOME UPLOAD PROGRESS & GOOGLE BACKUP — clean white section below dark banner -->
-  <div class="share-upload-area">
-    <div class="share-upload-inner">
-      <div id="homeUploadProgress" style="display:none;margin-bottom:1.5rem">
-        <div style="background:#eee;border-radius:2px;height:4px;overflow:hidden"><div id="homeProgressBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s"></div></div>
-        <p id="homeUploadStatus" style="font-family:sans-serif;font-size:0.82rem;color:var(--gold);margin-top:0.5rem;text-align:center"></p>
-      </div>
-      <div style="padding:1.25rem;border:1px solid var(--gold-light);border-radius:4px;background:var(--white);text-align:center">
-        <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem">Backup option — Upload via Google Photos:</p>
-        <a href="https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">📸 Upload to Google Photos</a>
-      </div>
-      <div id="homeUploadedGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-top:2rem"></div>
-    </div>
-  </div>
-
   <!-- LOCATION -->
   <div class="section">
     <p class="section-tag">Location</p>
     <h2 class="section-title">Getting There</h2>
+          <div class="share-tabs">
+        <div class="share-tab active" onclick="setTab(this)">Groom Location</div>
+        <div class="share-tab" onclick="setTab(this)">Venue Location</div>
+        <div class="share-tab" onclick="setTab(this)">Bride Location</div>
+      </div>
     <div class="divider"></div>
     <p style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem">Beza Event Center · 1815 Woodland Ave, Columbus, Ohio 43219</p>
     <div style="width:100%;border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);margin-bottom:1.5rem">
