@@ -656,9 +656,47 @@ function toggleQA(el) {
   el.nextElementSibling.classList.toggle('open');
 }
 
-function submitRSVP() {
-  document.getElementById('rsvpForm').style.display = 'none';
-  document.getElementById('rsvpSuccess').style.display = 'block';
+async function submitRSVP() {
+  const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
+
+  const nameVal     = document.querySelector('#rsvpForm input[type="text"]').value.trim();
+  const emailVal    = document.querySelector('#rsvpForm input[type="email"]').value.trim();
+  const guestsVal   = document.querySelector('#rsvpForm select:nth-of-type(1)').value;
+  const attendVal   = document.querySelector('#rsvpForm input[name="attend"]:checked');
+  const mealVal     = document.querySelector('#rsvpForm select:nth-of-type(2)').value;
+  const dietaryVal  = document.querySelectorAll('#rsvpForm input[type="text"]')[1].value.trim();
+  const messageVal  = document.querySelector('#rsvpForm textarea').value.trim();
+
+  if (!nameVal) { alert('Please enter your name.'); return; }
+  if (!attendVal) { alert('Please let us know if you will attend.'); return; }
+
+  const btn = document.querySelector('#rsvpForm .btn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: JSON.stringify({
+        name:      nameVal,
+        email:     emailVal,
+        guests:    guestsVal,
+        attending: attendVal.value,
+        meal:      mealVal,
+        dietary:   dietaryVal,
+        message:   messageVal
+      })
+    });
+
+    document.getElementById('rsvpForm').style.display = 'none';
+    document.getElementById('rsvpSuccess').style.display = 'block';
+
+  } catch (err) {
+    btn.textContent = 'Send RSVP';
+    btn.disabled = false;
+    alert('Something went wrong. Please try again.');
+  }
 }
 
 /* ── LIGHTBOX ────────────────────────────────────────────────────────────── */
