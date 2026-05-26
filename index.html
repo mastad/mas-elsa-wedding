@@ -138,12 +138,12 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .photo-cell:hover{opacity:0.88}
 .photo-cell img{width:100%;height:100%;object-fit:cover}
 
-/* SHARE MEMORIES HERO — dark overlay banner */
+/* SHARE MEMORIES HERO */
 .share-memories-hero{position:relative;width:100%;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:3.5rem 1.5rem}
 .share-memories-bg{position:absolute;inset:0;background-image:url('photo1.jpg');background-size:cover;background-position:center;filter:brightness(0.35)}
 .share-memories-content{position:relative;z-index:1}
 
-/* SHARE MEMORIES BOTTOM — clean white upload area */
+/* SHARE MEMORIES BOTTOM */
 .share-upload-area{background:var(--section-alt);padding:3rem 1.5rem;border-top:1px solid var(--gold-light)}
 .share-upload-inner{max-width:600px;margin:0 auto;text-align:center}
 
@@ -167,27 +167,12 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .qa-a{font-size:0.88rem;color:#666;line-height:1.85;padding-bottom:1.25rem;display:none}
 .qa-a.open{display:block}
 
-/* FUND */
-.fund-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem;max-width:800px;margin:2rem auto}
-.fund-card{border:1px solid var(--gold-light);padding:2rem;text-align:center;border-radius:4px;background:var(--white)}
-.fund-icon{font-size:2.5rem;margin-bottom:1rem}
-.fund-title{font-size:1rem;color:var(--dark);margin-bottom:0.4rem}
-.fund-amt{font-family:sans-serif;font-size:0.78rem;color:var(--gold);margin-bottom:0.75rem}
-.fund-desc{font-size:0.83rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem}
-.progress-bar{height:4px;background:#eee;border-radius:2px;overflow:hidden;margin-bottom:0.4rem}
-.progress-fill{height:100%;background:var(--gold);border-radius:2px}
-.progress-lbl{font-family:sans-serif;font-size:0.7rem;color:var(--muted);text-align:right}
-
 /* HOTELS */
 .hotels-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:800px;margin:2rem auto;text-align:left}
 .hotel-card{border:1px solid var(--gold-light);padding:1.5rem;border-radius:4px;background:var(--white)}
 .hotel-name{font-size:0.95rem;color:var(--dark);margin-bottom:0.4rem}
 .hotel-dist{font-family:sans-serif;font-size:0.75rem;color:var(--gold);margin-bottom:0.5rem}
 .hotel-note{font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.6}
-
-/* MUSIC NOTICE BANNER */
-.music-notice{display:none;position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);z-index:200;background:var(--dark);color:#fff;font-family:sans-serif;font-size:0.75rem;letter-spacing:0.1em;padding:0.6rem 1.4rem;border-radius:50px;white-space:nowrap;animation:fadeNotice 3s ease forwards}
-@keyframes fadeNotice{0%{opacity:0;transform:translateX(-50%) translateY(10px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0}}
 
 footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light);font-family:sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.1em}
 
@@ -200,15 +185,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   .countdown{gap:1.2rem}
   .count-num{font-size:2.2rem}
 }
-  .party-avatar{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  object-fit:cover;
-  display:block;
-  margin:0 auto 1rem;
-  border:3px solid rgba(255,255,255,.4);
-}
+.party-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 1rem;border:3px solid rgba(255,255,255,.4)}
 </style>
 </head>
 <body>
@@ -217,15 +194,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   <button class="lightbox-close">✕</button>
   <img id="lightbox-img" src="" alt=""/>
 </div>
-
-<!-- MUSIC NOTE: Replace music.mp3 with your actual file name.
-     Upload your MP3 alongside this HTML file on GitHub/your host. -->
-<audio id="bgMusic" loop>
-  <source src="music.mp3" type="audio/mpeg"/>
-</audio>
-
-<!-- Music notice toast -->
-<div class="music-notice" id="musicNotice">🎵 Add music.mp3 to enable background music</div>
 
 <!-- SPLASH -->
 <div id="splash">
@@ -247,7 +215,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="ripple-ring r1"></div><div class="ripple-ring r2"></div><div class="ripple-ring r3"></div>
     </div>
   </div>
-  <div id="musicBtn" onclick="event.stopPropagation();toggleMusic()" style="position:absolute;bottom:2rem;right:2rem;z-index:12;width:40px;height:40px;border-radius:50%;border:1px solid var(--gold-light);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--gold);background:rgba(255,255,255,0.6)">🎵</div>
   <div onclick="enterSite()" style="position:absolute;inset:0;z-index:10;cursor:pointer"></div>
 </div>
 
@@ -261,7 +228,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <li><a href="#" onclick="show('photos',this);return false">Photos</a></li>
     <li><a href="#" onclick="show('qa',this);return false">Q&amp;A</a></li>
   </ul>
-  <button onclick="toggleMusic()" id="navMusicBtn" style="background:none;border:1px solid var(--gold-light);border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:0.9rem;color:var(--gold);flex-shrink:0" title="Toggle music">🎵</button>
   <button class="hamburger" onclick="document.getElementById('navMenu').classList.toggle('open')" aria-label="Menu">
     <span></span><span></span><span></span>
   </button>
@@ -323,7 +289,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
 
-  <!-- SHARE MEMORIES - HOME PAGE (dark hero banner only) -->
+  <!-- SHARE MEMORIES -->
   <div class="share-memories-hero">
     <div class="share-memories-bg"></div>
     <div class="share-memories-content">
@@ -336,82 +302,25 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
 
-<!-- LOCATION -->
-<div class="section">
-  <p class="section-tag">Location</p>
-  <h2 class="section-title">Getting There</h2>
-
-  <div class="share-tabs">
-    <div class="share-tab active" onclick="setTab(this, 'groom')">Groom Location</div>
-    <div class="share-tab" onclick="setTab(this, 'venue')">Venue Location</div>
-    <div class="share-tab" onclick="setTab(this, 'bride')">Bride Location</div>
+  <!-- LOCATION -->
+  <div class="section">
+    <p class="section-tag">Location</p>
+    <h2 class="section-title">Getting There</h2>
+    <div class="share-tabs" style="border:none">
+      <div class="share-tab active" style="background:var(--gold);border-color:var(--gold);color:#fff" onclick="setLocationTab(this,'groom')">Groom Location</div>
+      <div class="share-tab" style="background:transparent;border-color:var(--gold);color:var(--gold)" onclick="setLocationTab(this,'venue')">Venue Location</div>
+      <div class="share-tab" style="background:transparent;border-color:var(--gold);color:var(--gold)" onclick="setLocationTab(this,'bride')">Bride Location</div>
+    </div>
+    <div class="divider"></div>
+    <p id="location-text" style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem">Groom's Home · 3291 Tumwater Valley Dr, Pickerington, Ohio 43147</p>
+    <div style="width:100%;border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);margin-bottom:1.5rem">
+      <iframe id="location-map"
+        src="https://www.google.com/maps?q=3291+Tumwater+Valley+Dr+Pickerington+Ohio+43147&output=embed"
+        width="100%" height="420" style="border:0;display:block" allowfullscreen="" loading="lazy">
+      </iframe>
+    </div>
+    <a id="location-link" href="https://maps.google.com/?q=3291+Tumwater+Valley+Dr+Pickerington+Ohio+43147" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">📍 Get Directions</a>
   </div>
-
-  <div class="divider"></div>
-
-  <!-- ADDRESS TEXT -->
-  <p id="location-text" style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem">
-    Beza Event Center · 1815 Woodland Ave, Columbus, Ohio 43219
-  </p>
-
-  <!-- MAP -->
-  <div style="width:100%;border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);margin-bottom:1.5rem">
-    <iframe id="location-map" 
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3056.123456789!2d-82.9799!3d39.9612!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88388f0000000001%3A0x0!2s1815+Woodland+Ave%2C+Columbus%2C+OH+43219!5e0!3m2!1sen!2sus!4v1234567890"
-      width="100%" height="420" style="border:0;display:block" allowfullscreen="" loading="lazy">
-    </iframe>
-  </div>
-
-  <!-- BUTTON -->
-  <a id="location-link" 
-     href="https://maps.google.com/?q=1815+Woodland+Ave+Columbus+Ohio+43219" 
-     target="_blank" 
-     class="btn btn-solid" 
-     style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">
-     📍 Get Directions
-  </a>
-</div>
-
-<script>
-  function setTab(element, type) {
-    // Switch active tab
-    document.querySelectorAll('.share-tab').forEach(tab => tab.classList.remove('active'));
-    element.classList.add('active');
-
-    // Elements to update
-    const text = document.getElementById('location-text');
-    const map = document.getElementById('location-map');
-    const link = document.getElementById('location-link');
-
-    // Location data
-    const locations = {
-      groom: {
-        label: "3291 Tumwater Valley Dr, Pickerington, Ohio 43147",
-        text: "Groom's Home · 3291 Tumwater Valley Dr, Pickerington, Ohio 43147",
-        map: "https://www.google.com/maps?q=3291+Tumwater+Valley+Dr+Pickerington+Ohio+43147&output=embed",
-        link: "https://maps.google.com/?q=3291+Tumwater+Valley+Dr+Pickerington+Ohio+43147"
-      },
-      bride: {
-        label: "9132 Palomino Dr, Pickerington, Ohio 43147",
-        text: "Bride's Home · 9132 Palomino Dr, Pickerington, Ohio 43147",
-        map: "https://www.google.com/maps?q=9132+Palomino+Dr+Pickerington+Ohio+43147&output=embed",
-        link: "https://maps.google.com/?q=9132+Palomino+Dr+Pickerington+Ohio+43147"
-      },
-      venue: {
-        label: "Beza Event Center · 1815 Woodland Ave, Columbus, Ohio 43219",
-        text: "Beza Event Center · 1815 Woodland Ave, Columbus, Ohio 43219",
-        map: "https://www.google.com/maps?q=1815+Woodland+Ave+Columbus+Ohio+43219&output=embed",
-        link: "https://maps.google.com/?q=1815+Woodland+Ave+Columbus+Ohio+43219"
-      }
-    };
-
-    // Apply selected location
-    text.innerText = locations[type].text;
-    map.src = locations[type].map;
-    link.href = locations[type].link;
-  }
-</script>
-
 
   <!-- HOTELS -->
   <div style="background:var(--section-alt);padding:5rem 1.5rem">
@@ -493,13 +402,11 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div class="divider"></div>
     <p style="color:var(--muted);font-size:0.92rem;margin-bottom:2rem;line-height:1.8">We would be so honored to have you celebrate with us!</p>
     <div id="rsvpForm" class="rsvp-form">
-      <div class="form-group"><label>Full Name</label><input type="text" placeholder="Your full name"/></div>
-      <div class="form-group"><label>Email Address</label><input type="email" placeholder="your@email.com"/></div>
-      <div class="form-group"><label>Number of Guests</label><select><option>1 guest</option><option>2 guests</option><option>3 guests</option></select></div>
+      <div class="form-group"><label>Full Name</label><input id="f-name" type="text" placeholder="Your full name"/></div>
+      <div class="form-group"><label>Email Address</label><input id="f-email" type="email" placeholder="your@email.com"/></div>
+      <div class="form-group"><label>Number of Guests</label><select id="f-guests"><option>1 guest</option><option>2 guests</option><option>3 guests</option></select></div>
       <div class="form-group"><label>Will you attend?</label><div class="radio-group"><label><input type="radio" name="attend" value="yes"/> Joyfully accepts</label><label><input type="radio" name="attend" value="no"/> Regretfully declines</label></div></div>
-      <div class="form-group"><label>Meal Preference</label><select><option>No preference</option><option>Chicken</option><option>Fish</option><option>Vegetarian</option></select></div>
-      <div class="form-group"><label>Dietary Requirements</label><input type="text" placeholder="Any dietary needs?"/></div>
-      <div class="form-group"><label>Message (optional)</label><textarea placeholder="Share your wishes and blessings..."></textarea></div>
+      <div class="form-group"><label>Message (optional)</label><textarea id="f-message" placeholder="Share your wishes and blessings..."></textarea></div>
       <button class="btn btn-solid" style="width:100%;font-family:sans-serif;font-size:0.8rem;letter-spacing:0.2em;border:none;cursor:pointer" onclick="submitRSVP()">Send RSVP</button>
     </div>
     <div id="rsvpSuccess" class="rsvp-success"><h3>Thank You! 🤍</h3><p>Your RSVP has been received. Abrham and Blen can't wait to celebrate with you on August 2nd!</p></div>
@@ -522,8 +429,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="photo-cell" onclick="openLightbox('photo7.jpg')"><img src="photo7.jpg" alt=""/></div>
     </div>
   </div>
-
-  <!-- SHARE MEMORIES — dark hero banner (upload button only) -->
   <div class="share-memories-hero">
     <div class="share-memories-bg"></div>
     <div class="share-memories-content">
@@ -535,22 +440,17 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <input type="file" id="fileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files,'uploadProgress','progressBar','uploadStatus','uploadedGrid')"/>
     </div>
   </div>
-
-  <!-- UPLOAD PROGRESS + GOOGLE PHOTOS BACKUP — clean white section, always visible -->
   <div class="share-upload-area">
     <div class="share-upload-inner">
       <div id="uploadProgress" style="display:none;margin-bottom:1.5rem">
         <div style="background:#eee;border-radius:2px;height:4px;overflow:hidden"><div id="progressBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s"></div></div>
         <p id="uploadStatus" style="font-family:sans-serif;font-size:0.82rem;color:var(--gold);margin-top:0.5rem;text-align:center"></p>
       </div>
-
-      <!-- Google Photos backup — always visible -->
       <div style="padding:1.5rem;border:1px solid var(--gold-light);border-radius:4px;background:var(--white);text-align:center;margin-bottom:1.5rem">
         <p style="font-family:sans-serif;font-size:0.85rem;color:var(--dark);font-weight:500;margin-bottom:0.4rem">📸 Backup Option</p>
         <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1rem;line-height:1.6">Prefer Google Photos? Upload directly to our shared album:</p>
         <a href="https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.15em">Upload to Google Photos</a>
       </div>
-
       <div id="uploadedGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-top:1rem"></div>
     </div>
   </div>
@@ -580,67 +480,15 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </footer>
 
 <script>
-/* ── MUSIC ─────────────────────────────────────────────────────────────── */
-const music = document.getElementById('bgMusic');
-let musicPlaying = false;
-let musicAvailable = false;
-
-music.addEventListener('canplay', () => { musicAvailable = true; });
-music.addEventListener('error', () => {
-  musicAvailable = false;
-  updateMusicBtn();
-});
-
-function tryAutoplay() {
-  music.volume = 0.4;
-  music.play()
-    .then(() => { musicPlaying = true; musicAvailable = true; updateMusicBtn(); })
-    .catch(() => {});
-}
-
-function toggleMusic() {
-  if (!musicAvailable && !musicPlaying) {
-    /* Show a brief notice if no file is loaded */
-    const notice = document.getElementById('musicNotice');
-    notice.style.display = 'block';
-    notice.style.animation = 'none';
-    void notice.offsetWidth; /* reflow to restart animation */
-    notice.style.animation = 'fadeNotice 3.5s ease forwards';
-    setTimeout(() => { notice.style.display = 'none'; }, 3600);
-    return;
-  }
-  if (musicPlaying) {
-    music.pause();
-    musicPlaying = false;
-  } else {
-    music.play().then(() => { musicPlaying = true; }).catch(() => {});
-  }
-  updateMusicBtn();
-}
-
-function updateMusicBtn() {
-  const icon = musicPlaying ? '🔊' : '🔇';
-  document.getElementById('musicBtn').textContent = icon;
-  document.getElementById('navMusicBtn').textContent = icon;
-}
-
-window.addEventListener('load', tryAutoplay);
-
 /* ── SPLASH ─────────────────────────────────────────────────────────────── */
 function enterSite() {
   const s = document.getElementById('splash');
   s.style.opacity = '0';
   s.style.pointerEvents = 'none';
   setTimeout(() => s.style.display = 'none', 800);
-  music.play().then(() => { musicPlaying = true; musicAvailable = true; updateMusicBtn(); }).catch(() => {});
 }
 
-/* ── NAV / TABS ──────────────────────────────────────────────────────────── */
-function setTab(el) {
-  document.querySelectorAll('.share-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-}
-
+/* ── NAV ─────────────────────────────────────────────────────────────────── */
 function show(id, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -656,16 +504,47 @@ function toggleQA(el) {
   el.nextElementSibling.classList.toggle('open');
 }
 
+/* ── LOCATION TABS ───────────────────────────────────────────────────────── */
+function setLocationTab(element, type) {
+  document.querySelectorAll('.share-tab').forEach(tab => {
+    tab.style.background = 'transparent';
+    tab.style.color = 'var(--gold)';
+  });
+  element.style.background = 'var(--gold)';
+  element.style.color = '#fff';
+
+  const locations = {
+    groom: {
+      text: "Groom's Home · 3291 Tumwater Valley Dr, Pickerington, Ohio 43147",
+      map:  "https://www.google.com/maps?q=3291+Tumwater+Valley+Dr+Pickerington+Ohio+43147&output=embed",
+      link: "https://maps.google.com/?q=3291+Tumwater+Valley+Dr+Pickerington+Ohio+43147"
+    },
+    bride: {
+      text: "Bride's Home · 9132 Palomino Dr, Pickerington, Ohio 43147",
+      map:  "https://www.google.com/maps?q=9132+Palomino+Dr+Pickerington+Ohio+43147&output=embed",
+      link: "https://maps.google.com/?q=9132+Palomino+Dr+Pickerington+Ohio+43147"
+    },
+    venue: {
+      text: "Beza Event Center · 1815 Woodland Ave, Columbus, Ohio 43219",
+      map:  "https://www.google.com/maps?q=1815+Woodland+Ave+Columbus+Ohio+43219&output=embed",
+      link: "https://maps.google.com/?q=1815+Woodland+Ave+Columbus+Ohio+43219"
+    }
+  };
+
+  document.getElementById('location-text').innerText = locations[type].text;
+  document.getElementById('location-map').src = locations[type].map;
+  document.getElementById('location-link').href = locations[type].link;
+}
+
+/* ── RSVP ────────────────────────────────────────────────────────────────── */
 async function submitRSVP() {
   const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwhzqtXoQiWgDoOxJiL3XUCayF-VOPxSSRWvJ4nXVcaby3rsNl33k7gJnu2mJLV7ejNaQ/exec";
 
-  const nameVal     = document.querySelector('#rsvpForm input[type="text"]').value.trim();
-  const emailVal    = document.querySelector('#rsvpForm input[type="email"]').value.trim();
-  const guestsVal   = document.querySelector('#rsvpForm select:nth-of-type(1)').value;
-  const attendVal   = document.querySelector('#rsvpForm input[name="attend"]:checked');
-  const mealVal     = document.querySelector('#rsvpForm select:nth-of-type(2)').value;
-  const dietaryVal  = document.querySelectorAll('#rsvpForm input[type="text"]')[1].value.trim();
-  const messageVal  = document.querySelector('#rsvpForm textarea').value.trim();
+  const nameVal    = document.getElementById('f-name').value.trim();
+  const emailVal   = document.getElementById('f-email').value.trim();
+  const guestsVal  = document.getElementById('f-guests').value;
+  const attendVal  = document.querySelector('#rsvpForm input[name="attend"]:checked');
+  const messageVal = document.getElementById('f-message').value.trim();
 
   if (!nameVal) { alert('Please enter your name.'); return; }
   if (!attendVal) { alert('Please let us know if you will attend.'); return; }
@@ -683,15 +562,11 @@ async function submitRSVP() {
         email:     emailVal,
         guests:    guestsVal,
         attending: attendVal.value,
-        meal:      mealVal,
-        dietary:   dietaryVal,
         message:   messageVal
       })
     });
-
     document.getElementById('rsvpForm').style.display = 'none';
     document.getElementById('rsvpSuccess').style.display = 'block';
-
   } catch (err) {
     btn.textContent = 'Send RSVP';
     btn.disabled = false;
