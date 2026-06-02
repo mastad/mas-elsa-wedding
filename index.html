@@ -190,6 +190,12 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </head>
 <body>
 
+  <!-- music -->
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close">✕</button>
   <img id="lightbox-img" src="" alt=""/>
@@ -220,6 +226,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 
 <nav>
   <div class="logo">Abrham &amp; Blen</div>
+  <button id="musicToggle" onclick="toggleMusic()" style="background:none; border:none; color:var(--gold); font-size:1.1rem; cursor:pointer; padding:0 0.5rem;" aria-label="Toggle Music">🔊</button>
   <ul id="navMenu">
     <li><a href="#" class="active" onclick="show('home',this);return false">Home</a></li>
     <li><a href="#" onclick="show('story',this);return false">Our Story</a></li>
@@ -480,10 +487,20 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 <script>
 /* ── SPLASH ─────────────────────────────────────────────────────────────── */
 function enterSite() {
-  const s = document.getElementById('splash');
-  s.style.opacity = '0';
-  s.style.pointerEvents = 'none';
-  setTimeout(() => s.style.display = 'none', 800);
+  const splash = document.getElementById('splash');
+  const music = document.getElementById('bgMusic');
+  
+  // Attempt to play the audio on user interaction
+  if (music) {
+    music.play().catch(error => {
+      console.log("Autoplay prevented by browser. Audio will play on next interaction.", error);
+    });
+  }
+
+  splash.style.opacity = '0';
+  setTimeout(() => { 
+    splash.style.display = 'none'; 
+  }, 800);
 }
 
 /* ── NAV ─────────────────────────────────────────────────────────────────── */
@@ -532,6 +549,19 @@ function setLocationTab(element, type) {
   document.getElementById('location-text').innerText = locations[type].text;
   document.getElementById('location-map').src = locations[type].map;
   document.getElementById('location-link').href = locations[type].link;
+}
+
+function toggleMusic() {
+  const music = document.getElementById('bgMusic');
+  const btn = document.getElementById('musicToggle');
+  
+  if (music.paused) {
+    music.play();
+    btn.textContent = '🔊';
+  } else {
+    music.pause();
+    btn.textContent = '🔇';
+  }
 }
 
 /* ── RSVP ────────────────────────────────────────────────────────────────── */
