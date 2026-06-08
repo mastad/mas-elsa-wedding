@@ -1,12 +1,3 @@
-The issue is a small syntax typo in your CSS code near the responsive media queries that is breaking the layout.
-
-Right before your `.party-avatar` class declaration, there is a closing curly bracket `}` meant to close the mobile media query, but the opening `@media` block declaration itself is missing. This causes the browser to ignore the styling for the avatar images entirely.
-
-Additionally, your HTML uses the class name `party-avatar` for the images, but your original stylesheet used a wrap element called `.avatar` (which is absent in your wedding party grid HTML).
-
-Here is the complete, fully fixed code:
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,7 +11,7 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow
 
 /* SPLASH */
 #splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#fdf8ef 0%,#f9f0e0 45%,#fdf5e8 100%);transition:opacity 0.8s ease;overflow:hidden}
-.petal{position:absolute;top:-40px;opacity:0;animation:fall linear infinite;pointer-events:none;z-index:1}
+.petal{position:absolute;top:-40px;opacity:0;animation:fall linear infinite;pointer-events:none;z-index:1;color:var(--gold-light);font-size:1.5rem}
 @keyframes fall{0%{opacity:0;transform:translateY(0) rotate(0deg) scale(0.8)}10%{opacity:0.8}80%{opacity:0.6}100%{opacity:0;transform:translateY(110vh) rotate(360deg) scale(1.1)}}
 .floral-tl,.floral-tr,.floral-bl,.floral-br{position:absolute;z-index:1;width:190px;height:190px;opacity:0.6}
 .floral-tl{top:0;left:0}.floral-tr{top:0;right:0;transform:scaleX(-1)}.floral-bl{bottom:0;left:0;transform:scaleY(-1)}.floral-br{bottom:0;right:0;transform:scale(-1)}
@@ -35,8 +26,6 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow
 @keyframes rotateBorder{to{transform:rotate(360deg)}}
 .splash-monogram span{font-family:'Georgia',serif;font-style:italic;font-size:2.4rem;color:var(--gold);letter-spacing:-0.05em;animation:letterDance 4s ease-in-out infinite;display:inline-block}
 @keyframes letterDance{0%,100%{transform:scale(1) rotate(0deg)}25%{transform:scale(1.12) rotate(-3deg)}50%{transform:scale(1.07)}75%{transform:scale(1.12) rotate(3deg)}}
-.splash-flowers-row{position:relative;z-index:2;font-size:1.5rem;letter-spacing:0.3em;margin-bottom:0.8rem;animation:floatRow 3s ease-in-out infinite}
-@keyframes floatRow{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 .splash-names{position:relative;z-index:2;font-family:'Georgia',serif;font-size:1.7rem;font-style:italic;color:var(--gold-dark);letter-spacing:0.06em;margin-bottom:0.6rem}
 .splash-line{width:280px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:0 auto 0.8rem}
 .splash-savedate{position:relative;z-index:2;font-family:sans-serif;font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:0.3rem}
@@ -48,8 +37,6 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow
 .ripple-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(201,169,110,0.45);animation:ripple 2.5s ease-out infinite}
 .r1{width:64px;height:64px;animation-delay:0s}.r2{width:64px;height:64px;animation-delay:0.8s}.r3{width:64px;height:64px;animation-delay:1.6s}
 @keyframes ripple{0%{transform:scale(1);opacity:0.7}100%{transform:scale(2.4);opacity:0}}
-.ripple-core{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(201,169,110,0.8);background:rgba(201,169,110,0.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;animation:corePulse 2s ease-in-out infinite}
-@keyframes corePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,250,246,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--gold-light);height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;gap:1rem}
@@ -74,10 +61,6 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .hero-date{font-family:sans-serif;font-size:0.75rem;letter-spacing:0.2em;color:#888;text-transform:uppercase;margin-bottom:1rem}
 .hero-divider{width:50px;height:1px;background:#e8d5b0;margin:0 auto 1.2rem}
 .hero-verse{font-style:italic;color:#666;font-size:0.9rem;max-width:380px;line-height:1.9;margin:0 auto 2rem}
-.hero-scroll{display:flex;flex-direction:column;align-items:center;gap:0.4rem;margin-top:0.5rem;cursor:pointer;opacity:0.5}
-.hero-scroll span{font-family:sans-serif;font-size:0.62rem;letter-spacing:0.3em;color:#888;text-transform:uppercase}
-.hero-scroll-arrow{width:1px;height:35px;background:linear-gradient(to bottom,#888,transparent);animation:scrollPulse 2s ease-in-out infinite}
-@keyframes scrollPulse{0%,100%{opacity:0.4}50%{opacity:1}}
 
 .btn{display:inline-block;padding:0.75rem 2.5rem;border:1px solid var(--gold);color:var(--gold);font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;background:transparent;transition:all 0.25s}
 .btn:hover{background:var(--gold);color:var(--white)}
@@ -110,9 +93,6 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .story-img{width:100%;aspect-ratio:3/4;background:var(--gold-light);border-radius:4px;overflow:hidden}
 .story-img img{width:100%;height:100%;object-fit:cover;object-position:center top}
 .story-text p{font-size:0.95rem;line-height:1.95;color:#555;margin-bottom:1.2rem}
-.milestone-item{display:flex;gap:1rem;margin-bottom:1rem;align-items:flex-start}
-.milestone-year{font-family:sans-serif;font-size:0.75rem;color:var(--gold);font-weight:600;min-width:44px;padding-top:2px}
-.milestone-desc{font-size:0.9rem;color:#666;line-height:1.6}
 
 /* PHOTO STRIP */
 .photo-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
@@ -125,63 +105,32 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .party-card .name{font-size:0.95rem;color:var(--dark);margin-bottom:0.25rem;font-weight:500}
 .party-card .role{font-family:sans-serif;font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
 .party-section-title{font-family:sans-serif;font-size:0.75rem;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin:3rem 0 1.5rem;border-top:1px solid var(--gold-light);padding-top:2rem}
+.party-avatar {width:110px;height:110px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 1rem;border:3px solid var(--gold);aspect-ratio:1/1}
 
 /* RSVP */
 .rsvp-form{max-width:520px;margin:2rem auto;text-align:left}
 .form-group{margin-bottom:1.5rem}
 .form-group label{display:block;font-family:sans-serif;font-size:0.72rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:0.5rem}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:0.75rem 1rem;border:1px solid #ddd;background:var(--white);font-family:'Georgia',serif;font-size:1rem;color:var(--text);outline:none;transition:border-color 0.2s;border-radius:2px;-webkit-appearance:none;appearance:none}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:0.75rem 1rem;border:1px solid #ddd;background:var(--white);font-family:'Georgia',serif;font-size:1rem;color:var(--text);outline:none;transition:border-color 0.2s;border-radius:2px;appearance:none}
 .form-group select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center;padding-right:2.5rem}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold)}
 .form-group textarea{height:100px;resize:vertical}
 .radio-group{display:flex;flex-direction:column;gap:0.85rem;margin-top:0.5rem}
-.radio-group label{font-family:sans-serif;font-size:0.9rem;color:var(--text);display:flex;align-items:center;gap:0.6rem;letter-spacing:0;text-transform:none;cursor:pointer}
-.radio-group input[type="radio"]{width:18px;height:18px;flex-shrink:0;accent-color:var(--gold);cursor:pointer}
+.radio-group label{font-family:sans-serif;font-size:0.9rem;color:var(--text);display:flex;align-items:center;gap:0.6rem;cursor:pointer}
+.radio-group input[type="radio"]{width:18px;height:18px;accent-color:var(--gold);cursor:pointer}
 .rsvp-success{display:none;text-align:center;padding:3rem;border:1px solid var(--gold-light);background:var(--section-alt);border-radius:4px}
-.rsvp-success h3{color:var(--gold);font-size:1.8rem;margin-bottom:1rem}
 
 /* PHOTOS */
 .photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;max-width:800px;margin:2rem auto}
-.photo-cell{aspect-ratio:1;background:var(--gold-light);border-radius:2px;overflow:hidden;cursor:pointer;transition:opacity 0.2s;position:relative}
+.photo-cell{aspect-ratio:1;background:var(--gold-light);border-radius:2px;overflow:hidden;cursor:pointer;transition:opacity 0.2s}
 .photo-cell:hover{opacity:0.88}
 .photo-cell img{width:100%;height:100%;object-fit:cover}
-.photo-cell .source-badge{position:absolute;bottom:0;left:0;right:0;font-family:sans-serif;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.3rem 0.5rem;background:linear-gradient(to top,rgba(0,0,0,0.65),transparent);color:rgba(255,255,255,0.9);opacity:0;transition:opacity 0.2s}
-.photo-cell:hover .source-badge{opacity:1}
-.photo-cell .delete-btn{position:absolute;top:0.4rem;right:0.4rem;width:26px;height:26px;border-radius:50%;background:rgba(220,50,50,0.85);border:none;color:#fff;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;z-index:2;line-height:1}
-.photo-cell:hover .delete-btn{opacity:1}
-.photo-cell .delete-btn:hover{background:rgba(180,20,20,1)}
-
-/* GALLERY FILTERS */
-.gallery-filter{font-family:sans-serif;font-size:0.72rem;letter-spacing:0.08em;padding:0.45rem 1rem;border-radius:50px;border:1.5px solid var(--gold-light);color:var(--muted);background:transparent;cursor:pointer;transition:all 0.2s;text-transform:uppercase}
-.gallery-filter:hover{border-color:var(--gold);color:var(--gold)}
-.gallery-filter.active{background:var(--gold);border-color:var(--gold);color:#fff}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
-/* GALLERY LOADING */
-.gallery-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;gap:1rem;grid-column:1/-1}
-.gallery-spinner{width:36px;height:36px;border:3px solid var(--gold-light);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.gallery-loading p{font-family:sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:0.1em}
-
-/* SHARE MEMORIES HERO */
-.share-memories-hero{position:relative;width:100%;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:3.5rem 1.5rem}
-.share-memories-bg{position:absolute;inset:0;background-image:url('photo1.jpg');background-size:cover;background-position:center;filter:brightness(0.35)}
-.share-memories-content{position:relative;z-index:1}
-
-/* SHARE MEMORIES BOTTOM */
-.share-upload-area{background:var(--section-alt);padding:3rem 1.5rem;border-top:1px solid var(--gold-light)}
-.share-upload-inner{max-width:600px;margin:0 auto;text-align:center}
-
-/* UPLOAD TABS */
-.share-tabs{display:flex;gap:0.75rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
-.share-tab{font-family:sans-serif;font-size:0.78rem;letter-spacing:0.1em;padding:0.6rem 1.4rem;border-radius:50px;border:1.5px solid rgba(255,255,255,0.6);color:#fff;cursor:pointer;background:rgba(0,0,0,0.3);transition:all 0.2s;text-transform:uppercase}
-.share-tab.active,.share-tab:hover{background:var(--gold);border-color:var(--gold);color:#fff}
 
 /* LIGHTBOX */
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;align-items:center;justify-content:center}
 .lightbox.open{display:flex}
 .lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:2px}
-.lightbox-close{position:absolute;top:1.5rem;right:2rem;font-size:2rem;color:#fff;cursor:pointer;background:none;border:none}
+.lightbox-close{position:absolute;top:20px;right:20px;background:none;border:none;color:#fff;font-size:2.5rem;cursor:pointer}
 
 /* QA */
 .qa-list{max-width:640px;margin:2rem auto;text-align:left}
@@ -192,76 +141,8 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .qa-a{font-size:0.88rem;color:#666;line-height:1.85;padding-bottom:1.25rem;display:none}
 .qa-a.open{display:block}
 
-/* HOTELS */
-.hotels-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:800px;margin:2rem auto;text-align:left}
-.hotel-card{border:1px solid var(--gold-light);padding:1.5rem;border-radius:4px;background:var(--white)}
-.hotel-name{font-size:0.95rem;color:var(--dark);margin-bottom:0.4rem}
-.hotel-dist{font-family:sans-serif;font-size:0.75rem;color:var(--gold);margin-bottom:0.5rem}
-.hotel-note{font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.6}
-
 footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light);font-family:sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.1em}
 
-/* TOAST NOTIFICATIONS */
-#toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9998;display:flex;flex-direction:column;gap:0.6rem;pointer-events:none}
-.toast{font-family:sans-serif;font-size:0.82rem;padding:0.85rem 1.2rem;border-radius:6px;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:flex;align-items:flex-start;gap:0.65rem;max-width:320px;pointer-events:all;animation:toastIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;line-height:1.45}
-.toast.hide{animation:toastOut 0.3s ease forwards}
-.toast-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
-.toast-body{}
-.toast-title{font-weight:600;margin-bottom:0.15rem}
-.toast-msg{opacity:0.85;font-size:0.78rem}
-.toast.success{background:#fff;border-left:4px solid #6abf6a;color:#2a5c2a}
-.toast.error{background:#fff;border-left:4px solid #e05c5c;color:#5c1a1a}
-.toast.info{background:#fff;border-left:4px solid var(--gold);color:#4a3a10}
-@keyframes toastIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
-@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(60px)}}
-
-/* UPLOAD STATUS BANNER */
-.upload-banner{border-radius:6px;padding:1rem 1.2rem;margin-bottom:1rem;font-family:sans-serif;font-size:0.82rem;display:none;align-items:flex-start;gap:0.75rem;line-height:1.5}
-.upload-banner.show{display:flex}
-.upload-banner.success{background:#f0faf0;border:1px solid #a8d5a8;color:#2a5c2a}
-.upload-banner.error{background:#fdf4f4;border:1px solid #e8b4b4;color:#5c1a1a}
-.upload-banner.partial{background:#fffbf0;border:1px solid var(--gold-light);color:#4a3a10}
-.upload-banner-icon{font-size:1.2rem;flex-shrink:0}
-.upload-banner-text .title{font-weight:600;margin-bottom:0.25rem}
-.upload-banner-text .detail{font-size:0.78rem;opacity:0.85}
-
-/* ADMIN PANEL */
-#admin-modal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;padding:1rem}
-#admin-modal.open{display:flex}
-.admin-box{background:#fff;border-radius:10px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 12px 50px rgba(0,0,0,0.25)}
-.admin-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--gold-light);position:sticky;top:0;background:#fff;z-index:1}
-.admin-header h2{font-family:'Georgia',serif;font-size:1.15rem;color:var(--dark);font-weight:400}
-.admin-header span{font-family:sans-serif;font-size:0.7rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;background:#fff8ee;padding:0.25rem 0.6rem;border-radius:20px;border:1px solid var(--gold-light)}
-.admin-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);line-height:1;padding:0.2rem}
-.admin-body{padding:1.5rem}
-.admin-section-title{font-family:sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--gold-light)}
-.admin-photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:0.75rem;margin-bottom:1.5rem}
-.admin-photo-cell{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;background:var(--gold-light)}
-.admin-photo-cell img{width:100%;height:100%;object-fit:cover}
-.admin-photo-cell .adm-del{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;transition:background 0.2s;cursor:pointer}
-.admin-photo-cell:hover .adm-del{background:rgba(180,30,30,0.65)}
-.admin-photo-cell .adm-del span{opacity:0;font-size:1.5rem;color:#fff;transition:opacity 0.2s}
-.admin-photo-cell:hover .adm-del span{opacity:1}
-.admin-upload-zone{border:2px dashed var(--gold-light);border-radius:8px;padding:2rem;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;margin-bottom:1rem}
-.admin-upload-zone:hover{border-color:var(--gold);background:#fff8ee}
-.admin-upload-zone p{font-family:sans-serif;font-size:0.82rem;color:var(--muted);margin-top:0.5rem}
-.admin-upload-zone .icon{font-size:2rem}
-.admin-progress{display:none;margin-top:1rem}
-.admin-progress-bar-wrap{background:#eee;border-radius:2px;height:5px;overflow:hidden}
-.admin-progress-bar{height:100%;background:var(--gold);width:0%;transition:width 0.3s}
-.admin-progress-status{font-family:sans-serif;font-size:0.78rem;color:var(--gold);margin-top:0.4rem;text-align:center}
-
-/* Password gate */
-.admin-pwd-gate{padding:2.5rem 1.5rem;text-align:center}
-.admin-pwd-gate .lock{font-size:2.5rem;margin-bottom:0.75rem}
-.admin-pwd-gate h3{font-family:'Georgia',serif;font-size:1.2rem;color:var(--dark);margin-bottom:0.4rem;font-weight:400}
-.admin-pwd-gate p{font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1.25rem}
-.admin-pwd-gate input{width:100%;max-width:260px;padding:0.7rem 1rem;border:1.5px solid #ddd;border-radius:4px;font-family:sans-serif;font-size:1rem;text-align:center;letter-spacing:0.25em;outline:none;margin-bottom:0.5rem}
-.admin-pwd-gate input:focus{border-color:var(--gold)}
-.admin-pwd-error{font-family:sans-serif;font-size:0.75rem;color:#e05c5c;display:none;margin-bottom:0.75rem}
-.admin-pwd-gate .btn{font-family:sans-serif;font-size:0.78rem;letter-spacing:0.15em;padding:0.7rem 2rem}
-
-/* RESPONSIVE MEDIA STYLES */
 @media (max-width: 768px) {
   nav ul{display:none;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--bg);padding:1rem 2rem;border-bottom:1px solid var(--gold-light);gap:1rem;z-index:99}
   nav ul.open{display:flex}
@@ -271,29 +152,18 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   .countdown{gap:1.2rem}
   .count-num{font-size:2.2rem}
 }
-
-/* AVATAR STYLE FIX */
-.party-avatar {
-  width: 110px;
-  height: 110px;
-  border-radius: 50%;
-  object-fit: cover;
-  display: block;
-  margin: 0 auto 1rem;
-  border: 3px solid var(--gold);
-}
 </style>
 </head>
 <body>
 
 <audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mpeg">
-  Your browser does not support the audio element.
 </audio>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()"></div>
 
 <div id="splash">
+  <div id="petal-container" style="position:absolute;inset:0;pointer-events:none;z-index:1"></div>
   <svg class="floral-tl" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#e8d5a0" opacity="0.75"/><circle cx="62" cy="18" r="13" fill="#f0dfa8" opacity="0.65"/><circle cx="18" cy="62" r="15" fill="#ddc880" opacity="0.7"/><circle cx="85" cy="42" r="11" fill="#f5e8b8" opacity="0.55"/><circle cx="42" cy="85" r="12" fill="#e8d090" opacity="0.65"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a050" opacity="0.35" transform="rotate(45 55 55)"/></svg>
   <svg class="floral-tr" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#e8d5a0" opacity="0.75"/><circle cx="62" cy="18" r="13" fill="#f0dfa8" opacity="0.65"/><circle cx="18" cy="62" r="15" fill="#ddc880" opacity="0.7"/><circle cx="85" cy="42" r="11" fill="#f5e8b8" opacity="0.55"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a050" opacity="0.35" transform="rotate(45 55 55)"/></svg>
   <svg class="floral-bl" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#f0e0b0" opacity="0.7"/><circle cx="62" cy="18" r="13" fill="#e8d898" opacity="0.6"/><circle cx="18" cy="62" r="15" fill="#ddc878" opacity="0.65"/><circle cx="85" cy="42" r="11" fill="#f5e8b0" opacity="0.5"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a048" opacity="0.35" transform="rotate(45 55 55)"/></svg>
@@ -342,7 +212,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <p class="hero-date">August 2<sup>nd</sup>, 2026 &nbsp;·&nbsp; 5:00 PM &nbsp;·&nbsp; Columbus, Ohio</p>
       <div class="hero-divider"></div>
       <p class="hero-verse">"So they are no longer two, but one flesh. Therefore what God has joined together, let no one separate." — Matthew 19:6</p>
-      <a class="btn btn-solid" href="#" onclick="show('rsvp',null);return false" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">RSVP Now</a>
+      <a class="btn btn-solid" href="#" onclick="show('rsvp',null);return false">RSVP Now</a>
     </div>
   </div>
 
@@ -373,12 +243,29 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="timeline">
         <div class="tl-line-full"></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">5:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Ceremony Begins</div><div class="tl-venue">Beza Event Center — Doors open, guests seated</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride & Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb & Kene</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Food & Drinks Served</div><div class="tl-venue">Dinner served · Drinks available 5:00 PM – 10:30 PM</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Mezmure</div><div class="tl-venue">Ethiopian spiritual songs & celebration</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride &amp; Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb &amp; Kene</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Food &amp; Drinks Served</div><div class="tl-venue">Dinner served · Drinks available 5:00 PM – 10:30 PM</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Mezmure</div><div class="tl-venue">Ethiopian spiritual songs &amp; celebration</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">8:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Kene</div><div class="tl-venue">Traditional Ethiopian poetry recitation</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">8:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Cake Cutting 🎂</div><div class="tl-venue">Cake time + Mezmure continues</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="story" class="page">
+  <div class="section">
+    <p class="section-tag">Our Journey</p>
+    <h2 class="section-title">Our Story</h2>
+    <div class="divider"></div>
+    <div class="story-grid">
+      <div class="story-img">
+        <img src="story.jpg" alt="Our Journey Together"/>
+      </div>
+      <div class="story-text">
+        <p>Welcome to our journey. From the very beginning, our lives have been filled with love, laughter, and beautiful shared memories. We are incredibly excited to take this next step together under God's guidance and share our joy with our close family and friends.</p>
+        <p>Thank you for being a monumental part of our growth, support system, and future together. We look forward to celebrating this beautiful union with you all.</p>
       </div>
     </div>
   </div>
@@ -389,24 +276,222 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <p class="section-tag">The Ones Who Made It Possible</p>
     <h2 class="section-title">Wedding Party</h2>
     <div class="divider"></div>
+    
     <div class="party-section-title" style="border-top:none;padding-top:0;margin-top:0">Groomsmen</div>
     <div class="party-grid">
-      <div class="party-card"><img src="keb.jpg" alt="keb" class="party-avatar"><div class="name">Keb</div><div class="role">Best Man</div></div>
-      <div class="party-card"><img src="bele.jpg" alt="bele" class="party-avatar"><div class="name">Bele</div><div class="role">Groomsman</div></div>
-      <div class="party-card"><img src="hermon.jpg" alt="hermon" class="party-avatar"><div class="name">Hermon</div><div class="role">Groomsman</div></div>
-      <div class="party-card"><img src="mike.jpg" alt="mike" class="party-avatar"><div class="name">Mike</div><div class="role">Groomsman</div></div>
+      <div class="party-card"><img src="keb.jpg" alt="Keb" class="party-avatar"><div class="name">Keb</div><div class="role">Best Man</div></div>
+      <div class="party-card"><img src="bele.jpg" alt="Bele" class="party-avatar"><div class="name">Bele</div><div class="role">Groomsman</div></div>
+      <div class="party-card"><img src="hermon.jpg" alt="Hermon" class="party-avatar"><div class="name">Hermon</div><div class="role">Groomsman</div></div>
+      <div class="party-card"><img src="mike.jpg" alt="Mike" class="party-avatar"><div class="name">Mike</div><div class="role">Groomsman</div></div>
     </div>
-    <div class="party-section-title" style="border-top:none;padding-top:0;margin-top:0">Bridesmaids</div>
+
+    <div class="party-section-title">Bridesmaids</div>
     <div class="party-grid">
-      <div class="party-card"><img src="bri.jpg" alt="bri" class="party-avatar"><div class="name">Bri</div><div class="role">Maid of Honor</div></div>
-      <div class="party-card"><img src="ruth.jpg" alt="ruth" class="party-avatar"><div class="name">Ruth</div><div class="role">Bridesmaid</div></div>
-      <div class="party-card"><img src="hana.jpg" alt="hana" class="party-avatar"><div class="name">Hana</div><div class="role">Bridesmaid</div></div>
-      <div class="party-card"><img src="sosi.jpg" alt="sosi" class="party-avatar"><div class="name">Sosi</div><div class="role">Bridesmaid</div></div>
+      <div class="party-card"><img src="bri.jpg" alt="Bri" class="party-avatar"><div class="name">Bri</div><div class="role">Maid of Honor</div></div>
+      <div class="party-card"><img src="ruth.jpg" alt="Ruth" class="party-avatar"><div class="name">Ruth</div><div class="role">Bridesmaid</div></div>
+      <div class="party-card"><img src="hana.jpg" alt="Hana" class="party-avatar"><div class="name">Hana</div><div class="role">Bridesmaid</div></div>
+      <div class="party-card"><img src="sosi.jpg" alt="Sosi" class="party-avatar"><div class="name">Sosi</div><div class="role">Bridesmaid</div></div>
     </div>
   </div>
 </div>
 
+<div id="rsvp" class="page">
+  <div class="section">
+    <p class="section-tag">Join Our Celebration</p>
+    <h2 class="section-title">RSVP</h2>
+    <div class="divider"></div>
+    <div class="rsvp-form">
+      <div class="form-group">
+        <label for="guest-name">Your Full Name</label>
+        <input type="text" id="guest-name" placeholder="Enter your full name">
+      </div>
+      <div class="form-group">
+        <label>Will you be attending?</label>
+        <div class="radio-group">
+          <label><input type="radio" name="attendance" value="yes"> Joyfully Accept</label>
+          <label><input type="radio" name="attendance" value="no"> Regretfully Decline</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="guest-count">Total Guests Attending</label>
+        <select id="guest-count">
+          <option value="1">1 Guest</option>
+          <option value="2">2 Guests</option>
+          <option value="3">3 Guests</option>
+          <option value="4">4 Guests</option>
+        </select>
+      </div>
+      <button class="btn btn-solid" style="width:100%" onclick="submitForm()">Submit Response</button>
+    </div>
+    <div id="success-box" class="rsvp-success">
+      <h3>Thank You!</h3>
+      <p>Your RSVP response has been successfully submitted.</p>
+    </div>
+  </div>
+</div>
+
+<div id="photos" class="page">
+  <div class="section">
+    <p class="section-tag">Gallery</p>
+    <h2 class="section-title">Captured Moments</h2>
+    <div class="divider"></div>
+    <div class="photos-grid">
+      <div class="photo-cell" onclick="openLightbox('photo1.jpg')"><img src="photo1.jpg" alt=""></div>
+      <div class="photo-cell" onclick="openLightbox('photo2.jpg')"><img src="photo2.jpg" alt=""></div>
+      <div class="photo-cell" onclick="openLightbox('photo3.jpg')"><img src="photo3.jpg" alt=""></div>
+      <div class="photo-cell" onclick="openLightbox('photo5.jpg')"><img src="photo5.jpg" alt=""></div>
+      <div class="photo-cell" onclick="openLightbox('photo7.jpg')"><img src="photo7.jpg" alt=""></div>
+      <div class="photo-cell" onclick="openLightbox('story.jpg')"><img src="story.jpg" alt=""></div>
+    </div>
+  </div>
+</div>
+
+<div id="qa" class="page">
+  <div class="section">
+    <p class="section-tag">Have Questions?</p>
+    <h2 class="section-title">Questions &amp; Answers</h2>
+    <div class="divider"></div>
+    <div class="qa-list">
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">When should I RSVP by? <span class="arrow">▾</span></div>
+        <div class="qa-a">Please let us know your response by July 1st, 2026 so we can finalize our guest counts.</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div>
+        <div class="qa-a">The dress code is formal / traditional Ethiopian attire. Come dressed in your best festive look!</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-q" onclick="toggleQA(this)">Can I bring a plus-one? <span class="arrow">▾</span></div>
+        <div class="qa-a">Due to venue capacity restrictions, invitations are limited specifically to the names registered on our list.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2026 Abrham &amp; Blen Wedding. All Rights Reserved.</p>
+</footer>
+
+<script>
+function enterSite() {
+  const splash = document.getElementById('splash');
+  splash.style.opacity = '0';
+  setTimeout(() => {
+    splash.style.display = 'none';
+  }, 800);
+  
+  const audio = document.getElementById('bgMusic');
+  if (audio) {
+    audio.play().catch(err => console.log("Audio playback auto-blocked. Waiting for engagement."));
+  }
+}
+
+function show(pageId, navLink) {
+  const pages = document.querySelectorAll('.page');
+  pages.forEach(page => page.classList.remove('active'));
+  
+  const selectedPage = document.getElementById(pageId);
+  if (selectedPage) {
+    selectedPage.classList.add('active');
+  }
+  
+  const navLinks = document.querySelectorAll('nav ul li a');
+  navLinks.forEach(link => link.classList.remove('active'));
+  
+  if (navLink) {
+    navLink.classList.add('active');
+  } else {
+    const backupLink = Array.from(navLinks).find(l => l.getAttribute('onclick').includes(`'${pageId}'`));
+    if (backupLink) backupLink.classList.add('active');
+  }
+  
+  document.getElementById('navMenu').classList.remove('open');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function toggleMusic() {
+  const audio = document.getElementById('bgMusic');
+  const btn = document.getElementById('musicToggle');
+  if (audio.paused) {
+    audio.play();
+    btn.innerText = '🔊';
+  } else {
+    audio.pause();
+    btn.innerText = '🔇';
+  }
+}
+
+function openLightbox(src) {
+  const lightbox = document.getElementById('lightbox');
+  lightbox.innerHTML = `<img src="${src}" alt="Enlarged view"><button class="lightbox-close" onclick="closeLightbox(); event.stopPropagation();">&times;</button>`;
+  lightbox.classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+function toggleQA(element) {
+  element.classList.toggle('open');
+  const answer = element.nextElementSibling;
+  answer.classList.toggle('open');
+}
+
+function submitForm() {
+  document.querySelector('.rsvp-form').style.display = 'none';
+  document.getElementById('success-box').style.display = 'block';
+}
+
+/* COUNTDOWN LIVE TRACKER */
+function updateCountdown() {
+  const weddingDate = new Date("August 2, 2026 17:00:00").getTime();
+  const now = new Date().getTime();
+  const gap = weddingDate - now;
+
+  if (gap <= 0) {
+    document.getElementById("cd-d").innerText = "00";
+    document.getElementById("cd-h").innerText = "00";
+    document.getElementById("cd-m").innerText = "00";
+    document.getElementById("cd-s").innerText = "00";
+    return;
+  }
+
+  const second = 1000;
+  const minute = second * 60;
+  const hour = minute * 60;
+  const day = hour * 24;
+
+  const d = Math.floor(gap / day);
+  const h = Math.floor((gap % day) / hour);
+  const m = Math.floor((gap % hour) / minute);
+  const s = Math.floor((gap % minute) / second);
+
+  document.getElementById("cd-d").innerText = d < 10 ? "0" + d : d;
+  document.getElementById("cd-h").innerText = h < 10 ? "0" + h : h;
+  document.getElementById("cd-m").innerText = m < 10 ? "0" + m : m;
+  document.getElementById("cd-s").innerText = s < 10 ? "0" + s : s;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+/* DYNAMIC PETAL SPATIAL ANIMATION Engine */
+function createPetals() {
+  const container = document.getElementById('petal-container');
+  const symbols = ['🌸', '🍂', '✨', '🍃'];
+  if (!container) return;
+  
+  for (let i = 0; i < 25; i++) {
+    const petal = document.createElement('div');
+    petal.className = 'petal';
+    petal.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+    petal.style.left = Math.random() * 100 + 'vw';
+    petal.style.animationDelay = Math.random() * 8 + 's';
+    petal.style.animationDuration = (Math.random() * 6 + 6) + 's';
+    container.appendChild(petal);
+  }
+}
+window.addEventListener('DOMContentLoaded', createPetals);
+</script>
+
 </body>
 </html>
-
-```
