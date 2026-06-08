@@ -147,6 +147,7 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .gallery-filter{font-family:sans-serif;font-size:0.72rem;letter-spacing:0.08em;padding:0.45rem 1rem;border-radius:50px;border:1.5px solid var(--gold-light);color:var(--muted);background:transparent;cursor:pointer;transition:all 0.2s;text-transform:uppercase}
 .gallery-filter:hover{border-color:var(--gold);color:var(--gold)}
 .gallery-filter.active{background:var(--gold);border-color:var(--gold);color:#fff}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
 /* SHARE MEMORIES HERO */
 .share-memories-hero{position:relative;width:100%;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:3.5rem 1.5rem}
@@ -653,7 +654,6 @@ function openLightbox(src) {
 }
 
 /* ── GALLERY STATE ───────────────────────────────────────────────────────── */
-// Couple's own photos (static)
 const ALL_COUPLE_PHOTOS = [
   { src: 'photo1.jpg', type: 'image' },
   { src: 'photo2.jpg', type: 'image' },
@@ -664,52 +664,98 @@ const ALL_COUPLE_PHOTOS = [
   { src: 'photo7.jpg', type: 'image' },
 ];
 
-// Guest uploads stored in memory (sessionStorage for persistence on refresh)
-let guestPhotos = [];
-try {
-  const saved = sessionStorage.getItem('guestPhotos');
-  if (saved) guestPhotos = JSON.parse(saved);
-} catch(e) {}
+// JSONBin config — free shared storage, permanent for all visitors
+// Bin stores: { deletedUrls: [...], guestPhotos: [...] }
+const JSONBIN_BIN_ID  = '6844ef798960c979a593b7c8';
+const JSONBIN_API_KEY = '$2a$10$w3K3v2yOFnEpVlH4o4OYv.Ud2L7yNE3kqJwBmA8nCvAVNDLp5SZry';
+const JSONBIN_URL     = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
+let deletedUrls  = [];   // permanently deleted (shared via JSONBin)
+let guestPhotos  = [];   // guest uploads (shared via JSONBin)
 let currentFilter = 'all';
+let binLoaded = false;
 
-function saveGuestPhotos() {
-  try { sessionStorage.setItem('guestPhotos', JSON.stringify(guestPhotos)); } catch(e) {}
+// Load shared state from JSONBin on startup
+async function loadBin() {
+  try {
+    const r = await fetch(JSONBIN_URL + '/latest', {
+      headers: { 'X-Master-Key': JSONBIN_API_KEY }
+    });
+    const d = await r.json();
+    const rec = d.record || {};
+    deletedUrls = rec.deletedUrls || [];
+    guestPhotos = rec.guestPhotos || [];
+  } catch(e) {
+    // Fall back to localStorage if JSONBin is unreachable
+    try {
+      deletedUrls = JSON.parse(localStorage.getItem('deletedUrls') || '[]');
+      guestPhotos = JSON.parse(localStorage.getItem('guestPhotos') || '[]');
+    } catch(_) {}
+  }
+  binLoaded = true;
+  renderGallery();
 }
 
+async function saveBin() {
+  const payload = { deletedUrls, guestPhotos };
+  // Always save to localStorage as fallback
+  try {
+    localStorage.setItem('deletedUrls', JSON.stringify(deletedUrls));
+    localStorage.setItem('guestPhotos', JSON.stringify(guestPhotos));
+  } catch(_) {}
+  // Save to JSONBin
+  try {
+    await fetch(JSONBIN_URL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Master-Key': JSONBIN_API_KEY
+      },
+      body: JSON.stringify(payload)
+    });
+  } catch(e) {
+    console.warn('JSONBin save failed, changes saved locally only:', e);
+  }
+}
+
+/* ── GALLERY RENDER ──────────────────────────────────────────────────────── */
 function renderGallery() {
-  const grid = document.getElementById('main-photos-grid');
+  const grid     = document.getElementById('main-photos-grid');
   const emptyMsg = document.getElementById('gallery-empty');
-  const countEl = document.getElementById('gallery-count');
+  const countEl  = document.getElementById('gallery-count');
   if (!grid) return;
   grid.innerHTML = '';
 
+  // Filter out permanently deleted photos from couple set
+  const coupleVisible = ALL_COUPLE_PHOTOS
+    .filter(p => !deletedUrls.includes(p.src))
+    .map(p => ({...p, source:'couple'}));
+
+  const guestVisible = guestPhotos
+    .filter(p => !deletedUrls.includes(p.src))
+    .map(p => ({...p, source:'guest'}));
+
   let items = [];
-  if (currentFilter === 'all')    items = [...ALL_COUPLE_PHOTOS.map(p=>({...p,source:'couple'})), ...guestPhotos.map(p=>({...p,source:'guest'}))];
-  if (currentFilter === 'couple') items = ALL_COUPLE_PHOTOS.map(p=>({...p,source:'couple'}));
-  if (currentFilter === 'guest')  items = guestPhotos.map(p=>({...p,source:'guest'}));
+  if (currentFilter === 'all')    items = [...coupleVisible, ...guestVisible];
+  if (currentFilter === 'couple') items = coupleVisible;
+  if (currentFilter === 'guest')  items = guestVisible;
 
   // Deduplicate by src
   const seen = new Set();
-  items = items.filter(item => {
-    if (seen.has(item.src)) return false;
-    seen.add(item.src);
-    return true;
-  });
+  items = items.filter(item => { if (seen.has(item.src)) return false; seen.add(item.src); return true; });
 
-  countEl.textContent = `${items.length} photo${items.length !== 1 ? 's' : ''}`;
+  if (countEl) countEl.textContent = `${items.length} photo${items.length !== 1 ? 's' : ''}`;
 
   if (items.length === 0) {
-    emptyMsg.style.display = 'block';
+    if (emptyMsg) emptyMsg.style.display = 'block';
     return;
   }
-  emptyMsg.style.display = 'none';
+  if (emptyMsg) emptyMsg.style.display = 'none';
 
-  items.forEach((item, idx) => {
+  items.forEach(item => {
     const cell = document.createElement('div');
     cell.className = 'photo-cell';
-    cell.dataset.src = item.src;
-    cell.dataset.source = item.source;
+    cell.style.transition = 'opacity 0.3s, transform 0.3s';
 
     const badge = document.createElement('div');
     badge.className = 'source-badge';
@@ -723,33 +769,77 @@ function renderGallery() {
       v.onmouseenter = () => v.play();
       v.onmouseleave = () => { v.pause(); v.currentTime = 0; };
       cell.appendChild(v);
-      cell.onclick = (e) => { if (!e.target.classList.contains('delete-btn')) openLightboxVideo(item.src); };
+      cell.onclick = (e) => { if (!e.target.classList.contains('delete-btn') && !e.target.closest('.delete-confirm')) openLightboxVideo(item.src); };
     } else {
       const img = document.createElement('img');
       img.src = item.src;
       img.alt = '';
       img.loading = 'lazy';
       cell.appendChild(img);
-      cell.onclick = (e) => { if (!e.target.classList.contains('delete-btn')) openLightbox(item.src); };
+      cell.onclick = (e) => { if (!e.target.classList.contains('delete-btn') && !e.target.closest('.delete-confirm')) openLightbox(item.src); };
     }
 
     cell.appendChild(badge);
 
-    // Delete button only for guest uploads
-    if (item.source === 'guest') {
-      const del = document.createElement('button');
-      del.className = 'delete-btn';
-      del.title = 'Remove this photo';
-      del.innerHTML = '✕';
-      del.onclick = (e) => {
-        e.stopPropagation();
-        confirmDelete(item.src, item.source);
-      };
-      cell.appendChild(del);
-    }
+    // Delete button for guest uploads
+    const del = document.createElement('button');
+    del.className = 'delete-btn';
+    del.title = 'Remove this photo';
+    del.innerHTML = '✕';
+    del.onclick = (e) => {
+      e.stopPropagation();
+      showDeleteConfirm(cell, item.src);
+    };
+    cell.appendChild(del);
 
     grid.appendChild(cell);
   });
+}
+
+/* ── SMOOTH INLINE DELETE CONFIRM ───────────────────────────────────────── */
+function showDeleteConfirm(cell, src) {
+  // Remove any other open confirms first
+  document.querySelectorAll('.delete-confirm').forEach(el => el.remove());
+
+  const overlay = document.createElement('div');
+  overlay.className = 'delete-confirm';
+  overlay.style.cssText = `
+    position:absolute;inset:0;background:rgba(0,0,0,0.72);display:flex;
+    flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;
+    z-index:3;border-radius:2px;animation:fadeIn 0.15s ease
+  `;
+  overlay.innerHTML = `
+    <p style="font-family:sans-serif;font-size:0.75rem;color:#fff;text-align:center;padding:0 0.75rem;line-height:1.5;margin:0">Remove this photo<br>for everyone?</p>
+    <div style="display:flex;gap:0.5rem">
+      <button class="dc-cancel" style="padding:0.35rem 0.9rem;border-radius:4px;border:1.5px solid rgba(255,255,255,0.6);background:transparent;color:#fff;font-family:sans-serif;font-size:0.72rem;cursor:pointer;letter-spacing:0.05em">Cancel</button>
+      <button class="dc-confirm" style="padding:0.35rem 0.9rem;border-radius:4px;border:none;background:#e05c5c;color:#fff;font-family:sans-serif;font-size:0.72rem;cursor:pointer;letter-spacing:0.05em">Remove</button>
+    </div>
+  `;
+
+  overlay.querySelector('.dc-cancel').onclick = (e) => { e.stopPropagation(); overlay.remove(); };
+  overlay.querySelector('.dc-confirm').onclick = async (e) => {
+    e.stopPropagation();
+    // Animate cell out
+    cell.style.opacity = '0';
+    cell.style.transform = 'scale(0.85)';
+    setTimeout(() => cell.remove(), 300);
+    overlay.remove();
+    // Add to deleted list permanently
+    if (!deletedUrls.includes(src)) {
+      deletedUrls.push(src);
+      // Also remove from guestPhotos array if it's there
+      guestPhotos = guestPhotos.filter(p => p.src !== src);
+      await saveBin();
+    }
+    // Update count
+    const countEl = document.getElementById('gallery-count');
+    const remaining = document.querySelectorAll('#main-photos-grid .photo-cell').length - 1;
+    if (countEl) countEl.textContent = `${remaining} photo${remaining !== 1 ? 's' : ''}`;
+    showToast('info', 'Photo Removed', 'Permanently removed for all visitors.', 3000);
+  };
+
+  cell.style.position = 'relative';
+  cell.appendChild(overlay);
 }
 
 function filterGallery(type, btn) {
@@ -759,18 +849,12 @@ function filterGallery(type, btn) {
   renderGallery();
 }
 
-function confirmDelete(src, source) {
-  const shortName = src.split('/').pop().split('?')[0];
-  if (confirm(`Remove "${shortName}" from the gallery?\n\nThis only removes it from this view — it stays saved in Cloudinary.`)) {
-    guestPhotos = guestPhotos.filter(p => p.src !== src);
-    saveGuestPhotos();
-    renderGallery();
-    showToast('info', 'Photo Removed', 'Removed from the gallery view.', 3000);
-  }
-}
-
-// Init gallery on page load
-document.addEventListener('DOMContentLoaded', renderGallery);
+// Init gallery
+document.addEventListener('DOMContentLoaded', () => {
+  // Show couple photos immediately while JSONBin loads
+  renderGallery();
+  loadBin();
+});
 
 /* ── TOAST ───────────────────────────────────────────────────────────────── */
 function showToast(type, title, msg, duration = 5000) {
@@ -778,24 +862,21 @@ function showToast(type, title, msg, duration = 5000) {
   const container = document.getElementById('toast-container');
   const t = document.createElement('div');
   t.className = `toast ${type}`;
-  t.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ️'}</span><div class="toast-body"><div class="toast-title">${title}</div>${msg ? `<div class="toast-msg">${msg}</div>` : ''}</div>`;
+  t.innerHTML = `<span class="toast-icon">${icons[type]||'ℹ️'}</span><div class="toast-body"><div class="toast-title">${title}</div>${msg?`<div class="toast-msg">${msg}</div>`:''}</div>`;
   container.appendChild(t);
-  setTimeout(() => {
-    t.classList.add('hide');
-    setTimeout(() => t.remove(), 350);
-  }, duration);
+  setTimeout(() => { t.classList.add('hide'); setTimeout(() => t.remove(), 350); }, duration);
 }
 
 /* ── UPLOAD BANNER ───────────────────────────────────────────────────────── */
 function showUploadBanner(bannerId, type, title, detail) {
-  let banner = document.getElementById(bannerId);
+  const banner = document.getElementById(bannerId);
   if (!banner) return;
   banner.className = `upload-banner show ${type}`;
-  const icons = { success: '🎉', error: '⚠️', partial: '⚠️' };
-  banner.innerHTML = `<span class="upload-banner-icon">${icons[type] || 'ℹ️'}</span><div class="upload-banner-text"><div class="title">${title}</div><div class="detail">${detail}</div></div>`;
+  const icons = { success:'🎉', error:'⚠️', partial:'⚠️' };
+  banner.innerHTML = `<span class="upload-banner-icon">${icons[type]||'ℹ️'}</span><div class="upload-banner-text"><div class="title">${title}</div><div class="detail">${detail}</div></div>`;
 }
 
-/* ── CLOUDINARY UPLOAD ───────────────────────────────────────────────────── */
+/* ── CLOUDINARY UPLOAD (XHR — more reliable for binary) ─────────────────── */
 const CLOUD_NAME = 'dta5qfkow', UPLOAD_PRESET = 'Abrham';
 
 async function handleFiles(files, progressId, barId, statusId) {
@@ -816,77 +897,98 @@ async function handleFiles(files, progressId, barId, statusId) {
   if (prevBanner) prevBanner.className = 'upload-banner';
 
   let successCount = 0;
-  let failedFiles = [];
+  let failedFiles  = [];
 
   for (let i = 0; i < arr.length; i++) {
     const file = arr[i];
     statusEl.textContent = `Uploading ${i + 1} of ${arr.length}: ${file.name}`;
-    statusEl.style.color = 'var(--gold)';
-    barEl.style.width = Math.round((i / arr.length) * 100) + '%';
+    statusEl.style.color  = 'var(--gold)';
+    barEl.style.width     = Math.round((i / arr.length) * 100) + '%';
 
     try {
-      const url = await uploadToCloudinary(file);
-      const isVideo = file.type.startsWith('video/');
+      const url = await uploadToCloudinary(file, (pct) => {
+        // Per-file progress within the bar segment
+        const base = Math.round((i / arr.length) * 100);
+        const seg  = Math.round((1 / arr.length) * pct);
+        barEl.style.width = (base + seg) + '%';
+      });
 
-      // Add to guest photos array (check for duplicate URL first)
-      if (!guestPhotos.find(p => p.src === url)) {
-        guestPhotos.push({ src: url, type: isVideo ? 'video' : 'image', source: 'guest' });
-        saveGuestPhotos();
+      const isVideo = file.type.startsWith('video/');
+      const entry   = { src: url, type: isVideo ? 'video' : 'image', source: 'guest' };
+
+      if (!guestPhotos.find(p => p.src === url) && !deletedUrls.includes(url)) {
+        guestPhotos.push(entry);
+        await saveBin();
         renderGallery();
       }
 
       successCount++;
-      showToast('success', 'Uploaded!', `"${file.name}" saved successfully.`, 4000);
+      showToast('success', 'Uploaded!', `"${file.name}" saved and visible in the gallery.`, 4000);
     } catch (err) {
       failedFiles.push(file.name);
-      console.error('Upload failed for', file.name, err);
-      showToast('error', 'Upload Failed', `"${file.name}" could not be uploaded. ${err.message || ''}`, 6000);
+      console.error('Upload failed:', file.name, err);
+      showToast('error', 'Upload Failed', `"${file.name}" — ${err.message || 'please try again.'}`, 6000);
     }
   }
 
   barEl.style.width = '100%';
 
   if (failedFiles.length === 0) {
-    statusEl.textContent = `✓ ${successCount} file${successCount > 1 ? 's' : ''} uploaded successfully!`;
+    statusEl.textContent = `✓ ${successCount} file${successCount > 1 ? 's' : ''} uploaded!`;
     statusEl.style.color = '#6abf6a';
-    showUploadBanner(bannerId, 'success', `🎉 All ${successCount} file${successCount > 1 ? 's' : ''} uploaded!`, 'Thank you for sharing your memories with Abrham & Blen. 🤍');
-    showToast('success', 'All Done!', `${successCount} file${successCount > 1 ? 's' : ''} saved. They now appear in the gallery! 🤍`, 7000);
-    // Switch to guest filter so they see their photos
+    showUploadBanner(bannerId, 'success', `🎉 All ${successCount} uploaded!`, 'Thank you for sharing your memories with Abrham & Blen. 🤍');
+    showToast('success', 'All Done!', `${successCount} file${successCount > 1 ? 's' : ''} saved to the gallery! 🤍`, 7000);
     const guestBtn = document.querySelector('.gallery-filter:nth-child(3)');
     if (guestBtn) filterGallery('guest', guestBtn);
   } else if (successCount === 0) {
-    statusEl.textContent = '✗ Upload failed. Please try the Google Photos option below.';
+    statusEl.textContent = '✗ Upload failed. Please try Google Photos below.';
     statusEl.style.color = '#e05c5c';
-    showUploadBanner(bannerId, 'error', 'Upload failed', 'None of your files could be uploaded. Please check your connection or use Google Photos below.');
-    showToast('error', 'Upload Failed', 'None of your files were saved. Try Google Photos below.', 8000);
+    showUploadBanner(bannerId, 'error', 'Upload failed', 'None of your files could be uploaded. Check your connection or use Google Photos below.');
+    showToast('error', 'Upload Failed', 'None saved. Try Google Photos below.', 8000);
   } else {
     statusEl.textContent = `⚠ ${successCount} uploaded, ${failedFiles.length} failed.`;
     statusEl.style.color = '#c9a96e';
-    showUploadBanner(bannerId, 'partial', `${successCount} uploaded, ${failedFiles.length} failed`, `Failed: ${failedFiles.join(', ')}. Please retry using Google Photos below.`);
-    showToast('info', 'Partial Upload', `${successCount} succeeded, ${failedFiles.length} failed. See details below.`, 8000);
+    showUploadBanner(bannerId, 'partial', `${successCount} uploaded, ${failedFiles.length} failed`, `Failed: ${failedFiles.join(', ')}. Try Google Photos below.`);
+    showToast('info', 'Partial Upload', `${successCount} ok, ${failedFiles.length} failed.`, 8000);
   }
 }
 
-function uploadToCloudinary(file) {
+function uploadToCloudinary(file, onProgress) {
   return new Promise((res, rej) => {
-    // Use correct resource type endpoint — 'auto' requires a signed preset;
-    // split by detected type instead for unsigned presets
-    const isVideo = file.type.startsWith('video/');
-    const resourceType = isVideo ? 'video' : 'image';
+    const isVideo    = file.type.startsWith('video/');
+    const endpoint   = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${isVideo ? 'video' : 'image'}/upload`;
     const fd = new FormData();
-    fd.append('file', file);
-    fd.append('upload_preset', UPLOAD_PRESET);
-    fd.append('folder', 'abrham-blen-wedding');
-    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`, { method: 'POST', body: fd })
-      .then(r => {
-        if (!r.ok) throw new Error(`Server error (HTTP ${r.status})`);
-        return r.json();
-      })
-      .then(d => {
-        if (d.secure_url) res(d.secure_url);
-        else rej(new Error(d.error?.message || 'No URL returned from Cloudinary'));
-      })
-      .catch(rej);
+    fd.append('file',           file);
+    fd.append('upload_preset',  UPLOAD_PRESET);
+    fd.append('folder',         'abrham-blen-wedding');
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', endpoint, true);
+
+    xhr.upload.onprogress = (e) => {
+      if (e.lengthComputable && onProgress) onProgress(Math.round((e.loaded / e.total) * 100));
+    };
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          const d = JSON.parse(xhr.responseText);
+          if (d.secure_url) res(d.secure_url);
+          else rej(new Error(d.error?.message || 'No URL returned'));
+        } catch(e) { rej(new Error('Invalid response from server')); }
+      } else {
+        try {
+          const d = JSON.parse(xhr.responseText);
+          rej(new Error(d.error?.message || `Upload error (${xhr.status})`));
+        } catch(e) { rej(new Error(`Upload error (${xhr.status})`)); }
+      }
+    };
+
+    xhr.onerror   = () => rej(new Error('Network error — check your connection'));
+    xhr.ontimeout = () => rej(new Error('Upload timed out — try a smaller file'));
+    xhr.timeout   = 60000; // 60s timeout
+
+    xhr.send(fd);
   });
 }
 
