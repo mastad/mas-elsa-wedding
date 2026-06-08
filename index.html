@@ -176,6 +176,30 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 
 footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light);font-family:sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.1em}
 
+/* TOAST NOTIFICATIONS */
+#toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9998;display:flex;flex-direction:column;gap:0.6rem;pointer-events:none}
+.toast{font-family:sans-serif;font-size:0.82rem;padding:0.85rem 1.2rem;border-radius:6px;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:flex;align-items:flex-start;gap:0.65rem;max-width:320px;pointer-events:all;animation:toastIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards;line-height:1.45}
+.toast.hide{animation:toastOut 0.3s ease forwards}
+.toast-icon{font-size:1.1rem;flex-shrink:0;margin-top:1px}
+.toast-body{}
+.toast-title{font-weight:600;margin-bottom:0.15rem}
+.toast-msg{opacity:0.85;font-size:0.78rem}
+.toast.success{background:#fff;border-left:4px solid #6abf6a;color:#2a5c2a}
+.toast.error{background:#fff;border-left:4px solid #e05c5c;color:#5c1a1a}
+.toast.info{background:#fff;border-left:4px solid var(--gold);color:#4a3a10}
+@keyframes toastIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(60px)}}
+
+/* UPLOAD STATUS BANNER */
+.upload-banner{border-radius:6px;padding:1rem 1.2rem;margin-bottom:1rem;font-family:sans-serif;font-size:0.82rem;display:none;align-items:flex-start;gap:0.75rem;line-height:1.5}
+.upload-banner.show{display:flex}
+.upload-banner.success{background:#f0faf0;border:1px solid #a8d5a8;color:#2a5c2a}
+.upload-banner.error{background:#fdf4f4;border:1px solid #e8b4b4;color:#5c1a1a}
+.upload-banner.partial{background:#fffbf0;border:1px solid var(--gold-light);color:#4a3a10}
+.upload-banner-icon{font-size:1.2rem;flex-shrink:0}
+.upload-banner-text .title{font-weight:600;margin-bottom:0.25rem}
+.upload-banner-text .detail{font-size:0.78rem;opacity:0.85}
+
 @media(max-width:640px){
   nav ul{display:none;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--bg);padding:1rem 2rem;border-bottom:1px solid var(--gold-light);gap:1rem;z-index:99}
   nav ul.open{display:flex}
@@ -190,7 +214,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </head>
 <body>
 
-  <!-- music -->
+<!-- music -->
 <audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
@@ -296,7 +320,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
 
-  <!-- SHARE MEMORIES -->
+  <!-- SHARE MEMORIES (HOME) -->
   <div class="share-memories-hero">
     <div class="share-memories-bg"></div>
     <div class="share-memories-content">
@@ -306,6 +330,15 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
         ↗ &nbsp;Share
       </button>
       <input type="file" id="homeFileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files,'homeUploadProgress','homeProgressBar','homeUploadStatus','homeUploadedGrid')"/>
+      <!-- ✅ FIX: Added missing progress + grid elements for home page upload -->
+      <div id="homeUploadProgress" style="display:none;margin-top:1.2rem;width:100%;max-width:340px">
+        <div style="background:rgba(255,255,255,0.3);border-radius:2px;height:4px;overflow:hidden">
+          <div id="homeProgressBar" style="height:100%;background:#fff;width:0%;transition:width 0.3s"></div>
+        </div>
+        <p id="homeUploadStatus" style="font-family:sans-serif;font-size:0.82rem;color:#fff;margin-top:0.5rem;text-align:center"></p>
+      </div>
+      <div id="homeUploadBanner" class="upload-banner" style="margin-top:1rem;max-width:340px;text-align:left"></div>
+      <div id="homeUploadedGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-top:1rem;max-width:340px"></div>
     </div>
   </div>
 
@@ -390,7 +423,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="party-card"><img src="mike.jpg" alt="mike" class="party-avatar"><div class="name">Mike</div><div class="role">Groomsman</div></div>
     </div>
     <div class="party-section-title" style="border-top:none;padding-top:0;margin-top:0">Bridesmaids</div>
-    <div class="party-grid">      
+    <div class="party-grid">
       <div class="party-card"><img src="bri.jpg" alt="bri" class="party-avatar"><div class="name">Bri</div><div class="role">Maid of Honor</div></div>
       <div class="party-card"><img src="ruth.jpg" alt="ruth" class="party-avatar"><div class="name">Ruth</div><div class="role">Bridesmaid</div></div>
       <div class="party-card"><img src="hana.jpg" alt="hana" class="party-avatar"><div class="name">Hana</div><div class="role">Bridesmaid</div></div>
@@ -451,6 +484,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
         <div style="background:#eee;border-radius:2px;height:4px;overflow:hidden"><div id="progressBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s"></div></div>
         <p id="uploadStatus" style="font-family:sans-serif;font-size:0.82rem;color:var(--gold);margin-top:0.5rem;text-align:center"></p>
       </div>
+      <div id="uploadBanner" class="upload-banner" style="margin-bottom:1rem"></div>
       <div style="padding:1.5rem;border:1px solid var(--gold-light);border-radius:4px;background:var(--white);text-align:center;margin-bottom:1.5rem">
         <p style="font-family:sans-serif;font-size:0.85rem;color:var(--dark);font-weight:500;margin-bottom:0.4rem">📸 Backup Option</p>
         <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1rem;line-height:1.6">Prefer Google Photos? Upload directly to our shared album:</p>
@@ -484,23 +518,21 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   <p style="margin-top:0.75rem;font-size:0.7rem">Made with love ♡</p>
 </footer>
 
+<!-- TOAST CONTAINER -->
+<div id="toast-container"></div>
+
 <script>
 /* ── SPLASH ─────────────────────────────────────────────────────────────── */
 function enterSite() {
   const splash = document.getElementById('splash');
   const music = document.getElementById('bgMusic');
-  
-  // Attempt to play the audio on user interaction
   if (music) {
     music.play().catch(error => {
-      console.log("Autoplay prevented by browser. Audio will play on next interaction.", error);
+      console.log("Autoplay prevented by browser.", error);
     });
   }
-
   splash.style.opacity = '0';
-  setTimeout(() => { 
-    splash.style.display = 'none'; 
-  }, 800);
+  setTimeout(() => { splash.style.display = 'none'; }, 800);
 }
 
 /* ── NAV ─────────────────────────────────────────────────────────────────── */
@@ -554,7 +586,6 @@ function setLocationTab(element, type) {
 function toggleMusic() {
   const music = document.getElementById('bgMusic');
   const btn = document.getElementById('musicToggle');
-  
   if (music.paused) {
     music.play();
     btn.textContent = '🔊';
@@ -612,26 +643,113 @@ function closeLightbox() {
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
 
+/* ── TOAST ───────────────────────────────────────────────────────────────── */
+function showToast(type, title, msg, duration = 5000) {
+  const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+  const container = document.getElementById('toast-container');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ️'}</span><div class="toast-body"><div class="toast-title">${title}</div>${msg ? `<div class="toast-msg">${msg}</div>` : ''}</div>`;
+  container.appendChild(t);
+  setTimeout(() => {
+    t.classList.add('hide');
+    setTimeout(() => t.remove(), 350);
+  }, duration);
+}
+
+/* ── UPLOAD BANNER ───────────────────────────────────────────────────────── */
+function showUploadBanner(bannerId, type, title, detail) {
+  // bannerId is derived from the progressId by replacing 'Progress' with 'Banner'
+  let banner = document.getElementById(bannerId);
+  if (!banner) return;
+  banner.className = `upload-banner show ${type}`;
+  const icons = { success: '🎉', error: '⚠️', partial: '⚠️' };
+  banner.innerHTML = `<span class="upload-banner-icon">${icons[type] || 'ℹ️'}</span><div class="upload-banner-text"><div class="title">${title}</div><div class="detail">${detail}</div></div>`;
+}
+
 /* ── CLOUDINARY UPLOAD ───────────────────────────────────────────────────── */
 const CLOUD_NAME = 'dta5qfkow', UPLOAD_PRESET = 'Abrham';
 
 async function handleFiles(files, progressId, barId, statusId, gridId) {
   if (!files.length) return;
   const arr = Array.from(files);
-  document.getElementById(progressId).style.display = 'block';
+  const progressEl = document.getElementById(progressId);
+  const barEl      = document.getElementById(barId);
+  const statusEl   = document.getElementById(statusId);
+  const gridEl     = document.getElementById(gridId);
+  const bannerId   = progressId.replace('Progress', 'Banner');
+
+  if (!progressEl || !barEl || !statusEl || !gridEl) {
+    console.error('Upload UI elements not found:', { progressId, barId, statusId, gridId });
+    showToast('error', 'Upload Error', 'Something went wrong. Please refresh the page and try again.');
+    return;
+  }
+
+  progressEl.style.display = 'block';
+
+  // Hide any previous banner
+  const prevBanner = document.getElementById(bannerId);
+  if (prevBanner) prevBanner.className = 'upload-banner';
+
+  let successCount = 0;
+  let failedFiles = [];
+
   for (let i = 0; i < arr.length; i++) {
     const file = arr[i];
-    document.getElementById(statusId).textContent = `Uploading ${i + 1} of ${arr.length}: ${file.name}`;
-    document.getElementById(barId).style.width = ((i / arr.length) * 100) + '%';
+    const pct = Math.round((i / arr.length) * 100);
+    statusEl.textContent = `Uploading ${i + 1} of ${arr.length}: ${file.name}`;
+    barEl.style.width = pct + '%';
+
+    // Per-file toast while uploading
     try {
       const url = await uploadToCloudinary(file);
+      successCount++;
       addToUploadedGrid(url, file.type, gridId);
+      showToast('success', 'Photo Uploaded!', `"${file.name}" was saved successfully.`, 4000);
     } catch (err) {
-      document.getElementById(statusId).textContent = 'Upload failed. Please try Google Photos below.';
+      failedFiles.push(file.name);
+      console.error('Upload failed for', file.name, err);
+      showToast('error', 'Upload Failed', `"${file.name}" could not be uploaded. Please try again.`, 6000);
     }
   }
-  document.getElementById(barId).style.width = '100%';
-  document.getElementById(statusId).textContent = `✓ ${arr.length} file${arr.length > 1 ? 's' : ''} uploaded! Thank you! 🤍`;
+
+  barEl.style.width = '100%';
+
+  // Final summary status line
+  if (failedFiles.length === 0) {
+    // All succeeded
+    statusEl.textContent = `✓ ${successCount} file${successCount > 1 ? 's' : ''} uploaded successfully!`;
+    statusEl.style.color = '#6abf6a';
+    showUploadBanner(
+      bannerId,
+      'success',
+      `🎉 All ${successCount} file${successCount > 1 ? 's' : ''} uploaded!`,
+      'Thank you for sharing your memories with Abrham & Blen. 🤍'
+    );
+    showToast('success', 'All Done!', `${successCount} file${successCount > 1 ? 's' : ''} uploaded successfully. Thank you! 🤍`, 7000);
+  } else if (successCount === 0) {
+    // All failed
+    statusEl.textContent = `✗ Upload failed. Please try the Google Photos option below.`;
+    statusEl.style.color = '#e05c5c';
+    showUploadBanner(
+      bannerId,
+      'error',
+      'Upload failed',
+      `None of your files could be uploaded. Please use the Google Photos backup option below, or check your internet connection and try again.`
+    );
+    showToast('error', 'Upload Failed', 'None of your files were saved. Try Google Photos below.', 8000);
+  } else {
+    // Partial success
+    statusEl.textContent = `⚠ ${successCount} uploaded, ${failedFiles.length} failed.`;
+    statusEl.style.color = '#c9a96e';
+    showUploadBanner(
+      bannerId,
+      'partial',
+      `${successCount} uploaded, ${failedFiles.length} failed`,
+      `Failed files: ${failedFiles.join(', ')}. Please retry those using the Google Photos option below.`
+    );
+    showToast('info', 'Partial Upload', `${successCount} succeeded, ${failedFiles.length} failed. See details below.`, 8000);
+  }
 }
 
 function uploadToCloudinary(file) {
@@ -641,14 +759,21 @@ function uploadToCloudinary(file) {
     fd.append('upload_preset', UPLOAD_PRESET);
     fd.append('folder', 'abrham-blen-wedding');
     fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: fd })
-      .then(r => r.json())
-      .then(d => { if (d.secure_url) res(d.secure_url); else rej(d); })
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
+      .then(d => {
+        if (d.secure_url) res(d.secure_url);
+        else rej(new Error(d.error?.message || 'No URL returned'));
+      })
       .catch(rej);
   });
 }
 
 function addToUploadedGrid(url, type, gridId) {
   const grid = document.getElementById(gridId);
+  if (!grid) return;
   const d = document.createElement('div');
   d.style.cssText = 'aspect-ratio:1;border-radius:2px;overflow:hidden;background:var(--gold-light)';
   if (type.startsWith('video/')) {
