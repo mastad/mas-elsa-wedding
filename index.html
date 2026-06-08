@@ -360,11 +360,11 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
         <div class="tl-item"><div class="tl-left"><div class="tl-time">5:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride & Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb & Kene</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">6:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Food & Drinks Served</div><div class="tl-venue">Dinner served · Drinks available 5:00 PM – 10:30 PM</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Mezmure</div><div class="tl-venue">Ethiopian spiritual songs & celebration</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot" style="border-color:var(--gold);background:var(--gold)"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem">Mezmure <span onclick="openMezmureModal()" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;vertical-align:middle">♪ View Songs</span></div><div class="tl-venue">Ethiopian spiritual songs & celebration</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">8:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Kene</div><div class="tl-venue">Traditional Ethiopian poetry recitation</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">8:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Cake Cutting 🎂</div><div class="tl-venue">Cake time + Mezmure continues</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">9:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Family Speeches</div><div class="tl-venue">Heartfelt words from loved ones</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">10:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Closing Mezmure</div><div class="tl-venue">Final celebration & program ends at 10:30 PM</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">10:00 PM</div></div><div class="tl-dot" style="border-color:var(--gold);background:var(--gold)"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem">Closing Mezmure <span onclick="openMezmureModal()" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;vertical-align:middle">♪ View Songs</span></div><div class="tl-venue">Final celebration & program ends at 10:30 PM</div></div></div>
       </div>
     </div>
   </div>
@@ -573,7 +573,112 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   <button onclick="openAdminPanel()" style="background:none;border:none;cursor:pointer;margin-top:1.5rem;opacity:0.18;font-size:0.62rem;font-family:sans-serif;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase" title="Admin">⚙ Admin</button>
 </footer>
 
-<!-- ADMIN MODAL -->
+<!-- MEZMURE MODAL -->
+<div id="mezmure-modal" style="position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;padding:1rem">
+  <div style="background:#fff;border-radius:12px;width:100%;max-width:620px;max-height:88vh;overflow-y:auto;box-shadow:0 12px 50px rgba(0,0,0,0.25)">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--gold-light);position:sticky;top:0;background:#fff;z-index:1">
+      <div>
+        <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:0.2rem">Wedding Mezmure</div>
+        <h2 style="font-family:'Georgia',serif;font-size:1.15rem;color:var(--dark);font-weight:400">♪ Songs of Celebration</h2>
+      </div>
+      <button onclick="closeMezmureModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);line-height:1">✕</button>
+    </div>
+
+    <div style="padding:1.5rem">
+
+      <!-- Coming Soon banner -->
+      <div style="background:linear-gradient(135deg,#fff8ee,#fdf3e0);border:1px solid var(--gold-light);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem">
+        <span style="font-size:1.4rem">🎵</span>
+        <div>
+          <div style="font-family:sans-serif;font-size:0.78rem;font-weight:600;color:var(--gold-dark);margin-bottom:0.15rem">Full Playlist — Coming Soon</div>
+          <div style="font-family:sans-serif;font-size:0.75rem;color:var(--muted);line-height:1.5">Abrham & Blen are curating the full mezmure list. For now enjoy this beloved classic below!</div>
+        </div>
+      </div>
+
+      <!-- Song Card -->
+      <div style="border:1px solid var(--gold-light);border-radius:10px;overflow:hidden;margin-bottom:1rem">
+
+        <!-- Song header -->
+        <div style="background:linear-gradient(135deg,#fdf8ef,#f9f0e0);padding:1.2rem 1.4rem;border-bottom:1px solid var(--gold-light)">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+            <div>
+              <div style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:0.3rem">Featured Mezmure</div>
+              <h3 style="font-family:'Georgia',serif;font-size:1.25rem;color:var(--dark);font-weight:400;margin-bottom:0.2rem">እግዚአብሔር ይመስገን</h3>
+              <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);font-style:italic">Egziabher Yimesgene — "Praise be to God"</p>
+            </div>
+            <a href="https://www.youtube.com/results?search_query=egziabher+yimesgene+ethiopian+orthodox+wedding+mezmur" target="_blank"
+              style="display:inline-flex;align-items:center;gap:0.45rem;background:#e05c5c;color:#fff;font-family:sans-serif;font-size:0.72rem;letter-spacing:0.08em;padding:0.5rem 1rem;border-radius:20px;text-decoration:none;white-space:nowrap;flex-shrink:0">
+              ▶ Listen on YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Lyrics -->
+        <div style="padding:1.4rem">
+          <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem">Lyrics</div>
+
+          <!-- Amharic -->
+          <div style="margin-bottom:1.25rem">
+            <div style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:0.5rem">🇪🇹 Amharic</div>
+            <p style="font-family:'Georgia',serif;font-size:1.05rem;line-height:2;color:var(--dark)">
+              እግዚአብሔር ይመስገን<br>
+              ለሙሽራና ሙሽሪት<br>
+              ዛሬ ቀናቸው ዛሬ ደረሰ<br>
+              ፍቅራቸው ይጸና ይቆይ<br>
+              <br>
+              አንድ ሆነው ይኑሩ<br>
+              በሰላምና በፍቅር<br>
+              እግዚአብሔር ይባርካቸው<br>
+              አሁንም ለዘላለም
+            </p>
+          </div>
+
+          <!-- Transliteration -->
+          <div style="margin-bottom:1.25rem;padding:1rem;background:#fdfaf6;border-radius:6px;border-left:3px solid var(--gold-light)">
+            <div style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:0.5rem">Transliteration</div>
+            <p style="font-family:sans-serif;font-size:0.85rem;line-height:2;color:#555;font-style:italic">
+              Egziabher yimesgene<br>
+              Le mushirana mushirit<br>
+              Zare qenachew zare derese<br>
+              Fiqrachew yitsena yiqoy<br>
+              <br>
+              And hونew yinuru<br>
+              Beselamina befiqir<br>
+              Egziabher yibarkachew<br>
+              Ahunm lezelalem
+            </p>
+          </div>
+
+          <!-- Translation -->
+          <div style="padding:1rem;background:#f0faf0;border-radius:6px;border-left:3px solid #a8d5a8">
+            <div style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.15em;color:#5a8a5a;text-transform:uppercase;margin-bottom:0.5rem">🇺🇸 English Translation</div>
+            <p style="font-family:'Georgia',serif;font-size:0.88rem;line-height:1.9;color:#444;font-style:italic">
+              "Praise be to God<br>
+              For the groom and bride<br>
+              Today their day has come<br>
+              May their love endure and last<br>
+              <br>
+              May they live as one<br>
+              In peace and in love<br>
+              May God bless them<br>
+              Now and forever"
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- More coming soon -->
+      <div style="text-align:center;padding:1.5rem 1rem;border:1.5px dashed var(--gold-light);border-radius:8px;background:#fffdf9">
+        <div style="font-size:1.6rem;margin-bottom:0.5rem">🎶</div>
+        <p style="font-family:sans-serif;font-size:0.82rem;color:var(--dark);font-weight:500;margin-bottom:0.3rem">More Songs Coming Soon</p>
+        <p style="font-family:sans-serif;font-size:0.75rem;color:var(--muted);line-height:1.7">Abrham & Blen will add more mezmure<br>songs before August 2nd. Check back soon!</p>
+      </div>
+
+    </div>
+  </div>
+</div>
 <div id="admin-modal">
   <div class="admin-box">
     <!-- Password Gate (shown first) -->
@@ -1134,6 +1239,18 @@ function closeLightbox() {
   lb.innerHTML = `<button class="lightbox-close">✕</button><img id="lightbox-img" src="" alt=""/>`;
   lb.querySelector('.lightbox-close').onclick = closeLightbox;
 }
+
+/* ── MEZMURE MODAL ───────────────────────────────────────────────────────── */
+function openMezmureModal() {
+  const m = document.getElementById('mezmure-modal');
+  m.style.display = 'flex';
+}
+function closeMezmureModal() {
+  document.getElementById('mezmure-modal').style.display = 'none';
+}
+document.getElementById('mezmure-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('mezmure-modal')) closeMezmureModal();
+});
 
 /* ── ADMIN PANEL ─────────────────────────────────────────────────────────── */
 const ADMIN_PASSWORD = '2324';
