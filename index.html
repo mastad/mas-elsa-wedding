@@ -149,6 +149,12 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .gallery-filter.active{background:var(--gold);border-color:var(--gold);color:#fff}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
+/* GALLERY LOADING */
+.gallery-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;gap:1rem;grid-column:1/-1}
+.gallery-spinner{width:36px;height:36px;border:3px solid var(--gold-light);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.gallery-loading p{font-family:sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:0.1em}
+
 /* SHARE MEMORIES HERO */
 .share-memories-hero{position:relative;width:100%;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:3.5rem 1.5rem}
 .share-memories-bg{position:absolute;inset:0;background-image:url('photo1.jpg');background-size:cover;background-position:center;filter:brightness(0.35)}
@@ -666,8 +672,8 @@ const ALL_COUPLE_PHOTOS = [
 
 // JSONBin config — free shared storage, permanent for all visitors
 // Bin stores: { deletedUrls: [...], guestPhotos: [...] }
-const JSONBIN_BIN_ID  = '6844ef798960c979a593b7c8';
-const JSONBIN_API_KEY = '$2a$10$w3K3v2yOFnEpVlH4o4OYv.Ud2L7yNE3kqJwBmA8nCvAVNDLp5SZry';
+const JSONBIN_BIN_ID  = '6a26ce2ada38895dfe9a41e2';
+const JSONBIN_API_KEY = '$2a$10$/tx4IIldlETW051PNUzUu.yxGAm7zC8Tebd2i4cRUzPuskqhDsvi.';
 const JSONBIN_URL     = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
 let deletedUrls  = [];   // permanently deleted (shared via JSONBin)
@@ -677,23 +683,33 @@ let binLoaded = false;
 
 // Load shared state from JSONBin on startup
 async function loadBin() {
+  // Show a subtle "loading guest photos" indicator in the count
+  const countEl = document.getElementById('gallery-count');
+  if (countEl) countEl.textContent = 'Loading guest photos…';
   try {
     const r = await fetch(JSONBIN_URL + '/latest', {
-      headers: { 'X-Master-Key': JSONBIN_API_KEY }
+      headers: {
+        'X-Master-Key': JSONBIN_API_KEY,
+        'X-Bin-Meta':   'false'
+      }
     });
-    const d = await r.json();
-    const rec = d.record || {};
-    deletedUrls = rec.deletedUrls || [];
-    guestPhotos = rec.guestPhotos || [];
+    if (r.ok) {
+      const d = await r.json();
+      const rec = d.record || d || {};
+      deletedUrls = Array.isArray(rec.deletedUrls) ? rec.deletedUrls : [];
+      guestPhotos = Array.isArray(rec.guestPhotos)  ? rec.guestPhotos  : [];
+    } else if (r.status === 404) {
+      await saveBin();
+    }
   } catch(e) {
-    // Fall back to localStorage if JSONBin is unreachable
+    console.warn('JSONBin load failed, using local fallback:', e);
     try {
       deletedUrls = JSON.parse(localStorage.getItem('deletedUrls') || '[]');
       guestPhotos = JSON.parse(localStorage.getItem('guestPhotos') || '[]');
     } catch(_) {}
   }
   binLoaded = true;
-  renderGallery();
+  renderGallery(); // re-render with guest photos merged in
 }
 
 async function saveBin() {
@@ -726,7 +742,7 @@ function renderGallery() {
   if (!grid) return;
   grid.innerHTML = '';
 
-  // Filter out permanently deleted photos from couple set
+  // Filter out permanently deleted photos
   const coupleVisible = ALL_COUPLE_PHOTOS
     .filter(p => !deletedUrls.includes(p.src))
     .map(p => ({...p, source:'couple'}));
@@ -747,7 +763,17 @@ function renderGallery() {
   if (countEl) countEl.textContent = `${items.length} photo${items.length !== 1 ? 's' : ''}`;
 
   if (items.length === 0) {
-    if (emptyMsg) emptyMsg.style.display = 'block';
+    const isGuest = currentFilter === 'guest';
+    if (emptyMsg) {
+      emptyMsg.style.display = 'block';
+      emptyMsg.innerHTML = isGuest
+        ? `<div style="padding:2.5rem 1rem">
+            <div style="font-size:2.5rem;margin-bottom:0.75rem">📸</div>
+            <p style="font-family:sans-serif;font-size:0.9rem;color:var(--dark);font-weight:500;margin-bottom:0.4rem">No guest photos yet</p>
+            <p style="font-family:sans-serif;font-size:0.8rem;color:var(--muted);line-height:1.7">Be the first to share a memory!<br>Upload your photos using the Share button below.</p>
+           </div>`
+        : `<p style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);padding:2rem">No photos in this category.</p>`;
+    }
     return;
   }
   if (emptyMsg) emptyMsg.style.display = 'none';
@@ -755,7 +781,7 @@ function renderGallery() {
   items.forEach(item => {
     const cell = document.createElement('div');
     cell.className = 'photo-cell';
-    cell.style.transition = 'opacity 0.3s, transform 0.3s';
+    cell.style.cssText = 'transition:opacity 0.3s,transform 0.3s;animation:fadeIn 0.3s ease';
 
     const badge = document.createElement('div');
     badge.className = 'source-badge';
@@ -781,15 +807,12 @@ function renderGallery() {
 
     cell.appendChild(badge);
 
-    // Delete button for guest uploads
+    // Delete button on all photos
     const del = document.createElement('button');
     del.className = 'delete-btn';
     del.title = 'Remove this photo';
     del.innerHTML = '✕';
-    del.onclick = (e) => {
-      e.stopPropagation();
-      showDeleteConfirm(cell, item.src);
-    };
+    del.onclick = (e) => { e.stopPropagation(); showDeleteConfirm(cell, item.src); };
     cell.appendChild(del);
 
     grid.appendChild(cell);
@@ -849,11 +872,10 @@ function filterGallery(type, btn) {
   renderGallery();
 }
 
-// Init gallery
+// Init gallery — show couple photos instantly, then load guest photos from JSONBin
 document.addEventListener('DOMContentLoaded', () => {
-  // Show couple photos immediately while JSONBin loads
-  renderGallery();
-  loadBin();
+  renderGallery();   // show couple photos right away (no spinner)
+  loadBin();         // fetch JSONBin in background, re-render with guest photos when ready
 });
 
 /* ── TOAST ───────────────────────────────────────────────────────────────── */
