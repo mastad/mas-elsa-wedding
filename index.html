@@ -556,7 +556,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <h2 class="section-title">Questions &amp; Answers</h2>
     <div class="divider"></div>
     <div class="qa-list">
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div><div class="qa-a">We kindly ask all guests to dress in <strong>white, silver or traditional Ethiopian</strong> attire — formal or semi-formal. Please avoid bright colors. Let's keep the look elegant and cohesive!</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div><div class="qa-a">We kindly ask all guests to dress in <strong>white or silver</strong> attire — formal or semi-formal. Please avoid bright colors. Let's keep the look elegant and cohesive!</div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Are children allowed? <span class="arrow">▾</span></div><div class="qa-a">Children are welcome! However, parents are fully responsible for supervising their children throughout the event.</div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where is the venue? <span class="arrow">▾</span></div><div class="qa-a">Beza Event Center, 1815 Woodland Ave, Columbus, Ohio 43219. Complimentary parking available.</div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Can I take photos during the ceremony? <span class="arrow">▾</span></div><div class="qa-a">We are having an unplugged ceremony — please put phones away. You're welcome to take photos during the reception!</div></div>
@@ -958,19 +958,31 @@ function filterGallery(type, btn) {
 
 // Init gallery — show couple photos instantly, then load guest photos from JSONBin
 document.addEventListener('DOMContentLoaded', () => {
-  renderGallery();   // show couple photos right away (no spinner)
-  loadBin();         // fetch JSONBin in background, re-render with guest photos when ready
+  // Read hash FIRST before anything else renders
+  const hash = window.location.hash.replace('#', '');
+  const validPages = ['home','story','party','rsvp','photos','qa'];
+  const initialPage = validPages.includes(hash) ? hash : 'home';
 
-  // Hash-based routing — handle direct URLs like /#photos, /#rsvp etc.
-  function handleHash() {
-    const hash = window.location.hash.replace('#', '') || 'home';
-    const validPages = ['home','story','party','rsvp','photos','qa'];
-    const pageId = validPages.includes(hash) ? hash : 'home';
-    const navLink = document.querySelector(`nav a[onclick*="'${pageId}'"]`);
-    show(pageId, navLink);
+  // If coming via direct URL to a specific page (e.g. QR code → #photos)
+  // skip the splash screen and go straight to that page
+  if (hash && validPages.includes(hash) && hash !== 'home') {
+    // Hide splash immediately — no animation needed
+    const splash = document.getElementById('splash');
+    if (splash) splash.style.display = 'none';
+    const navLink = document.querySelector(`nav a[onclick*="'${hash}'"]`);
+    show(hash, navLink);
   }
-  handleHash();
-  window.addEventListener('hashchange', handleHash);
+
+  renderGallery();
+  loadBin();
+
+  // Listen for hash changes (back/forward navigation)
+  window.addEventListener('hashchange', () => {
+    const h = window.location.hash.replace('#', '') || 'home';
+    const page = validPages.includes(h) ? h : 'home';
+    const navLink = document.querySelector(`nav a[onclick*="'${page}'"]`);
+    show(page, navLink);
+  });
 });
 
 /* ── TOAST ───────────────────────────────────────────────────────────────── */
