@@ -217,7 +217,40 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 .upload-banner-text .title{font-weight:600;margin-bottom:0.25rem}
 .upload-banner-text .detail{font-size:0.78rem;opacity:0.85}
 
-@media(max-width:640px){
+/* ADMIN PANEL */
+#admin-modal{position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;padding:1rem}
+#admin-modal.open{display:flex}
+.admin-box{background:#fff;border-radius:10px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 12px 50px rgba(0,0,0,0.25)}
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--gold-light);position:sticky;top:0;background:#fff;z-index:1}
+.admin-header h2{font-family:'Georgia',serif;font-size:1.15rem;color:var(--dark);font-weight:400}
+.admin-header span{font-family:sans-serif;font-size:0.7rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;background:#fff8ee;padding:0.25rem 0.6rem;border-radius:20px;border:1px solid var(--gold-light)}
+.admin-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);line-height:1;padding:0.2rem}
+.admin-body{padding:1.5rem}
+.admin-section-title{font-family:sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--gold-light)}
+.admin-photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:0.75rem;margin-bottom:1.5rem}
+.admin-photo-cell{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;background:var(--gold-light)}
+.admin-photo-cell img{width:100%;height:100%;object-fit:cover}
+.admin-photo-cell .adm-del{position:absolute;inset:0;background:rgba(0,0,0,0);display:flex;align-items:center;justify-content:center;transition:background 0.2s;cursor:pointer}
+.admin-photo-cell:hover .adm-del{background:rgba(180,30,30,0.65)}
+.admin-photo-cell .adm-del span{opacity:0;font-size:1.5rem;color:#fff;transition:opacity 0.2s}
+.admin-photo-cell:hover .adm-del span{opacity:1}
+.admin-upload-zone{border:2px dashed var(--gold-light);border-radius:8px;padding:2rem;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;margin-bottom:1rem}
+.admin-upload-zone:hover{border-color:var(--gold);background:#fff8ee}
+.admin-upload-zone p{font-family:sans-serif;font-size:0.82rem;color:var(--muted);margin-top:0.5rem}
+.admin-upload-zone .icon{font-size:2rem}
+.admin-progress{display:none;margin-top:1rem}
+.admin-progress-bar-wrap{background:#eee;border-radius:2px;height:5px;overflow:hidden}
+.admin-progress-bar{height:100%;background:var(--gold);width:0%;transition:width 0.3s}
+.admin-progress-status{font-family:sans-serif;font-size:0.78rem;color:var(--gold);margin-top:0.4rem;text-align:center}
+/* Password gate */
+.admin-pwd-gate{padding:2.5rem 1.5rem;text-align:center}
+.admin-pwd-gate .lock{font-size:2.5rem;margin-bottom:0.75rem}
+.admin-pwd-gate h3{font-family:'Georgia',serif;font-size:1.2rem;color:var(--dark);margin-bottom:0.4rem;font-weight:400}
+.admin-pwd-gate p{font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1.25rem}
+.admin-pwd-gate input{width:100%;max-width:260px;padding:0.7rem 1rem;border:1.5px solid #ddd;border-radius:4px;font-family:sans-serif;font-size:1rem;text-align:center;letter-spacing:0.25em;outline:none;margin-bottom:0.5rem}
+.admin-pwd-gate input:focus{border-color:var(--gold)}
+.admin-pwd-error{font-family:sans-serif;font-size:0.75rem;color:#e05c5c;display:none;margin-bottom:0.75rem}
+.admin-pwd-gate .btn{font-family:sans-serif;font-size:0.78rem;letter-spacing:0.15em;padding:0.7rem 2rem}
   nav ul{display:none;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--bg);padding:1rem 2rem;border-bottom:1px solid var(--gold-light);gap:1rem;z-index:99}
   nav ul.open{display:flex}
   .hamburger{display:flex}
@@ -535,7 +568,60 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   <p style="font-size:1.2rem;font-family:Georgia,serif;color:var(--gold);margin-bottom:0.5rem">Abrham &amp; Blen</p>
   <p>August 2nd, 2026 · Beza Event Center · Columbus, Ohio</p>
   <p style="margin-top:0.75rem;font-size:0.7rem">Made with love ♡</p>
+  <button onclick="openAdminPanel()" style="background:none;border:none;cursor:pointer;margin-top:1.5rem;opacity:0.18;font-size:0.62rem;font-family:sans-serif;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase" title="Admin">⚙ Admin</button>
 </footer>
+
+<!-- ADMIN MODAL -->
+<div id="admin-modal">
+  <div class="admin-box">
+    <!-- Password Gate (shown first) -->
+    <div id="admin-pwd-gate" class="admin-pwd-gate">
+      <div class="lock">🔒</div>
+      <h3>Admin Access</h3>
+      <p>Enter your password to manage couple photos</p>
+      <input id="admin-pwd-input" type="password" placeholder="••••" autocomplete="off"
+        onkeydown="if(event.key==='Enter') checkAdminPwd()"/>
+      <br/>
+      <p id="admin-pwd-error" class="admin-pwd-error">❌ Incorrect password</p>
+      <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:0.5rem">
+        <button class="btn" onclick="closeAdminPanel()" style="font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">Cancel</button>
+        <button class="btn btn-solid" onclick="checkAdminPwd()" style="font-family:sans-serif;font-size:0.75rem;letter-spacing:0.15em">Enter</button>
+      </div>
+    </div>
+    <!-- Admin Panel (shown after correct password) -->
+    <div id="admin-panel" style="display:none">
+      <div class="admin-header">
+        <div>
+          <h2>📸 Manage Couple Photos</h2>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem">
+          <span>Admin</span>
+          <button class="admin-close" onclick="closeAdminPanel()">✕</button>
+        </div>
+      </div>
+      <div class="admin-body">
+        <!-- Current Photos -->
+        <div class="admin-section-title">Current Couple Photos — hover &amp; click to remove</div>
+        <div id="admin-photo-grid" class="admin-photo-grid"></div>
+        <!-- Upload New -->
+        <div class="admin-section-title">Add New Couple Photos</div>
+        <div class="admin-upload-zone" onclick="document.getElementById('adminFileInput').click()">
+          <div class="icon">🖼️</div>
+          <p>Click to select photos or videos to add</p>
+          <p style="font-size:0.72rem;margin-top:0.25rem;color:var(--gold)">JPG, PNG, MP4 supported</p>
+        </div>
+        <input type="file" id="adminFileInput" multiple accept="image/*,video/*" style="display:none"
+          onchange="adminUploadFiles(this.files)"/>
+        <div id="admin-progress" class="admin-progress">
+          <div class="admin-progress-bar-wrap">
+            <div id="admin-progress-bar" class="admin-progress-bar"></div>
+          </div>
+          <p id="admin-progress-status" class="admin-progress-status"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- TOAST CONTAINER -->
 <div id="toast-container"></div>
@@ -660,7 +746,8 @@ function openLightbox(src) {
 }
 
 /* ── GALLERY STATE ───────────────────────────────────────────────────────── */
-const ALL_COUPLE_PHOTOS = [
+// Default couple photos — used only if JSONBin has none yet
+const DEFAULT_COUPLE_PHOTOS = [
   { src: 'photo1.jpg', type: 'image' },
   { src: 'photo2.jpg', type: 'image' },
   { src: 'photo3.jpg', type: 'image' },
@@ -670,68 +757,61 @@ const ALL_COUPLE_PHOTOS = [
   { src: 'photo7.jpg', type: 'image' },
 ];
 
-// JSONBin config — free shared storage, permanent for all visitors
-// Bin stores: { deletedUrls: [...], guestPhotos: [...] }
+// JSONBin config
 const JSONBIN_BIN_ID  = '6a26ce2ada38895dfe9a41e2';
 const JSONBIN_API_KEY = '$2a$10$/tx4IIldlETW051PNUzUu.yxGAm7zC8Tebd2i4cRUzPuskqhDsvi.';
 const JSONBIN_URL     = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
-let deletedUrls  = [];   // permanently deleted (shared via JSONBin)
-let guestPhotos  = [];   // guest uploads (shared via JSONBin)
+let couplePhotos = [...DEFAULT_COUPLE_PHOTOS]; // managed via admin panel
+let deletedUrls  = [];
+let guestPhotos  = [];
 let currentFilter = 'all';
 let binLoaded = false;
 
-// Load shared state from JSONBin on startup
 async function loadBin() {
-  // Show a subtle "loading guest photos" indicator in the count
   const countEl = document.getElementById('gallery-count');
   if (countEl) countEl.textContent = 'Loading guest photos…';
   try {
     const r = await fetch(JSONBIN_URL + '/latest', {
-      headers: {
-        'X-Master-Key': JSONBIN_API_KEY,
-        'X-Bin-Meta':   'false'
-      }
+      headers: { 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta': 'false' }
     });
     if (r.ok) {
       const d = await r.json();
       const rec = d.record || d || {};
-      deletedUrls = Array.isArray(rec.deletedUrls) ? rec.deletedUrls : [];
-      guestPhotos = Array.isArray(rec.guestPhotos)  ? rec.guestPhotos  : [];
+      deletedUrls  = Array.isArray(rec.deletedUrls)   ? rec.deletedUrls   : [];
+      guestPhotos  = Array.isArray(rec.guestPhotos)    ? rec.guestPhotos   : [];
+      couplePhotos = Array.isArray(rec.couplePhotos) && rec.couplePhotos.length
+        ? rec.couplePhotos
+        : [...DEFAULT_COUPLE_PHOTOS];
     } else if (r.status === 404) {
       await saveBin();
     }
   } catch(e) {
     console.warn('JSONBin load failed, using local fallback:', e);
     try {
-      deletedUrls = JSON.parse(localStorage.getItem('deletedUrls') || '[]');
-      guestPhotos = JSON.parse(localStorage.getItem('guestPhotos') || '[]');
+      deletedUrls  = JSON.parse(localStorage.getItem('deletedUrls')  || '[]');
+      guestPhotos  = JSON.parse(localStorage.getItem('guestPhotos')  || '[]');
+      couplePhotos = JSON.parse(localStorage.getItem('couplePhotos') || 'null') || [...DEFAULT_COUPLE_PHOTOS];
     } catch(_) {}
   }
   binLoaded = true;
-  renderGallery(); // re-render with guest photos merged in
+  renderGallery();
 }
 
 async function saveBin() {
-  const payload = { deletedUrls, guestPhotos };
-  // Always save to localStorage as fallback
+  const payload = { deletedUrls, guestPhotos, couplePhotos };
   try {
-    localStorage.setItem('deletedUrls', JSON.stringify(deletedUrls));
-    localStorage.setItem('guestPhotos', JSON.stringify(guestPhotos));
+    localStorage.setItem('deletedUrls',  JSON.stringify(deletedUrls));
+    localStorage.setItem('guestPhotos',  JSON.stringify(guestPhotos));
+    localStorage.setItem('couplePhotos', JSON.stringify(couplePhotos));
   } catch(_) {}
-  // Save to JSONBin
   try {
     await fetch(JSONBIN_URL, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_API_KEY
-      },
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
       body: JSON.stringify(payload)
     });
-  } catch(e) {
-    console.warn('JSONBin save failed, changes saved locally only:', e);
-  }
+  } catch(e) { console.warn('JSONBin save failed:', e); }
 }
 
 /* ── GALLERY RENDER ──────────────────────────────────────────────────────── */
@@ -743,7 +823,7 @@ function renderGallery() {
   grid.innerHTML = '';
 
   // Filter out permanently deleted photos
-  const coupleVisible = ALL_COUPLE_PHOTOS
+  const coupleVisible = couplePhotos
     .filter(p => !deletedUrls.includes(p.src))
     .map(p => ({...p, source:'couple'}));
 
@@ -1027,6 +1107,147 @@ function closeLightbox() {
   lb.innerHTML = `<button class="lightbox-close">✕</button><img id="lightbox-img" src="" alt=""/>`;
   lb.querySelector('.lightbox-close').onclick = closeLightbox;
 }
+
+/* ── ADMIN PANEL ─────────────────────────────────────────────────────────── */
+const ADMIN_PASSWORD = '2324';
+
+function openAdminPanel() {
+  document.getElementById('admin-modal').classList.add('open');
+  document.getElementById('admin-pwd-gate').style.display = 'block';
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('admin-pwd-input').value = '';
+  document.getElementById('admin-pwd-error').style.display = 'none';
+  setTimeout(() => document.getElementById('admin-pwd-input').focus(), 100);
+}
+
+function closeAdminPanel() {
+  document.getElementById('admin-modal').classList.remove('open');
+}
+
+function checkAdminPwd() {
+  const val = document.getElementById('admin-pwd-input').value;
+  const err = document.getElementById('admin-pwd-error');
+  if (val === ADMIN_PASSWORD) {
+    document.getElementById('admin-pwd-gate').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    renderAdminGrid();
+  } else {
+    err.style.display = 'block';
+    document.getElementById('admin-pwd-input').value = '';
+    document.getElementById('admin-pwd-input').focus();
+  }
+}
+
+function renderAdminGrid() {
+  const grid = document.getElementById('admin-photo-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  if (couplePhotos.length === 0) {
+    grid.innerHTML = `<p style="font-family:sans-serif;font-size:0.8rem;color:var(--muted);grid-column:1/-1">No couple photos yet. Upload some below!</p>`;
+    return;
+  }
+
+  couplePhotos.forEach((photo, idx) => {
+    const cell = document.createElement('div');
+    cell.className = 'admin-photo-cell';
+
+    if (photo.type === 'video') {
+      const v = document.createElement('video');
+      v.src = photo.src;
+      v.style.cssText = 'width:100%;height:100%;object-fit:cover';
+      v.muted = true;
+      cell.appendChild(v);
+    } else {
+      const img = document.createElement('img');
+      img.src = photo.src;
+      img.alt = '';
+      cell.appendChild(img);
+    }
+
+    // Delete overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'adm-del';
+    overlay.innerHTML = `<span>🗑️</span>`;
+    overlay.onclick = () => adminDeletePhoto(idx, cell);
+    cell.appendChild(overlay);
+
+    // Index label
+    const lbl = document.createElement('div');
+    lbl.style.cssText = 'position:absolute;bottom:4px;left:6px;font-family:sans-serif;font-size:0.62rem;color:rgba(255,255,255,0.8);background:rgba(0,0,0,0.45);padding:1px 5px;border-radius:3px';
+    lbl.textContent = `#${idx + 1}`;
+    cell.appendChild(lbl);
+
+    grid.appendChild(cell);
+  });
+}
+
+async function adminDeletePhoto(idx, cell) {
+  if (!confirm(`Remove couple photo #${idx + 1}? This is permanent for all visitors.`)) return;
+  // Animate out
+  cell.style.opacity = '0';
+  cell.style.transform = 'scale(0.8)';
+  cell.style.transition = 'all 0.25s';
+  setTimeout(async () => {
+    const removed = couplePhotos.splice(idx, 1)[0];
+    // Also add to deletedUrls so it hides from gallery immediately
+    if (removed && !deletedUrls.includes(removed.src)) deletedUrls.push(removed.src);
+    await saveBin();
+    renderAdminGrid();
+    renderGallery();
+    showToast('info', 'Photo Removed', 'Couple photo permanently removed.', 3000);
+  }, 250);
+}
+
+async function adminUploadFiles(files) {
+  if (!files.length) return;
+  const arr = Array.from(files);
+  const prog   = document.getElementById('admin-progress');
+  const bar    = document.getElementById('admin-progress-bar');
+  const status = document.getElementById('admin-progress-status');
+  prog.style.display = 'block';
+
+  let added = 0;
+  for (let i = 0; i < arr.length; i++) {
+    const file = arr[i];
+    status.textContent = `Uploading ${i + 1} of ${arr.length}: ${file.name}`;
+    bar.style.width = Math.round((i / arr.length) * 100) + '%';
+    try {
+      const url = await uploadToCloudinary(file, (pct) => {
+        const base = Math.round((i / arr.length) * 100);
+        bar.style.width = (base + Math.round(pct / arr.length)) + '%';
+      });
+      const isVideo = file.type.startsWith('video/');
+      const entry = { src: url, type: isVideo ? 'video' : 'image' };
+      // Remove from deletedUrls if it was previously deleted
+      deletedUrls = deletedUrls.filter(u => u !== url);
+      couplePhotos.push(entry);
+      added++;
+      showToast('success', 'Photo Added!', `"${file.name}" added to couple photos.`, 4000);
+    } catch(err) {
+      showToast('error', 'Upload Failed', `"${file.name}" — ${err.message}`, 5000);
+    }
+  }
+
+  bar.style.width = '100%';
+  if (added > 0) {
+    status.textContent = `✓ ${added} photo${added > 1 ? 's' : ''} added!`;
+    status.style.color = '#6abf6a';
+    await saveBin();
+    renderAdminGrid();
+    renderGallery();
+  } else {
+    status.textContent = '✗ No photos added.';
+    status.style.color = '#e05c5c';
+  }
+  // Reset file input
+  document.getElementById('adminFileInput').value = '';
+}
+
+// Close admin on overlay click
+document.getElementById('admin-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('admin-modal')) closeAdminPanel();
+});
 
 /* ── COUNTDOWN ───────────────────────────────────────────────────────────── */
 const weddingDate = new Date('2026-08-02T17:00:00');
