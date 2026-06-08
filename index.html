@@ -134,9 +134,19 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 
 /* PHOTOS */
 .photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;max-width:800px;margin:2rem auto}
-.photo-cell{aspect-ratio:1;background:var(--gold-light);border-radius:2px;overflow:hidden;cursor:pointer;transition:opacity 0.2s}
+.photo-cell{aspect-ratio:1;background:var(--gold-light);border-radius:2px;overflow:hidden;cursor:pointer;transition:opacity 0.2s;position:relative}
 .photo-cell:hover{opacity:0.88}
 .photo-cell img{width:100%;height:100%;object-fit:cover}
+.photo-cell .source-badge{position:absolute;bottom:0;left:0;right:0;font-family:sans-serif;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.3rem 0.5rem;background:linear-gradient(to top,rgba(0,0,0,0.65),transparent);color:rgba(255,255,255,0.9);opacity:0;transition:opacity 0.2s}
+.photo-cell:hover .source-badge{opacity:1}
+.photo-cell .delete-btn{position:absolute;top:0.4rem;right:0.4rem;width:26px;height:26px;border-radius:50%;background:rgba(220,50,50,0.85);border:none;color:#fff;font-size:0.8rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;z-index:2;line-height:1}
+.photo-cell:hover .delete-btn{opacity:1}
+.photo-cell .delete-btn:hover{background:rgba(180,20,20,1)}
+
+/* GALLERY FILTERS */
+.gallery-filter{font-family:sans-serif;font-size:0.72rem;letter-spacing:0.08em;padding:0.45rem 1rem;border-radius:50px;border:1.5px solid var(--gold-light);color:var(--muted);background:transparent;cursor:pointer;transition:all 0.2s;text-transform:uppercase}
+.gallery-filter:hover{border-color:var(--gold);color:var(--gold)}
+.gallery-filter.active{background:var(--gold);border-color:var(--gold);color:#fff}
 
 /* SHARE MEMORIES HERO */
 .share-memories-hero{position:relative;width:100%;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:3.5rem 1.5rem}
@@ -220,10 +230,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   Your browser does not support the audio element.
 </audio>
 
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close">✕</button>
-  <img id="lightbox-img" src="" alt=""/>
-</div>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"></div>
 
 <!-- SPLASH -->
 <div id="splash">
@@ -329,7 +336,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <button onclick="document.getElementById('homeFileUpload').click()" class="btn btn-solid" style="font-family:sans-serif;font-size:0.82rem;letter-spacing:0.2em;display:inline-flex;align-items:center;gap:0.5rem;padding:0.85rem 2.5rem">
         ↗ &nbsp;Share
       </button>
-      <input type="file" id="homeFileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files,'homeUploadProgress','homeProgressBar','homeUploadStatus','homeUploadedGrid')"/>
+      <input type="file" id="homeFileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files,'homeUploadProgress','homeProgressBar','homeUploadStatus')"/>
       <!-- ✅ FIX: Added missing progress + grid elements for home page upload -->
       <div id="homeUploadProgress" style="display:none;margin-top:1.2rem;width:100%;max-width:340px">
         <div style="background:rgba(255,255,255,0.3);border-radius:2px;height:4px;overflow:hidden">
@@ -457,16 +464,21 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <p class="section-tag">Our Memories</p>
     <h2 class="section-title">Photos &amp; Videos</h2>
     <div class="divider"></div>
-    <div class="photos-grid">
-      <div class="photo-cell" onclick="openLightbox('photo1.jpg')"><img src="photo1.jpg" alt=""/></div>
-      <div class="photo-cell" onclick="openLightbox('photo2.jpg')"><img src="photo2.jpg" alt=""/></div>
-      <div class="photo-cell" onclick="openLightbox('photo3.jpg')"><img src="photo3.jpg" alt=""/></div>
-      <div class="photo-cell" onclick="openLightbox('photo4.jpg')"><img src="photo4.jpg" alt=""/></div>
-      <div class="photo-cell" onclick="openLightbox('photo5.jpg')"><img src="photo5.jpg" alt=""/></div>
-      <div class="photo-cell" onclick="openLightbox('photo6.jpg')"><img src="photo6.jpg" alt=""/></div>
-      <div class="photo-cell" onclick="openLightbox('photo7.jpg')"><img src="photo7.jpg" alt=""/></div>
+
+    <!-- Filter + Legend bar -->
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:800px;margin:0 auto 1.2rem">
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+        <button class="gallery-filter active" onclick="filterGallery('all',this)">All</button>
+        <button class="gallery-filter" onclick="filterGallery('couple',this)">💑 Couple's Photos</button>
+        <button class="gallery-filter" onclick="filterGallery('guest',this)">📸 Guest Uploads</button>
+      </div>
+      <div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted)" id="gallery-count"></div>
     </div>
+
+    <div id="main-photos-grid" class="photos-grid" style="max-width:800px;margin:0 auto"></div>
+    <p id="gallery-empty" style="display:none;text-align:center;font-family:sans-serif;font-size:0.85rem;color:var(--muted);padding:2rem">No photos in this category yet.</p>
   </div>
+
   <div class="share-memories-hero">
     <div class="share-memories-bg"></div>
     <div class="share-memories-content">
@@ -475,9 +487,10 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <button onclick="document.getElementById('fileUpload').click()" class="btn btn-solid" style="font-family:sans-serif;font-size:0.8rem;letter-spacing:0.15em;display:inline-flex;align-items:center;gap:0.5rem">
         ↗ Share
       </button>
-      <input type="file" id="fileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files,'uploadProgress','progressBar','uploadStatus','uploadedGrid')"/>
+      <input type="file" id="fileUpload" multiple accept="image/*,video/*" style="display:none" onchange="handleFiles(this.files,'uploadProgress','progressBar','uploadStatus')"/>
     </div>
   </div>
+
   <div class="share-upload-area">
     <div class="share-upload-inner">
       <div id="uploadProgress" style="display:none;margin-bottom:1.5rem">
@@ -490,7 +503,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
         <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1rem;line-height:1.6">Prefer Google Photos? Upload directly to our shared album:</p>
         <a href="https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.15em">Upload to Google Photos</a>
       </div>
-      <div id="uploadedGrid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin-top:1rem"></div>
     </div>
   </div>
 </div>
@@ -635,13 +647,130 @@ async function submitRSVP() {
 
 /* ── LIGHTBOX ────────────────────────────────────────────────────────────── */
 function openLightbox(src) {
-  document.getElementById('lightbox-img').src = src;
-  document.getElementById('lightbox').classList.add('open');
+  const lb = document.getElementById('lightbox');
+  lb.innerHTML = `<button class="lightbox-close" onclick="closeLightbox()">✕</button><img src="${src}" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:2px"/>`;
+  lb.classList.add('open');
 }
-function closeLightbox() {
-  document.getElementById('lightbox').classList.remove('open');
+
+/* ── GALLERY STATE ───────────────────────────────────────────────────────── */
+// Couple's own photos (static)
+const ALL_COUPLE_PHOTOS = [
+  { src: 'photo1.jpg', type: 'image' },
+  { src: 'photo2.jpg', type: 'image' },
+  { src: 'photo3.jpg', type: 'image' },
+  { src: 'photo4.jpg', type: 'image' },
+  { src: 'photo5.jpg', type: 'image' },
+  { src: 'photo6.jpg', type: 'image' },
+  { src: 'photo7.jpg', type: 'image' },
+];
+
+// Guest uploads stored in memory (sessionStorage for persistence on refresh)
+let guestPhotos = [];
+try {
+  const saved = sessionStorage.getItem('guestPhotos');
+  if (saved) guestPhotos = JSON.parse(saved);
+} catch(e) {}
+
+let currentFilter = 'all';
+
+function saveGuestPhotos() {
+  try { sessionStorage.setItem('guestPhotos', JSON.stringify(guestPhotos)); } catch(e) {}
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+function renderGallery() {
+  const grid = document.getElementById('main-photos-grid');
+  const emptyMsg = document.getElementById('gallery-empty');
+  const countEl = document.getElementById('gallery-count');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  let items = [];
+  if (currentFilter === 'all')    items = [...ALL_COUPLE_PHOTOS.map(p=>({...p,source:'couple'})), ...guestPhotos.map(p=>({...p,source:'guest'}))];
+  if (currentFilter === 'couple') items = ALL_COUPLE_PHOTOS.map(p=>({...p,source:'couple'}));
+  if (currentFilter === 'guest')  items = guestPhotos.map(p=>({...p,source:'guest'}));
+
+  // Deduplicate by src
+  const seen = new Set();
+  items = items.filter(item => {
+    if (seen.has(item.src)) return false;
+    seen.add(item.src);
+    return true;
+  });
+
+  countEl.textContent = `${items.length} photo${items.length !== 1 ? 's' : ''}`;
+
+  if (items.length === 0) {
+    emptyMsg.style.display = 'block';
+    return;
+  }
+  emptyMsg.style.display = 'none';
+
+  items.forEach((item, idx) => {
+    const cell = document.createElement('div');
+    cell.className = 'photo-cell';
+    cell.dataset.src = item.src;
+    cell.dataset.source = item.source;
+
+    const badge = document.createElement('div');
+    badge.className = 'source-badge';
+    badge.textContent = item.source === 'couple' ? '💑 Couple' : '📸 Guest';
+
+    if (item.type === 'video') {
+      const v = document.createElement('video');
+      v.src = item.src;
+      v.style.cssText = 'width:100%;height:100%;object-fit:cover';
+      v.muted = true;
+      v.onmouseenter = () => v.play();
+      v.onmouseleave = () => { v.pause(); v.currentTime = 0; };
+      cell.appendChild(v);
+      cell.onclick = (e) => { if (!e.target.classList.contains('delete-btn')) openLightboxVideo(item.src); };
+    } else {
+      const img = document.createElement('img');
+      img.src = item.src;
+      img.alt = '';
+      img.loading = 'lazy';
+      cell.appendChild(img);
+      cell.onclick = (e) => { if (!e.target.classList.contains('delete-btn')) openLightbox(item.src); };
+    }
+
+    cell.appendChild(badge);
+
+    // Delete button only for guest uploads
+    if (item.source === 'guest') {
+      const del = document.createElement('button');
+      del.className = 'delete-btn';
+      del.title = 'Remove this photo';
+      del.innerHTML = '✕';
+      del.onclick = (e) => {
+        e.stopPropagation();
+        confirmDelete(item.src, item.source);
+      };
+      cell.appendChild(del);
+    }
+
+    grid.appendChild(cell);
+  });
+}
+
+function filterGallery(type, btn) {
+  currentFilter = type;
+  document.querySelectorAll('.gallery-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGallery();
+}
+
+function confirmDelete(src, source) {
+  const shortName = src.split('/').pop().split('?')[0];
+  if (confirm(`Remove "${shortName}" from the gallery?\n\nThis only removes it from this view — it stays saved in Cloudinary.`)) {
+    guestPhotos = guestPhotos.filter(p => p.src !== src);
+    saveGuestPhotos();
+    renderGallery();
+    showToast('info', 'Photo Removed', 'Removed from the gallery view.', 3000);
+  }
+}
+
+// Init gallery on page load
+document.addEventListener('DOMContentLoaded', renderGallery);
 
 /* ── TOAST ───────────────────────────────────────────────────────────────── */
 function showToast(type, title, msg, duration = 5000) {
@@ -659,7 +788,6 @@ function showToast(type, title, msg, duration = 5000) {
 
 /* ── UPLOAD BANNER ───────────────────────────────────────────────────────── */
 function showUploadBanner(bannerId, type, title, detail) {
-  // bannerId is derived from the progressId by replacing 'Progress' with 'Banner'
   let banner = document.getElementById(bannerId);
   if (!banner) return;
   banner.className = `upload-banner show ${type}`;
@@ -670,24 +798,20 @@ function showUploadBanner(bannerId, type, title, detail) {
 /* ── CLOUDINARY UPLOAD ───────────────────────────────────────────────────── */
 const CLOUD_NAME = 'dta5qfkow', UPLOAD_PRESET = 'Abrham';
 
-async function handleFiles(files, progressId, barId, statusId, gridId) {
+async function handleFiles(files, progressId, barId, statusId) {
   if (!files.length) return;
   const arr = Array.from(files);
   const progressEl = document.getElementById(progressId);
   const barEl      = document.getElementById(barId);
   const statusEl   = document.getElementById(statusId);
-  const gridEl     = document.getElementById(gridId);
   const bannerId   = progressId.replace('Progress', 'Banner');
 
-  if (!progressEl || !barEl || !statusEl || !gridEl) {
-    console.error('Upload UI elements not found:', { progressId, barId, statusId, gridId });
-    showToast('error', 'Upload Error', 'Something went wrong. Please refresh the page and try again.');
+  if (!progressEl || !barEl || !statusEl) {
+    showToast('error', 'Upload Error', 'Something went wrong. Please refresh and try again.');
     return;
   }
 
   progressEl.style.display = 'block';
-
-  // Hide any previous banner
   const prevBanner = document.getElementById(bannerId);
   if (prevBanner) prevBanner.className = 'upload-banner';
 
@@ -696,99 +820,88 @@ async function handleFiles(files, progressId, barId, statusId, gridId) {
 
   for (let i = 0; i < arr.length; i++) {
     const file = arr[i];
-    const pct = Math.round((i / arr.length) * 100);
     statusEl.textContent = `Uploading ${i + 1} of ${arr.length}: ${file.name}`;
-    barEl.style.width = pct + '%';
+    statusEl.style.color = 'var(--gold)';
+    barEl.style.width = Math.round((i / arr.length) * 100) + '%';
 
-    // Per-file toast while uploading
     try {
       const url = await uploadToCloudinary(file);
+      const isVideo = file.type.startsWith('video/');
+
+      // Add to guest photos array (check for duplicate URL first)
+      if (!guestPhotos.find(p => p.src === url)) {
+        guestPhotos.push({ src: url, type: isVideo ? 'video' : 'image', source: 'guest' });
+        saveGuestPhotos();
+        renderGallery();
+      }
+
       successCount++;
-      addToUploadedGrid(url, file.type, gridId);
-      showToast('success', 'Photo Uploaded!', `"${file.name}" was saved successfully.`, 4000);
+      showToast('success', 'Uploaded!', `"${file.name}" saved successfully.`, 4000);
     } catch (err) {
       failedFiles.push(file.name);
       console.error('Upload failed for', file.name, err);
-      showToast('error', 'Upload Failed', `"${file.name}" could not be uploaded. Please try again.`, 6000);
+      showToast('error', 'Upload Failed', `"${file.name}" could not be uploaded. ${err.message || ''}`, 6000);
     }
   }
 
   barEl.style.width = '100%';
 
-  // Final summary status line
   if (failedFiles.length === 0) {
-    // All succeeded
     statusEl.textContent = `✓ ${successCount} file${successCount > 1 ? 's' : ''} uploaded successfully!`;
     statusEl.style.color = '#6abf6a';
-    showUploadBanner(
-      bannerId,
-      'success',
-      `🎉 All ${successCount} file${successCount > 1 ? 's' : ''} uploaded!`,
-      'Thank you for sharing your memories with Abrham & Blen. 🤍'
-    );
-    showToast('success', 'All Done!', `${successCount} file${successCount > 1 ? 's' : ''} uploaded successfully. Thank you! 🤍`, 7000);
+    showUploadBanner(bannerId, 'success', `🎉 All ${successCount} file${successCount > 1 ? 's' : ''} uploaded!`, 'Thank you for sharing your memories with Abrham & Blen. 🤍');
+    showToast('success', 'All Done!', `${successCount} file${successCount > 1 ? 's' : ''} saved. They now appear in the gallery! 🤍`, 7000);
+    // Switch to guest filter so they see their photos
+    const guestBtn = document.querySelector('.gallery-filter:nth-child(3)');
+    if (guestBtn) filterGallery('guest', guestBtn);
   } else if (successCount === 0) {
-    // All failed
-    statusEl.textContent = `✗ Upload failed. Please try the Google Photos option below.`;
+    statusEl.textContent = '✗ Upload failed. Please try the Google Photos option below.';
     statusEl.style.color = '#e05c5c';
-    showUploadBanner(
-      bannerId,
-      'error',
-      'Upload failed',
-      `None of your files could be uploaded. Please use the Google Photos backup option below, or check your internet connection and try again.`
-    );
+    showUploadBanner(bannerId, 'error', 'Upload failed', 'None of your files could be uploaded. Please check your connection or use Google Photos below.');
     showToast('error', 'Upload Failed', 'None of your files were saved. Try Google Photos below.', 8000);
   } else {
-    // Partial success
     statusEl.textContent = `⚠ ${successCount} uploaded, ${failedFiles.length} failed.`;
     statusEl.style.color = '#c9a96e';
-    showUploadBanner(
-      bannerId,
-      'partial',
-      `${successCount} uploaded, ${failedFiles.length} failed`,
-      `Failed files: ${failedFiles.join(', ')}. Please retry those using the Google Photos option below.`
-    );
+    showUploadBanner(bannerId, 'partial', `${successCount} uploaded, ${failedFiles.length} failed`, `Failed: ${failedFiles.join(', ')}. Please retry using Google Photos below.`);
     showToast('info', 'Partial Upload', `${successCount} succeeded, ${failedFiles.length} failed. See details below.`, 8000);
   }
 }
 
 function uploadToCloudinary(file) {
   return new Promise((res, rej) => {
+    // Use correct resource type endpoint — 'auto' requires a signed preset;
+    // split by detected type instead for unsigned presets
+    const isVideo = file.type.startsWith('video/');
+    const resourceType = isVideo ? 'video' : 'image';
     const fd = new FormData();
     fd.append('file', file);
     fd.append('upload_preset', UPLOAD_PRESET);
     fd.append('folder', 'abrham-blen-wedding');
-    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, { method: 'POST', body: fd })
+    fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/${resourceType}/upload`, { method: 'POST', body: fd })
       .then(r => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        if (!r.ok) throw new Error(`Server error (HTTP ${r.status})`);
         return r.json();
       })
       .then(d => {
         if (d.secure_url) res(d.secure_url);
-        else rej(new Error(d.error?.message || 'No URL returned'));
+        else rej(new Error(d.error?.message || 'No URL returned from Cloudinary'));
       })
       .catch(rej);
   });
 }
 
-function addToUploadedGrid(url, type, gridId) {
-  const grid = document.getElementById(gridId);
-  if (!grid) return;
-  const d = document.createElement('div');
-  d.style.cssText = 'aspect-ratio:1;border-radius:2px;overflow:hidden;background:var(--gold-light)';
-  if (type.startsWith('video/')) {
-    const v = document.createElement('video');
-    v.src = url; v.controls = true;
-    v.style.cssText = 'width:100%;height:100%;object-fit:cover';
-    d.appendChild(v);
-  } else {
-    const im = document.createElement('img');
-    im.src = url;
-    im.style.cssText = 'width:100%;height:100%;object-fit:cover;cursor:pointer';
-    im.onclick = () => openLightbox(url);
-    d.appendChild(im);
-  }
-  grid.appendChild(d);
+/* ── LIGHTBOX (extended for video) ──────────────────────────────────────── */
+function openLightboxVideo(src) {
+  const lb = document.getElementById('lightbox');
+  lb.innerHTML = `<button class="lightbox-close" onclick="closeLightbox()">✕</button><video src="${src}" controls autoplay style="max-width:90vw;max-height:90vh;border-radius:2px"></video>`;
+  lb.classList.add('open');
+}
+function closeLightbox() {
+  const lb = document.getElementById('lightbox');
+  lb.classList.remove('open');
+  // Restore default lightbox structure
+  lb.innerHTML = `<button class="lightbox-close">✕</button><img id="lightbox-img" src="" alt=""/>`;
+  lb.querySelector('.lightbox-close').onclick = closeLightbox;
 }
 
 /* ── COUNTDOWN ───────────────────────────────────────────────────────────── */
