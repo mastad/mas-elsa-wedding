@@ -92,7 +92,10 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .tl-item:last-child{padding-bottom:0}
 .tl-left{width:90px;flex-shrink:0;text-align:right}
 .tl-time{font-family:sans-serif;font-size:0.75rem;color:var(--gold);font-weight:600;letter-spacing:0.05em}
-.tl-dot{width:10px;height:10px;border:2px solid var(--gold);border-radius:50%;background:var(--bg);flex-shrink:0;margin-top:3px}
+.tl-dot{width:12px;height:12px;border:2px solid var(--gold);border-radius:50%;background:var(--bg);flex-shrink:0;margin-top:3px;transition:all 0.3s}
+.tl-dot.upcoming{border-color:var(--gold);background:var(--bg)}
+.tl-dot.current{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,0.25)}
+.tl-dot.past{border-color:#ccc;background:#ccc}
 .tl-name{font-size:0.95rem;color:var(--dark);margin-bottom:0.15rem;font-weight:500}
 .tl-venue{font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.5}
 
@@ -353,19 +356,21 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div style="max-width:900px;margin:0 auto;text-align:center">
       <p class="section-tag">The Day's Events</p>
       <h2 class="section-title">Event Timeline</h2>
+      <p style="font-family:sans-serif;font-size:0.78rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem">August 2, 2026 · Columbus, Ohio</p>
       <div class="divider"></div>
       <div class="timeline">
         <div class="tl-line-full"></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Ceremony Begins</div><div class="tl-venue">Beza Event Center — Doors open, guests seated</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride & Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb & Kene</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Food & Drinks Served</div><div class="tl-venue">Dinner served · Drinks available 5:00 PM – 10:30 PM</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot" style="border-color:var(--gold);background:var(--gold)"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem">Mezmure <span onclick="openMezmureModal()" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;vertical-align:middle">♪ View Songs</span></div><div class="tl-venue">Ethiopian spiritual songs & celebration</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Ceremony Begins</div><div class="tl-venue">Beza Event Center — Doors open · Please be seated by 5:00 PM</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride &amp; Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb &amp; Kene</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Food &amp; Drinks Served</div><div class="tl-venue">Dinner served · Drinks available 5:00 PM – 10:30 PM</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Mezmure <span onclick="openMezmureModal()" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase">♪ View Songs</span></div><div class="tl-venue">Ethiopian spiritual songs &amp; celebration</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">8:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Kene</div><div class="tl-venue">Traditional Ethiopian poetry recitation</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">8:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Cake Cutting 🎂</div><div class="tl-venue">Cake time + Mezmure continues</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">9:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Family Speeches</div><div class="tl-venue">Heartfelt words from loved ones</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">10:00 PM</div></div><div class="tl-dot" style="border-color:var(--gold);background:var(--gold)"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem">Closing Mezmure <span onclick="openMezmureModal()" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;vertical-align:middle">♪ View Songs</span></div><div class="tl-venue">Final celebration & program ends at 10:30 PM</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">10:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Closing Mezmure <span onclick="openMezmureModal()" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase">♪ View Songs</span></div><div class="tl-venue">Final celebration &amp; program ends at 10:30 PM</div></div></div>
       </div>
+      <p style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);margin-top:2.5rem;letter-spacing:0.05em;font-style:italic">✦ All times are approximate and subject to slight changes on the day</p>
     </div>
   </div>
 
@@ -575,106 +580,27 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 
 <!-- MEZMURE MODAL -->
 <div id="mezmure-modal" style="position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;padding:1rem">
-  <div style="background:#fff;border-radius:12px;width:100%;max-width:620px;max-height:88vh;overflow-y:auto;box-shadow:0 12px 50px rgba(0,0,0,0.25)">
+  <div style="background:#fff;border-radius:12px;width:100%;max-width:640px;max-height:90vh;overflow-y:auto;box-shadow:0 12px 50px rgba(0,0,0,0.25)">
 
     <!-- Header -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--gold-light);position:sticky;top:0;background:#fff;z-index:1">
       <div>
-        <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:0.2rem">Wedding Mezmure</div>
-        <h2 style="font-family:'Georgia',serif;font-size:1.15rem;color:var(--dark);font-weight:400">♪ Songs of Celebration</h2>
+        <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:0.2rem">Abrham &amp; Blen · August 2, 2026</div>
+        <h2 style="font-family:'Georgia',serif;font-size:1.15rem;color:var(--dark);font-weight:400">♪ Wedding Mezmure</h2>
       </div>
       <button onclick="closeMezmureModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);line-height:1">✕</button>
     </div>
 
-    <div style="padding:1.5rem">
+    <div style="padding:1.25rem 1.5rem">
 
-      <!-- Coming Soon banner -->
-      <div style="background:linear-gradient(135deg,#fff8ee,#fdf3e0);border:1px solid var(--gold-light);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem">
+      <!-- Intro -->
+      <div style="background:linear-gradient(135deg,#fff8ee,#fdf3e0);border:1px solid var(--gold-light);border-radius:8px;padding:0.9rem 1.1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem">
         <span style="font-size:1.4rem">🎵</span>
-        <div>
-          <div style="font-family:sans-serif;font-size:0.78rem;font-weight:600;color:var(--gold-dark);margin-bottom:0.15rem">Full Playlist — Coming Soon</div>
-          <div style="font-family:sans-serif;font-size:0.75rem;color:var(--muted);line-height:1.5">Abrham & Blen are curating the full mezmure list. For now enjoy this beloved classic below!</div>
-        </div>
+        <div style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.6">Tap any song below to read the lyrics. These mezmures will be sung during the celebration of Abrham &amp; Blen's wedding.</div>
       </div>
 
-      <!-- Song Card -->
-      <div style="border:1px solid var(--gold-light);border-radius:10px;overflow:hidden;margin-bottom:1rem">
-
-        <!-- Song header -->
-        <div style="background:linear-gradient(135deg,#fdf8ef,#f9f0e0);padding:1.2rem 1.4rem;border-bottom:1px solid var(--gold-light)">
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
-            <div>
-              <div style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:0.3rem">Featured Mezmure</div>
-              <h3 style="font-family:'Georgia',serif;font-size:1.25rem;color:var(--dark);font-weight:400;margin-bottom:0.2rem">እግዚአብሔር ይመስገን</h3>
-              <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);font-style:italic">Egziabher Yimesgene — "Praise be to God"</p>
-            </div>
-            <a href="https://www.youtube.com/results?search_query=egziabher+yimesgene+ethiopian+orthodox+wedding+mezmur" target="_blank"
-              style="display:inline-flex;align-items:center;gap:0.45rem;background:#e05c5c;color:#fff;font-family:sans-serif;font-size:0.72rem;letter-spacing:0.08em;padding:0.5rem 1rem;border-radius:20px;text-decoration:none;white-space:nowrap;flex-shrink:0">
-              ▶ Listen on YouTube
-            </a>
-          </div>
-        </div>
-
-        <!-- Lyrics -->
-        <div style="padding:1.4rem">
-          <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem">Lyrics</div>
-
-          <!-- Amharic -->
-          <div style="margin-bottom:1.25rem">
-            <div style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:0.5rem">🇪🇹 Amharic</div>
-            <p style="font-family:'Georgia',serif;font-size:1.05rem;line-height:2;color:var(--dark)">
-              እግዚአብሔር ይመስገን<br>
-              ለሙሽራና ሙሽሪት<br>
-              ዛሬ ቀናቸው ዛሬ ደረሰ<br>
-              ፍቅራቸው ይጸና ይቆይ<br>
-              <br>
-              አንድ ሆነው ይኑሩ<br>
-              በሰላምና በፍቅር<br>
-              እግዚአብሔር ይባርካቸው<br>
-              አሁንም ለዘላለም
-            </p>
-          </div>
-
-          <!-- Transliteration -->
-          <div style="margin-bottom:1.25rem;padding:1rem;background:#fdfaf6;border-radius:6px;border-left:3px solid var(--gold-light)">
-            <div style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:0.5rem">Transliteration</div>
-            <p style="font-family:sans-serif;font-size:0.85rem;line-height:2;color:#555;font-style:italic">
-              Egziabher yimesgene<br>
-              Le mushirana mushirit<br>
-              Zare qenachew zare derese<br>
-              Fiqrachew yitsena yiqoy<br>
-              <br>
-              And hونew yinuru<br>
-              Beselamina befiqir<br>
-              Egziabher yibarkachew<br>
-              Ahunm lezelalem
-            </p>
-          </div>
-
-          <!-- Translation -->
-          <div style="padding:1rem;background:#f0faf0;border-radius:6px;border-left:3px solid #a8d5a8">
-            <div style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.15em;color:#5a8a5a;text-transform:uppercase;margin-bottom:0.5rem">🇺🇸 English Translation</div>
-            <p style="font-family:'Georgia',serif;font-size:0.88rem;line-height:1.9;color:#444;font-style:italic">
-              "Praise be to God<br>
-              For the groom and bride<br>
-              Today their day has come<br>
-              May their love endure and last<br>
-              <br>
-              May they live as one<br>
-              In peace and in love<br>
-              May God bless them<br>
-              Now and forever"
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <!-- More coming soon -->
-      <div style="text-align:center;padding:1.5rem 1rem;border:1.5px dashed var(--gold-light);border-radius:8px;background:#fffdf9">
-        <div style="font-size:1.6rem;margin-bottom:0.5rem">🎶</div>
-        <p style="font-family:sans-serif;font-size:0.82rem;color:var(--dark);font-weight:500;margin-bottom:0.3rem">More Songs Coming Soon</p>
-        <p style="font-family:sans-serif;font-size:0.75rem;color:var(--muted);line-height:1.7">Abrham & Blen will add more mezmure<br>songs before August 2nd. Check back soon!</p>
-      </div>
+      <!-- Song list -->
+      <div id="mezmure-list"></div>
 
     </div>
   </div>
@@ -1241,9 +1167,531 @@ function closeLightbox() {
 }
 
 /* ── MEZMURE MODAL ───────────────────────────────────────────────────────── */
+const MEZMURES = [
+  {
+    title: 'ሙሽራ ሲገባ — መጽአ መርአዊ',
+    subtitle: 'Metsaa Merawee — "The Groom Has Arrived"',
+    search: 'metsa merawi fissha lekulu ethiopian orthodox wedding mezmur',
+    lyrics: `መጽአ መርአዊ ፍስሐ ለኩሉ (2)
+በሰላም ፃኡ ተቀበሉ (2)
+
+መራት ወመራዊ ክሌሆሙ
+መጣ ሙሽራ የሁላችን ደስታ (2)
+በሰላም ውጡ ተቀበሉ (2)
+
+መፃ ዘመፃ እምላእሉ
+መርአዊ መፃ (2) ተቀበሉ ፃዑ ተቀበሉ
+
+መርአዊ ሰማያዊ ለእመ ገብረ
+በአለ እኸ ይኑሩ በሰላም (2) ፀንተው ዘላለም
+
+ደናግል ተነሡ ያዙ መብራቱን
+ሙሽራው ደረሰ አጉል እንዳንሆን
+ወንጌልን ይዘዋል ጎዳናችው ያምራል
+አላማው ፅኑ ነው እነሱን እንምሰል
+የድካም ዋጋቸው (2)
+ብርሀኑን ያበራል በማካከላችው
+
+የሙሽራው ህይወት መልካም እንዲሆን
+ካህኑ ይባርኩት ቡሩክ ሰው ይሁን
+በከመ ይቤ ዳዊት በመዝሙር (2) አንተ ካህኑ ለአለም`,
+    translation: `The groom has come, joy to all (2)
+Go out in peace and receive him (2)
+
+The bride and groom together
+The groom has arrived, joy of us all (2)
+Go out in peace and receive him (2)
+
+He has come from above
+The groom has come (2), go receive him
+
+The heavenly groom, if he finds
+A husband here, may they live in peace (2)
+Standing firm forever
+
+Virgins, arise and take your lamps
+The groom has arrived, let us not be left out
+They carry the Gospel, their path is beautiful
+Their purpose is firm, let us follow them
+The reward of their labor (2)
+Shines the light in our midst
+
+May the groom's life be blessed
+Let the priest bless him, may he be a blessed man
+As David said in psalm (2): You are a priest forever`
+  },
+  {
+    title: 'እልል እልል — ደስ ይበለን',
+    subtitle: 'Elil Elil — "Rejoice and Be Glad"',
+    search: 'elil elil des yibelen ethiopian orthodox wedding mezmur',
+    lyrics: `እልል እልል ደስ ይበለን (2)
+አጅበን መጣን ሙሽሮችን
+እልል ብላችሁ ተቀበሉን (2)
+
+እናንተ ሙሽሮች እንኳን ደስ ያላችሁ (2)
+የአብርሐም የሣራ ይሁን ጋብቻችሁ
+መልካም መተሳሰብ ክርስቶስ ይስጣቸው (2)
+
+ሣራ አብርሐም ሁሉም የሚያውቃቸው
+ሁለቱም ቅዱሳኖች ናቸው (2)
+ፍቃራቸውን አይቶ አምላክ ባረካቸው
+መልካም ለአባት ታዛዥ ግሩም ልጅ ሰጣቸው (2)
+
+ለጌታ መስዋእት እኔ ልቅረብ ያለው
+ይስሃቅን ለአብርሐም የሰጠው (2)
+በመልካም ጋብቻ በጥሩ ትዳር ነው (2)`,
+    translation: `Rejoice, rejoice, let us be glad (2)
+We came escorting the couple
+Receive us with joy (2)
+
+Congratulations to you, the couple (2)
+May your marriage be like Abraham and Sarah
+May Christ grant you loving kindness (2)
+
+Sarah and Abraham, known by all
+Both of them are holy ones (2)
+God saw their devotion and blessed them
+He gave them a wonderful, obedient child (2)
+
+He who said "I will offer myself to the Lord"
+Isaac was given to Abraham (2)
+In a good marriage, in a blessed union (2)`
+  },
+  {
+    title: 'ካህናት ተንስኡ — ለተናብቦ',
+    subtitle: 'Kahinat Tensuu — "Priests, Rise Up"',
+    search: 'kahinat tensu tetenabbo ethiopian orthodox wedding mezmur',
+    lyrics: `ካህናት ተንስኡ ተንስኡ ለተናብቦ (፪)
+እንዘ ይብሉ ንሰብሖ ንሰብሖ (፪)
+እንዘ ይብሉ ንሰብሖ (፪)
+
+መርዓት ወመርዓዊ (፪) ክልዔሆሙ (፪)
+ይከውኑ አሐደ ሥጋ (፬)
+
+ተአምረ (፫) (፪)
+ወመንከረ ገብረ (፫) መድኃኒነ (፪)
+
+እንዘ ስውር እምኔነ ይእዜሰ ክሱት ኮነ (፪)
+ተአምረ ወመንክረ ገብረ መድኃኒነ
+በቃና ዘገሊላ ከብካብ ኮነ
+
+ወእመ አኮ ከመ ወሬዛ ኀየል (፪)
+ትዌድሶ መርዓት እንዘ ትብል (፪)
+
+የማኑ ተሐቅፈኒ ወፀጋሙ ታሕተ ርእስየ (፪)
+ትብሎ መርዓት ትብሎ (፬)
+መርዓት ለመርዓዊሃ (፪)
+
+አንከርዎ ለማይ አእኮትዎ ለኢየሱስ
+በእንተ ማይ ዘኮነ ወይን`,
+    translation: `Priests, arise to give counsel (2)
+Saying let us praise, let us praise (2)
+Saying let us praise (2)
+
+The bride and groom (2), both of them (2)
+Shall become one flesh (4)
+
+He performed wonders (3) (2)
+And performed miracles (3), our Savior (2)
+
+What was hidden from us is now revealed (2)
+He performed wonders and miracles, our Savior
+At Cana of Galilee it became glorious
+
+Unless it were like the voice of the cedar (2)
+The bride praises him saying (2)
+
+His right hand embraces me, his left under my head (2)
+The bride says to him (4)
+The bride to her groom (2)
+
+They marveled at the water, they acknowledged Jesus
+Because of the water that became wine`
+  },
+  {
+    title: 'ሁለቱም አንድ ሆኑ ዛሬ',
+    subtitle: 'Huletum And Honu Zare — "Today the Two Became One"',
+    search: 'huletum and honu zare ethiopian orthodox wedding mezmur',
+    lyrics: `ሁለቱም አንድ ሆኑ ዛሬ (2)
+በእግዚአብሔር በሕያው ቃሉ
+ሁለቱም አንድ ሆኑ ዛሬ
+
+ወንድና ሴት አድርጎ የፈጠራቸው
+በኋላም በቃሉ አንድ አደረጋቸው
+እናቱና አባቱን የአዳም ልጅ ይተዋል
+ከሚስቱም ጋር በሰላም በአንድ ይተባበራል
+
+ሁልቱም አንድ ሥጋ ሆነው ይኖራሉ
+ብሎ አስተምሮናል ጌታችን በቃሉ
+አንድ ሥጋ ናቸው አይደሉም ሁለት
+የባልና የሚስት ሕይወት ወደፊት
+
+እንግዲህ እግዚአብሔር ካጣመራችሁ
+በሆነው ባልሆነው ሰው አይለያችሁ
+ለወገኖቻችሁ ምሳሌ ሆናችሁ
+በክርስቶስ ፍቅር አምላክ ያቁማችሁ
+
+ምንጣፋችሁ ቡሩክ መኝታችሁም ንጹሕ
+ስለ ሆነላችሁ እንኳን ደስ አላችሁ
+ዓለም እንዲደነቅ ጠላት እንዲያፍር
+በኃዘን በደስታ ይኑራችሁ ፍቅር
+
+ሁለቱም አንድ ሆኑ ዛሬ (2)
+በእግዚአብሔር በሕያው ቃሉ
+ሁለቱም አንድ ሆኑ ዛሬ`,
+    translation: `Today the two became one (2)
+By God, by His living word
+Today the two became one
+
+He created them male and female
+And by His word He made them one
+The son of Adam shall leave his father and mother
+And shall live in peace and unity with his wife
+
+They shall live as one flesh
+Our Lord taught us this in His word
+They are one flesh, not two
+The life of husband and wife going forward
+
+Therefore what God has joined together
+Let no one separate them, whatever may happen
+You have become an example for your people
+May God keep you in the love of Christ
+
+Your marriage bed is blessed and pure
+Congratulations to you for this
+May the world marvel, may the enemy be ashamed
+May love be with you in sorrow and in joy
+
+Today the two became one (2)
+By God, by His living word
+Today the two became one`
+  },
+  {
+    title: 'ድንቅ ነው በጣም',
+    subtitle: 'Dinq New Betam — "It is Truly Wonderful"',
+    search: 'dinq new betam ethiopian orthodox wedding mezmur',
+    lyrics: `ድንቅ ነው በጣም ድንቅ ነው (2) በጣም
+የሠርጋችሁ ዕለት ተገኘ መድኀኔ ዓለም
+በሠርጋችሁ ዕለት ተገኘች ድንግል ማርያም
+
+በቃልህ ተመርተው ለዚች ቀን በቅተዋል
+በፊትህ ጋብቻን ይኸው ፈጽመዋል
+በፈሰሰው ደምህ ኅብረት መስርተዋል
+በሥጋም በነፍስም (2) የአንተነን ብለዋል
+
+የአዳምን አንድ አጥንት ከጐኑ ወስደህ
+አጋር እንድትሆነው ሔዋንን ሰጠህ
+ሁለቱንም ባርከህ እንደ ፈጠርካቸው
+ዛሬም ለሙሽሮች (2) ሰላምን ስጣቸው
+
+ጌታ ሆይ ፍቅርህን በቃልህ መሠረት
+አንድ ሆነዋልና በዚች ቅድስት ዕለት
+እርሱንም አርሷንም ባርከህ ቀድሳቸው
+ዘለዓለማዊ ክብር (2) ፀጋህን ስጣቸው
+
+የዲያብሎስ ተንኰል እንዳያጠምዳቸው
+አስከ መጨረሻው ጋሻ ሁንላቸው
+በቅዱስ ቁርባኑ ሁለቱም ሳይርቁ
+ጽናቱን ስጣቸው (2) አብረው እንዲዘልቁ`,
+    translation: `It is truly wonderful, truly wonderful (2)
+The Savior of the world came on your wedding day
+The Virgin Mary appeared on your wedding day
+
+Guided by Your word, they have reached this day
+Before You they have fulfilled their vows
+They have built their union in Your shed blood
+In body and in soul (2) they say they are Yours
+
+You took one rib from Adam's side
+And gave him Eve to be his companion
+As You blessed both when You created them
+Even today give peace to the couple (2)
+
+Lord, according to Your love and Your word
+They have become one on this holy day
+Bless and sanctify both him and her
+Give them eternal glory (2) and Your grace
+
+May the schemes of the devil not ensnare them
+Be their shield until the very end
+May they not stray from the Holy Communion
+Give them endurance (2) to persevere together`
+  },
+  {
+    title: 'ደመቀ አበራልን',
+    subtitle: 'Demeka Abeiralin — "It Shone and Lit Up for Us"',
+    search: 'demeka aberalin yeamanuel sera ethiopian orthodox wedding mezmur',
+    lyrics: `ደመቀ አበራልን የአማኑኤል ሥራ (2)
+ሙሽሮች ሆኑ አብርሃምና ሣራ
+
+በቤተ ክርስቲያን ጥላ ተጠልለው
+ተክሊል አድርገዋል ሙሽሪት ሙሽራው
+ፀጋ መንፈስ ቅዱስ ስለ ተሰጣቸው
+ሙሽሪት ሙሽራው አበራ ፊታቸው
+
+የተራራቀ አካል አንድ ሆነ በተክሊል
+እግዚአብሔር ይመስገን እልል እልል እንበል
+አጥንትሽ ከአጥንቴ ሥጋሽ ከሥጋየ
+አዳም ያሰበከው ይኸው ዛሬ ታዬ
+
+የተክሊል ብርህኗ በኛ መሃል በርቶ
+ረቂቅ አንድነት ታየ በሷ ጎልቶ
+ይህን ድንቅ ነገር ለማየት ያበቃን
+ምሥጢሩን የሚገልጽ እግዚአብሔር ይመስገን
+
+ነጭ መጎናጸፍያ በአንድነት ተጐናጽፈው
+በመንፈስ ቅዱስ ኃይል አረፉ በጥላው
+ሙሽሪት ሙሽራው ለፍቅር ተሸነፉ
+ለቁርባን መቁረቢያ ነጭ ልብስ አሰፉ`,
+    translation: `The work of Emmanuel shone and lit up for us (2)
+The couple became like Abraham and Sara
+
+Sheltered under the shadow of the church
+The bride and groom have received their crowns
+Because the grace of the Holy Spirit was given to them
+The faces of the bride and groom shone bright
+
+Separated bodies became one through the crown
+Let us praise God, let us shout with joy
+Your bone from my bone, your flesh from my flesh
+What Adam longed for is seen today
+
+The light of the crown burning in our midst
+Revealed a profound unity through it
+What has enabled us to witness this wonder
+Is God who reveals His mystery — praise be to Him
+
+Wrapped together in white garments as one
+They rested in the shadow by the power of the Holy Spirit
+The bride and groom were overcome by love
+They prepared white garments for receiving communion`
+  },
+  {
+    title: 'በሠርጋችን ዕለት',
+    subtitle: 'Besergachin Ilet — "On Our Wedding Day"',
+    search: 'besergachin ilet ethiopian orthodox wedding mezmur',
+    lyrics: `በሠርጋችን ዕለት እንድትባርከን
+ጌታ ጠርተንሃል በእምነት ሆነን
+ከእናትህ ጋር ከእመቤታችን
+ከመላእክትም ጋራ ና በሠርጋችን
+ከሐዋርያት ጋራ ና በሠርጋችን
+ከወዳጆችህ ጋራ ና በሠርጋችን
+
+በገሊላ መንደር እንደተገኘህ
+ና በእኛ ድንኳንም ጌታ ስንጠራህ
+የጥሪ ወረቀት ልከናል እንዳትቀር
+አንተነህ ክብራችን ቤታችን ፍቅር
+
+ነይ ከልጅሽ ጋር እመቤታችን
+እንድታሟይልን የጎደለውን
+ንገሪው ለልጅሽ ባዶው እንዲሞላ
+በረከት የሱ ነው ቤታችንን ይሙላ
+
+በጎደለው ሁሉ እየጨመርሽልን
+ቤታችንን ሁሉ ሙይው እናታችን
+ለአገልጋዮችም ድንግል ንገሪያቸው
+ጠርተን እንዳናፍር ጋኖቹን ይሙሏቸው`,
+    translation: `On our wedding day, come and bless us
+We have called You, Lord, in faith
+Come with Your mother, our Lady
+Come with the angels to our wedding
+Come with the apostles to our wedding
+Come with Your friends to our wedding
+
+Just as You appeared in the village of Galilee
+Come to our tent also, Lord, as we call You
+We have sent an invitation so that You will not be absent
+You are our honor, You are the love of our home
+
+Come with Your son, our Lady
+To fill what is lacking for us
+Tell Your son to fill what is empty
+The blessing is His, may He fill our home
+
+Adding to everything that is lacking for us
+Fill our entire home, our mother
+Tell the servants also, O Virgin
+May they fill the jars so we are not ashamed`
+  },
+  {
+    title: 'ሙሽራዬ አበባዬ',
+    subtitle: 'Mushiraye Ababaye — "My Groom, My Flower"',
+    search: 'mushiraye ababaye ethiopian orthodox wedding mezmur',
+    lyrics: `ሙሽራዬ (3) አበባዬ (2)
+ከጐንህ የምትሆን እህት አገኘህ
+የኛማ ሙሽራ እንኳን ደስ አለህ
+
+የእግዚአብሔር ፈቃዱ ለዚህ ካበቃችሁ
+ቤታችሁ ይመረቅ በፍቅር ያጽናችሁ
+
+ወንድም አግኝተሻል የሚያስብልሽ
+የኛማ ሙሽሪት እንኳን ደስ አለሽ
+
+እግዚአብሔር ይመስገን እኛም ደስ ብሎናል
+በቤተ ክርስቲያን ሠርጋችሁ ውብ ሆኗል
+
+እንደ ነፍስህ አድርገህ እንድትወዳት
+አደራ ሰጠንህ በጌታችን ፊት
+
+እንድታስቢለት አንቺም ለአካልሽ
+አደራ ትላለች ወንጌል እናትሽ
+
+በሥጋ ወደሙ ሕይወት አግኝታችሁ
+በሰላም እንድትኖሩ እግዚአብሔር ይርዳችሁ
+
+ፍርያችሁም ይብዛ ይባረክ ጓዳችሁ
+እስከ መጨረሻ ኑሩ ደስ ብሏችሁ (2)`,
+    translation: `My groom (3), my flower (2)
+You have found a sister to stand by your side
+Congratulations, our groom
+
+Since God's will has brought you to this
+May your home be blessed, may love sustain you
+
+You have found a brother who will care for you
+Congratulations, our bride
+
+Praise be to God, we are also joyful
+Your wedding in the church has been beautiful
+
+Love her as you love your own soul
+We entrust this to you before our Lord
+
+Care for him as you care for your own body
+The Gospel, your mother, entrusts this to you
+
+You have received life in the Body and Blood of Christ
+May God help you to live in peace
+
+May your fruits multiply, may your home be blessed
+Live to the end full of joy (2)`
+  },
+  {
+    title: 'አጅቡት በእልልታ',
+    subtitle: 'Ajibut Beililta — "Escort Him With Joy"',
+    search: 'ajibut beililta ethiopian orthodox wedding mezmur',
+    lyrics: `አጅቡት በእልልታ ሲመጣ ሙሽራ
+ፍጹም የሚያስደስት የሠርጉ ዕለት ነው
+ዘመዶቹ ሁሉ ተቀበሉት ውጡ
+የሙሽራው መምጫ አሁን ነው ሰዓቱ
+
+እልል (2) እንበል እንዘምር በደስታ
+ይህን ላደረገ ለሠራዊት ጌታ
+ሁሉንም በጊዜው ይፈጽማልና
+ይኸው አበቃቸው ለዚህ መልካም ዜና
+
+ሙሽሪት ተደሰች ምንድነው ዝምታው
+የዳግም ልደትሽ የሠርግሽ ዕለት ነው
+አዳም ጐንሽ ቆሞ ሔዋን ሆይ ሲልሽ
+መንፈሳዊ ሐሴት ይሙላ በልብሽ
+
+እህት ወንድሞቿ እናትና አባቷ
+ተነሱ ዘምሩ በልጃችሁ ደስታ
+መግቢያዋ ነውና ወደ ቤቷ ዛሬ
+ወደ አዲስ ጐጀዋ ሸኟት በዝማሬ
+
+ቤተ ሰቦችሽን ሁሉንም ትተሽ
+መሄድሽ ነውና ወደ መኖርያሽ
+ከአማኑኤል ጋር ባልሽን ይዘሽ
+ተነሽ ሙሽራዬ ደርሷል ሰዓትሽ
+ከድንግንል ጋር ሚስትህን ይዘህ
+ተነስ ወንድሜ ሆይ ደርሷል ሰዓትህ`,
+    translation: `Escort him with joy as the groom arrives
+The wedding day is one of perfect delight
+Let all his family come out to receive him
+Now is the time for the groom to arrive
+
+Let us shout with joy (2), let us sing gladly
+To the Lord of hosts who has done this
+For He fulfills everything in its time
+And has brought them to this wonderful news
+
+The bride is joyful, why the silence?
+Your wedding day is your day of rebirth
+As Adam stood by you saying "O Eve"
+May spiritual joy fill your heart
+
+Her sisters and brothers, her mother and father
+Arise and sing in the joy of your child
+Today is her entrance into her home
+Escort her to her new dwelling with song
+
+Leaving all your family behind
+For you are going to your dwelling place
+Taking your husband, together with Emmanuel
+Arise my bride, your hour has come
+Taking your wife, together with the Virgin
+Arise my brother, your hour has come`
+  }
+];
+
+function buildMezmureList() {
+  const list = document.getElementById('mezmure-list');
+  if (!list) return;
+  list.innerHTML = '';
+  MEZMURES.forEach((song, i) => {
+    const card = document.createElement('div');
+    card.style.cssText = 'border:1px solid var(--gold-light);border-radius:8px;overflow:hidden;margin-bottom:0.75rem';
+
+    // Header row (always visible, clickable)
+    const header = document.createElement('div');
+    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.9rem 1.1rem;cursor:pointer;background:linear-gradient(135deg,#fdf8ef,#f9f0e0);transition:background 0.2s';
+    header.innerHTML = `
+      <div style="flex:1;min-width:0">
+        <div style="font-family:sans-serif;font-size:0.62rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:0.15rem">Song ${i+1}</div>
+        <div style="font-family:'Georgia',serif;font-size:0.95rem;color:var(--dark);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${song.title}</div>
+        <div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);font-style:italic;margin-top:0.1rem">${song.subtitle}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.6rem;flex-shrink:0">
+        <a href="https://www.youtube.com/results?search_query=${encodeURIComponent(song.search)}" target="_blank"
+          onclick="event.stopPropagation()"
+          style="display:inline-flex;align-items:center;gap:0.3rem;background:#e05c5c;color:#fff;font-family:sans-serif;font-size:0.65rem;padding:0.3rem 0.65rem;border-radius:20px;text-decoration:none;white-space:nowrap">
+          ▶ Listen
+        </a>
+        <span class="mez-arrow" style="color:var(--gold);font-size:1rem;transition:transform 0.3s">▾</span>
+      </div>`;
+
+    // Body (lyrics, hidden by default)
+    const body = document.createElement('div');
+    body.style.cssText = 'display:none;padding:1.1rem 1.2rem;border-top:1px solid var(--gold-light);background:#fff';
+    body.innerHTML = `
+      <div class="mez-cols" style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;align-items:start">
+        <div>
+          <div style="font-family:sans-serif;font-size:0.62rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:0.6rem">🇪🇹 Amharic</div>
+          <p style="font-family:'Georgia',serif;font-size:0.95rem;line-height:2.1;color:var(--dark);white-space:pre-line">${song.lyrics}</p>
+        </div>
+        <div class="mez-right" style="border-left:2px solid var(--gold-light);padding-left:1.1rem">
+          <div style="font-family:sans-serif;font-size:0.62rem;letter-spacing:0.15em;color:#5a8a5a;text-transform:uppercase;margin-bottom:0.6rem">🇺🇸 English</div>
+          <p style="font-family:'Georgia',serif;font-size:0.88rem;line-height:2.1;color:#555;font-style:italic;white-space:pre-line">${song.translation}</p>
+        </div>
+      </div>
+      <style>
+        @media(max-width:500px){
+          .mez-cols{grid-template-columns:1fr!important}
+          .mez-right{border-left:none!important;padding-left:0!important;border-top:2px solid var(--gold-light);padding-top:1rem;margin-top:0.5rem}
+        }
+      </style>`;
+
+    header.onclick = () => {
+      const open = body.style.display !== 'none';
+      body.style.display = open ? 'none' : 'block';
+      header.querySelector('.mez-arrow').style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+      header.style.background = open
+        ? 'linear-gradient(135deg,#fdf8ef,#f9f0e0)'
+        : 'linear-gradient(135deg,#f9f0d8,#f5e8c8)';
+    };
+
+    card.appendChild(header);
+    card.appendChild(body);
+    list.appendChild(card);
+  });
+}
+
 function openMezmureModal() {
   const m = document.getElementById('mezmure-modal');
   m.style.display = 'flex';
+  buildMezmureList();
 }
 function closeMezmureModal() {
   document.getElementById('mezmure-modal').style.display = 'none';
@@ -1392,6 +1840,66 @@ async function adminUploadFiles(files) {
 document.getElementById('admin-modal').addEventListener('click', e => {
   if (e.target === document.getElementById('admin-modal')) closeAdminPanel();
 });
+
+/* ── TIMELINE DOT STATUS ─────────────────────────────────────────────────── */
+function updateTimelineDots() {
+  const now = new Date();
+  // Use local date (not UTC) to avoid timezone issues
+  const yyyy = now.getFullYear();
+  const mm   = String(now.getMonth() + 1).padStart(2, '0');
+  const dd   = String(now.getDate()).padStart(2, '0');
+  const todayStr = `${yyyy}-${mm}-${dd}`;
+  const weddingDay = '2026-08-02';
+
+  const isWeddingDay    = todayStr === weddingDay;
+  const isBeforeWedding = todayStr < weddingDay;
+
+  const eventTimes = [
+    { hour: 17, min: 0  },
+    { hour: 17, min: 30 },
+    { hour: 18, min: 0  },
+    { hour: 18, min: 30 },
+    { hour: 19, min: 30 },
+    { hour: 20, min: 10 },
+    { hour: 20, min: 30 },
+    { hour: 21, min: 10 },
+    { hour: 22, min: 0  },
+  ];
+
+  const dots  = document.querySelectorAll('.tl-dot');
+  const names = document.querySelectorAll('.tl-name');
+
+  dots.forEach((dot, i) => {
+    dot.classList.remove('upcoming', 'current', 'past');
+    if (names[i]) names[i].classList.remove('upcoming-label', 'current-label', 'past-label');
+
+    if (isBeforeWedding || (!isWeddingDay && !isBeforeWedding === false)) {
+      // Before wedding day — ALL dots upcoming gold
+      dot.classList.add('upcoming');
+    } else if (isWeddingDay) {
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      const evtMin = eventTimes[i].hour * 60 + eventTimes[i].min;
+      const nxtMin = i + 1 < eventTimes.length
+        ? eventTimes[i+1].hour * 60 + eventTimes[i+1].min
+        : evtMin + 60;
+      if (nowMin < evtMin) {
+        dot.classList.add('upcoming');
+        if (names[i]) names[i].classList.add('upcoming-label');
+      } else if (nowMin >= evtMin && nowMin < nxtMin) {
+        dot.classList.add('current');
+        if (names[i]) names[i].classList.add('current-label');
+      } else {
+        dot.classList.add('past');
+        if (names[i]) names[i].classList.add('past-label');
+      }
+    } else {
+      // After wedding — all past
+      dot.classList.add('past');
+    }
+  });
+}
+updateTimelineDots();
+setInterval(updateTimelineDots, 60000); // update every minute
 
 /* ── COUNTDOWN ───────────────────────────────────────────────────────────── */
 const weddingDate = new Date('2026-08-02T17:00:00');
