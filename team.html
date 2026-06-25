@@ -456,6 +456,34 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 /* Cars */
 .wr-car{position:absolute;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:#fff;border:2.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.8rem;z-index:10;box-shadow:0 0 10px rgba(201,169,110,0.5),0 2px 6px rgba(0,0,0,0.2)}
 .wr-car-couple{width:38px;border-radius:13px;font-size:0.7rem}
+/* Edit button in hero */
+.wr-edit-btn{display:none;align-items:center;gap:0.3rem;margin-top:0.65rem;background:rgba(201,169,110,0.15);color:var(--gold-light);border:1px solid rgba(201,169,110,0.35);border-radius:20px;padding:0.28rem 0.75rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer;letter-spacing:0.06em;transition:all 0.15s}
+.wr-edit-btn:hover{background:rgba(201,169,110,0.28)}
+/* Timeline edit modal */
+#wr-edit-modal{position:fixed;inset:0;z-index:4500;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);padding:1rem}
+#wr-edit-modal.open{display:flex}
+.wr-edit-box{background:#fff;border-radius:14px;width:100%;max-width:480px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.22)}
+.wr-edit-header{padding:0.9rem 1.1rem 0.7rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.6rem}
+.wr-edit-header-title{font-family:'Georgia',serif;font-size:0.92rem;color:var(--gold-dark);flex:1}
+.wr-edit-opts{padding:0.55rem 1.1rem;background:#fdfaf6;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem}
+.wr-cascade-lbl{display:flex;align-items:center;gap:0.35rem;font-family:sans-serif;font-size:0.76rem;color:var(--dark);cursor:pointer}
+.wr-cascade-lbl input{accent-color:var(--gold);width:14px;height:14px}
+.wr-edit-reset{background:none;border:none;font-family:sans-serif;font-size:0.72rem;color:var(--muted);cursor:pointer;padding:0;text-decoration:underline}
+.wr-edit-reset:hover{color:var(--red)}
+#wr-edit-list{overflow-y:auto;flex:1;padding:0.4rem 1.1rem}
+.wr-edit-row{padding:0.55rem 0;border-bottom:1px solid var(--border);transition:opacity 0.15s}
+.wr-edit-row:last-child{border-bottom:none}
+.wr-edit-row.wr-edit-disabled{opacity:0.4}
+.wr-edit-row-main{display:flex;align-items:center;gap:0.45rem;margin-bottom:0.15rem}
+.wr-edit-phase{font-size:0.82rem;flex-shrink:0;width:1.1rem;text-align:center}
+.wr-edit-time{font-family:sans-serif;font-size:0.82rem;border:1px solid var(--border);border-radius:6px;padding:0.22rem 0.38rem;color:var(--dark);background:#fff;flex-shrink:0;width:108px}
+.wr-edit-time:focus{outline:none;border-color:var(--gold)}
+.wr-edit-toggle{display:flex;align-items:center;gap:0.22rem;margin-left:auto;cursor:pointer}
+.wr-edit-toggle input[type=checkbox]{accent-color:var(--gold);width:14px;height:14px}
+.wr-edit-toggle-label{font-family:sans-serif;font-size:0.65rem;color:var(--muted)}
+.wr-edit-desc{font-family:sans-serif;font-size:0.71rem;color:var(--dark);line-height:1.3;padding-left:1.55rem}
+.wr-edit-cam{font-family:sans-serif;font-size:0.6rem;color:#4a7a4a;font-style:italic;padding-left:1.55rem;margin-top:0.08rem}
+.wr-edit-footer{padding:0.7rem 1.1rem;border-top:1px solid var(--border);display:flex;gap:0.5rem}
 /* Road popup */
 #wr-popup{position:fixed;z-index:4000;background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem;max-width:290px;width:92%;box-shadow:0 8px 32px rgba(0,0,0,0.18);display:none;max-height:72vh;overflow-y:auto}
 #wr-popup.open{display:block}
@@ -552,6 +580,29 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
     </div>
     <button class="btn btn-gold btn-block" onclick="gpsGateRetry()" style="margin-bottom:0.5rem">📍 Allow Location &amp; Continue</button>
     <div style="font-family:sans-serif;font-size:0.68rem;color:var(--muted);margin-top:0.5rem" id="gps-gate-status"></div>
+  </div>
+</div>
+
+<!-- TIMELINE EDITOR MODAL (admin) -->
+<div id="wr-edit-modal">
+  <div class="wr-edit-box">
+    <div class="wr-edit-header">
+      <span style="font-size:1.1rem">🗓️</span>
+      <div class="wr-edit-header-title">Edit Wedding Timeline</div>
+      <button onclick="closeWrEditModal()" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:var(--muted)">✕</button>
+    </div>
+    <div class="wr-edit-opts">
+      <label class="wr-cascade-lbl" title="Shift all later entries by the same amount">
+        <input type="checkbox" id="wr-cascade-toggle" checked>
+        Cascade — shift all later slots
+      </label>
+      <button class="wr-edit-reset" onclick="resetWrTimeline()">↩ Reset defaults</button>
+    </div>
+    <div id="wr-edit-list"></div>
+    <div class="wr-edit-footer">
+      <button class="btn btn-gold" style="flex:1" onclick="saveWrTimeline()">💾 Save Timeline</button>
+      <button class="btn" style="flex:0 0 auto" onclick="closeWrEditModal()">Cancel</button>
+    </div>
   </div>
 </div>
 
@@ -1093,6 +1144,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
           <div class="wr-hero">
             <div class="wr-hero-title">🎊 August 2, 2026 · The Big Day</div>
             <div class="wr-hero-sub">Columbus, Ohio · Live Wedding Road</div>
+            <button id="wr-edit-btn" class="wr-edit-btn" onclick="openWrEditModal()">✏️ Edit Timeline</button>
           </div>
           <div class="wr-now-strip" id="wr-now-strip">
             <span>📍</span>
@@ -1525,6 +1577,8 @@ async function loadData() {
     if (localGps) gpsSettings = JSON.parse(localGps);
     const localCl = localStorage.getItem('checklistData');
     if (localCl) checklistData = JSON.parse(localCl);
+    const localRd = localStorage.getItem('roadTimelineData');
+    if (localRd) roadTimelineData = JSON.parse(localRd);
   } catch(e) {}
 
   // Seed defaults for anyone missing
@@ -1568,6 +1622,7 @@ async function loadData() {
         }
         if (d && d.gpsSettings) gpsSettings = d.gpsSettings;
         if (d && d.checklistData) checklistData = d.checklistData;
+        if (d && d.roadTimelineData) roadTimelineData = d.roadTimelineData;
       trackJsonBinRequest('read');
     } catch(e) {
       console.warn('JSONBin load failed, using local data');
@@ -1599,7 +1654,7 @@ async function saveData() {
       await fetch(JSONBIN_URL, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
-        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData })
+        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData, roadTimelineData })
       });
       trackJsonBinRequest('write');
     } catch(e) { console.warn('JSONBin save failed'); }
@@ -1614,6 +1669,8 @@ function saveLocal() {
     }
     localStorage.setItem('gpsSettings', JSON.stringify(gpsSettings));
     localStorage.setItem('checklistData', JSON.stringify(checklistData));
+    if (roadTimelineData) localStorage.setItem('roadTimelineData', JSON.stringify(roadTimelineData));
+    else localStorage.removeItem('roadTimelineData');
   } catch(e) {}
 }
 
@@ -1624,7 +1681,7 @@ async function saveBudget() {
       await fetch(JSONBIN_URL, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
-        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData })
+        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData, roadTimelineData })
       });
       trackJsonBinRequest('write');
     } catch(e) { console.warn('Budget save failed'); }
@@ -2375,19 +2432,23 @@ function goWeekToday()   { currentWeekOffset = 0; renderWeekView(); }
 
 /* ─── WEDDING ROAD ─── */
 const ROAD_TIMELINE = [
-  { time:'07:00', phase:'split', bride:'Getting ready pictures', groom:'Getting ready (no photos)', camera:'Shooting Bride only' },
-  { time:'08:00', phase:'split', bride:'Finish getting ready pictures', groom:'Finish getting ready', camera:'Shooting Bride only' },
-  { time:'08:30', phase:'split', bride:'Traveling Downtown', groom:'Traveling Downtown', camera:'' },
-  { time:'09:00', phase:'split', bride:'Downtown photos start', groom:'Downtown photos start', camera:'' },
-  { time:'09:30', phase:'split', bride:'Downtown photos', groom:'Downtown photos', camera:'' },
-  { time:'10:00', phase:'split', bride:'Drive to Family House', groom:'Drive to Family House', camera:'Drives with Bride' },
+  // ── TOGETHER (pre-split): same location, 7:00 AM – 9:30 AM ──
+  { time:'07:00', phase:'pre_split', bride:'Getting ready pictures', groom:'Getting ready (no photos)', camera:'Shooting Bride only' },
+  { time:'08:00', phase:'pre_split', bride:'Finish getting ready', groom:'Finish getting ready', camera:'Shooting Bride only' },
+  { time:'08:30', phase:'pre_split', bride:'Traveling Downtown', groom:'Traveling Downtown', camera:'' },
+  { time:'09:00', phase:'pre_split', bride:'Downtown photos', groom:'Downtown photos', camera:'' },
+  { time:'09:30', phase:'pre_split', bride:'Downtown photos continue', groom:'Downtown photos continue', camera:'' },
+  // ── SPLIT: separate family houses, 10:00 AM – 1:00 PM ──
+  { time:'10:00', phase:'split', bride:"Drive to Bride's Family House", groom:"Drive to Groom's Family House", camera:'Drives with Bride' },
   { time:'10:30', phase:'split', bride:'Family Pictures', groom:'Eating breakfast with family', camera:"Shooting Bride's family photos" },
   { time:'11:00', phase:'split', bride:'Free Time / Break', groom:'Free Time / Break', camera:"Wrap up at Bride's / Prep for transit" },
-  { time:'11:30', phase:'split', bride:'Free Time / Break', groom:'Free Time / Break', camera:"Driving from Groom's house to Bride's house" },
+  { time:'11:30', phase:'split', bride:'Free Time / Break', groom:'Free Time / Break', camera:"Driving: Groom's house → Bride's house" },
   { time:'12:00', phase:'split', bride:'Eating food…', groom:'Taking Pictures with Family', camera:"Shooting Groom's family photos" },
   { time:'12:30', phase:'split', bride:'Eating food…', groom:'Taking Pictures with Family', camera:"Shooting Groom's family photos" },
-  { time:'13:00', phase:'split', bride:'Waiting for Groom', groom:"Start traveling to Bride's house", camera:'' },
-  { time:'13:30', phase:'merge', bride:"Welcoming Groom at Bride's House 🎉", groom:"Arriving at the Bride's house 🎉", camera:'' },
+  { time:'13:00', phase:'split', bride:'Waiting for Groom', groom:"Traveling to Bride's house", camera:'' },
+  // ── MERGE: groom arrives at bride's house, 1:30 PM ──
+  { time:'13:30', phase:'merge', bride:"Welcoming Groom 🎉", groom:"Arriving at Bride's House 🎉", camera:'' },
+  // ── TOGETHER (post-merge): 2:00 PM onwards ──
   { time:'14:00', phase:'together', event:'Blessing Ceremony', camera:'' },
   { time:'14:30', phase:'together', event:"From Bride's house to Airbnb", camera:'' },
   { time:'15:00', phase:'together', event:'Eating food / Refresh', camera:'' },
@@ -2399,19 +2460,34 @@ const ROAD_TIMELINE = [
   { time:'18:00', phase:'together', event:'Entering the Hall 🎉', camera:'', isEnd:true },
 ];
 
+let roadTimelineData = null; // null = use ROAD_TIMELINE defaults; admin overrides stored here
+let _activeTimeline  = [];   // set each time renderWeddingDay() runs
+
+function getActiveTimeline() {
+  return (roadTimelineData && roadTimelineData.length) ? roadTimelineData : ROAD_TIMELINE.map(e => ({...e}));
+}
 function _wrTimeToMin(hhmm) {
   const [h,m] = hhmm.split(':').map(Number);
-  return h * 60 + m;
+  return h * 60 + (m||0);
+}
+function _wrMinToTime(totalMin) {
+  const h = Math.floor(Math.max(0,Math.min(1439,totalMin)) / 60);
+  const m = Math.max(0,Math.min(1439,totalMin)) % 60;
+  return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
 }
 function _wrFmtTime(hhmm) {
   const [h,m] = hhmm.split(':').map(Number);
   const ampm = h >= 12 ? 'PM' : 'AM';
   const h12 = h > 12 ? h - 12 : h === 0 ? 12 : h;
-  return `${h12}:${m.toString().padStart(2,'0')} ${ampm}`;
+  return `${h12}:${(m||0).toString().padStart(2,'0')} ${ampm}`;
 }
-function _wrSegH(i) {
-  if (i >= ROAD_TIMELINE.length - 1) return 80;
-  const diff = _wrTimeToMin(ROAD_TIMELINE[i+1].time) - _wrTimeToMin(ROAD_TIMELINE[i].time);
+function _wrSegH(tl, i) {
+  if (i >= tl.length - 1) return 80;
+  // skip disabled entries when computing gap
+  let j = i + 1;
+  while (j < tl.length && tl[j].disabled) j++;
+  if (j >= tl.length) return 80;
+  const diff = _wrTimeToMin(tl[j].time) - _wrTimeToMin(tl[i].time);
   return Math.max(80, Math.round((diff / 30) * 80));
 }
 
@@ -2419,10 +2495,14 @@ function renderWeddingDay() {
   clearInterval(roadCarIntervalId);
   const roadEl = document.getElementById('wedding-road');
   if (!roadEl) return;
+  _activeTimeline = getActiveTimeline();
   _wrBuildRoad(roadEl);
   _wrUpdateNowStrip();
   _wrPositionCar();
   roadCarIntervalId = setInterval(() => { _wrUpdateNowStrip(); _wrPositionCar(); }, 60000);
+  // Admin edit button visibility
+  const editBtn = document.getElementById('wr-edit-btn');
+  if (editBtn) editBtn.style.display = isAdmin ? 'inline-flex' : 'none';
   setTimeout(() => {
     const car = document.querySelector('.wr-car');
     if (car) car.scrollIntoView({ behavior:'smooth', block:'center' });
@@ -2430,29 +2510,43 @@ function renderWeddingDay() {
 }
 
 function _wrBuildRoad(roadEl) {
+  const tl = _activeTimeline;
   let html = '';
-  let didSplitHeader = false;
-  let didTogetherHeader = false;
+  let lastGroup = null;
 
-  ROAD_TIMELINE.forEach((e, i) => {
-    const h = _wrSegH(i);
-    const tl = _wrFmtTime(e.time);
-    const isSplit = e.phase === 'split' || e.phase === 'merge';
+  tl.forEach((e, i) => {
+    const isSplit   = e.phase === 'split' || e.phase === 'merge';
+    const isPreSplit = e.phase === 'pre_split';
+    const group = isSplit ? 'split' : (isPreSplit ? 'pre_split' : 'together');
 
-    if (isSplit && !didSplitHeader) {
-      didSplitHeader = true;
-      html += `<div class="wr-divider"><div class="wr-divider-line"></div><div class="wr-divider-label">🔀 Roads Split · 7:00 AM</div><div class="wr-divider-line"></div></div>`;
-      html += `<div class="wr-col-labels"><div class="wr-col-label" style="grid-column:1">👰 Bride</div><div></div><div></div><div></div><div class="wr-col-label" style="grid-column:5">🤵 Groom</div></div>`;
+    // Phase dividers
+    if (group !== lastGroup) {
+      if (group === 'split') {
+        html += `<div class="wr-divider"><div class="wr-divider-line"></div><div class="wr-divider-label">🔀 Roads Split · ${_wrFmtTime(e.time)}</div><div class="wr-divider-line"></div></div>`;
+        html += `<div class="wr-col-labels"><div class="wr-col-label" style="grid-column:1">👰 Bride</div><div></div><div></div><div></div><div class="wr-col-label" style="grid-column:5">🤵 Groom</div></div>`;
+      } else if (group === 'together' && lastGroup === 'split') {
+        const mergeEntry = tl.find(x => x.phase === 'merge');
+        const mergeTime = mergeEntry ? _wrFmtTime(mergeEntry.time) : '';
+        html += `<div class="wr-divider"><div class="wr-divider-line"></div><div class="wr-divider-label">🔁 Together Again · ${mergeTime}</div><div class="wr-divider-line"></div></div>`;
+      }
+      lastGroup = group;
     }
-    if (!isSplit && !didTogetherHeader) {
-      didTogetherHeader = true;
-      html += `<div class="wr-divider"><div class="wr-divider-line"></div><div class="wr-divider-label">🔁 Together Again · 1:30 PM</div><div class="wr-divider-line"></div></div>`;
+
+    if (e.disabled) {
+      // Render a slim skip indicator
+      html += `<div class="wr-skipped" id="wr-seg-${i}" style="opacity:0.35;min-height:24px;display:flex;align-items:center;${isSplit?'padding-left:calc(50% - 16px)':'padding-left:calc(50% - 12px)'}">
+        <span style="font-family:sans-serif;font-size:0.58rem;color:var(--muted);letter-spacing:0.08em">— ${_wrFmtTime(e.time)} skipped —</span>
+      </div>`;
+      return;
     }
+
+    const h   = _wrSegH(tl, i);
+    const tLabel = _wrFmtTime(e.time);
 
     if (isSplit) {
       html += `<div class="wr-split-grid" id="wr-seg-${i}" style="min-height:${h}px" onclick="openWrPopup(${i},event)">
         <div class="wr-bride-event"><div class="wr-card" id="wr-card-b-${i}">
-          <div class="wr-card-time">${tl}</div>
+          <div class="wr-card-time">${tLabel}</div>
           <div class="wr-card-text">${e.bride||''}</div>
           ${e.camera ? `<div class="wr-card-cam">📸 ${e.camera}</div>` : ''}
         </div></div>
@@ -2460,21 +2554,27 @@ function _wrBuildRoad(roadEl) {
         <div class="wr-road-gap-col"></div>
         <div class="wr-groom-road-col" id="wr-groom-road-${i}"></div>
         <div class="wr-groom-event"><div class="wr-card" id="wr-card-g-${i}">
-          <div class="wr-card-time">${tl}</div>
+          <div class="wr-card-time">${tLabel}</div>
           <div class="wr-card-text">${e.groom||''}</div>
         </div></div>
       </div>`;
     } else {
+      // Both pre_split and together use the together-grid
+      const leftText  = isPreSplit ? (e.bride||'') : (e.event||'');
+      const rightText = isPreSplit ? (e.groom||'') : (e.event||'');
+      const leftCam   = isPreSplit ? (e.camera||'') : '';
+      const rightCam  = isPreSplit ? '' : (e.camera||'');
       html += `<div class="wr-together-grid" id="wr-seg-${i}" style="min-height:${h}px" onclick="openWrPopup(${i},event)">
         <div class="wr-together-left"><div class="wr-card" id="wr-card-l-${i}" style="text-align:right">
-          <div class="wr-card-time">${tl}</div>
-          <div class="wr-card-text">${e.event||''}</div>
+          <div class="wr-card-time">${tLabel}</div>
+          <div class="wr-card-text">${leftText}</div>
+          ${leftCam ? `<div class="wr-card-cam">📸 ${leftCam}</div>` : ''}
         </div></div>
         <div class="wr-center-road" id="wr-center-road-${i}"></div>
         <div class="wr-together-right"><div class="wr-card" id="wr-card-r-${i}">
-          <div class="wr-card-time">${tl}</div>
-          <div class="wr-card-text">${e.event||''}</div>
-          ${e.camera ? `<div class="wr-card-cam">📸 ${e.camera}</div>` : ''}
+          <div class="wr-card-time">${tLabel}</div>
+          <div class="wr-card-text">${rightText}</div>
+          ${rightCam ? `<div class="wr-card-cam">📸 ${rightCam}</div>` : ''}
           ${e.isEnd ? '<div style="font-size:0.65rem;color:var(--gold);margin-top:0.2rem">🎊 Reception begins!</div>' : ''}
         </div></div>
       </div>`;
@@ -2482,7 +2582,6 @@ function _wrBuildRoad(roadEl) {
   });
 
   roadEl.innerHTML = html;
-  // Close popup when clicking the road background
   roadEl.addEventListener('click', (ev) => { if (!ev.target.closest('.wr-card') && !ev.target.closest('#wr-popup')) closeWrPopup(); });
 }
 
@@ -2500,72 +2599,67 @@ function _wrUpdateNowStrip() {
   }
   const nowMin = now.getHours()*60 + now.getMinutes();
   let cur = null;
-  for (let i = 0; i < ROAD_TIMELINE.length; i++) {
-    if (nowMin >= _wrTimeToMin(ROAD_TIMELINE[i].time)) cur = ROAD_TIMELINE[i];
-  }
+  _activeTimeline.forEach(e => {
+    if (!e.disabled && nowMin >= _wrTimeToMin(e.time)) cur = e;
+  });
   if (!cur) { lbl.textContent = 'Wedding day is starting soon! 🌅'; if(tm) tm.textContent = timeStr; return; }
-  const txt = cur.phase==='together'||cur.phase==='merge' ? (cur.event||`${cur.bride} · ${cur.groom}`) : `👰 ${cur.bride}  ·  🤵 ${cur.groom}`;
+  const isSplitPhase = cur.phase==='split' || cur.phase==='merge' || cur.phase==='pre_split';
+  const txt = isSplitPhase ? `👰 ${cur.bride||''}  ·  🤵 ${cur.groom||''}` : (cur.event||'');
   lbl.textContent = txt;
   if (tm) tm.textContent = timeStr;
 }
 
 function _wrPositionCar() {
-  // Remove existing cars
   document.querySelectorAll('.wr-car').forEach(el => el.remove());
   document.querySelectorAll('.wr-card.wr-now').forEach(el => el.classList.remove('wr-now'));
 
+  const enabled = _activeTimeline.map((e,i) => ({...e,origIdx:i})).filter(e => !e.disabled);
+  if (!enabled.length) return;
+
   const now = new Date();
   const isWeddingDay = now.getFullYear()===2026 && now.getMonth()===7 && now.getDate()===2;
-  const nowMin = isWeddingDay ? (now.getHours()*60 + now.getMinutes()) : _wrTimeToMin('07:00');
+  const nowMin = isWeddingDay ? (now.getHours()*60 + now.getMinutes()) : _wrTimeToMin(enabled[0].time);
 
-  const dayStart = _wrTimeToMin('07:00');
-  const dayEnd   = _wrTimeToMin('18:00');
-  if (nowMin < dayStart || nowMin > dayEnd) return;
+  const dayStart = _wrTimeToMin(enabled[0].time);
+  const dayEnd   = _wrTimeToMin(enabled[enabled.length-1].time);
+  if (nowMin < dayStart || nowMin > dayEnd + 30) return;
 
-  // Find current segment
-  let segIdx = 0;
-  for (let i = 0; i < ROAD_TIMELINE.length - 1; i++) {
-    if (nowMin >= _wrTimeToMin(ROAD_TIMELINE[i].time) && nowMin < _wrTimeToMin(ROAD_TIMELINE[i+1].time)) { segIdx = i; break; }
-    if (i === ROAD_TIMELINE.length - 2) segIdx = i;
+  // Find which enabled segment we're in
+  let curEnabled = enabled[0];
+  for (let i = 0; i < enabled.length - 1; i++) {
+    if (nowMin >= _wrTimeToMin(enabled[i].time) && nowMin < _wrTimeToMin(enabled[i+1].time)) { curEnabled = enabled[i]; break; }
+    if (i === enabled.length - 2) curEnabled = enabled[i];
   }
 
-  const entry = ROAD_TIMELINE[segIdx];
-  const segEl = document.getElementById(`wr-seg-${segIdx}`);
+  const segIdx = curEnabled.origIdx;
+  const entry  = _activeTimeline[segIdx];
+  const segEl  = document.getElementById(`wr-seg-${segIdx}`);
   if (!segEl) return;
 
-  // Highlight current cards
+  // Highlight cards
   ['b','g','l','r'].forEach(side => {
     const c = document.getElementById(`wr-card-${side}-${segIdx}`);
     if (c) c.classList.add('wr-now');
   });
 
-  const segStart = _wrTimeToMin(ROAD_TIMELINE[segIdx].time);
-  const segEnd   = segIdx < ROAD_TIMELINE.length-1 ? _wrTimeToMin(ROAD_TIMELINE[segIdx+1].time) : segStart+30;
-  const frac = Math.min(1, Math.max(0, (nowMin - segStart) / (segEnd - segStart)));
-  const segH = segEl.offsetHeight || _wrSegH(segIdx);
-  const carTop = Math.round(frac * segH);
+  const nextEnabled = enabled.find(e => _wrTimeToMin(e.time) > _wrTimeToMin(entry.time));
+  const segStart = _wrTimeToMin(entry.time);
+  const segEnd   = nextEnabled ? _wrTimeToMin(nextEnabled.time) : segStart + 30;
+  const frac     = Math.min(1, Math.max(0, (nowMin - segStart) / (segEnd - segStart)));
+  const carTop   = Math.round(frac * (segEl.offsetHeight || 80));
 
   const isSplit = entry.phase === 'split' || entry.phase === 'merge';
 
   if (isSplit) {
-    const brideRoad = document.getElementById(`wr-bride-road-${segIdx}`);
-    const groomRoad = document.getElementById(`wr-groom-road-${segIdx}`);
-    if (brideRoad) {
+    ['bride','groom'].forEach(side => {
+      const road = document.getElementById(`wr-${side}-road-${segIdx}`);
+      if (!road) return;
       const car = document.createElement('div');
       car.className = 'wr-car';
       car.style.top = carTop + 'px';
-      car.textContent = '👰';
-      car.title = 'Bride';
-      brideRoad.appendChild(car);
-    }
-    if (groomRoad) {
-      const car = document.createElement('div');
-      car.className = 'wr-car';
-      car.style.top = carTop + 'px';
-      car.textContent = '🤵';
-      car.title = 'Groom';
-      groomRoad.appendChild(car);
-    }
+      car.textContent = side === 'bride' ? '👰' : '🤵';
+      road.appendChild(car);
+    });
   } else {
     const centerRoad = document.getElementById(`wr-center-road-${segIdx}`);
     if (centerRoad) {
@@ -2573,7 +2667,6 @@ function _wrPositionCar() {
       car.className = 'wr-car wr-car-couple';
       car.style.top = carTop + 'px';
       car.textContent = '👰🤵';
-      car.title = 'Together';
       centerRoad.appendChild(car);
     }
   }
@@ -2581,15 +2674,15 @@ function _wrPositionCar() {
 
 function openWrPopup(segIdx, e) {
   if (e) e.stopPropagation();
-  const entry = ROAD_TIMELINE[segIdx];
-  if (!entry) return;
+  const entry = _activeTimeline[segIdx];
+  if (!entry || entry.disabled) return;
 
   const popup = document.getElementById('wr-popup');
   document.getElementById('wr-popup-time').textContent = _wrFmtTime(entry.time);
 
   let html = '';
-  const isSplit = entry.phase === 'split' || entry.phase === 'merge';
-  if (isSplit) {
+  const isSplitPhase = entry.phase==='split' || entry.phase==='merge' || entry.phase==='pre_split';
+  if (isSplitPhase) {
     if (entry.bride) html += `<div class="wr-popup-row"><span class="wr-popup-icon">👰</span><div><div class="wr-popup-lbl">Bride</div><div class="wr-popup-txt">${entry.bride}</div></div></div>`;
     if (entry.groom) html += `<div class="wr-popup-row"><span class="wr-popup-icon">🤵</span><div><div class="wr-popup-lbl">Groom</div><div class="wr-popup-txt">${entry.groom}</div></div></div>`;
   } else {
@@ -2597,7 +2690,6 @@ function openWrPopup(segIdx, e) {
   }
   if (entry.camera) html += `<div class="wr-popup-row"><span class="wr-popup-icon">📸</span><div><div class="wr-popup-lbl">Camera Team</div><div class="wr-popup-txt">${entry.camera}</div></div></div>`;
 
-  // Team tasks near this time
   const slotMin = _wrTimeToMin(entry.time);
   const tasks = [];
   Object.keys(appData).forEach(uid => {
@@ -2611,7 +2703,7 @@ function openWrPopup(segIdx, e) {
         if (ap === 'PM' && th !== 12) tm += 720;
         if (ap === 'AM' && th === 12) tm = (tmin||0);
         if (Math.abs(tm - slotMin) <= 45) tasks.push({ p: TEAM[uid], t });
-      } catch(err) {}
+      } catch(_) {}
     });
   });
   if (tasks.length) {
@@ -2628,18 +2720,95 @@ function openWrPopup(segIdx, e) {
 
   document.getElementById('wr-popup-content').innerHTML = html || '<div style="font-family:sans-serif;font-size:0.78rem;color:var(--muted)">No details for this slot.</div>';
 
-  // Position popup
   const rect = e ? e.currentTarget.getBoundingClientRect() : { bottom: window.innerHeight/2, left: 20 };
-  const top  = Math.min(rect.bottom + 6, window.innerHeight - 340);
-  const left = Math.max(8, Math.min((rect.left||20), window.innerWidth - 306));
-  popup.style.top  = top  + 'px';
-  popup.style.left = left + 'px';
+  popup.style.top  = Math.min(rect.bottom + 6, window.innerHeight - 340) + 'px';
+  popup.style.left = Math.max(8, Math.min(rect.left||20, window.innerWidth - 306)) + 'px';
   popup.classList.add('open');
 }
 
 function closeWrPopup() {
   const p = document.getElementById('wr-popup');
   if (p) p.classList.remove('open');
+}
+
+// ── TIMELINE EDITOR (admin only) ──
+function openWrEditModal() {
+  const tl = getActiveTimeline();
+  let html = tl.map((e, i) => {
+    const ph = e.phase;
+    const phIcon = (ph==='split'||ph==='merge') ? '🔀' : (ph==='pre_split' ? '🚗' : '💑');
+    const desc = (ph==='split'||ph==='merge'||ph==='pre_split')
+      ? `👰 ${e.bride||''}  /  🤵 ${e.groom||''}`
+      : (e.event||'');
+    return `<div class="wr-edit-row${e.disabled ? ' wr-edit-disabled' : ''}" id="wr-edit-row-${i}">
+      <div class="wr-edit-row-main">
+        <span class="wr-edit-phase">${phIcon}</span>
+        <input class="wr-edit-time" type="time" value="${e.time}" id="wr-edit-t-${i}" onchange="wrTimeChanged(${i},this.value)">
+        <label class="wr-edit-toggle" title="${e.disabled ? 'Re-enable' : 'Skip this slot'}">
+          <input type="checkbox" ${e.disabled ? '' : 'checked'} onchange="wrToggleEntry(${i},this.checked)">
+          <span class="wr-edit-toggle-label">${e.disabled ? 'Skip' : 'ON'}</span>
+        </label>
+      </div>
+      <div class="wr-edit-desc">${desc}</div>
+      ${e.camera ? `<div class="wr-edit-cam">📸 ${e.camera}</div>` : ''}
+    </div>`;
+  }).join('');
+  document.getElementById('wr-edit-list').innerHTML = html;
+  document.getElementById('wr-edit-modal').classList.add('open');
+}
+
+function closeWrEditModal() {
+  document.getElementById('wr-edit-modal').classList.remove('open');
+}
+
+function wrTimeChanged(idx, newTime) {
+  if (!newTime) return;
+  let tl = getActiveTimeline();
+  const oldMin = _wrTimeToMin(tl[idx].time);
+  const newMin = _wrTimeToMin(newTime);
+  const delta  = newMin - oldMin;
+  if (delta === 0) return;
+  const cascade = document.getElementById('wr-cascade-toggle')?.checked !== false;
+  const start   = cascade ? idx : idx;
+  const end     = cascade ? tl.length : idx + 1;
+  for (let i = start; i < end; i++) {
+    const adjusted = _wrTimeToMin(tl[i].time) + delta;
+    tl[i] = {...tl[i], time: _wrMinToTime(Math.max(0, Math.min(1439, adjusted)))};
+    if (cascade && i > idx) {
+      const inp = document.getElementById(`wr-edit-t-${i}`);
+      if (inp) inp.value = tl[i].time;
+    }
+  }
+  roadTimelineData = tl;
+}
+
+function wrToggleEntry(idx, enabled) {
+  let tl = getActiveTimeline();
+  tl[idx] = {...tl[idx], disabled: !enabled};
+  roadTimelineData = tl;
+  const row = document.getElementById(`wr-edit-row-${idx}`);
+  if (row) {
+    row.classList.toggle('wr-edit-disabled', !enabled);
+    const lbl = row.querySelector('.wr-edit-toggle-label');
+    if (lbl) lbl.textContent = enabled ? 'ON' : 'Skip';
+  }
+}
+
+function saveWrTimeline() {
+  if (!roadTimelineData) roadTimelineData = getActiveTimeline();
+  saveData();
+  closeWrEditModal();
+  renderWeddingDay();
+  showToast('success', 'Timeline Saved', 'Road updated with new schedule ✓', 2500);
+}
+
+function resetWrTimeline() {
+  if (!confirm('Reset timeline to original default schedule? This will undo all admin changes.')) return;
+  roadTimelineData = null;
+  saveData();
+  closeWrEditModal();
+  renderWeddingDay();
+  showToast('success', 'Timeline Reset', 'Back to original schedule', 2500);
 }
 
 /* -- HOUR TIMELINE ENGINE -- */
