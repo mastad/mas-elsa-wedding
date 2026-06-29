@@ -4767,7 +4767,8 @@ function renderMap() {
         <div class="loc-name">${person.emoji} ${person.name}</div>
         <div class="loc-address" id="${addrElId}">📍 Loading…</div>
         <div class="loc-time">🕐 ${time}</div>
-      </div>`;
+      </div>
+      <button onclick="clearPersonLocation('${id}')" title="Remove location" style="background:none;border:1px solid #ecc;border-radius:6px;padding:0.2rem 0.5rem;font-size:0.7rem;cursor:pointer;color:#e05c5c;flex-shrink:0;align-self:flex-start">✕</button>`;
     locList.appendChild(item);
     // Stagger geocode calls — Nominatim allows 1 req/sec
     setTimeout(() => reverseGeocode(lat, lng, addrElId), geocodeDelay);
@@ -4782,6 +4783,15 @@ function renderMap() {
     document.getElementById('map-last-updated').textContent = 'Updated just now';
     renderLeafletMap();
   }
+}
+
+async function clearPersonLocation(id) {
+  const name = (appData[id]?.profile?.name) || TEAM[id]?.name || id;
+  if (!confirm(`Remove ${name}'s GPS location?`)) return;
+  if (appData[id]) appData[id].location = null;
+  await saveData();
+  renderMap();
+  showToast('success', `${name}'s location removed`, '', 2000);
 }
 
 function renderLeafletMap() {
