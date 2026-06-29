@@ -936,6 +936,23 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
     <!-- ROLE TEAMS -->
     <div class="role-group">
 
+      <!-- HOST -->
+      <div class="role-section">
+        <div class="role-label">🎤 Host</div>
+        <div class="role-people">
+          <div class="person-card xs" onclick="tapPerson('host_1')">
+            <div class="person-avatar"><div class="person-avatar-placeholder">🎙️</div></div>
+            <div class="person-name">Host 1</div>
+            <div class="progress-pill none" id="prog-host_1">—</div>
+          </div>
+          <div class="person-card xs" onclick="tapPerson('host_2')">
+            <div class="person-avatar"><div class="person-avatar-placeholder">🎙️</div></div>
+            <div class="person-name">Host 2</div>
+            <div class="progress-pill none" id="prog-host_2">—</div>
+          </div>
+        </div>
+      </div>
+
       <!-- FOOD -->
       <div class="role-section">
         <div class="role-label">🍽️ Food</div>
@@ -1009,23 +1026,6 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         </div>
       </div>
 
-      <!-- HOST -->
-      <div class="role-section">
-        <div class="role-label">🎤 Host</div>
-        <div class="role-people">
-          <div class="person-card xs" onclick="tapPerson('host_1')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🎙️</div></div>
-            <div class="person-name">Host 1</div>
-            <div class="progress-pill none" id="prog-host_1">—</div>
-          </div>
-          <div class="person-card xs" onclick="tapPerson('host_2')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🎙️</div></div>
-            <div class="person-name">Host 2</div>
-            <div class="progress-pill none" id="prog-host_2">—</div>
-          </div>
-        </div>
-      </div>
-
       <!-- CLOTH -->
       <div class="role-section">
         <div class="role-label">👗 Cloth</div>
@@ -1080,6 +1080,12 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <button class="view-toggle-btn" id="vt-wedding" onclick="switchTaskView('wedding')">🎊 Aug 2</button>
         <button class="view-toggle-btn" id="vt-checklist" onclick="switchTaskView('checklist')">✅ Checklist</button>
         <button class="view-toggle-btn" id="vt-all" onclick="switchTaskView('all')" style="display:none">👥 All</button>
+      </div>
+
+      <!-- Auto-refresh bar -->
+      <div style="display:flex;align-items:center;justify-content:flex-end;gap:0.4rem;padding:0.2rem 0.1rem 0.1rem;margin-bottom:0.1rem">
+        <span style="font-family:sans-serif;font-size:0.65rem;color:var(--muted)" id="task-refresh-status"></span>
+        <button onclick="refreshTaskNow()" title="Refresh now" style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.12rem 0.38rem;font-size:0.7rem;cursor:pointer;color:var(--muted)" id="task-refresh-btn">🔄</button>
       </div>
 
       <!-- LIST VIEW -->
@@ -1226,7 +1232,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div id="coord-all-tasks"></div>
       </div>
 
-      <button class="signout-btn" onclick="signOut()">← Back to Team</button>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.5rem">
+        <button class="signout-btn" onclick="goBack()" style="flex:1">← Back to Team</button>
+        <button onclick="signOut()" style="background:none;border:none;font-family:sans-serif;font-size:0.72rem;color:var(--muted);cursor:pointer;padding:0.5rem;text-decoration:underline">Sign Out</button>
+      </div>
     </div>
   </div>
 
@@ -1274,7 +1283,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div class="map-section">
           <div class="map-header">
             <h3>📍 Live Locations</h3>
-            <span style="font-family:sans-serif;font-size:0.7rem;color:var(--muted)" id="map-last-updated">Waiting for locations…</span>
+            <div style="display:flex;align-items:center;gap:0.5rem">
+              <span style="font-family:sans-serif;font-size:0.68rem;color:var(--muted)" id="map-last-updated">Waiting for locations…</span>
+              <button onclick="refreshMapNow()" title="Refresh now" style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.18rem 0.45rem;font-size:0.75rem;cursor:pointer;color:var(--muted)" id="map-refresh-btn">🔄</button>
+            </div>
           </div>
           <div id="map-container">
             <div class="map-placeholder" id="map-placeholder">
@@ -1375,7 +1387,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         </div>
       </div>
 
-      <button class="signout-btn" onclick="signOut()">← Back to Team</button>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.5rem">
+        <button class="signout-btn" onclick="goBack()" style="flex:1">← Back to Team</button>
+        <button onclick="signOut()" style="background:none;border:none;font-family:sans-serif;font-size:0.72rem;color:var(--muted);cursor:pointer;padding:0.5rem;text-decoration:underline">Sign Out</button>
+      </div>
     </div>
   </div>
 
@@ -1561,6 +1576,10 @@ let locationWatcher = null;
 let roadCarIntervalId = null;
 let gpsLastCloudSave = 0;
 const _geocodeCache = {};
+let mapRefreshIntervalId  = null;
+let mapRefreshCountdown   = 30;
+let taskRefreshIntervalId = null;
+let taskRefreshCountdown  = 30;
 
 /* INIT */
 document.addEventListener('click', (e) => {
@@ -1665,6 +1684,7 @@ async function loadData() {
   updateAllProgressPills();
   updateHierarchyPhotos();
   if (currentUser) rescheduleAllReminders();
+  restoreSession(); // auto-login if a session was saved
 }
 
 async function saveData() {
@@ -1879,10 +1899,50 @@ function startCountdown() {
 }
 
 /* HIERARCHY — tap person */
+/* ── SESSION PERSISTENCE ── */
+function saveSession() {
+  if (currentUser) {
+    try { localStorage.setItem('activeSession', JSON.stringify({ userId: currentUser, isAdmin, isCoordinator })); } catch(e) {}
+  }
+}
+function clearSession() {
+  try { localStorage.removeItem('activeSession'); } catch(e) {}
+}
+function restoreSession() {
+  try {
+    const s = localStorage.getItem('activeSession');
+    if (!s) return;
+    const { userId, isAdmin: a, isCoordinator: c } = JSON.parse(s);
+    if (!TEAM[userId]) return;
+    currentUser = userId;
+    isAdmin = a;
+    isCoordinator = c;
+    if (a) openAdmin();
+    else if (c) openCoordinatorAdmin();
+    else openTaskView(userId);
+  } catch(e) {}
+}
+function goBack() {
+  stopTaskAutoRefresh();
+  stopMapAutoRefresh();
+  document.getElementById('hierarchy-page').style.display = 'block';
+  document.getElementById('task-page').style.display      = 'none';
+  document.getElementById('admin-page').style.display     = 'none';
+  // Session stays alive — tapping your circle again goes straight in
+}
+
 function tapPerson(id) {
   // Guard: make sure person exists
   if (!TEAM[id]) {
     showToast('error', 'Person not found', `No team member with id: ${id}`, 3000);
+    return;
+  }
+
+  // Already logged in as this person — skip PIN, go straight in
+  if (currentUser === id) {
+    if (isAdmin) openAdmin();
+    else if (id === 'coordinator') openCoordinatorAdmin();
+    else openTaskView(id);
     return;
   }
 
@@ -1943,6 +2003,7 @@ function submitPin() {
     } else {
       openTaskView(personId);
     }
+    saveSession();
   } else {
     err.style.display = 'block';
     err.textContent   = '❌ Incorrect PIN. Default is 0000';
@@ -2103,6 +2164,7 @@ function openTaskView(id) {
   requestNotificationPermission();
   showToast('success', `Welcome, ${displayName}!`,
     isCoord ? 'Viewing all team tasks' : `${data.tasks.length} tasks assigned`, 3000);
+  startTaskAutoRefresh();
 }
 
 function switchTaskView(view) {
@@ -3768,6 +3830,110 @@ function renderAdminTaskDetail(id) {
 }
 
 /* ADMIN — TABS */
+/* ── TASK PAGE AUTO-REFRESH ── */
+function startTaskAutoRefresh() {
+  stopTaskAutoRefresh();
+  taskRefreshCountdown = 30;
+  taskRefreshIntervalId = setInterval(() => {
+    taskRefreshCountdown--;
+    const el = document.getElementById('task-refresh-status');
+    if (el && taskRefreshCountdown > 0) el.textContent = `Refreshing in ${taskRefreshCountdown}s`;
+    if (taskRefreshCountdown <= 0) refreshTaskNow();
+  }, 1000);
+}
+function stopTaskAutoRefresh() {
+  clearInterval(taskRefreshIntervalId);
+  taskRefreshIntervalId = null;
+}
+function _rerenderCurrentView() {
+  if (currentTaskView === 'list')      renderTaskList();
+  else if (currentTaskView === 'day')  renderDayView();
+  else if (currentTaskView === 'week') renderWeekView();
+  else if (currentTaskView === 'wedding') renderWeddingDay();
+  else if (currentTaskView === 'checklist') renderChecklist();
+  else if (currentTaskView === 'all')  renderAllTasksCoord();
+  updateProgressHeader();
+}
+async function refreshTaskNow() {
+  taskRefreshCountdown = 30;
+  const el  = document.getElementById('task-refresh-status');
+  const btn = document.getElementById('task-refresh-btn');
+  if (el)  el.textContent = '🔄 Refreshing…';
+  if (btn) btn.disabled = true;
+  if (JSONBIN_BIN_ID) {
+    try {
+      const r = await fetch(JSONBIN_URL + '/latest', {
+        headers: { 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta': 'false' }
+      });
+      if (r.ok) {
+        const d = await r.json();
+        if (d && d.teamData) {
+          Object.keys(d.teamData).forEach(id => {
+            if (!appData[id]) appData[id] = d.teamData[id];
+            else {
+              if (d.teamData[id]?.tasks)    appData[id].tasks    = d.teamData[id].tasks;
+              if (d.teamData[id]?.location) appData[id].location = d.teamData[id].location;
+              if (d.teamData[id]?.profile)  appData[id].profile  = d.teamData[id].profile;
+            }
+          });
+        }
+        if (d && d.checklistData) checklistData = d.checklistData;
+        if (d && d.roadTimelineData) roadTimelineData = d.roadTimelineData;
+      }
+    } catch(e) {}
+  }
+  _rerenderCurrentView();
+  const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  if (el)  el.textContent = `Updated ${now}`;
+  if (btn) btn.disabled = false;
+}
+
+/* ── MAP AUTO-REFRESH ── */
+function startMapAutoRefresh() {
+  stopMapAutoRefresh();
+  mapRefreshCountdown = 30;
+  mapRefreshIntervalId = setInterval(() => {
+    mapRefreshCountdown--;
+    const el = document.getElementById('map-last-updated');
+    if (el && mapRefreshCountdown > 0) {
+      el.textContent = `Refreshing in ${mapRefreshCountdown}s`;
+    }
+    if (mapRefreshCountdown <= 0) refreshMapNow();
+  }, 1000);
+}
+function stopMapAutoRefresh() {
+  clearInterval(mapRefreshIntervalId);
+  mapRefreshIntervalId = null;
+}
+async function refreshMapNow() {
+  mapRefreshCountdown = 30;
+  const el  = document.getElementById('map-last-updated');
+  const btn = document.getElementById('map-refresh-btn');
+  if (el)  el.textContent  = '🔄 Refreshing…';
+  if (btn) btn.disabled = true;
+  // Pull latest locations from JSONBin
+  if (JSONBIN_BIN_ID) {
+    try {
+      const r = await fetch(JSONBIN_URL + '/latest', {
+        headers: { 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta': 'false' }
+      });
+      if (r.ok) {
+        const d = await r.json();
+        if (d && d.teamData) {
+          Object.keys(d.teamData).forEach(id => {
+            if (!appData[id]) appData[id] = d.teamData[id];
+            else if (d.teamData[id]?.location) appData[id].location = d.teamData[id].location;
+          });
+        }
+      }
+    } catch(e) {}
+  }
+  renderMap();
+  const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  if (el)  el.textContent  = `Updated ${now}`;
+  if (btn) btn.disabled = false;
+}
+
 function switchAdminTab(tab, btn) {
   ['overview','budget','team-mgmt','map','remind','checklist','settings'].forEach(t => {
     const el = document.getElementById('tab-' + t);
@@ -3775,10 +3941,11 @@ function switchAdminTab(tab, btn) {
   });
   document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
   if (btn) btn.classList.add('active');
+  if (tab !== 'map') stopMapAutoRefresh();
   if (tab === 'overview')   renderOverviewGrid();
   if (tab === 'budget')     renderBudget();
   if (tab === 'team-mgmt')  renderTeamMgmt();
-  if (tab === 'map')        renderMap();
+  if (tab === 'map')        { renderMap(); startMapAutoRefresh(); }
   if (tab === 'checklist')  renderAdminChecklist();
   if (tab === 'settings')   renderGpsSettings();
 }
@@ -4313,7 +4480,10 @@ function signOut() {
   }
   clearInterval(roadCarIntervalId);
   roadCarIntervalId = null;
+  stopTaskAutoRefresh();
+  stopMapAutoRefresh();
   closeWrPopup();
+  clearSession();
   const gpsBtn = document.getElementById('gps-btn');
   if (gpsBtn) { gpsBtn.textContent = '📍'; gpsBtn.title = 'Share my location'; }
   currentUser    = null;
