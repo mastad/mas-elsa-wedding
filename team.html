@@ -1088,10 +1088,11 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
       <!-- View toggle -->
       <div class="view-toggle">
         <button class="view-toggle-btn active" id="vt-list" onclick="switchTaskView('list')">📋 List</button>
+        <button class="view-toggle-btn" id="vt-messages" onclick="switchTaskView('messages')" style="position:relative">📬 Messages<span id="msg-unread-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:#e05c5c;color:#fff;border-radius:50%;width:16px;height:16px;font-size:0.6rem;font-family:sans-serif;display:flex;align-items:center;justify-content:center;font-weight:700"></span></button>
         <button class="view-toggle-btn" id="vt-wedding" onclick="switchTaskView('wedding')">🎊 Aug 2</button>
         <button class="view-toggle-btn" id="vt-checklist" onclick="switchTaskView('checklist')">✅ Checklist</button>
-        <button class="view-toggle-btn" id="vt-venues" onclick="switchTaskView('venues')">🗺️ Venues</button>
         <button class="view-toggle-btn" id="vt-all" onclick="switchTaskView('all')" style="display:none">👥 All</button>
+        <button class="view-toggle-btn" id="vt-venues" onclick="switchTaskView('venues')" style="display:none">🗺️ Venues</button>
         <!-- Day/Week kept in DOM for JS compatibility but not shown as tabs -->
         <button id="vt-day" style="display:none"></button>
         <button id="vt-week" style="display:none"></button>
@@ -1249,6 +1250,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 
       <!-- ALL TASKS VIEW (Coordinator only) -->
       <!-- VENUES VIEW -->
+      <div id="view-messages" style="display:none">
+        <div id="inbox-content"></div>
+      </div>
+
       <div id="view-venues" style="display:none">
         <div id="venues-list" style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.25rem"></div>
       </div>
@@ -1323,6 +1328,34 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
             <div id="live-map" style="display:none"></div>
           </div>
           <div class="location-list" id="location-list"></div>
+        </div>
+
+        <!-- KEY VENUES -->
+        <div style="margin-top:1.5rem">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem">
+            <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold)">📌 Key Venues</div>
+            <div style="display:flex;align-items:center;gap:0.5rem">
+              <span id="venues-visibility-label" style="font-family:sans-serif;font-size:0.7rem;color:var(--muted)"></span>
+              <button id="venues-toggle-btn" onclick="toggleVenuesPublic()" style="border:none;border-radius:20px;padding:0.28rem 0.7rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer"></button>
+              <button onclick="openAddVenueForm()" style="background:var(--gold);color:#fff;border:none;border-radius:7px;padding:0.3rem 0.85rem;font-family:sans-serif;font-size:0.72rem;cursor:pointer">＋ Add</button>
+            </div>
+          </div>
+
+          <!-- Add venue form (hidden by default) -->
+          <div id="add-venue-form" style="display:none;background:#fdfaf6;border:1.5px solid var(--gold-light);border-radius:10px;padding:1rem 1.1rem;margin-bottom:1rem">
+            <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">New Venue</div>
+            <div style="display:flex;flex-direction:column;gap:0.5rem">
+              <input type="text" id="new-venue-name" placeholder="Name / Header  (e.g. The Park)" style="padding:0.5rem 0.7rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.85rem;outline:none"/>
+              <input type="text" id="new-venue-desc" placeholder="Description  (e.g. Meet at the main entrance on Oak St)" style="padding:0.5rem 0.7rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.85rem;outline:none"/>
+              <input type="text" id="new-venue-addr" placeholder="Full address  (e.g. 100 Oak St, Columbus OH)" style="padding:0.5rem 0.7rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.85rem;outline:none"/>
+              <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.25rem">
+                <button onclick="closeAddVenueForm()" class="btn btn-outline btn-sm">Cancel</button>
+                <button onclick="saveNewVenue()" class="btn btn-gold btn-sm">＋ Add</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="venues-admin-list"></div>
         </div>
       </div>
 
@@ -1411,12 +1444,6 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
           </div>
         </div>
 
-        <!-- VENUE ADDRESSES -->
-        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem">
-          <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.25rem">🗺️ Venue Addresses</div>
-          <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1.1rem;line-height:1.6">Enter addresses so team members can tap "Get Directions" in the Venues tab. Google Maps URL is optional — leave blank to auto-generate from address.</p>
-          <div id="venue-settings-list"></div>
-        </div>
       </div>
 
       <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.5rem">
@@ -1627,7 +1654,7 @@ const UPLOAD_PRESET   = 'Abrham';
 
 let appData = {};
 let liveBudget = [];
-let gpsSettings = { enforcedDates: ['2026-08-02'] };
+let gpsSettings = { enforcedDates: ['2026-08-02'], venuesPublic: false };
 let checklistData = [];   // all checklist items
 let clDateFilter = '2026-08-02';   // active date filter in checklist view
 let clPersonFilter = 'all';        // active person filter in admin checklist
@@ -1645,14 +1672,15 @@ let taskRefreshCountdown  = 30;
 let broadcastMsg          = null;  // { id, text, sentAt, sentBy }
 let venues                = [];    // admin-configurable locations
 let telegramSettings      = { botToken: '', offset: 0 };
+let appMessages           = [];    // in-app messages: [{ id, from, to, text, sentAt, replies:[] }]
 
 const DEFAULT_VENUES = [
-  { id:'v1', name:"Bride's Family House",  address:'', mapsUrl:'' },
-  { id:'v2', name:"Groom's Family House",  address:'', mapsUrl:'' },
-  { id:'v3', name:'Downtown Columbus',     address:'Downtown Columbus, OH 43215', mapsUrl:'https://maps.google.com/?q=Downtown+Columbus+OH+43215' },
-  { id:'v4', name:'Airbnb',               address:'', mapsUrl:'' },
-  { id:'v5', name:'The Park',             address:'', mapsUrl:'' },
-  { id:'v6', name:'The Hall / Venue',     address:'', mapsUrl:'' },
+  { id:'v1', name:"Bride's Family House",  description:'', address:'', mapsUrl:'' },
+  { id:'v2', name:"Groom's Family House",  description:'', address:'', mapsUrl:'' },
+  { id:'v3', name:'Downtown Columbus',     description:'Downtown photo location', address:'Downtown Columbus, OH 43215', mapsUrl:'https://maps.google.com/?q=Downtown+Columbus+OH+43215' },
+  { id:'v4', name:'Airbnb',               description:'Rest & refresh stop', address:'', mapsUrl:'' },
+  { id:'v5', name:'The Park',             description:'Bridal party photos', address:'', mapsUrl:'' },
+  { id:'v6', name:'The Hall / Venue',     description:'Wedding reception venue', address:'', mapsUrl:'' },
 ];
 
 /* INIT */
@@ -1738,6 +1766,7 @@ async function loadData() {
         if (d && d.broadcastMsg !== undefined) broadcastMsg = d.broadcastMsg;
         if (d && d.venues && d.venues.length) venues = d.venues;
         if (d && d.telegramSettings) telegramSettings = { ...telegramSettings, ...d.telegramSettings };
+        if (d && d.appMessages) appMessages = d.appMessages;
       }
       trackJsonBinRequest('read');
     } catch(e) {
@@ -1772,7 +1801,7 @@ async function saveData() {
       await fetch(JSONBIN_URL, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
-        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData, roadTimelineData, broadcastMsg, venues, telegramSettings })
+        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData, roadTimelineData, broadcastMsg, venues, telegramSettings, appMessages })
       });
       trackJsonBinRequest('write');
     } catch(e) { console.warn('JSONBin save failed'); }
@@ -1799,7 +1828,7 @@ async function saveBudget() {
       await fetch(JSONBIN_URL, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
-        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData, roadTimelineData, broadcastMsg, venues, telegramSettings })
+        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData, roadTimelineData, broadcastMsg, venues, telegramSettings, appMessages })
       });
       trackJsonBinRequest('write');
     } catch(e) { console.warn('Budget save failed'); }
@@ -2233,6 +2262,9 @@ function openTaskView(id) {
     allBtn.style.display = 'none';
   }
 
+  // Show venues tab only if admin has made it public
+  _updateVenueToggleUI();
+
   document.getElementById('hierarchy-page').style.display = 'none';
   document.getElementById('task-page').style.display      = 'block';
   document.getElementById('admin-page').style.display     = 'none';
@@ -2257,8 +2289,9 @@ function openTaskView(id) {
 
 function switchTaskView(view) {
   currentTaskView = view;
-  ['list','day','week','wedding','checklist','venues','all'].forEach(v => {
-    document.getElementById('view-' + v).style.display = v === view ? 'block' : 'none';
+  ['list','day','week','wedding','checklist','venues','all','messages'].forEach(v => {
+    const el = document.getElementById('view-' + v);
+    if (el) el.style.display = v === view ? 'block' : 'none';
     const btn = document.getElementById('vt-' + v);
     if (btn) btn.classList.toggle('active', v === view);
   });
@@ -2270,6 +2303,7 @@ function switchTaskView(view) {
   if (view === 'checklist') renderChecklist();
   if (view === 'venues')    renderVenues();
   if (view === 'all')       renderAllTasksCoord();
+  if (view === 'messages')  { renderInbox(); _markMessagesRead(); }
   updateProgressHeader();
 }
 
@@ -3331,7 +3365,6 @@ function gpsGateRetry() {
 
 /* GPS SETTINGS (admin) */
 function renderGpsSettings() {
-  renderVenueSettings();
   const tkEl = document.getElementById('tg-token-input');
   if (tkEl) tkEl.value = telegramSettings.botToken || '';
   const list = document.getElementById('gps-dates-list');
@@ -3955,6 +3988,8 @@ function _rerenderCurrentView() {
   else if (currentTaskView === 'checklist') renderChecklist();
   else if (currentTaskView === 'venues') renderVenues();
   else if (currentTaskView === 'all')  renderAllTasksCoord();
+  else if (currentTaskView === 'messages') renderInbox();
+  _updateMsgBadge();
   updateProgressHeader();
 }
 async function refreshTaskNow() {
@@ -3985,6 +4020,7 @@ async function refreshTaskNow() {
         if (d && d.broadcastMsg !== undefined) broadcastMsg = d.broadcastMsg;
         if (d && d.venues && d.venues.length) venues = d.venues;
         if (d && d.telegramSettings) telegramSettings = { ...telegramSettings, ...d.telegramSettings };
+        if (d && d.appMessages) appMessages = d.appMessages;
       }
     } catch(e) {}
   }
@@ -4047,31 +4083,17 @@ async function syncTelegramRegistrations() {
 }
 
 async function sendTelegramReminder() {
-  const msg = (document.getElementById('tg-msg-input')?.value || '').trim();
-  if (!msg) { showToast('error', 'No message', 'Please type or pick a template first', 2000); return; }
-  const role   = document.getElementById('tg-role-select')?.value || 'all';
-  const targets = (ROLE_GROUPS[role]?.ids || Object.keys(TEAM)).filter(id => appData[id]?.telegramChatId);
-  if (!targets.length) {
-    showToast('error', 'No one registered', 'Ask your team to start the bot first', 3000);
-    return;
-  }
-  const sendBtn = document.getElementById('tg-send-btn');
-  if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = '⏳ Sending…'; }
+  // Sends a ping to all registered team members to open the app
+  const targets = Object.keys(TEAM).filter(id => appData[id]?.telegramChatId);
+  if (!targets.length) { showToast('error', 'No one connected', 'Share registration links first', 3000); return; }
   const senderName = (appData[currentUser]?.profile?.name) || TEAM[currentUser]?.name || 'Admin';
-  const fullMsg = `🎊 <b>A&amp;B Wedding Team</b>\n\n${msg}\n\n<i>— ${senderName}</i>`;
-  let sent = 0, failed = 0;
+  const pingText = `📬 New message from ${senderName} — open the A&B Wedding app to read.`;
+  let sent = 0;
   for (const id of targets) {
-    const res = await tgApi('sendMessage', { chat_id: appData[id].telegramChatId, text: fullMsg, parse_mode: 'HTML' });
-    res?.ok ? sent++ : failed++;
+    const res = await tgApi('sendMessage', { chat_id: appData[id].telegramChatId, text: pingText });
+    if (res?.ok) sent++;
   }
-  if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = '📤 Send via Telegram'; }
-  if (sent > 0) {
-    showToast('success', `Sent to ${sent} person${sent>1?'s':''}`, failed ? `${failed} failed` : 'All delivered ✓', 3500);
-    const el = document.getElementById('tg-msg-input');
-    if (el) el.value = '';
-  } else {
-    showToast('error', 'Send failed', 'Check token or try again', 3000);
-  }
+  showToast('success', `Ping sent to ${sent} member${sent!==1?'s':''}`, 'They\'ll open the app to read', 3000);
 }
 
 function setTgTemplate(btnOrText) {
@@ -4085,17 +4107,19 @@ function copyTgLink(link, name) {
     .then(() => showToast('success', 'Link copied!', `Send it to ${name} on Telegram`, 2500))
     .catch(() => showToast('info', 'Copy manually:', link, 5000));
 }
+async function disconnectTelegram(id) {
+  const name = (appData[id]?.profile?.name) || TEAM[id]?.name || id;
+  if (!confirm(`Remove ${name} from Telegram?\nThey will need to tap their link again to reconnect.`)) return;
+  if (appData[id]) delete appData[id].telegramChatId;
+  await saveData();
+  renderRemindersTab();
+  showToast('success', `${name} disconnected`, 'Share their link to reconnect', 2500);
+}
 
 function renderRemindersTab() {
   const el = document.getElementById('remind-content');
   if (!el) return;
-  const allIds    = Object.keys(TEAM);
-  const regIds    = allIds.filter(id => appData[id]?.telegramChatId);
-  const unregIds  = allIds.filter(id => !appData[id]?.telegramChatId);
-  const total     = allIds.length;
-  const regCount  = regIds.length;
-  const pct       = Math.round((regCount / total) * 100);
-
+  const senderName = (appData[currentUser]?.profile?.name) || TEAM[currentUser]?.name || 'Admin';
   const TEMPLATES = [
     { label:'⏰ Time check',     text:'Time check! Please confirm your current status and location.' },
     { label:'🚗 Head to venue',  text:'Please make your way to the venue now. We need everyone there!' },
@@ -4105,61 +4129,105 @@ function renderRemindersTab() {
     { label:'🎊 30 min warning', text:'Ceremony begins in 30 minutes. All team please be at your positions now.' },
   ];
 
-  el.innerHTML = `
-    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1.1rem">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.7rem">
-        <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold)">📲 Team Registration</div>
-        <button id="tg-sync-btn" onclick="syncTelegramRegistrations()" style="background:var(--gold);color:#fff;border:none;border-radius:7px;padding:0.3rem 0.8rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer;white-space:nowrap">🔄 Sync</button>
-      </div>
-      <div style="background:#eee;border-radius:4px;height:6px;overflow:hidden;margin-bottom:0.45rem">
-        <div style="height:100%;border-radius:4px;background:${pct===100?'var(--green)':'var(--gold)'};width:${pct}%;transition:width 0.4s"></div>
-      </div>
-      <div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);margin-bottom:${unregIds.length?'1rem':'0'}">${regCount} of ${total} team members connected</div>
-      ${unregIds.length ? `
-        <div style="font-family:sans-serif;font-size:0.63rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.45rem">⏳ Share link with these members:</div>
-        <div style="display:flex;flex-direction:column;gap:0.35rem">
-          ${unregIds.map(id => {
-            const p    = TEAM[id];
-            const name = (appData[id]?.profile?.name) || p.name;
-            const link = `https://t.me/${TG_BOT_USERNAME}?start=${id}`;
-            return `<div style="display:flex;align-items:center;gap:0.55rem;padding:0.4rem 0.6rem;background:#fdfaf6;border:1px solid var(--border);border-radius:7px">
-              <span>${p.emoji}</span>
-              <span style="flex:1;font-family:sans-serif;font-size:0.78rem">${name}</span>
-              <button onclick="copyTgLink('${link}','${name}')" style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.2rem 0.5rem;font-family:sans-serif;font-size:0.65rem;cursor:pointer;color:var(--muted)">Copy</button>
-              <a href="${link}" target="_blank" style="background:#0088cc;color:#fff;border-radius:6px;padding:0.2rem 0.5rem;font-family:sans-serif;font-size:0.65rem;text-decoration:none">Open</a>
-            </div>`;
-          }).join('')}
-        </div>` : ''}
-      ${regIds.length ? `
-        <div style="font-family:sans-serif;font-size:0.63rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:${unregIds.length?'0.85rem':'0'};margin-bottom:0.4rem">✅ Connected:</div>
-        <div style="display:flex;flex-wrap:wrap;gap:0.35rem">
-          ${regIds.map(id => `<span style="background:#e6f7ef;color:#1a7a4a;border-radius:20px;padding:0.2rem 0.6rem;font-family:sans-serif;font-size:0.68rem">${TEAM[id].emoji} ${(appData[id]?.profile?.name)||TEAM[id].name}</span>`).join('')}
-        </div>` : ''}
-    </div>
+  // Telegram ping status
+  const allIds   = Object.keys(TEAM);
+  const regIds   = allIds.filter(id => appData[id]?.telegramChatId);
+  const unregIds = allIds.filter(id => !appData[id]?.telegramChatId);
+  const pct      = Math.round((regIds.length / allIds.length) * 100);
 
+  // Sent messages log (most recent first)
+  const sentMsgs = [...appMessages].reverse();
+
+  el.innerHTML = `
+    <!-- COMPOSE -->
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1.1rem">
-      <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">✍️ Message</div>
-      <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:0.8rem">
+      <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">✍️ New Message</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:0.75rem">
         ${TEMPLATES.map(t => `<button onclick="setTgTemplate(this.dataset.text)" data-text="${t.text.replace(/"/g,'&quot;')}" style="background:#fdf8ef;border:1px solid var(--gold-light);border-radius:20px;padding:0.28rem 0.65rem;font-family:sans-serif;font-size:0.68rem;cursor:pointer;color:var(--dark)">${t.label}</button>`).join('')}
       </div>
-      <textarea id="tg-msg-input" rows="4" placeholder="Type your message… or tap a template above" style="width:100%;padding:0.65rem 0.75rem;border:1.5px solid var(--border);border-radius:8px;font-family:sans-serif;font-size:0.85rem;resize:vertical;box-sizing:border-box;outline:none;line-height:1.5"></textarea>
-      <div style="font-family:sans-serif;font-size:0.62rem;color:var(--muted);margin-top:0.3rem">Sent as: 🎊 <b>A&B Wedding Team</b> — your message — <i>${(appData[currentUser]?.profile?.name)||TEAM[currentUser]?.name||'Admin'}</i></div>
+      <textarea id="tg-msg-input" rows="3" placeholder="Type your message… or tap a template above" style="width:100%;padding:0.65rem 0.75rem;border:1.5px solid var(--border);border-radius:8px;font-family:sans-serif;font-size:0.85rem;resize:vertical;box-sizing:border-box;outline:none;line-height:1.5"></textarea>
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-top:0.65rem">
+        <select id="tg-role-select" style="flex:1;padding:0.5rem 0.65rem;border:1.5px solid var(--border);border-radius:8px;font-family:sans-serif;font-size:0.82rem;outline:none;background:#fff">
+          <option value="all">📢 Everyone</option>
+          ${Object.entries(ROLE_GROUPS).filter(([k])=>k!=='all').map(([key,g])=>`<option value="${key}">${g.label}</option>`).join('')}
+        </select>
+        <button onclick="sendAppMessage()" style="background:var(--gold);color:#fff;border:none;border-radius:8px;padding:0.5rem 1.1rem;font-family:sans-serif;font-size:0.85rem;font-weight:600;cursor:pointer;white-space:nowrap">📤 Send</button>
+      </div>
+      <div style="font-family:sans-serif;font-size:0.62rem;color:var(--muted);margin-top:0.35rem">From: <b>${senderName}</b> · Team members reply in the app</div>
     </div>
 
-    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem">
-      <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">📤 Send To</div>
-      <select id="tg-role-select" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:8px;font-family:sans-serif;font-size:0.85rem;margin-bottom:0.85rem;outline:none;background:#fff;box-sizing:border-box">
-        <option value="all">📢 Everyone (${regIds.length} connected)</option>
-        ${Object.entries(ROLE_GROUPS).filter(([k])=>k!=='all').map(([key,g])=>{
-          const r = g.ids.filter(id=>appData[id]?.telegramChatId).length;
-          return `<option value="${key}">${g.label} (${r}/${g.ids.length})</option>`;
-        }).join('')}
-      </select>
-      <button id="tg-send-btn" onclick="sendTelegramReminder()" ${regCount===0?'disabled':''} style="width:100%;background:${regCount?'var(--gold)':'#ccc'};color:#fff;border:none;border-radius:10px;padding:0.85rem;font-family:sans-serif;font-size:0.9rem;font-weight:600;cursor:${regCount?'pointer':'default'};letter-spacing:0.04em">
-        📤 Send via Telegram
-      </button>
-      ${regCount===0?`<div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);text-align:center;margin-top:0.6rem">Share the registration links above so team members can connect first</div>`:''}
-    </div>`;
+    <!-- SENT LOG -->
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1.1rem">
+      <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">📨 Sent Messages</div>
+      ${sentMsgs.length ? sentMsgs.map(msg => {
+        const fromName = (appData[msg.from]?.profile?.name) || TEAM[msg.from]?.name || msg.from;
+        const toLabel  = msg.to === 'all' ? '📢 Everyone' : (ROLE_GROUPS[msg.to]?.label || msg.to);
+        return `<div style="border:1px solid var(--border);border-radius:9px;padding:0.85rem 1rem;margin-bottom:0.65rem;background:#fff">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem">
+            <div style="display:flex;align-items:center;gap:0.45rem">
+              <span style="font-family:sans-serif;font-size:0.7rem;background:var(--gold-light);color:var(--dark);border-radius:20px;padding:0.15rem 0.5rem">${toLabel}</span>
+              <span style="font-family:sans-serif;font-size:0.68rem;color:var(--muted)">${msg.sentAt}</span>
+            </div>
+            <button onclick="deleteAppMessage('${msg.id}')" style="background:none;border:none;font-size:0.8rem;cursor:pointer;color:#ccc;padding:0">✕</button>
+          </div>
+          <div style="font-family:sans-serif;font-size:0.85rem;color:var(--dark);line-height:1.5;margin-bottom:${msg.replies?.length?'0.65rem':'0'}">${msg.text}</div>
+          ${msg.replies?.length ? `
+            <div style="border-top:1px solid var(--border);padding-top:0.55rem;margin-top:0.1rem;display:flex;flex-direction:column;gap:0.35rem">
+              ${msg.replies.map(r => {
+                const rName = (appData[r.from]?.profile?.name) || TEAM[r.from]?.name || r.from;
+                return `<div style="background:#f7f7f7;border-radius:7px;padding:0.4rem 0.65rem">
+                  <span style="font-family:sans-serif;font-size:0.68rem;font-weight:600;color:var(--dark)">${TEAM[r.from]?.emoji||''} ${rName}</span>
+                  <span style="font-family:sans-serif;font-size:0.65rem;color:var(--muted);margin-left:0.35rem">${r.sentAt}</span>
+                  <div style="font-family:sans-serif;font-size:0.8rem;color:var(--dark);margin-top:0.2rem">${r.text}</div>
+                </div>`;
+              }).join('')}
+            </div>` : ''}
+        </div>`;
+      }).join('') : '<div style="text-align:center;padding:2rem 1rem;color:var(--muted);font-family:sans-serif;font-size:0.82rem;border:1.5px dashed var(--border);border-radius:9px">No messages sent yet</div>'}
+    </div>
+
+    <!-- TELEGRAM PING (optional) -->
+    <details style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem">
+      <summary style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;list-style:none;display:flex;align-items:center;gap:0.4rem">📲 Telegram Ping <span style="font-size:0.65rem;background:#eee;border-radius:10px;padding:0.1rem 0.4rem">${regIds.length}/${allIds.length} connected</span> ▾</summary>
+      <div style="margin-top:0.85rem">
+        <p style="font-family:sans-serif;font-size:0.76rem;color:var(--muted);margin:0 0 0.75rem;line-height:1.6">Optional: send a Telegram notification to ping team members to open the app.</p>
+        <div style="background:#eee;border-radius:4px;height:5px;overflow:hidden;margin-bottom:0.5rem">
+          <div style="height:100%;border-radius:4px;background:${pct===100?'var(--green)':'var(--gold)'};width:${pct}%;transition:width 0.4s"></div>
+        </div>
+        <div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);margin-bottom:0.85rem">${regIds.length} of ${allIds.length} members have Telegram connected</div>
+        ${unregIds.length ? `
+          <div style="font-family:sans-serif;font-size:0.63rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem">⏳ Not connected:</div>
+          <div style="display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.85rem">
+            ${unregIds.map(id => {
+              const p    = TEAM[id];
+              const name = (appData[id]?.profile?.name) || p.name;
+              const link = `https://t.me/${TG_BOT_USERNAME}?start=${id}`;
+              return `<div style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.55rem;background:#fdfaf6;border:1px solid var(--border);border-radius:7px">
+                <span>${p.emoji}</span>
+                <span style="flex:1;font-family:sans-serif;font-size:0.76rem">${name}</span>
+                <button onclick="copyTgLink('${link}','${name}')" style="background:none;border:1px solid var(--border);border-radius:5px;padding:0.15rem 0.45rem;font-family:sans-serif;font-size:0.63rem;cursor:pointer;color:var(--muted)">Copy</button>
+                <a href="${link}" target="_blank" style="background:#0088cc;color:#fff;border-radius:5px;padding:0.15rem 0.45rem;font-family:sans-serif;font-size:0.63rem;text-decoration:none">Open</a>
+              </div>`;
+            }).join('')}
+          </div>` : ''}
+        ${regIds.length ? `
+          <div style="font-family:sans-serif;font-size:0.63rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem">✅ Connected:</div>
+          <div style="display:flex;flex-direction:column;gap:0.3rem;margin-bottom:0.85rem">
+            ${regIds.map(id => {
+              const name = (appData[id]?.profile?.name) || TEAM[id].name;
+              return `<div style="display:flex;align-items:center;gap:0.5rem;padding:0.3rem 0.55rem;background:#e6f7ef;border-radius:7px">
+                <span>${TEAM[id].emoji}</span>
+                <span style="flex:1;font-family:sans-serif;font-size:0.76rem;color:#1a7a4a">${name}</span>
+                <button onclick="disconnectTelegram('${id}')" style="background:none;border:1px solid #b7dfc9;border-radius:5px;padding:0.1rem 0.4rem;font-family:sans-serif;font-size:0.63rem;cursor:pointer;color:#888">✕</button>
+              </div>`;
+            }).join('')}
+          </div>` : ''}
+        <button onclick="sendTelegramReminder()" ${regIds.length===0?'disabled':''} style="width:100%;background:${regIds.length?'#0088cc':'#ccc'};color:#fff;border:none;border-radius:8px;padding:0.65rem;font-family:sans-serif;font-size:0.82rem;font-weight:600;cursor:${regIds.length?'pointer':'default'}">
+          📲 Send Telegram Ping to All
+        </button>
+        <button onclick="syncTelegramRegistrations()" style="width:100%;margin-top:0.5rem;background:none;border:1px solid var(--border);border-radius:8px;padding:0.5rem;font-family:sans-serif;font-size:0.78rem;cursor:pointer;color:var(--muted)">🔄 Sync Registrations</button>
+      </div>
+    </details>`;
 }
 
 function saveTgToken() {
@@ -4176,6 +4244,122 @@ function toggleTgTokenVisibility() {
   if (!el) return;
   if (el.type === 'password') { el.type = 'text'; }
   else { el.type = 'password'; }
+}
+
+/* ── IN-APP MESSAGING ── */
+function _msgRelevantToUser(msg) {
+  if (msg.to === 'all') return true;
+  if (msg.to === currentUser) return true;
+  const grp = ROLE_GROUPS[msg.to];
+  return grp ? grp.ids.includes(currentUser) : false;
+}
+function _unreadCount() {
+  const lastRead = parseInt(localStorage.getItem('lastReadMsg_' + currentUser) || '0');
+  return appMessages.filter(m => _msgRelevantToUser(m) && parseInt(m.id.replace('msg_','')) > lastRead).length;
+}
+function _markMessagesRead() {
+  if (!appMessages.length) return;
+  const latestId = Math.max(...appMessages.map(m => parseInt(m.id.replace('msg_',''))));
+  try { localStorage.setItem('lastReadMsg_' + currentUser, latestId); } catch(e) {}
+  _updateMsgBadge();
+}
+function _updateMsgBadge() {
+  const badge = document.getElementById('msg-unread-badge');
+  if (!badge || !currentUser) return;
+  const count = _unreadCount();
+  if (count > 0) { badge.textContent = count; badge.style.display = 'flex'; }
+  else { badge.style.display = 'none'; }
+}
+async function sendAppMessage() {
+  const text = (document.getElementById('tg-msg-input')?.value || '').trim();
+  if (!text) { showToast('error', 'Empty message', 'Type something first', 1800); return; }
+  const to   = document.getElementById('tg-role-select')?.value || 'all';
+  const msg  = { id: 'msg_' + Date.now(), from: currentUser, to, text, sentAt: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }), replies: [] };
+  appMessages.push(msg);
+  const input = document.getElementById('tg-msg-input');
+  if (input) input.value = '';
+  await saveData();
+  renderRemindersTab();
+  const toLabel = to === 'all' ? 'everyone' : (ROLE_GROUPS[to]?.label || to);
+  showToast('success', 'Message sent', `Delivered to ${toLabel}`, 2500);
+  // Optional Telegram ping
+  if (telegramSettings.botToken) sendTelegramPing(msg);
+}
+async function sendTelegramPing(msg) {
+  const to      = msg.to;
+  const targets = to === 'all' ? Object.keys(TEAM) : (ROLE_GROUPS[to]?.ids || []);
+  const pingText = `📬 New message from ${(appData[msg.from]?.profile?.name)||TEAM[msg.from]?.name||'Admin'} — open the app to read.`;
+  for (const id of targets) {
+    const chatId = appData[id]?.telegramChatId;
+    if (chatId) await tgApi('sendMessage', { chat_id: chatId, text: pingText });
+  }
+}
+async function replyToMessage(msgId) {
+  const input = document.getElementById('reply-input-' + msgId);
+  const text  = (input?.value || '').trim();
+  if (!text) { showToast('error', 'Empty reply', '', 1500); return; }
+  const msg = appMessages.find(m => m.id === msgId);
+  if (!msg) return;
+  msg.replies.push({ from: currentUser, text, sentAt: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }) });
+  await saveData();
+  if (input) input.value = '';
+  renderInbox();
+  showToast('success', 'Reply sent', '', 1800);
+}
+async function deleteAppMessage(msgId) {
+  if (!confirm('Delete this message and all replies?')) return;
+  appMessages = appMessages.filter(m => m.id !== msgId);
+  await saveData();
+  renderRemindersTab();
+  showToast('success', 'Message deleted', '', 1800);
+}
+function renderInbox() {
+  const el = document.getElementById('inbox-content');
+  if (!el) return;
+  const myMsgs = [...appMessages].filter(m => _msgRelevantToUser(m)).reverse();
+  if (!myMsgs.length) {
+    el.innerHTML = '<div style="text-align:center;padding:3rem 1rem;color:var(--muted);font-family:sans-serif;font-size:0.85rem;border:1.5px dashed var(--border);border-radius:10px">No messages yet.<br>Admin will send updates here.</div>';
+    return;
+  }
+  el.innerHTML = '';
+  myMsgs.forEach(msg => {
+    const fromName = (appData[msg.from]?.profile?.name) || TEAM[msg.from]?.name || msg.from;
+    const fromEmoji = TEAM[msg.from]?.emoji || '👤';
+    const isAdmin   = TEAM[msg.from]?.isAdmin;
+    const myReply   = msg.replies?.find(r => r.from === currentUser);
+    const card = document.createElement('div');
+    card.style.cssText = 'border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;margin-bottom:0.85rem;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.04)';
+    card.innerHTML = `
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.55rem">
+        <span style="font-size:1.15rem">${fromEmoji}</span>
+        <div>
+          <div style="font-family:sans-serif;font-size:0.78rem;font-weight:600;color:var(--dark)">${fromName}${isAdmin?' 👑':''}</div>
+          <div style="font-family:sans-serif;font-size:0.65rem;color:var(--muted)">${msg.sentAt}</div>
+        </div>
+      </div>
+      <div style="font-family:sans-serif;font-size:0.88rem;color:var(--dark);line-height:1.55;margin-bottom:0.75rem">${msg.text}</div>
+      ${msg.replies?.length ? `
+        <div style="background:#f7f7f7;border-radius:8px;padding:0.55rem 0.75rem;margin-bottom:0.65rem;display:flex;flex-direction:column;gap:0.35rem">
+          ${msg.replies.map(r => {
+            const rName = (appData[r.from]?.profile?.name) || TEAM[r.from]?.name || r.from;
+            const isMine = r.from === currentUser;
+            return `<div style="display:flex;align-items:flex-start;gap:0.4rem${isMine?';flex-direction:row-reverse':''}">
+              <span style="font-size:0.9rem">${TEAM[r.from]?.emoji||'👤'}</span>
+              <div style="background:${isMine?'#fde98a':'#fff'};border:1px solid var(--border);border-radius:7px;padding:0.35rem 0.6rem;max-width:80%">
+                <div style="font-family:sans-serif;font-size:0.65rem;color:var(--muted);margin-bottom:0.15rem">${isMine?'You':rName} · ${r.sentAt}</div>
+                <div style="font-family:sans-serif;font-size:0.78rem;color:var(--dark)">${r.text}</div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>` : ''}
+      ${!myReply ? `
+        <div style="display:flex;gap:0.45rem">
+          <input type="text" id="reply-input-${msg.id}" placeholder="Reply…" style="flex:1;padding:0.45rem 0.65rem;border:1.5px solid var(--border);border-radius:8px;font-family:sans-serif;font-size:0.82rem;outline:none"
+            onkeydown="if(event.key==='Enter')replyToMessage('${msg.id}')"/>
+          <button onclick="replyToMessage('${msg.id}')" style="background:var(--gold);color:#fff;border:none;border-radius:8px;padding:0.45rem 0.9rem;font-family:sans-serif;font-size:0.78rem;font-weight:600;cursor:pointer">↩ Reply</button>
+        </div>` : `<div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);text-align:right">✓ You replied</div>`}`;
+    el.appendChild(card);
+  });
 }
 
 /* ── BROADCAST ── */
@@ -4246,63 +4430,142 @@ function _venueIcon(name) {
 function renderVenues() {
   const el = document.getElementById('venues-list');
   if (!el) return;
-  const list = (venues && venues.length) ? venues : DEFAULT_VENUES;
-  const hasData = list.some(v => v.address || v.mapsUrl);
-  if (!hasData) {
-    el.innerHTML = '<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted);font-family:sans-serif;font-size:0.85rem;border:1.5px dashed var(--border);border-radius:10px">No venue addresses set yet.<br>Admin can add them in ⚙️ Settings.</div>';
+  const list = venues && venues.length ? venues : [];
+  if (!list.length) {
+    el.innerHTML = '<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted);font-family:sans-serif;font-size:0.85rem;border:1.5px dashed var(--border);border-radius:10px">No venues added yet.</div>';
     return;
   }
   el.innerHTML = '';
   list.forEach(v => {
-    if (!v.address && !v.mapsUrl) return;
     const url = v.mapsUrl || (v.address ? `https://maps.google.com/?q=${encodeURIComponent(v.address)}` : '');
     const card = document.createElement('div');
-    card.style.cssText = 'background:#fff;border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;display:flex;align-items:center;gap:0.9rem;box-shadow:0 1px 4px rgba(0,0,0,0.04)';
+    card.style.cssText = 'background:#fff;border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;margin-bottom:0.6rem;box-shadow:0 1px 4px rgba(0,0,0,0.04)';
     card.innerHTML = `
-      <div style="font-size:1.5rem;flex-shrink:0">${_venueIcon(v.name)}</div>
-      <div style="flex:1;min-width:0">
-        <div style="font-family:'Georgia',serif;font-size:0.9rem;color:var(--dark);margin-bottom:0.18rem">${v.name}</div>
-        <div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.address || ''}</div>
+      <div style="display:flex;align-items:flex-start;gap:0.75rem">
+        <div style="font-size:1.6rem;flex-shrink:0;line-height:1.1">${_venueIcon(v.name)}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-family:'Georgia',serif;font-size:0.95rem;color:var(--dark);margin-bottom:0.18rem">${v.name}</div>
+          ${v.description ? `<div style="font-family:sans-serif;font-size:0.76rem;color:var(--muted);margin-bottom:0.2rem">${v.description}</div>` : ''}
+          ${v.address ? `<div style="font-family:sans-serif;font-size:0.72rem;color:#aaa">${v.address}</div>` : ''}
+        </div>
       </div>
-      ${url ? `<a href="${url}" target="_blank" rel="noopener" style="background:var(--gold);color:#fff;border-radius:8px;padding:0.45rem 0.8rem;font-family:sans-serif;font-size:0.72rem;text-decoration:none;white-space:nowrap;flex-shrink:0">🗺️ Directions</a>` : ''}`;
+      ${url ? `<a href="${url}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:0.4rem;margin-top:0.75rem;background:var(--gold);color:#fff;border-radius:8px;padding:0.55rem 1rem;font-family:sans-serif;font-size:0.82rem;font-weight:600;text-decoration:none">🗺️ Get Directions</a>` : ''}`;
     el.appendChild(card);
   });
-  if (!el.children.length) el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);font-family:sans-serif;font-size:0.82rem">No addresses saved yet.</div>';
 }
-function renderVenueSettings() {
-  const el = document.getElementById('venue-settings-list');
+
+function _updateVenueToggleUI() {
+  const on = gpsSettings.venuesPublic;
+  const btn = document.getElementById('venues-toggle-btn');
+  const lbl = document.getElementById('venues-visibility-label');
+  if (btn) { btn.textContent = on ? '👁 Visible to team' : '🚫 Hidden from team'; btn.style.background = on ? '#e6f4ea' : '#f5f5f5'; btn.style.color = on ? '#2e7d32' : '#999'; }
+  if (lbl) lbl.textContent = '';
+  const tab = document.getElementById('vt-venues');
+  if (tab) tab.style.display = on ? '' : 'none';
+}
+async function toggleVenuesPublic() {
+  gpsSettings.venuesPublic = !gpsSettings.venuesPublic;
+  _updateVenueToggleUI();
+  await saveData();
+  showToast('success', gpsSettings.venuesPublic ? 'Venues visible to team' : 'Venues hidden from team', '', 2000);
+}
+function renderVenuesAdmin() {
+  _updateVenueToggleUI();
+  const el = document.getElementById('venues-admin-list');
   if (!el) return;
-  const list = (venues && venues.length) ? venues : DEFAULT_VENUES.map(v => ({...v}));
+  const list = (venues && venues.length) ? venues : [];
+  if (!list.length) {
+    el.innerHTML = '<div style="text-align:center;padding:2rem 1rem;color:var(--muted);font-family:sans-serif;font-size:0.82rem;border:1.5px dashed var(--border);border-radius:10px">No venues yet — tap ＋ Add Venue to get started.</div>';
+    return;
+  }
   el.innerHTML = '';
-  list.forEach(v => {
-    const row = document.createElement('div');
-    row.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:0.85rem 1rem;background:#fff;margin-bottom:0.55rem';
-    row.innerHTML = `
-      <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem">${_venueIcon(v.name)} ${v.name}</div>
-      <div style="display:flex;flex-direction:column;gap:0.4rem">
-        <input type="text" id="venue-addr-${v.id}" value="${v.address||''}" placeholder="Full address, e.g. 123 Main St, Columbus OH" style="padding:0.45rem 0.65rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.8rem;outline:none"/>
-        <input type="text" id="venue-url-${v.id}" value="${v.mapsUrl||''}" placeholder="Custom Google Maps URL (optional — auto-generated if blank)" style="padding:0.45rem 0.65rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.8rem;outline:none"/>
-        <button class="btn btn-gold btn-sm" onclick="saveVenue('${v.id}')" style="align-self:flex-end">Save</button>
+  list.forEach((v, idx) => {
+    const url = v.mapsUrl || (v.address ? `https://maps.google.com/?q=${encodeURIComponent(v.address)}` : '');
+    const card = document.createElement('div');
+    card.style.cssText = 'background:#fff;border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;margin-bottom:0.6rem;box-shadow:0 1px 4px rgba(0,0,0,0.04)';
+    card.innerHTML = `
+      <div style="display:flex;align-items:flex-start;gap:0.75rem">
+        <div style="font-size:1.6rem;flex-shrink:0;line-height:1.1">${_venueIcon(v.name)}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-family:'Georgia',serif;font-size:0.95rem;color:var(--dark);margin-bottom:0.18rem">${v.name}</div>
+          ${v.description ? `<div style="font-family:sans-serif;font-size:0.76rem;color:var(--muted);margin-bottom:0.2rem">${v.description}</div>` : ''}
+          ${v.address ? `<div style="font-family:sans-serif;font-size:0.72rem;color:#aaa;overflow:hidden;text-overflow:ellipsis">${v.address}</div>` : ''}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.3rem;align-items:flex-end;flex-shrink:0">
+          <button onclick="editVenueInline(${idx})" style="background:none;border:1px solid var(--border);border-radius:7px;padding:0.3rem 0.7rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer;color:var(--muted)">✏️</button>
+          <button onclick="deleteVenue(${idx})" style="background:none;border:1px solid #fcc;border-radius:7px;padding:0.3rem 0.7rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer;color:#e05c5c">✕</button>
+        </div>
+      </div>
+      ${url ? `<a href="${url}" target="_blank" rel="noopener" style="display:flex;align-items:center;justify-content:center;gap:0.4rem;margin-top:0.75rem;background:var(--gold);color:#fff;border-radius:8px;padding:0.55rem 1rem;font-family:sans-serif;font-size:0.82rem;font-weight:600;text-decoration:none;letter-spacing:0.01em">🗺️ Get Directions</a>` : `<div style="margin-top:0.6rem;font-family:sans-serif;font-size:0.72rem;color:#ccc;text-align:center">No address — tap ✏️ to add one</div>`}
+      <div id="venue-edit-${idx}" style="display:none;margin-top:0.75rem;border-top:1px solid var(--border);padding-top:0.75rem">
+        <div style="display:flex;flex-direction:column;gap:0.45rem">
+          <input type="text" id="ve-name-${idx}" value="${v.name||''}" placeholder="Name / Header" style="padding:0.45rem 0.65rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.82rem;outline:none"/>
+          <input type="text" id="ve-desc-${idx}" value="${v.description||''}" placeholder="Description" style="padding:0.45rem 0.65rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.82rem;outline:none"/>
+          <input type="text" id="ve-addr-${idx}" value="${v.address||''}" placeholder="Full address" style="padding:0.45rem 0.65rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.82rem;outline:none"/>
+          <div style="display:flex;gap:0.4rem;justify-content:flex-end">
+            <button onclick="editVenueInline(${idx})" class="btn btn-outline btn-sm">Cancel</button>
+            <button onclick="saveVenueInline(${idx})" class="btn btn-gold btn-sm">Save</button>
+          </div>
+        </div>
       </div>`;
-    el.appendChild(row);
+    el.appendChild(card);
   });
 }
-async function saveVenue(id) {
-  if (!venues.length) venues = DEFAULT_VENUES.map(v => ({...v}));
-  const v = venues.find(x => x.id === id);
+function editVenueInline(idx) {
+  const ed = document.getElementById('venue-edit-' + idx);
+  if (!ed) return;
+  ed.style.display = ed.style.display === 'none' ? 'block' : 'none';
+}
+async function saveVenueInline(idx) {
+  const v = venues[idx];
   if (!v) return;
-  v.address = (document.getElementById('venue-addr-' + id)?.value || '').trim();
-  v.mapsUrl  = (document.getElementById('venue-url-'  + id)?.value || '').trim();
+  v.name        = (document.getElementById('ve-name-' + idx)?.value || '').trim() || v.name;
+  v.description = (document.getElementById('ve-desc-' + idx)?.value || '').trim();
+  v.address     = (document.getElementById('ve-addr-' + idx)?.value || '').trim();
+  v.mapsUrl     = v.address ? `https://maps.google.com/?q=${encodeURIComponent(v.address)}` : '';
   await saveData();
-  showToast('success', 'Venue saved', v.name, 2000);
+  renderVenuesAdmin();
+  showToast('success', 'Venue updated', v.name, 2000);
+}
+async function deleteVenue(idx) {
+  const v = venues[idx];
+  if (!v) return;
+  if (!confirm(`Delete "${v.name}"?`)) return;
+  venues.splice(idx, 1);
+  await saveData();
+  renderVenuesAdmin();
+  showToast('success', 'Venue removed', '', 1800);
+}
+function openAddVenueForm() {
+  document.getElementById('add-venue-form').style.display = 'block';
+  document.getElementById('new-venue-name').focus();
+}
+function closeAddVenueForm() {
+  document.getElementById('add-venue-form').style.display = 'none';
+  ['new-venue-name','new-venue-desc','new-venue-addr'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+}
+async function saveNewVenue() {
+  const name = (document.getElementById('new-venue-name')?.value || '').trim();
+  if (!name) { showToast('error', 'Name required', '', 1800); return; }
+  const desc = (document.getElementById('new-venue-desc')?.value || '').trim();
+  const addr = (document.getElementById('new-venue-addr')?.value || '').trim();
+  const newV = { id: 'v' + Date.now(), name, description: desc, address: addr, mapsUrl: addr ? `https://maps.google.com/?q=${encodeURIComponent(addr)}` : '' };
+  venues.push(newV);
+  await saveData();
+  closeAddVenueForm();
+  renderVenuesAdmin();
+  showToast('success', 'Venue added', name, 2000);
 }
 
 /* ── CHECK-IN ── */
 function openCheckInModal() {
   const opts = document.getElementById('checkin-options');
   if (!opts) return;
-  const list = (venues && venues.length) ? venues : DEFAULT_VENUES;
+  const list = venues && venues.length ? venues : [];
   opts.innerHTML = '';
+  if (!list.length) {
+    opts.innerHTML = '<div style="color:var(--muted);font-family:sans-serif;font-size:0.8rem;text-align:center;padding:0.75rem 0">No venues yet — admin can add them in Locations</div>';
+  }
   list.forEach(v => {
     const btn = document.createElement('button');
     btn.style.cssText = 'background:#fdf8ef;border:1px solid var(--gold-light);border-radius:8px;padding:0.55rem 0.85rem;font-family:sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.55rem;width:100%;transition:background 0.12s';
@@ -4480,6 +4743,7 @@ async function reverseGeocode(lat, lng, elId) {
 }
 
 function renderMap() {
+  renderVenuesAdmin();
   const locList = document.getElementById('location-list');
   locList.innerHTML = '';
   const colors = ['#e05c5c','#5b8dee','#4caf7d','#c9a96e','#9c5de0','#f0a500','#00b4d8','#ff6b6b'];
