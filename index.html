@@ -92,7 +92,6 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
   50%{box-shadow:0 0 0 8px rgba(201,169,110,0);transform:scale(1.04)}
   100%{box-shadow:0 0 0 0 rgba(201,169,110,0);transform:scale(1)}
 }
-.tl-line-full{position:absolute;left:calc(90px + 1rem + 8px);top:8px;bottom:8px;width:1px;background:var(--gold-light)}
 .tl-item{display:flex;gap:1rem;align-items:flex-start;padding-bottom:2rem}
 .tl-item:last-child{padding-bottom:0}
 .tl-left{width:90px;flex-shrink:0;text-align:right}
@@ -365,7 +364,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <p style="font-family:sans-serif;font-size:0.78rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem">August 2, 2026 · Columbus, Ohio</p>
       <div class="divider"></div>
       <div class="timeline">
-        <div class="tl-line-full"></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">5:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Ceremony Begins</div><div class="tl-venue">Beza Event Center — Doors open · Please be seated by 5:00 PM</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">5:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride &amp; Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb &amp; Kene</div></div></div>
@@ -678,6 +676,7 @@ function enterSite() {
   splash.style.opacity = '0';
   setTimeout(() => { splash.style.display = 'none'; }, 800);
 }
+
 
 /* ── NAV ─────────────────────────────────────────────────────────────────── */
 function show(id, el) {
