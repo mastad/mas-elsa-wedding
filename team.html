@@ -352,7 +352,8 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .admin-title{font-family:'Georgia',serif;font-size:1.4rem;font-weight:400;color:var(--dark);margin-bottom:0.3rem}
 .admin-subtitle{font-family:sans-serif;font-size:0.75rem;color:var(--muted);margin-bottom:2rem}
 
-.admin-tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.admin-tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:0.35rem;scrollbar-width:none}
+.admin-tabs::-webkit-scrollbar{display:none}
 .admin-tab{font-family:sans-serif;font-size:0.72rem;letter-spacing:0.08em;padding:0.45rem 1rem;border-radius:20px;border:1.5px solid var(--border);color:var(--muted);background:transparent;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
 .admin-tab.active{background:var(--gold);border-color:var(--gold);color:#fff}
 
@@ -1061,8 +1062,20 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
           <div class="task-view-role" id="tv-role">Role</div>
           <div class="task-progress-bar"><div class="task-progress-fill" id="tv-progress-fill" style="width:0%"></div></div>
           <div style="font-family:sans-serif;font-size:0.7rem;color:var(--muted);margin-top:0.3rem" id="tv-progress-text">0 of 0 tasks done</div>
+          <div id="tv-countdown" style="font-family:sans-serif;font-size:0.63rem;color:var(--gold-dark);margin-top:0.15rem;font-weight:500"></div>
         </div>
         <button onclick="requestGPS()" title="Share my location" style="background:none;border:none;font-size:1.4rem;cursor:pointer;flex-shrink:0" id="gps-btn">📍</button>
+      </div>
+
+      <!-- BROADCAST BANNER -->
+      <div id="broadcast-banner" style="display:none;background:linear-gradient(135deg,#fff9e6,#fff0c0);border:1.5px solid #f5c842;border-radius:10px;padding:0.7rem 0.9rem;margin-bottom:0.5rem;align-items:flex-start;gap:0.75rem">
+        <span style="font-size:1.1rem;flex-shrink:0">📢</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-family:sans-serif;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:#b8860b;margin-bottom:0.2rem">ANNOUNCEMENT</div>
+          <div id="broadcast-text" style="font-family:sans-serif;font-size:0.83rem;color:var(--dark);line-height:1.5"></div>
+          <div id="broadcast-sent-at" style="font-family:sans-serif;font-size:0.62rem;color:var(--muted);margin-top:0.25rem"></div>
+        </div>
+        <button onclick="dismissBroadcast()" style="background:none;border:none;font-size:1rem;cursor:pointer;color:var(--muted);flex-shrink:0;line-height:1;padding:0">✕</button>
       </div>
 
       <!-- GPS banner — only shown when location is denied -->
@@ -1075,17 +1088,25 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
       <!-- View toggle -->
       <div class="view-toggle">
         <button class="view-toggle-btn active" id="vt-list" onclick="switchTaskView('list')">📋 List</button>
-        <button class="view-toggle-btn" id="vt-day" onclick="switchTaskView('day')">📅 Day</button>
-        <button class="view-toggle-btn" id="vt-week" onclick="switchTaskView('week')">📆 Week</button>
         <button class="view-toggle-btn" id="vt-wedding" onclick="switchTaskView('wedding')">🎊 Aug 2</button>
         <button class="view-toggle-btn" id="vt-checklist" onclick="switchTaskView('checklist')">✅ Checklist</button>
+        <button class="view-toggle-btn" id="vt-venues" onclick="switchTaskView('venues')">🗺️ Venues</button>
         <button class="view-toggle-btn" id="vt-all" onclick="switchTaskView('all')" style="display:none">👥 All</button>
+        <!-- Day/Week kept in DOM for JS compatibility but not shown as tabs -->
+        <button id="vt-day" style="display:none"></button>
+        <button id="vt-week" style="display:none"></button>
       </div>
 
-      <!-- Auto-refresh bar -->
-      <div style="display:flex;align-items:center;justify-content:flex-end;gap:0.4rem;padding:0.2rem 0.1rem 0.1rem;margin-bottom:0.1rem">
-        <span style="font-family:sans-serif;font-size:0.65rem;color:var(--muted)" id="task-refresh-status"></span>
-        <button onclick="refreshTaskNow()" title="Refresh now" style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.12rem 0.38rem;font-size:0.7rem;cursor:pointer;color:var(--muted)" id="task-refresh-btn">🔄</button>
+      <!-- Quick actions + auto-refresh row -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem;gap:0.5rem">
+        <div style="display:flex;gap:0.5rem">
+          <button onclick="openCheckInModal()" style="display:flex;align-items:center;gap:0.35rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.38rem 0.75rem;font-family:sans-serif;font-size:0.72rem;color:var(--dark);cursor:pointer;font-weight:500">✅ Check In</button>
+          <button onclick="openContacts()" style="display:flex;align-items:center;gap:0.35rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.38rem 0.75rem;font-family:sans-serif;font-size:0.72rem;color:var(--dark);cursor:pointer;font-weight:500">📞 Contacts</button>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.4rem;flex-shrink:0">
+          <span style="font-family:sans-serif;font-size:0.65rem;color:var(--muted)" id="task-refresh-status"></span>
+          <button onclick="refreshTaskNow()" title="Refresh now" style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.12rem 0.38rem;font-size:0.7rem;cursor:pointer;color:var(--muted)" id="task-refresh-btn">🔄</button>
+        </div>
       </div>
 
       <!-- LIST VIEW -->
@@ -1227,6 +1248,11 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
       </div>
 
       <!-- ALL TASKS VIEW (Coordinator only) -->
+      <!-- VENUES VIEW -->
+      <div id="view-venues" style="display:none">
+        <div id="venues-list" style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.25rem"></div>
+      </div>
+
       <div id="view-all" style="display:none">
         <div style="font-family:sans-serif;font-size:0.75rem;color:var(--muted);margin-bottom:1rem">All team tasks — grouped by person</div>
         <div id="coord-all-tasks"></div>
@@ -1251,6 +1277,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
       <div class="admin-subtitle">August 2, 2026 · See all tasks and team locations</div>
 
       <div class="admin-tabs">
+        <button class="admin-tab" onclick="switchAdminTab('broadcast',this)">📢 Broadcast</button>
         <button class="admin-tab active" onclick="switchAdminTab('overview',this)">Overview</button>
         <button class="admin-tab" onclick="switchAdminTab('budget',this)">💰 Budget</button>
         <button class="admin-tab" onclick="switchAdminTab('team-mgmt',this)">👥 Manage Team</button>
@@ -1301,25 +1328,12 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 
       <!-- REMIND TAB -->
       <div id="tab-remind" style="display:none">
-        <div class="remind-section">
-          <h3>Send Reminder by Role</h3>
-          <div class="remind-role-grid">
-            <div class="remind-role-btn" onclick="remindRole('all')"><div class="role-icon">📢</div><div class="role-name">Everyone</div><div class="role-count">All team</div></div>
-            <div class="remind-role-btn" onclick="remindRole('protocol')"><div class="role-icon">📋</div><div class="role-name">Protocol</div><div class="role-count">2 people</div></div>
-            <div class="remind-role-btn" onclick="remindRole('timekeeper')"><div class="role-icon">🕖️</div><div class="role-name">Time Keepers</div><div class="role-count">2 people</div></div>
-            <div class="remind-role-btn" onclick="remindRole('coordinator')"><div class="role-icon">🎯</div><div class="role-name">Coordinator</div><div class="role-count">1 person</div></div>
-            <div class="remind-role-btn" onclick="remindRole('food')"><div class="role-icon">🍽️</div><div class="role-name">Food Team</div><div class="role-count">2 people</div></div>
-            <div class="remind-role-btn" onclick="remindRole('camera')"><div class="role-icon">📸</div><div class="role-name">Camera</div><div class="role-count">3 people</div></div>
-            <div class="remind-role-btn" onclick="remindRole('drink')"><div class="role-icon">🥂</div><div class="role-name">Drink</div><div class="role-count">2 people</div></div>
-            <div class="remind-role-btn" onclick="remindRole('transport')"><div class="role-icon">🚗</div><div class="role-name">Transport</div><div class="role-count">2 people</div></div>
-            <div class="remind-role-btn" onclick="remindRole('host')"><div class="role-icon">🎤</div><div class="role-name">Host Team</div><div class="role-count">2 people</div></div>
-            <div class="remind-role-btn" onclick="remindRole('cloth')"><div class="role-icon">👗</div><div class="role-name">Cloth Team</div><div class="role-count">2 people</div></div>
-          </div>
-        </div>
-        <p style="font-family:sans-serif;font-size:0.75rem;color:var(--muted);text-align:center;line-height:1.7">
-          SMS reminders via Twilio coming soon.<br>
-          For now, use WhatsApp or iMessage links below each reminder.
-        </p>
+        <div id="remind-content"></div>
+      </div>
+
+      <!-- BROADCAST TAB -->
+      <div id="tab-broadcast" style="display:none">
+        <div id="broadcast-admin-content"></div>
       </div>
 
       <!-- CHECKLIST TAB (admin + coordinator) -->
@@ -1385,6 +1399,24 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
           </div>
           <div style="font-family:sans-serif;font-size:0.68rem;color:var(--muted);margin-top:0.6rem">Wedding date (Aug 2, 2026) is pre-loaded. Tap ✕ on any date to remove it.</div>
         </div>
+
+        <!-- TELEGRAM BOT TOKEN -->
+        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem">
+          <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.25rem">🤖 Telegram Bot</div>
+          <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1rem;line-height:1.6">Bot token from @BotFather. Keep this private — it controls your bot.</p>
+          <input type="password" id="tg-token-input" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:6px;font-family:monospace;font-size:0.8rem;box-sizing:border-box;outline:none;margin-bottom:0.65rem"/>
+          <div style="display:flex;gap:0.5rem">
+            <button onclick="toggleTgTokenVisibility()" style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.38rem 0.75rem;font-family:sans-serif;font-size:0.72rem;cursor:pointer;color:var(--muted)">👁 Show</button>
+            <button onclick="saveTgToken()" class="btn btn-gold btn-sm">Save Token</button>
+          </div>
+        </div>
+
+        <!-- VENUE ADDRESSES -->
+        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem">
+          <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.25rem">🗺️ Venue Addresses</div>
+          <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1.1rem;line-height:1.6">Enter addresses so team members can tap "Get Directions" in the Venues tab. Google Maps URL is optional — leave blank to auto-generate from address.</p>
+          <div id="venue-settings-list"></div>
+        </div>
       </div>
 
       <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.5rem">
@@ -1395,6 +1427,36 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
   </div>
 
 </div><!-- end main-content -->
+
+<!-- CHECK-IN MODAL -->
+<div class="modal-overlay" id="checkin-modal" style="display:none">
+  <div class="modal-box" style="max-width:340px">
+    <div class="modal-header">
+      <h3>📋 Check In</h3>
+      <button class="modal-close" onclick="closeCheckInModal()">✕</button>
+    </div>
+    <div style="padding:1.1rem 1.25rem 1.25rem">
+      <div style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:0.75rem">Where are you right now?</div>
+      <div id="checkin-options" style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:0.75rem"></div>
+      <input type="text" id="checkin-custom" placeholder="Or type a custom location…" style="width:100%;padding:0.5rem 0.75rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.85rem;box-sizing:border-box"/>
+      <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:1rem">
+        <button class="btn btn-outline btn-sm" onclick="closeCheckInModal()">Cancel</button>
+        <button class="btn btn-gold btn-sm" onclick="saveCheckIn()">✓ Check In</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACTS MODAL -->
+<div class="modal-overlay" id="contacts-modal" style="display:none">
+  <div class="modal-box" style="max-width:400px;max-height:80vh;overflow:hidden;display:flex;flex-direction:column;padding:0">
+    <div class="modal-header" style="flex-shrink:0;padding:1rem 1.25rem">
+      <h3>📞 Team Contacts</h3>
+      <button class="modal-close" onclick="closeContacts()">✕</button>
+    </div>
+    <div id="contacts-list" style="overflow-y:auto;padding:0.5rem 1.25rem 1.25rem;flex:1"></div>
+  </div>
+</div>
 
 <!-- PIN MODAL -->
 <div class="modal-overlay" id="pin-modal">
@@ -1580,6 +1642,18 @@ let mapRefreshIntervalId  = null;
 let mapRefreshCountdown   = 30;
 let taskRefreshIntervalId = null;
 let taskRefreshCountdown  = 30;
+let broadcastMsg          = null;  // { id, text, sentAt, sentBy }
+let venues                = [];    // admin-configurable locations
+let telegramSettings      = { botToken: '8536491402:AAFgtCHTdifkT36krkX33D7uUv9IL5LEbLM', offset: 0 };
+
+const DEFAULT_VENUES = [
+  { id:'v1', name:"Bride's Family House",  address:'', mapsUrl:'' },
+  { id:'v2', name:"Groom's Family House",  address:'', mapsUrl:'' },
+  { id:'v3', name:'Downtown Columbus',     address:'Downtown Columbus, OH 43215', mapsUrl:'https://maps.google.com/?q=Downtown+Columbus+OH+43215' },
+  { id:'v4', name:'Airbnb',               address:'', mapsUrl:'' },
+  { id:'v5', name:'The Park',             address:'', mapsUrl:'' },
+  { id:'v6', name:'The Hall / Venue',     address:'', mapsUrl:'' },
+];
 
 /* INIT */
 document.addEventListener('click', (e) => {
@@ -1661,6 +1735,9 @@ async function loadData() {
         if (d && d.gpsSettings) gpsSettings = d.gpsSettings;
         if (d && d.checklistData) checklistData = d.checklistData;
         if (d && d.roadTimelineData) roadTimelineData = d.roadTimelineData;
+        if (d && d.broadcastMsg !== undefined) broadcastMsg = d.broadcastMsg;
+        if (d && d.venues && d.venues.length) venues = d.venues;
+        if (d && d.telegramSettings) telegramSettings = { ...telegramSettings, ...d.telegramSettings };
       }
       trackJsonBinRequest('read');
     } catch(e) {
@@ -1669,6 +1746,7 @@ async function loadData() {
     }
   }
   if (!liveBudget.length) liveBudget = BUDGET_ITEMS.map(i => ({...i}));
+  if (!venues.length) venues = DEFAULT_VENUES.map(v => ({...v}));
 
   binLoaded = true; // always mark as loaded even if JSONBin failed
   saveLocal();
@@ -1694,7 +1772,7 @@ async function saveData() {
       await fetch(JSONBIN_URL, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
-        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData, roadTimelineData })
+        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData, roadTimelineData, broadcastMsg, venues, telegramSettings })
       });
       trackJsonBinRequest('write');
     } catch(e) { console.warn('JSONBin save failed'); }
@@ -1721,7 +1799,7 @@ async function saveBudget() {
       await fetch(JSONBIN_URL, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
-        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData, roadTimelineData })
+        body: JSON.stringify({ teamData: appData, budgetData: liveBudget, gpsSettings, checklistData, roadTimelineData, broadcastMsg, venues, telegramSettings })
       });
       trackJsonBinRequest('write');
     } catch(e) { console.warn('Budget save failed'); }
@@ -1885,14 +1963,23 @@ function startCountdown() {
   const target = new Date('2026-08-02T17:00:00');
   function tick() {
     const diff = target - new Date();
+    const mini = document.getElementById('tv-countdown');
     if (diff <= 0) {
       ['cd-d','cd-h','cd-m','cd-s'].forEach(id => document.getElementById(id).textContent = '0');
+      if (mini) mini.textContent = '🎊 Ceremony is happening now!';
       return;
     }
     document.getElementById('cd-d').textContent = Math.floor(diff / 86400000);
     document.getElementById('cd-h').textContent = Math.floor((diff % 86400000) / 3600000);
     document.getElementById('cd-m').textContent = Math.floor((diff % 3600000) / 60000);
     document.getElementById('cd-s').textContent = Math.floor((diff % 60000) / 1000);
+    if (mini) {
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      mini.textContent = d > 0 ? `⏳ ${d}d ${h}h ${m}m to ceremony` : `⏳ ${h}h ${m}m ${s}s to ceremony`;
+    }
   }
   tick();
   setInterval(tick, 1000);
@@ -2161,6 +2248,7 @@ function openTaskView(id) {
     switchTaskView('list');
   }
 
+  showBroadcastBanner();
   requestNotificationPermission();
   showToast('success', `Welcome, ${displayName}!`,
     isCoord ? 'Viewing all team tasks' : `${data.tasks.length} tasks assigned`, 3000);
@@ -2169,7 +2257,7 @@ function openTaskView(id) {
 
 function switchTaskView(view) {
   currentTaskView = view;
-  ['list','day','week','wedding','checklist','all'].forEach(v => {
+  ['list','day','week','wedding','checklist','venues','all'].forEach(v => {
     document.getElementById('view-' + v).style.display = v === view ? 'block' : 'none';
     const btn = document.getElementById('vt-' + v);
     if (btn) btn.classList.toggle('active', v === view);
@@ -2180,6 +2268,7 @@ function switchTaskView(view) {
   if (view === 'week')      { currentWeekOffset = 0; renderWeekView(); }
   if (view === 'wedding')   renderWeddingDay();
   if (view === 'checklist') renderChecklist();
+  if (view === 'venues')    renderVenues();
   if (view === 'all')       renderAllTasksCoord();
   updateProgressHeader();
 }
@@ -2235,6 +2324,7 @@ function renderTaskList() {
             </span>
             ${nextRem ? `<span class="next-reminder-badge">🔔 ${nextRem}</span>` : ''}
             ${remCount ? `<span style="font-family:sans-serif;font-size:0.65rem;color:var(--muted)">${remCount} reminder${remCount>1?'s':''}</span>` : ''}
+            ${task.comment ? `<span title="${task.comment.replace(/"/g,'&quot;')}" style="font-family:sans-serif;font-size:0.72rem;color:var(--muted)">💬</span>` : ''}
           </div>
         </div>
         <button class="task-expand-btn" id="exp-btn-${idx}" onclick="toggleTaskDetail(${idx});event.stopPropagation()">▾</button>
@@ -2258,6 +2348,13 @@ function renderTaskList() {
               <button class="btn btn-outline btn-sm" onclick="toggleAddReminderForm(${idx})">Cancel</button>
               <button class="btn btn-gold btn-sm" onclick="addReminderToTask(${idx})">＋ Add Reminder</button>
             </div>
+          </div>
+        </div>
+        <div class="task-detail-section">
+          <div class="task-detail-label">💬 Note</div>
+          <div style="display:flex;gap:0.5rem;align-items:flex-start">
+            <textarea id="task-note-${idx}" rows="2" placeholder="Add a quick note…" style="flex:1;padding:0.42rem 0.6rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.8rem;resize:vertical;outline:none">${task.comment || ''}</textarea>
+            <button class="btn btn-gold btn-sm" onclick="saveTaskNote(${idx})" style="flex-shrink:0;margin-top:0.1rem">Save</button>
           </div>
         </div>
         <div style="display:flex;gap:0.5rem;margin-top:0.75rem;flex-wrap:wrap">
@@ -3234,6 +3331,9 @@ function gpsGateRetry() {
 
 /* GPS SETTINGS (admin) */
 function renderGpsSettings() {
+  renderVenueSettings();
+  const tkEl = document.getElementById('tg-token-input');
+  if (tkEl) tkEl.value = telegramSettings.botToken || '';
   const list = document.getElementById('gps-dates-list');
   if (!list) return;
   const dates = gpsSettings.enforcedDates || [];
@@ -3759,7 +3859,8 @@ function renderOverviewGrid() {
       const done    = (data.tasks||[]).filter(t=>t.done).length;
       const total   = (data.tasks||[]).length;
       const pct     = total ? Math.round((done/total)*100) : 0;
-      const hasLoc  = data.location;
+      const hasLoc    = data.location;
+      const checkedIn = data.checkedIn;
       const profile = data.profile || {};
       const photo   = profile.photo || '';
       const displayName = profile.name || person.name;
@@ -3788,6 +3889,7 @@ function renderOverviewGrid() {
             <span>${done}/${total} tasks</span>
             ${upcoming ? `<span style="color:var(--gold)">▶ ${upcoming.text.substring(0,28)}${upcoming.text.length>28?'…':''}</span>` : ''}
             ${hasLoc ? `<span style="color:var(--blue)">📍 live</span>` : ''}
+            ${checkedIn ? `<span style="color:var(--green)">✓ ${checkedIn.location}</span>` : ''}
           </div>
         </div>
         <div style="font-family:sans-serif;font-size:0.72rem;font-weight:600;color:${pct===100?'var(--green)':pct>50?'var(--gold)':'var(--muted)'};flex-shrink:0">${pct}%</div>
@@ -3834,10 +3936,10 @@ function renderAdminTaskDetail(id) {
 function startTaskAutoRefresh() {
   stopTaskAutoRefresh();
   taskRefreshCountdown = 30;
+  const el = document.getElementById('task-refresh-status');
+  if (el) el.textContent = '';
   taskRefreshIntervalId = setInterval(() => {
     taskRefreshCountdown--;
-    const el = document.getElementById('task-refresh-status');
-    if (el && taskRefreshCountdown > 0) el.textContent = `Refreshing in ${taskRefreshCountdown}s`;
     if (taskRefreshCountdown <= 0) refreshTaskNow();
   }, 1000);
 }
@@ -3851,6 +3953,7 @@ function _rerenderCurrentView() {
   else if (currentTaskView === 'week') renderWeekView();
   else if (currentTaskView === 'wedding') renderWeddingDay();
   else if (currentTaskView === 'checklist') renderChecklist();
+  else if (currentTaskView === 'venues') renderVenues();
   else if (currentTaskView === 'all')  renderAllTasksCoord();
   updateProgressHeader();
 }
@@ -3879,25 +3982,414 @@ async function refreshTaskNow() {
         }
         if (d && d.checklistData) checklistData = d.checklistData;
         if (d && d.roadTimelineData) roadTimelineData = d.roadTimelineData;
+        if (d && d.broadcastMsg !== undefined) broadcastMsg = d.broadcastMsg;
+        if (d && d.venues && d.venues.length) venues = d.venues;
+        if (d && d.telegramSettings) telegramSettings = { ...telegramSettings, ...d.telegramSettings };
       }
     } catch(e) {}
   }
+  showBroadcastBanner();
   _rerenderCurrentView();
   const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   if (el)  el.textContent = `Updated ${now}`;
   if (btn) btn.disabled = false;
 }
 
+/* ── TELEGRAM BOT ── */
+const TG_BOT_USERNAME = 'ABWeddingTeamBot';
+
+async function tgApi(method, params = {}) {
+  const token = telegramSettings.botToken;
+  if (!token) return null;
+  try {
+    const r = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params)
+    });
+    return await r.json();
+  } catch(e) { return null; }
+}
+
+async function syncTelegramRegistrations() {
+  const btn = document.getElementById('tg-sync-btn');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Syncing…'; }
+  const d = await tgApi('getUpdates', { offset: telegramSettings.offset || 0, limit: 100, timeout: 0 });
+  if (!d || !d.ok) {
+    showToast('error', 'Sync failed', 'Check your bot token in ⚙️ Settings', 3500);
+    if (btn) { btn.disabled = false; btn.textContent = '🔄 Sync'; }
+    return;
+  }
+  let newOffset = telegramSettings.offset || 0;
+  let newCount  = 0;
+  d.result.forEach(update => {
+    newOffset = Math.max(newOffset, update.update_id + 1);
+    const msg = update.message;
+    if (!msg || !msg.text) return;
+    const match = msg.text.match(/^\/start\s+(.+)$/);
+    if (match) {
+      const personId = match[1].trim();
+      if (TEAM[personId]) {
+        const alreadyHad = !!(appData[personId]?.telegramChatId);
+        if (!appData[personId]) appData[personId] = { tasks: [] };
+        appData[personId].telegramChatId = msg.chat.id;
+        if (!alreadyHad) newCount++;
+      }
+    }
+  });
+  telegramSettings.offset = newOffset;
+  await saveData();
+  if (btn) { btn.disabled = false; btn.textContent = '🔄 Sync'; }
+  renderRemindersTab();
+  const reg = Object.keys(TEAM).filter(id => appData[id]?.telegramChatId).length;
+  showToast('success', newCount ? `${newCount} new member${newCount>1?'s':''} connected!` : 'Up to date',
+    `${reg} of ${Object.keys(TEAM).length} team members registered`, 3500);
+}
+
+async function sendTelegramReminder() {
+  const msg = (document.getElementById('tg-msg-input')?.value || '').trim();
+  if (!msg) { showToast('error', 'No message', 'Please type or pick a template first', 2000); return; }
+  const role   = document.getElementById('tg-role-select')?.value || 'all';
+  const targets = (ROLE_GROUPS[role]?.ids || Object.keys(TEAM)).filter(id => appData[id]?.telegramChatId);
+  if (!targets.length) {
+    showToast('error', 'No one registered', 'Ask your team to start the bot first', 3000);
+    return;
+  }
+  const sendBtn = document.getElementById('tg-send-btn');
+  if (sendBtn) { sendBtn.disabled = true; sendBtn.textContent = '⏳ Sending…'; }
+  const senderName = (appData[currentUser]?.profile?.name) || TEAM[currentUser]?.name || 'Admin';
+  const fullMsg = `🎊 <b>A&amp;B Wedding Team</b>\n\n${msg}\n\n<i>— ${senderName}</i>`;
+  let sent = 0, failed = 0;
+  for (const id of targets) {
+    const res = await tgApi('sendMessage', { chat_id: appData[id].telegramChatId, text: fullMsg, parse_mode: 'HTML' });
+    res?.ok ? sent++ : failed++;
+  }
+  if (sendBtn) { sendBtn.disabled = false; sendBtn.textContent = '📤 Send via Telegram'; }
+  if (sent > 0) {
+    showToast('success', `Sent to ${sent} person${sent>1?'s':''}`, failed ? `${failed} failed` : 'All delivered ✓', 3500);
+    const el = document.getElementById('tg-msg-input');
+    if (el) el.value = '';
+  } else {
+    showToast('error', 'Send failed', 'Check token or try again', 3000);
+  }
+}
+
+function setTgTemplate(btnOrText) {
+  const text = typeof btnOrText === 'string' ? btnOrText : (btnOrText.dataset?.text || '');
+  const el = document.getElementById('tg-msg-input');
+  if (el) { el.value = text; el.focus(); }
+}
+
+function copyTgLink(link, name) {
+  navigator.clipboard.writeText(link)
+    .then(() => showToast('success', 'Link copied!', `Send it to ${name} on Telegram`, 2500))
+    .catch(() => showToast('info', 'Copy manually:', link, 5000));
+}
+
+function renderRemindersTab() {
+  const el = document.getElementById('remind-content');
+  if (!el) return;
+  const allIds    = Object.keys(TEAM);
+  const regIds    = allIds.filter(id => appData[id]?.telegramChatId);
+  const unregIds  = allIds.filter(id => !appData[id]?.telegramChatId);
+  const total     = allIds.length;
+  const regCount  = regIds.length;
+  const pct       = Math.round((regCount / total) * 100);
+
+  const TEMPLATES = [
+    { label:'⏰ Time check',     text:'Time check! Please confirm your current status and location.' },
+    { label:'🚗 Head to venue',  text:'Please make your way to the venue now. We need everyone there!' },
+    { label:'✅ Confirm ready',  text:'Please confirm you are at your position and ready. Reply ✅ when set.' },
+    { label:'📸 Photo call',     text:'Everyone needed for photos — please gather at the photo spot now.' },
+    { label:'🍽️ Food ready',    text:'Food is ready! Please direct guests to the dining area.' },
+    { label:'🎊 30 min warning', text:'Ceremony begins in 30 minutes. All team please be at your positions now.' },
+  ];
+
+  el.innerHTML = `
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1.1rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.7rem">
+        <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold)">📲 Team Registration</div>
+        <button id="tg-sync-btn" onclick="syncTelegramRegistrations()" style="background:var(--gold);color:#fff;border:none;border-radius:7px;padding:0.3rem 0.8rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer;white-space:nowrap">🔄 Sync</button>
+      </div>
+      <div style="background:#eee;border-radius:4px;height:6px;overflow:hidden;margin-bottom:0.45rem">
+        <div style="height:100%;border-radius:4px;background:${pct===100?'var(--green)':'var(--gold)'};width:${pct}%;transition:width 0.4s"></div>
+      </div>
+      <div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);margin-bottom:${unregIds.length?'1rem':'0'}">${regCount} of ${total} team members connected</div>
+      ${unregIds.length ? `
+        <div style="font-family:sans-serif;font-size:0.63rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.45rem">⏳ Share link with these members:</div>
+        <div style="display:flex;flex-direction:column;gap:0.35rem">
+          ${unregIds.map(id => {
+            const p    = TEAM[id];
+            const name = (appData[id]?.profile?.name) || p.name;
+            const link = `https://t.me/${TG_BOT_USERNAME}?start=${id}`;
+            return `<div style="display:flex;align-items:center;gap:0.55rem;padding:0.4rem 0.6rem;background:#fdfaf6;border:1px solid var(--border);border-radius:7px">
+              <span>${p.emoji}</span>
+              <span style="flex:1;font-family:sans-serif;font-size:0.78rem">${name}</span>
+              <button onclick="copyTgLink('${link}','${name}')" style="background:none;border:1px solid var(--border);border-radius:6px;padding:0.2rem 0.5rem;font-family:sans-serif;font-size:0.65rem;cursor:pointer;color:var(--muted)">Copy</button>
+              <a href="${link}" target="_blank" style="background:#0088cc;color:#fff;border-radius:6px;padding:0.2rem 0.5rem;font-family:sans-serif;font-size:0.65rem;text-decoration:none">Open</a>
+            </div>`;
+          }).join('')}
+        </div>` : ''}
+      ${regIds.length ? `
+        <div style="font-family:sans-serif;font-size:0.63rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-top:${unregIds.length?'0.85rem':'0'};margin-bottom:0.4rem">✅ Connected:</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.35rem">
+          ${regIds.map(id => `<span style="background:#e6f7ef;color:#1a7a4a;border-radius:20px;padding:0.2rem 0.6rem;font-family:sans-serif;font-size:0.68rem">${TEAM[id].emoji} ${(appData[id]?.profile?.name)||TEAM[id].name}</span>`).join('')}
+        </div>` : ''}
+    </div>
+
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1.1rem">
+      <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">✍️ Message</div>
+      <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:0.8rem">
+        ${TEMPLATES.map(t => `<button onclick="setTgTemplate(this.dataset.text)" data-text="${t.text.replace(/"/g,'&quot;')}" style="background:#fdf8ef;border:1px solid var(--gold-light);border-radius:20px;padding:0.28rem 0.65rem;font-family:sans-serif;font-size:0.68rem;cursor:pointer;color:var(--dark)">${t.label}</button>`).join('')}
+      </div>
+      <textarea id="tg-msg-input" rows="4" placeholder="Type your message… or tap a template above" style="width:100%;padding:0.65rem 0.75rem;border:1.5px solid var(--border);border-radius:8px;font-family:sans-serif;font-size:0.85rem;resize:vertical;box-sizing:border-box;outline:none;line-height:1.5"></textarea>
+      <div style="font-family:sans-serif;font-size:0.62rem;color:var(--muted);margin-top:0.3rem">Sent as: 🎊 <b>A&B Wedding Team</b> — your message — <i>${(appData[currentUser]?.profile?.name)||TEAM[currentUser]?.name||'Admin'}</i></div>
+    </div>
+
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem">
+      <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">📤 Send To</div>
+      <select id="tg-role-select" style="width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:8px;font-family:sans-serif;font-size:0.85rem;margin-bottom:0.85rem;outline:none;background:#fff;box-sizing:border-box">
+        <option value="all">📢 Everyone (${regIds.length} connected)</option>
+        ${Object.entries(ROLE_GROUPS).filter(([k])=>k!=='all').map(([key,g])=>{
+          const r = g.ids.filter(id=>appData[id]?.telegramChatId).length;
+          return `<option value="${key}">${g.label} (${r}/${g.ids.length})</option>`;
+        }).join('')}
+      </select>
+      <button id="tg-send-btn" onclick="sendTelegramReminder()" ${regCount===0?'disabled':''} style="width:100%;background:${regCount?'var(--gold)':'#ccc'};color:#fff;border:none;border-radius:10px;padding:0.85rem;font-family:sans-serif;font-size:0.9rem;font-weight:600;cursor:${regCount?'pointer':'default'};letter-spacing:0.04em">
+        📤 Send via Telegram
+      </button>
+      ${regCount===0?`<div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);text-align:center;margin-top:0.6rem">Share the registration links above so team members can connect first</div>`:''}
+    </div>`;
+}
+
+function saveTgToken() {
+  const val = (document.getElementById('tg-token-input')?.value || '').trim();
+  if (!val) { showToast('error', 'Empty token', 'Paste your bot token first', 2000); return; }
+  telegramSettings.botToken = val;
+  saveData();
+  showToast('success', 'Bot token saved', 'Ready to send Telegram messages', 2500);
+}
+
+function toggleTgTokenVisibility() {
+  const el  = document.getElementById('tg-token-input');
+  const btn = el?.previousElementSibling?.nextElementSibling || el?.parentElement?.querySelector('button');
+  if (!el) return;
+  if (el.type === 'password') { el.type = 'text'; }
+  else { el.type = 'password'; }
+}
+
+/* ── BROADCAST ── */
+function renderBroadcastAdmin() {
+  const el = document.getElementById('broadcast-admin-content');
+  if (!el) return;
+  const cur = broadcastMsg;
+  el.innerHTML = `
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1.25rem">
+      <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">📢 Current Announcement</div>
+      ${cur
+        ? `<div style="background:linear-gradient(135deg,#fff9e6,#fff0c0);border:1.5px solid #f5c842;border-radius:8px;padding:0.85rem 1rem;margin-bottom:0.85rem">
+             <div style="font-family:sans-serif;font-size:0.88rem;color:var(--dark);line-height:1.5;margin-bottom:0.4rem">${cur.text}</div>
+             <div style="font-family:sans-serif;font-size:0.62rem;color:var(--muted)">Sent ${cur.sentAt} by ${cur.sentBy}</div>
+           </div>
+           <button class="btn btn-sm" style="background:#fef0f0;color:var(--red);border:1px solid #f5c6c6" onclick="clearBroadcast()">🗑️ Clear Announcement</button>`
+        : `<div style="font-family:sans-serif;font-size:0.82rem;color:var(--muted);padding:1rem;text-align:center;border:1.5px dashed var(--border);border-radius:8px">No active announcement.</div>`
+      }
+    </div>
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem">
+      <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">📝 Send New Announcement</div>
+      <textarea id="broadcast-input" rows="3" placeholder="Type a message for the whole team… (e.g. 'Ceremony delayed 30 min — everyone standby')" style="width:100%;padding:0.6rem 0.75rem;border:1.5px solid var(--border);border-radius:8px;font-family:sans-serif;font-size:0.85rem;resize:vertical;box-sizing:border-box;outline:none;line-height:1.5"></textarea>
+      <div style="display:flex;justify-content:flex-end;margin-top:0.75rem">
+        <button class="btn btn-gold btn-sm" onclick="sendBroadcast()">📢 Send to All Team</button>
+      </div>
+    </div>`;
+}
+async function sendBroadcast() {
+  const text = (document.getElementById('broadcast-input')?.value || '').trim();
+  if (!text) { showToast('error', 'Empty message', 'Please type a message first', 2000); return; }
+  broadcastMsg = { id: Date.now().toString(), text, sentAt: new Date().toLocaleString(), sentBy: TEAM[currentUser]?.name || 'Admin' };
+  await saveData();
+  renderBroadcastAdmin();
+  showToast('success', 'Announcement sent!', 'Team will see it on their next refresh', 3000);
+}
+async function clearBroadcast() {
+  broadcastMsg = null;
+  await saveData();
+  renderBroadcastAdmin();
+  document.getElementById('broadcast-banner').style.display = 'none';
+  showToast('success', 'Announcement cleared', '', 2000);
+}
+function showBroadcastBanner() {
+  const banner = document.getElementById('broadcast-banner');
+  if (!banner) return;
+  if (!broadcastMsg) { banner.style.display = 'none'; return; }
+  if (localStorage.getItem('dismissedBroadcast_' + broadcastMsg.id)) { banner.style.display = 'none'; return; }
+  document.getElementById('broadcast-text').textContent = broadcastMsg.text;
+  document.getElementById('broadcast-sent-at').textContent = `Sent ${broadcastMsg.sentAt}`;
+  banner.style.display = 'flex';
+}
+function dismissBroadcast() {
+  if (broadcastMsg) localStorage.setItem('dismissedBroadcast_' + broadcastMsg.id, '1');
+  document.getElementById('broadcast-banner').style.display = 'none';
+}
+
+/* ── VENUES ── */
+function _venueIcon(name) {
+  const n = (name || '').toLowerCase();
+  if (n.includes('bride'))     return '👰';
+  if (n.includes('groom'))     return '🤵';
+  if (n.includes('downtown'))  return '🏙️';
+  if (n.includes('airbnb'))    return '🏠';
+  if (n.includes('park'))      return '🌳';
+  if (n.includes('hall') || n.includes('venue')) return '🏛️';
+  return '📍';
+}
+function renderVenues() {
+  const el = document.getElementById('venues-list');
+  if (!el) return;
+  const list = (venues && venues.length) ? venues : DEFAULT_VENUES;
+  const hasData = list.some(v => v.address || v.mapsUrl);
+  if (!hasData) {
+    el.innerHTML = '<div style="text-align:center;padding:2.5rem 1rem;color:var(--muted);font-family:sans-serif;font-size:0.85rem;border:1.5px dashed var(--border);border-radius:10px">No venue addresses set yet.<br>Admin can add them in ⚙️ Settings.</div>';
+    return;
+  }
+  el.innerHTML = '';
+  list.forEach(v => {
+    if (!v.address && !v.mapsUrl) return;
+    const url = v.mapsUrl || (v.address ? `https://maps.google.com/?q=${encodeURIComponent(v.address)}` : '');
+    const card = document.createElement('div');
+    card.style.cssText = 'background:#fff;border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;display:flex;align-items:center;gap:0.9rem;box-shadow:0 1px 4px rgba(0,0,0,0.04)';
+    card.innerHTML = `
+      <div style="font-size:1.5rem;flex-shrink:0">${_venueIcon(v.name)}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-family:'Georgia',serif;font-size:0.9rem;color:var(--dark);margin-bottom:0.18rem">${v.name}</div>
+        <div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${v.address || ''}</div>
+      </div>
+      ${url ? `<a href="${url}" target="_blank" rel="noopener" style="background:var(--gold);color:#fff;border-radius:8px;padding:0.45rem 0.8rem;font-family:sans-serif;font-size:0.72rem;text-decoration:none;white-space:nowrap;flex-shrink:0">🗺️ Directions</a>` : ''}`;
+    el.appendChild(card);
+  });
+  if (!el.children.length) el.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--muted);font-family:sans-serif;font-size:0.82rem">No addresses saved yet.</div>';
+}
+function renderVenueSettings() {
+  const el = document.getElementById('venue-settings-list');
+  if (!el) return;
+  const list = (venues && venues.length) ? venues : DEFAULT_VENUES.map(v => ({...v}));
+  el.innerHTML = '';
+  list.forEach(v => {
+    const row = document.createElement('div');
+    row.style.cssText = 'border:1px solid var(--border);border-radius:8px;padding:0.85rem 1rem;background:#fff;margin-bottom:0.55rem';
+    row.innerHTML = `
+      <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem">${_venueIcon(v.name)} ${v.name}</div>
+      <div style="display:flex;flex-direction:column;gap:0.4rem">
+        <input type="text" id="venue-addr-${v.id}" value="${v.address||''}" placeholder="Full address, e.g. 123 Main St, Columbus OH" style="padding:0.45rem 0.65rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.8rem;outline:none"/>
+        <input type="text" id="venue-url-${v.id}" value="${v.mapsUrl||''}" placeholder="Custom Google Maps URL (optional — auto-generated if blank)" style="padding:0.45rem 0.65rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.8rem;outline:none"/>
+        <button class="btn btn-gold btn-sm" onclick="saveVenue('${v.id}')" style="align-self:flex-end">Save</button>
+      </div>`;
+    el.appendChild(row);
+  });
+}
+async function saveVenue(id) {
+  if (!venues.length) venues = DEFAULT_VENUES.map(v => ({...v}));
+  const v = venues.find(x => x.id === id);
+  if (!v) return;
+  v.address = (document.getElementById('venue-addr-' + id)?.value || '').trim();
+  v.mapsUrl  = (document.getElementById('venue-url-'  + id)?.value || '').trim();
+  await saveData();
+  showToast('success', 'Venue saved', v.name, 2000);
+}
+
+/* ── CHECK-IN ── */
+function openCheckInModal() {
+  const opts = document.getElementById('checkin-options');
+  if (!opts) return;
+  const list = (venues && venues.length) ? venues : DEFAULT_VENUES;
+  opts.innerHTML = '';
+  list.forEach(v => {
+    const btn = document.createElement('button');
+    btn.style.cssText = 'background:#fdf8ef;border:1px solid var(--gold-light);border-radius:8px;padding:0.55rem 0.85rem;font-family:sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.55rem;width:100%;transition:background 0.12s';
+    btn.innerHTML = `<span>${_venueIcon(v.name)}</span><span>${v.name}</span>`;
+    btn.onclick = () => {
+      document.getElementById('checkin-custom').value = '';
+      opts.querySelectorAll('button').forEach(b => { b.style.background = '#fdf8ef'; b._selected = false; });
+      btn.style.background = '#fde98a';
+      btn._selected = true;
+      btn._loc = v.name;
+    };
+    opts.appendChild(btn);
+  });
+  document.getElementById('checkin-custom').value = '';
+  document.getElementById('checkin-modal').style.display = 'flex';
+}
+function closeCheckInModal() { document.getElementById('checkin-modal').style.display = 'none'; }
+async function saveCheckIn() {
+  const custom = (document.getElementById('checkin-custom')?.value || '').trim();
+  const opts   = document.getElementById('checkin-options');
+  const sel    = Array.from(opts?.querySelectorAll('button') || []).find(b => b._selected);
+  const loc    = custom || (sel ? sel._loc : '');
+  if (!loc) { showToast('error', 'Pick a location', 'Tap a venue or type a custom one', 2000); return; }
+  if (!appData[currentUser]) appData[currentUser] = { tasks: [] };
+  appData[currentUser].checkedIn = { location: loc, time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) };
+  closeCheckInModal();
+  await saveData();
+  showToast('success', `Checked in ✓`, `${loc} at ${appData[currentUser].checkedIn.time}`, 3000);
+}
+
+/* ── CONTACTS ── */
+function openContacts() {
+  const el = document.getElementById('contacts-list');
+  if (!el) return;
+  const CGROUPS = [
+    { label:'Bride & Groom', icon:'💍', ids:['abrham','blen'] },
+    { label:'Protocol',      icon:'📋', ids:['protocol_a','protocol_b'] },
+    { label:'Timekeeper',    icon:'🕖', ids:['timekeeper_a','timekeeper_b'] },
+    { label:'Coordinator',   icon:'🎯', ids:['coordinator'] },
+    { label:'Food',          icon:'🍽️', ids:['food_1','food_2'] },
+    { label:'Camera',        icon:'📸', ids:['camera_1','camera_2','camera_3'] },
+    { label:'Drink',         icon:'🥂', ids:['drink_1','drink_2'] },
+    { label:'Transport',     icon:'🚗', ids:['transport_1','transport_2'] },
+    { label:'Host',          icon:'🎤', ids:['host_1','host_2'] },
+    { label:'Cloth',         icon:'👗', ids:['cloth_1','cloth_2'] },
+  ];
+  let html = '';
+  CGROUPS.forEach(g => {
+    const members = g.ids.map(id => {
+      const person = TEAM[id];
+      const pro    = (appData[id]||{}).profile || {};
+      return { name: pro.name||person.name, phone: pro.phone||person.phone||'', emoji: person.emoji };
+    }).filter(m => m.phone);
+    if (!members.length) return;
+    html += `<div style="margin-bottom:0.85rem"><div style="font-family:sans-serif;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.35rem">${g.icon} ${g.label}</div>`;
+    members.forEach(m => {
+      html += `<div style="display:flex;align-items:center;gap:0.65rem;padding:0.5rem 0;border-bottom:1px solid var(--border)">
+        <span style="font-size:1.05rem">${m.emoji}</span>
+        <span style="flex:1;font-family:sans-serif;font-size:0.82rem;color:var(--dark)">${m.name}</span>
+        <a href="tel:${m.phone}" style="background:#34c759;color:#fff;border-radius:7px;padding:0.28rem 0.65rem;font-family:sans-serif;font-size:0.7rem;text-decoration:none;white-space:nowrap">📞 Call</a>
+        <a href="sms:${m.phone}" style="background:#007aff;color:#fff;border-radius:7px;padding:0.28rem 0.65rem;font-family:sans-serif;font-size:0.7rem;text-decoration:none;white-space:nowrap">💬 Text</a>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html || '<div style="text-align:center;padding:2rem;color:var(--muted);font-family:sans-serif;font-size:0.85rem">No phone numbers saved yet.<br>Admin can add them in 👥 Manage Team.</div>';
+  document.getElementById('contacts-modal').style.display = 'flex';
+}
+function closeContacts() { document.getElementById('contacts-modal').style.display = 'none'; }
+
+/* ── TASK NOTE ── */
+async function saveTaskNote(idx) {
+  const val = (document.getElementById('task-note-' + idx)?.value || '').trim();
+  if (!appData[currentUser]?.tasks?.[idx] === undefined) return;
+  appData[currentUser].tasks[idx].comment = val;
+  await saveData();
+  showToast('success', 'Note saved', '', 1800);
+}
+
 /* ── MAP AUTO-REFRESH ── */
 function startMapAutoRefresh() {
   stopMapAutoRefresh();
   mapRefreshCountdown = 30;
+  const el = document.getElementById('map-last-updated');
+  if (el) el.textContent = '';
   mapRefreshIntervalId = setInterval(() => {
     mapRefreshCountdown--;
-    const el = document.getElementById('map-last-updated');
-    if (el && mapRefreshCountdown > 0) {
-      el.textContent = `Refreshing in ${mapRefreshCountdown}s`;
-    }
     if (mapRefreshCountdown <= 0) refreshMapNow();
   }, 1000);
 }
@@ -3935,7 +4427,7 @@ async function refreshMapNow() {
 }
 
 function switchAdminTab(tab, btn) {
-  ['overview','budget','team-mgmt','map','remind','checklist','settings'].forEach(t => {
+  ['overview','budget','team-mgmt','map','remind','broadcast','checklist','settings'].forEach(t => {
     const el = document.getElementById('tab-' + t);
     if (el) el.style.display = t === tab ? 'block' : 'none';
   });
@@ -3946,6 +4438,8 @@ function switchAdminTab(tab, btn) {
   if (tab === 'budget')     renderBudget();
   if (tab === 'team-mgmt')  renderTeamMgmt();
   if (tab === 'map')        { renderMap(); startMapAutoRefresh(); }
+  if (tab === 'remind')     renderRemindersTab();
+  if (tab === 'broadcast')  renderBroadcastAdmin();
   if (tab === 'checklist')  renderAdminChecklist();
   if (tab === 'settings')   renderGpsSettings();
 }
