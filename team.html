@@ -381,12 +381,13 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 
 /* Location dots on map list */
 .location-list{padding:0.85rem 1rem}
-.location-item{display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0;border-bottom:1px solid var(--border);font-family:sans-serif;font-size:0.8rem}
+.location-item{display:flex;align-items:flex-start;gap:0.65rem;padding:0.65rem 0;border-bottom:1px solid var(--border);font-family:sans-serif;font-size:0.8rem}
 .location-item:last-child{border-bottom:none}
-.loc-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.loc-name{color:var(--dark);flex:1}
-.loc-coords{color:var(--muted);font-size:0.7rem}
-.loc-time{color:var(--gold);font-size:0.7rem}
+.loc-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:0.35rem}
+.loc-name{color:var(--dark);font-weight:600;margin-bottom:0.15rem}
+.loc-address{color:var(--dark);font-size:0.72rem;margin-bottom:0.1rem;line-height:1.35}
+.loc-coords{color:var(--muted);font-size:0.65rem}
+.loc-time{color:var(--gold);font-size:0.68rem;margin-top:0.1rem}
 
 /* Remind section */
 .remind-section{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.2rem;margin-bottom:1.5rem}
@@ -1558,6 +1559,8 @@ let isAdmin = false;
 let pendingPerson = null;
 let locationWatcher = null;
 let roadCarIntervalId = null;
+let gpsLastCloudSave = 0;
+const _geocodeCache = {};
 
 /* INIT */
 document.addEventListener('click', (e) => {
@@ -1630,8 +1633,7 @@ async function loadData() {
             }
           });
         }
-      }
-      // Load budget from JSONBin
+        // Load all synced data from JSONBin (must be inside if(r.ok) so `d` is in scope)
         if (d && d.budgetData && d.budgetData.length > 0) {
           liveBudget = d.budgetData;
         } else {
@@ -1640,6 +1642,7 @@ async function loadData() {
         if (d && d.gpsSettings) gpsSettings = d.gpsSettings;
         if (d && d.checklistData) checklistData = d.checklistData;
         if (d && d.roadTimelineData) roadTimelineData = d.roadTimelineData;
+      }
       trackJsonBinRequest('read');
     } catch(e) {
       console.warn('JSONBin load failed, using local data');
@@ -3225,16 +3228,24 @@ function requestGPS(forUserId) {
     hideGpsGate();
     const gpsBtn = document.getElementById('gps-btn');
     if (gpsBtn) { gpsBtn.textContent = '🟢'; gpsBtn.title = 'Location tracking active'; }
-    saveData();
+    // Always save locally; push to cloud at most every 60 seconds to avoid rate limits
+    saveLocal();
+    const now = Date.now();
+    if (now - gpsLastCloudSave > 60000) {
+      gpsLastCloudSave = now;
+      saveData();
+    }
   };
 
   navigator.geolocation.getCurrentPosition(pos => {
     saveLocation(pos);
     showToast('success', 'Location Active!', 'Auto-updating as you move 📍', 3000);
-    locationWatcher = navigator.geolocation.watchPosition(saveLocation, () => {}, {
+    locationWatcher = navigator.geolocation.watchPosition(saveLocation, err => {
+      console.warn('watchPosition error', err.code);
+    }, {
       enableHighAccuracy: true,
-      maximumAge: 60000,
-      timeout: 15000
+      maximumAge: 10000,   // accept cached position up to 10s old (was 60s)
+      timeout: 20000
     });
   }, err => {
     showToast('error', '📍 Location Required', 'Please allow location access — required on wedding day', 5000);
@@ -3772,6 +3783,41 @@ function switchAdminTab(tab, btn) {
   if (tab === 'settings')   renderGpsSettings();
 }
 
+async function reverseGeocode(lat, lng, elId) {
+  const key = `${lat.toFixed(4)},${lng.toFixed(4)}`;
+  if (_geocodeCache[key]) {
+    const el = document.getElementById(elId);
+    if (el) el.textContent = _geocodeCache[key];
+    return;
+  }
+  try {
+    const r = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=17`,
+      { headers: { 'Accept-Language': 'en', 'User-Agent': 'ABWeddingApp/1.0' } }
+    );
+    if (!r.ok) throw new Error('geocode fail');
+    const d = await r.json();
+    const a = d.address || {};
+    const road  = a.road || a.pedestrian || a.path || a.neighbourhood || '';
+    const road2 = a.suburb || a.neighbourhood || '';
+    const city  = a.city || a.town || a.village || a.county || '';
+    let label = road;
+    if (road2 && road2 !== road) label += (label ? ' & ' + road2 : road2);
+    if (city) label += (label ? ', ' + city : city);
+    if (!label) label = (d.display_name || '').split(',').slice(0,2).join(',').trim();
+    _geocodeCache[key] = label || 'Unknown location';
+    const el = document.getElementById(elId);
+    if (el) el.textContent = _geocodeCache[key];
+    // Also update Leaflet popup if map is open
+    if (window._leafletMarkers && window._leafletMarkers[key]) {
+      window._leafletMarkers[key].setPopupContent(window._leafletMarkers[key]._popup._content.replace(/📍.*$/, `📍 ${_geocodeCache[key]}`));
+    }
+  } catch(e) {
+    const el = document.getElementById(elId);
+    if (el) el.textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+  }
+}
+
 function renderMap() {
   const locList = document.getElementById('location-list');
   locList.innerHTML = '';
@@ -3779,20 +3825,28 @@ function renderMap() {
   let ci = 0;
   let hasAny = false;
 
+  let geocodeDelay = 0;
   Object.keys(TEAM).forEach(id => {
     const person = TEAM[id];
     const data = appData[id];
     if (!data || !data.location) return;
     hasAny = true;
     const color = colors[ci++ % colors.length];
+    const addrElId = `loc-addr-${id}`;
+    const { lat, lng, time } = data.location;
     const item = document.createElement('div');
     item.className = 'location-item';
     item.innerHTML = `
       <div class="loc-dot" style="background:${color}"></div>
-      <div class="loc-name">${person.emoji} ${person.name}</div>
-      <div class="loc-coords">${data.location.lat.toFixed(4)}, ${data.location.lng.toFixed(4)}</div>
-      <div class="loc-time">${data.location.time}</div>`;
+      <div style="flex:1;min-width:0">
+        <div class="loc-name">${person.emoji} ${person.name}</div>
+        <div class="loc-address" id="${addrElId}">📍 Loading…</div>
+        <div class="loc-time">🕐 ${time}</div>
+      </div>`;
     locList.appendChild(item);
+    // Stagger geocode calls — Nominatim allows 1 req/sec
+    setTimeout(() => reverseGeocode(lat, lng, addrElId), geocodeDelay);
+    geocodeDelay += 1200;
   });
 
   if (!hasAny) {
@@ -3825,16 +3879,20 @@ function initMap() {
   document.getElementById('map-placeholder').style.display = 'none';
   document.getElementById('live-map').style.display = 'block';
   if (window._leafletMap) { window._leafletMap.remove(); }
+  window._leafletMarkers = {};
   const locations = Object.keys(TEAM).map(id => ({ id, person: TEAM[id], loc: (appData[id] || {}).location })).filter(x => x.loc);
   if (!locations.length) return;
   const center = [locations[0].loc.lat, locations[0].loc.lng];
-  const map = L.map('live-map').setView(center, 13);
+  const map = L.map('live-map').setView(center, 14);
   window._leafletMap = map;
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
   locations.forEach(({ person, loc }) => {
-    L.marker([loc.lat, loc.lng])
+    const key = `${loc.lat.toFixed(4)},${loc.lng.toFixed(4)}`;
+    const cached = _geocodeCache[key] || '📍 Loading address…';
+    const marker = L.marker([loc.lat, loc.lng])
       .addTo(map)
-      .bindPopup(`<b>${person.emoji} ${person.name}</b><br>${person.role}<br>${loc.time}`);
+      .bindPopup(`<b>${person.emoji} ${person.name}</b><br>${person.role}<br>🕐 ${loc.time}<br>${cached}`);
+    window._leafletMarkers[key] = marker;
   });
   if (locations.length > 1) {
     const bounds = L.latLngBounds(locations.map(x => [x.loc.lat, x.loc.lng]));
