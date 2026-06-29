@@ -1089,6 +1089,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
       <div class="view-toggle">
         <button class="view-toggle-btn active" id="vt-list" onclick="switchTaskView('list')">📋 List</button>
         <button class="view-toggle-btn" id="vt-messages" onclick="switchTaskView('messages')" style="position:relative">📬 Messages<span id="msg-unread-badge" style="display:none;position:absolute;top:-4px;right:-4px;background:#e05c5c;color:#fff;border-radius:50%;width:16px;height:16px;font-size:0.6rem;font-family:sans-serif;display:flex;align-items:center;justify-content:center;font-weight:700"></span></button>
+        <button class="view-toggle-btn" id="vt-budget" onclick="switchTaskView('budget')" style="display:none">💰 Budget</button>
         <button class="view-toggle-btn" id="vt-wedding" onclick="switchTaskView('wedding')">🎊 Aug 2</button>
         <button class="view-toggle-btn" id="vt-checklist" onclick="switchTaskView('checklist')">✅ Checklist</button>
         <button class="view-toggle-btn" id="vt-all" onclick="switchTaskView('all')" style="display:none">👥 All</button>
@@ -1254,6 +1255,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div id="inbox-content"></div>
       </div>
 
+      <div id="view-budget" style="display:none">
+        <div id="budget-readonly-content"></div>
+      </div>
+
       <div id="view-venues" style="display:none">
         <div id="venues-list" style="display:flex;flex-direction:column;gap:0.75rem;margin-top:0.25rem"></div>
       </div>
@@ -1299,6 +1304,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 
       <!-- BUDGET TAB -->
       <div id="tab-budget" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.85rem">
+          <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold)">💰 Budget</div>
+          <button id="budget-toggle-btn" onclick="toggleBudgetPublic()" style="border:none;border-radius:20px;padding:0.28rem 0.7rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer"></button>
+        </div>
         <div id="budget-content"></div>
       </div>
 
@@ -1431,6 +1440,13 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
             <button class="btn btn-gold btn-sm" onclick="addGpsDate()">+ Add Date</button>
           </div>
           <div style="font-family:sans-serif;font-size:0.68rem;color:var(--muted);margin-top:0.6rem">Wedding date (Aug 2, 2026) is pre-loaded. Tap ✕ on any date to remove it.</div>
+        </div>
+
+        <!-- GPS EXCLUDED PEOPLE -->
+        <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:1.5rem">
+          <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.25rem">🚫 GPS Excluded</div>
+          <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1rem;line-height:1.6">People removed from the map. Their location updates are ignored even if GPS is active on their device. Tap <b>Re-enable</b> to restore them.</p>
+          <div id="gps-excluded-list"></div>
         </div>
 
         <!-- TELEGRAM BOT TOKEN -->
@@ -1654,7 +1670,7 @@ const UPLOAD_PRESET   = 'Abrham';
 
 let appData = {};
 let liveBudget = [];
-let gpsSettings = { enforcedDates: ['2026-08-02'], venuesPublic: false };
+let gpsSettings = { enforcedDates: ['2026-08-02'], venuesPublic: false, excludedIds: [], budgetPublic: false };
 let checklistData = [];   // all checklist items
 let clDateFilter = '2026-08-02';   // active date filter in checklist view
 let clPersonFilter = 'all';        // active person filter in admin checklist
@@ -2262,8 +2278,9 @@ function openTaskView(id) {
     allBtn.style.display = 'none';
   }
 
-  // Show venues tab only if admin has made it public
+  // Show venues/budget tabs only if admin has made them public
   _updateVenueToggleUI();
+  _updateBudgetToggleUI();
 
   document.getElementById('hierarchy-page').style.display = 'none';
   document.getElementById('task-page').style.display      = 'block';
@@ -2289,7 +2306,7 @@ function openTaskView(id) {
 
 function switchTaskView(view) {
   currentTaskView = view;
-  ['list','day','week','wedding','checklist','venues','all','messages'].forEach(v => {
+  ['list','day','week','wedding','checklist','venues','all','messages','budget'].forEach(v => {
     const el = document.getElementById('view-' + v);
     if (el) el.style.display = v === view ? 'block' : 'none';
     const btn = document.getElementById('vt-' + v);
@@ -2304,6 +2321,7 @@ function switchTaskView(view) {
   if (view === 'venues')    renderVenues();
   if (view === 'all')       renderAllTasksCoord();
   if (view === 'messages')  { renderInbox(); _markMessagesRead(); }
+  if (view === 'budget')    renderBudgetReadonly();
   updateProgressHeader();
 }
 
@@ -3368,16 +3386,41 @@ function renderGpsSettings() {
   const tkEl = document.getElementById('tg-token-input');
   if (tkEl) tkEl.value = telegramSettings.botToken || '';
   const list = document.getElementById('gps-dates-list');
-  if (!list) return;
-  const dates = gpsSettings.enforcedDates || [];
-  if (!dates.length) {
-    list.innerHTML = '<span style="font-family:sans-serif;font-size:0.78rem;color:var(--muted)">No enforcement dates set.</span>';
+  if (list) {
+    const dates = gpsSettings.enforcedDates || [];
+    if (!dates.length) {
+      list.innerHTML = '<span style="font-family:sans-serif;font-size:0.78rem;color:var(--muted)">No enforcement dates set.</span>';
+    } else {
+      list.innerHTML = dates.map(d => {
+        const label = new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        return `<span class="gps-date-tag">${label}<button class="gps-date-del" onclick="removeGpsDate('${d}')" title="Remove">✕</button></span>`;
+      }).join('');
+    }
+  }
+  // Excluded people list
+  const excList = document.getElementById('gps-excluded-list');
+  if (!excList) return;
+  const excluded = gpsSettings.excludedIds || [];
+  if (!excluded.length) {
+    excList.innerHTML = '<span style="font-family:sans-serif;font-size:0.78rem;color:var(--muted)">No one excluded — all team members can share GPS.</span>';
     return;
   }
-  list.innerHTML = dates.map(d => {
-    const label = new Date(d + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    return `<span class="gps-date-tag">${label}<button class="gps-date-del" onclick="removeGpsDate('${d}')" title="Remove">✕</button></span>`;
+  excList.innerHTML = excluded.map(id => {
+    const name = (appData[id]?.profile?.name) || TEAM[id]?.name || id;
+    const emoji = TEAM[id]?.emoji || '👤';
+    return `<div style="display:flex;align-items:center;gap:0.55rem;padding:0.35rem 0.65rem;background:#fff;border:1px solid var(--border);border-radius:7px;margin-bottom:0.35rem">
+      <span>${emoji}</span>
+      <span style="flex:1;font-family:sans-serif;font-size:0.78rem">${name}</span>
+      <button onclick="reEnableGps('${id}')" style="background:#e6f7ef;border:1px solid #b7dfc9;border-radius:6px;padding:0.2rem 0.55rem;font-family:sans-serif;font-size:0.68rem;cursor:pointer;color:#1a7a4a">Re-enable</button>
+    </div>`;
   }).join('');
+}
+async function reEnableGps(id) {
+  gpsSettings.excludedIds = (gpsSettings.excludedIds || []).filter(x => x !== id);
+  await saveData();
+  renderGpsSettings();
+  const name = (appData[id]?.profile?.name) || TEAM[id]?.name || id;
+  showToast('success', `${name} can share GPS again`, '', 2000);
 }
 
 function addGpsDate() {
@@ -3415,6 +3458,7 @@ function requestGPS(forUserId) {
   }
 
   const saveLocation = (pos) => {
+    if ((gpsSettings.excludedIds || []).includes(userId)) return;
     const loc = { lat: pos.coords.latitude, lng: pos.coords.longitude, time: new Date().toLocaleTimeString() };
     if (!appData[userId]) appData[userId] = { tasks: [], location: null };
     appData[userId].location = loc;
@@ -3989,6 +4033,7 @@ function _rerenderCurrentView() {
   else if (currentTaskView === 'venues') renderVenues();
   else if (currentTaskView === 'all')  renderAllTasksCoord();
   else if (currentTaskView === 'messages') renderInbox();
+  else if (currentTaskView === 'budget')  renderBudgetReadonly();
   _updateMsgBadge();
   updateProgressHeader();
 }
@@ -4454,6 +4499,64 @@ function renderVenues() {
   });
 }
 
+function _updateBudgetToggleUI() {
+  const on  = gpsSettings.budgetPublic;
+  const btn = document.getElementById('budget-toggle-btn');
+  if (btn) { btn.textContent = on ? '👁 Visible to team' : '🚫 Hidden from team'; btn.style.background = on ? '#e6f4ea' : '#f5f5f5'; btn.style.color = on ? '#2e7d32' : '#999'; }
+  const tab = document.getElementById('vt-budget');
+  if (tab) tab.style.display = on ? '' : 'none';
+}
+async function toggleBudgetPublic() {
+  gpsSettings.budgetPublic = !gpsSettings.budgetPublic;
+  _updateBudgetToggleUI();
+  await saveData();
+  showToast('success', gpsSettings.budgetPublic ? 'Budget visible to team' : 'Budget hidden from team', '', 2000);
+}
+function renderBudgetReadonly() {
+  const el = document.getElementById('budget-readonly-content');
+  if (!el) return;
+  const data = liveBudget && liveBudget.length ? liveBudget : [];
+  if (!data.length) {
+    el.innerHTML = '<div style="text-align:center;padding:3rem 1rem;color:var(--muted);font-family:sans-serif;font-size:0.85rem">No budget data yet.</div>';
+    return;
+  }
+  const totalBudget = data.reduce((s, i) => s + (parseFloat(i.budget) || 0), 0);
+  const totalSpent  = data.reduce((s, i) => s + (parseFloat(i.spent)  || 0), 0);
+  const remaining   = totalBudget - totalSpent;
+  const pct         = totalBudget ? Math.round((totalSpent / totalBudget) * 100) : 0;
+  const cats = [...new Set(data.map(i => i.category))];
+  el.innerHTML = `
+    <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1rem">
+      <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">💰 Wedding Budget</div>
+      <div style="background:#eee;border-radius:4px;height:8px;overflow:hidden;margin-bottom:0.65rem">
+        <div style="height:100%;border-radius:4px;background:${pct>90?'#e05c5c':'var(--gold)'};width:${Math.min(pct,100)}%;transition:width 0.4s"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:sans-serif;font-size:0.78rem;margin-bottom:0.5rem">
+        <span style="color:var(--muted)">Spent</span><span style="font-weight:600;color:var(--dark)">$${totalSpent.toLocaleString()}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:sans-serif;font-size:0.78rem;margin-bottom:0.5rem">
+        <span style="color:var(--muted)">Total Budget</span><span style="color:var(--dark)">$${totalBudget.toLocaleString()}</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;font-family:sans-serif;font-size:0.78rem;border-top:1px solid var(--border);padding-top:0.5rem;margin-top:0.5rem">
+        <span style="color:var(--muted)">Remaining</span><span style="font-weight:600;color:${remaining<0?'#e05c5c':'#1a7a4a'}">$${remaining.toLocaleString()}</span>
+      </div>
+    </div>
+    ${cats.map(cat => {
+      const items = data.filter(i => i.category === cat);
+      const catSpent  = items.reduce((s,i) => s+(parseFloat(i.spent)||0),0);
+      const catBudget = items.reduce((s,i) => s+(parseFloat(i.budget)||0),0);
+      return `<div style="background:#fff;border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem;margin-bottom:0.65rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.55rem">
+          <div style="font-family:sans-serif;font-size:0.78rem;font-weight:600;color:var(--dark)">${cat}</div>
+          <div style="font-family:sans-serif;font-size:0.72rem;color:var(--muted)">$${catSpent.toLocaleString()} / $${catBudget.toLocaleString()}</div>
+        </div>
+        ${items.map(i => `<div style="display:flex;justify-content:space-between;font-family:sans-serif;font-size:0.76rem;padding:0.3rem 0;border-top:1px solid #f0f0f0">
+          <span style="color:var(--dark)">${i.item}</span>
+          <span style="color:${parseFloat(i.spent)>parseFloat(i.budget)?'#e05c5c':'var(--muted)'}">${i.spent?'$'+parseFloat(i.spent).toLocaleString():'-'}</span>
+        </div>`).join('')}
+      </div>`;
+    }).join('')}`;
+}
 function _updateVenueToggleUI() {
   const on = gpsSettings.venuesPublic;
   const btn = document.getElementById('venues-toggle-btn');
@@ -4698,7 +4801,7 @@ function switchAdminTab(tab, btn) {
   if (btn) btn.classList.add('active');
   if (tab !== 'map') stopMapAutoRefresh();
   if (tab === 'overview')   renderOverviewGrid();
-  if (tab === 'budget')     renderBudget();
+  if (tab === 'budget')     { renderBudget(); _updateBudgetToggleUI(); }
   if (tab === 'team-mgmt')  renderTeamMgmt();
   if (tab === 'map')        { renderMap(); startMapAutoRefresh(); }
   if (tab === 'remind')     renderRemindersTab();
@@ -4755,6 +4858,7 @@ function renderMap() {
     const person = TEAM[id];
     const data = appData[id];
     if (!data || !data.location) return;
+    if ((gpsSettings.excludedIds || []).includes(id)) return;
     hasAny = true;
     const color = colors[ci++ % colors.length];
     const addrElId = `loc-addr-${id}`;
@@ -4787,11 +4891,13 @@ function renderMap() {
 
 async function clearPersonLocation(id) {
   const name = (appData[id]?.profile?.name) || TEAM[id]?.name || id;
-  if (!confirm(`Remove ${name}'s GPS location?`)) return;
+  if (!confirm(`Remove ${name}'s GPS location and stop tracking them?`)) return;
+  if (!gpsSettings.excludedIds) gpsSettings.excludedIds = [];
+  if (!gpsSettings.excludedIds.includes(id)) gpsSettings.excludedIds.push(id);
   if (appData[id]) appData[id].location = null;
   await saveData();
   renderMap();
-  showToast('success', `${name}'s location removed`, '', 2000);
+  showToast('success', `${name} removed from map`, 'Re-enable in ⚙️ Settings → GPS', 3000);
 }
 
 function renderLeafletMap() {
