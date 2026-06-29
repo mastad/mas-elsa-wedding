@@ -86,7 +86,12 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .count-lbl{font-family:sans-serif;font-size:0.7rem;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:0.25rem}
 
 /* TIMELINE */
-.timeline{display:flex;flex-direction:column;max-width:600px;margin:2rem auto;text-align:left;position:relative}
+.view-songs-btn:hover{transform:scale(1.05);opacity:0.9}
+@keyframes songBtnPulse{
+  0%{box-shadow:0 0 0 0 rgba(201,169,110,0.6);transform:scale(1)}
+  50%{box-shadow:0 0 0 8px rgba(201,169,110,0);transform:scale(1.04)}
+  100%{box-shadow:0 0 0 0 rgba(201,169,110,0);transform:scale(1)}
+}
 .tl-line-full{position:absolute;left:calc(90px + 1rem + 8px);top:8px;bottom:8px;width:1px;background:var(--gold-light)}
 .tl-item{display:flex;gap:1rem;align-items:flex-start;padding-bottom:2rem}
 .tl-item:last-child{padding-bottom:0}
@@ -310,6 +315,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <li><a href="#" onclick="show('rsvp',this);return false">RSVP</a></li>
     <li><a href="#" onclick="show('photos',this);return false">Photos</a></li>
     <li><a href="#" onclick="show('qa',this);return false">Q&amp;A</a></li>
+    <li><a href="team.html">Team</a></li>
   </ul>
   <button class="hamburger" onclick="document.getElementById('navMenu').classList.toggle('open')" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -364,11 +370,11 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
         <div class="tl-item"><div class="tl-left"><div class="tl-time">5:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride &amp; Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb &amp; Kene</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">6:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Food &amp; Drinks Served</div><div class="tl-venue">Dinner served · Drinks available 5:00 PM – 10:30 PM</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Mezmure <span onclick="openMezmureModal()" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase">♪ View Songs</span></div><div class="tl-venue">Ethiopian spiritual songs &amp; celebration</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Mezmure <span onclick="openMezmureModal()" class="view-songs-btn" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;animation:songBtnPulse 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:0.3rem;box-shadow:0 0 0 0 rgba(201,169,110,0.5)">♪ View Songs</span></div><div class="tl-venue">Ethiopian spiritual songs &amp; celebration</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">8:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Kene</div><div class="tl-venue">Traditional Ethiopian poetry recitation</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">8:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Cake Cutting 🎂</div><div class="tl-venue">Cake time + Mezmure continues</div></div></div>
         <div class="tl-item"><div class="tl-left"><div class="tl-time">9:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Family Speeches</div><div class="tl-venue">Heartfelt words from loved ones</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">10:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Closing Mezmure <span onclick="openMezmureModal()" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase">♪ View Songs</span></div><div class="tl-venue">Final celebration &amp; program ends at 10:30 PM</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">10:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Closing Mezmure <span onclick="openMezmureModal()" class="view-songs-btn" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;animation:songBtnPulse 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:0.3rem;box-shadow:0 0 0 0 rgba(201,169,110,0.5)">♪ View Songs</span></div><div class="tl-venue">Final celebration &amp; program ends at 10:30 PM</div></div></div>
       </div>
       <p style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);margin-top:2.5rem;letter-spacing:0.05em;font-style:italic">✦ All times are approximate and subject to slight changes on the day</p>
     </div>
@@ -1279,7 +1285,7 @@ Saying let us praise (2)`
   {
     title: '7. መርዓት ወመርዓዊ ክልዔሆሙ',
     subtitle: 'Merat Wemerawee Kileehomu — "The Bride and Groom, Both of Them"',
-    search: 'https://www.youtube.com/watch?v=XWstG0Z7lJs&t=244s',
+    search: 'https://www.youtube.com/watch?v=DAGiq68tzc0',
     lyrics: `መርዓት ወመርዓዊ (፪) ክልዔሆሙ (፪)
 ይከውኑ አሐደ ሥጋ (፬)`,
     translation: `The bride and groom (2), both of them (2)
@@ -1337,7 +1343,7 @@ Because of the water that became wine`
   {
     title: '13. ሁለቱም አንድ ሆኑ ዛሬ',
     subtitle: 'Huletum And Honu Zare — "Today the Two Became One"',
-    search: 'https://www.youtube.com/watch?v=gm5e3Pz3sUU',
+    search: 'https://youtu.be/iD5kxQ9c0ic?si=oJMA5m58VNj6jIFt',
     lyrics: `ሁለቱም አንድ ሆኑ ዛሬ (2)
 በእግዚአብሔር በሕያው ቃሉ
 ሁለቱም አንድ ሆኑ ዛሬ
@@ -1402,7 +1408,7 @@ Today the two became one`
   {
     title: '14. ድንቅ ነው በጣም',
     subtitle: 'Dinq New Betam — "It is Truly Wonderful"',
-    search: 'https://www.youtube.com/watch?v=doFUmSazq_A',
+    search: 'https://www.youtube.com/watch?v=m8oL42ZFosw',
     lyrics: `ድንቅ ነው በጣም ድንቅ ነው (2) በጣም
 የሠርጋችሁ ዕለት ተገኘ መድኀኔ ዓለም
 በሠርጋችሁ ዕለት ተገኘች ድንግል ማርያም
@@ -1626,7 +1632,7 @@ Live to the end full of joy (2)`
   {
     title: '18. አጅቡት በእልልታ',
     subtitle: 'Ajibut Beililta — "Escort Him With Joy"',
-    search: 'https://www.youtube.com/watch?v=mnMPUaRJxEw',
+    search: 'https://www.youtube.com/watch?v=wKLeJybGMIM',
     lyrics: `አጅቡት በእልልታ ሲመጣ ሙሽራ
 ፍጹም የሚያስደስት የሠርጉ ዕለት ነው
 ዘመዶቹ ሁሉ ተቀበሉት ውጡ
@@ -1792,13 +1798,21 @@ function buildMezmureList() {
   const list = document.getElementById('mezmure-list');
   if (!list) return;
   list.innerHTML = '';
+
+  // Tap hint shown once at the top
+  const hint = document.createElement('div');
+  hint.style.cssText = 'display:flex;align-items:center;justify-content:center;gap:0.5rem;font-family:sans-serif;font-size:0.72rem;color:var(--muted);margin-bottom:1rem;animation:fadeHint 3s ease forwards';
+  hint.innerHTML = `<span style="animation:tapBounce 1s ease infinite">👆</span> Tap any song to read the lyrics`;
+  list.appendChild(hint);
+
   MEZMURES.forEach((song, i) => {
     const card = document.createElement('div');
-    card.style.cssText = 'border:1px solid var(--gold-light);border-radius:8px;overflow:hidden;margin-bottom:0.75rem';
+    card.style.cssText = 'border:1px solid var(--gold-light);border-radius:8px;overflow:hidden;margin-bottom:0.75rem;animation:cardEntrance 0.4s ease both';
+    card.style.animationDelay = `${i * 0.05}s`;
 
     // Header row (always visible, clickable)
     const header = document.createElement('div');
-    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.9rem 1.1rem;cursor:pointer;background:linear-gradient(135deg,#fdf8ef,#f9f0e0);transition:background 0.2s';
+    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.9rem 1.1rem;cursor:pointer;background:linear-gradient(135deg,#fdf8ef,#f9f0e0);transition:all 0.2s;position:relative';
     header.innerHTML = `
       <div style="flex:1;min-width:0">
         <div style="font-family:sans-serif;font-size:0.62rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:0.15rem">Song ${i+1}</div>
@@ -1808,11 +1822,16 @@ function buildMezmureList() {
       <div style="display:flex;align-items:center;gap:0.6rem;flex-shrink:0">
         <a href="${song.search}" target="_blank"
           onclick="event.stopPropagation()"
-          style="display:inline-flex;align-items:center;gap:0.3rem;background:#e05c5c;color:#fff;font-family:sans-serif;font-size:0.65rem;padding:0.3rem 0.65rem;border-radius:20px;text-decoration:none;white-space:nowrap">
+          style="display:inline-flex;align-items:center;gap:0.3rem;background:#e05c5c;color:#fff;font-family:sans-serif;font-size:0.65rem;padding:0.3rem 0.65rem;border-radius:20px;text-decoration:none;white-space:nowrap;transition:transform 0.15s;active:transform:scale(0.95)">
           ▶ Listen
         </a>
-        <span class="mez-arrow" style="color:var(--gold);font-size:1rem;transition:transform 0.3s">▾</span>
+        <span class="mez-arrow" style="color:var(--gold);font-size:1rem;transition:transform 0.3s;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(201,169,110,0.12)">▾</span>
       </div>`;
+
+    // Pulse ring on first 3 cards to draw attention
+    if (i < 3) {
+      header.style.animation = `cardPulse 2s ease ${i * 0.6}s 2`;
+    }
 
     // Body (lyrics, hidden by default)
     const body = document.createElement('div');
@@ -1835,19 +1854,69 @@ function buildMezmureList() {
         }
       </style>`;
 
+    header.addEventListener('mouseenter', () => {
+      if (body.style.display === 'none') {
+        header.style.background = 'linear-gradient(135deg,#fdf3e0,#f5e8c0)';
+        header.style.boxShadow = '0 2px 12px rgba(201,169,110,0.2)';
+        header.style.transform = 'translateY(-1px)';
+      }
+    });
+    header.addEventListener('mouseleave', () => {
+      if (body.style.display === 'none') {
+        header.style.background = 'linear-gradient(135deg,#fdf8ef,#f9f0e0)';
+        header.style.boxShadow = 'none';
+        header.style.transform = 'translateY(0)';
+      }
+    });
+
     header.onclick = () => {
       const open = body.style.display !== 'none';
       body.style.display = open ? 'none' : 'block';
+      if (!open) {
+        body.style.animation = 'lyricsSlideIn 0.3s ease';
+      }
       header.querySelector('.mez-arrow').style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
       header.style.background = open
         ? 'linear-gradient(135deg,#fdf8ef,#f9f0e0)'
-        : 'linear-gradient(135deg,#f9f0d8,#f5e8c8)';
+        : 'linear-gradient(135deg,#f5e8c8,#eddcaa)';
+      header.style.transform = 'translateY(0)';
+      header.style.boxShadow = open ? 'none' : '0 2px 12px rgba(201,169,110,0.15)';
     };
 
     card.appendChild(header);
     card.appendChild(body);
     list.appendChild(card);
   });
+
+  // Inject keyframes once
+  if (!document.getElementById('mez-keyframes')) {
+    const style = document.createElement('style');
+    style.id = 'mez-keyframes';
+    style.textContent = `
+      @keyframes cardEntrance {
+        from { opacity:0; transform:translateY(12px); }
+        to   { opacity:1; transform:translateY(0); }
+      }
+      @keyframes cardPulse {
+        0%,100% { box-shadow:0 0 0 0 rgba(201,169,110,0); }
+        40%      { box-shadow:0 0 0 6px rgba(201,169,110,0.35); }
+        70%      { box-shadow:0 0 0 10px rgba(201,169,110,0.1); }
+      }
+      @keyframes lyricsSlideIn {
+        from { opacity:0; transform:translateY(-6px); }
+        to   { opacity:1; transform:translateY(0); }
+      }
+      @keyframes tapBounce {
+        0%,100% { transform:translateY(0); }
+        50%      { transform:translateY(-4px); }
+      }
+      @keyframes fadeHint {
+        0%,70% { opacity:1; }
+        100%   { opacity:0; }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 }
 
 function openMezmureModal() {
