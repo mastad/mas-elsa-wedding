@@ -6,23 +6,23 @@
 <title>Mas & Elsa — September 19, 2026</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--gold:#c9a96e;--gold-light:#e8d5b0;--gold-dark:#a8843f;--dark:#1a1a1a;--text:#333;--muted:#888;--bg:#fdfaf6;--white:#fff;--nav-h:60px;--section-alt:#fffdf9}
+:root{--gold:#8a9a7b;--gold-light:#d8e0d0;--gold-dark:#5f6f52;--dark:#1a1a1a;--text:#333;--muted:#888;--bg:#faf8f3;--white:#fff;--nav-h:60px;--section-alt:#f7f6f0}
 body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow-x:hidden}
 
 /* SPLASH */
-#splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#fdf8ef 0%,#f9f0e0 45%,#fdf5e8 100%);transition:opacity 0.8s ease;overflow:hidden}
+#splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#f6f7f1 0%,#eef1e6 45%,#f2f5ec 100%);transition:opacity 0.8s ease;overflow:hidden}
 .petal{position:absolute;top:-40px;opacity:0;animation:fall linear infinite;pointer-events:none;z-index:1}
 @keyframes fall{0%{opacity:0;transform:translateY(0) rotate(0deg) scale(0.8)}10%{opacity:0.8}80%{opacity:0.6}100%{opacity:0;transform:translateY(110vh) rotate(360deg) scale(1.1)}}
 .floral-tl,.floral-tr,.floral-bl,.floral-br{position:absolute;z-index:1;width:190px;height:190px;opacity:0.6}
 .floral-tl{top:0;left:0}.floral-tr{top:0;right:0;transform:scaleX(-1)}.floral-bl{bottom:0;left:0;transform:scaleY(-1)}.floral-br{bottom:0;right:0;transform:scale(-1)}
-.splash-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:440px;height:440px;background:radial-gradient(ellipse at center,rgba(201,169,110,0.15) 0%,transparent 75%);pointer-events:none;z-index:1}
+.splash-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:440px;height:440px;background:radial-gradient(ellipse at center,rgba(138,154,123,0.15) 0%,transparent 75%);pointer-events:none;z-index:1}
 .splash-rays{position:absolute;inset:0;overflow:hidden;z-index:1}
-.splash-rays::before,.splash-rays::after{content:'';position:absolute;bottom:42%;left:50%;width:1px;background:linear-gradient(to top,rgba(201,169,110,0),rgba(201,169,110,0.35),rgba(201,169,110,0));transform-origin:bottom center}
-.splash-rays::before{height:55%;transform:translateX(-50%) rotate(-30deg);box-shadow:0 0 60px 30px rgba(201,169,110,0.1)}
-.splash-rays::after{height:55%;transform:translateX(-50%) rotate(30deg);box-shadow:0 0 60px 30px rgba(201,169,110,0.1)}
-.splash-monogram{position:relative;z-index:2;width:120px;height:120px;border-radius:50%;border:2px solid rgba(201,169,110,0.75);background:radial-gradient(circle,#fff 50%,#fdf5e0 100%);display:flex;align-items:center;justify-content:center;margin-bottom:1.8rem;animation:monogramGlow 3s ease-in-out infinite;box-shadow:0 8px 32px rgba(201,169,110,0.2)}
-@keyframes monogramGlow{0%,100%{box-shadow:0 8px 32px rgba(201,169,110,0.2)}50%{box-shadow:0 8px 48px rgba(201,169,110,0.45),0 0 0 8px rgba(201,169,110,0.06)}}
-.splash-monogram::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:1.5px dashed rgba(201,169,110,0.4);animation:rotateBorder 10s linear infinite}
+.splash-rays::before,.splash-rays::after{content:'';position:absolute;bottom:42%;left:50%;width:1px;background:linear-gradient(to top,rgba(138,154,123,0),rgba(138,154,123,0.35),rgba(138,154,123,0));transform-origin:bottom center}
+.splash-rays::before{height:55%;transform:translateX(-50%) rotate(-30deg);box-shadow:0 0 60px 30px rgba(138,154,123,0.1)}
+.splash-rays::after{height:55%;transform:translateX(-50%) rotate(30deg);box-shadow:0 0 60px 30px rgba(138,154,123,0.1)}
+.splash-monogram{position:relative;z-index:2;width:120px;height:120px;border-radius:50%;border:2px solid rgba(138,154,123,0.75);background:radial-gradient(circle,#fff 50%,#f1f4ea 100%);display:flex;align-items:center;justify-content:center;margin-bottom:1.8rem;animation:monogramGlow 3s ease-in-out infinite;box-shadow:0 8px 32px rgba(138,154,123,0.2)}
+@keyframes monogramGlow{0%,100%{box-shadow:0 8px 32px rgba(138,154,123,0.2)}50%{box-shadow:0 8px 48px rgba(138,154,123,0.45),0 0 0 8px rgba(138,154,123,0.06)}}
+.splash-monogram::before{content:'';position:absolute;inset:-6px;border-radius:50%;border:1.5px dashed rgba(138,154,123,0.4);animation:rotateBorder 10s linear infinite}
 @keyframes rotateBorder{to{transform:rotate(360deg)}}
 .splash-monogram span{font-family:'Georgia',serif;font-style:italic;font-size:2.4rem;color:var(--gold);letter-spacing:-0.05em;animation:letterDance 4s ease-in-out infinite;display:inline-block}
 @keyframes letterDance{0%,100%{transform:scale(1) rotate(0deg)}25%{transform:scale(1.12) rotate(-3deg)}50%{transform:scale(1.07)}75%{transform:scale(1.12) rotate(3deg)}}
@@ -36,10 +36,10 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow
 .splash-enter{position:relative;z-index:2;margin-top:0.8rem;font-family:sans-serif;font-size:0.72rem;font-weight:600;letter-spacing:0.3em;color:var(--gold-dark);text-transform:uppercase;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:0.8}50%{opacity:1}}
 .ripple-btn{position:relative;z-index:2;width:64px;height:64px;display:flex;align-items:center;justify-content:center}
-.ripple-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(201,169,110,0.45);animation:ripple 2.5s ease-out infinite}
+.ripple-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(138,154,123,0.45);animation:ripple 2.5s ease-out infinite}
 .r1{width:64px;height:64px;animation-delay:0s}.r2{width:64px;height:64px;animation-delay:0.8s}.r3{width:64px;height:64px;animation-delay:1.6s}
 @keyframes ripple{0%{transform:scale(1);opacity:0.7}100%{transform:scale(2.4);opacity:0}}
-.ripple-core{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(201,169,110,0.8);background:rgba(201,169,110,0.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;animation:corePulse 2s ease-in-out infinite}
+.ripple-core{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(138,154,123,0.8);background:rgba(138,154,123,0.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;animation:corePulse 2s ease-in-out infinite}
 @keyframes corePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 
 /* NAV */
@@ -71,12 +71,12 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .hero-photo{width:100%;overflow:hidden;height:70vh}
 .hero-photo img{width:100%;height:70vh;object-fit:cover;object-position:center top;display:block;animation:cinematicZoom 14s ease-in-out infinite alternate}
 @keyframes cinematicZoom{0%{transform:scale(1) translateX(0)}33%{transform:scale(1.06) translateX(-1%)}66%{transform:scale(1.04) translateX(1%)}100%{transform:scale(1.08) translateX(0)}}
-.hero-text-box{width:100%;background:#f9f5ee;padding:2.5rem 1.5rem;display:flex;flex-direction:column;align-items:center}
-.hero-eyebrow{font-family:sans-serif;font-size:0.68rem;letter-spacing:0.35em;color:#c9a96e;text-transform:uppercase;margin-bottom:0.75rem}
+.hero-text-box{width:100%;background:#f0f2ec;padding:2.5rem 1.5rem;display:flex;flex-direction:column;align-items:center}
+.hero-eyebrow{font-family:sans-serif;font-size:0.68rem;letter-spacing:0.35em;color:#8a9a7b;text-transform:uppercase;margin-bottom:0.75rem}
 .hero-names{font-size:clamp(1.8rem,5vw,3.2rem);font-weight:400;color:#1a1a1a;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;line-height:1.1}
-.hero-amp{color:#c9a96e;font-style:italic}
+.hero-amp{color:#8a9a7b;font-style:italic}
 .hero-date{font-family:sans-serif;font-size:0.75rem;letter-spacing:0.2em;color:#888;text-transform:uppercase;margin-bottom:1rem}
-.hero-divider{width:50px;height:1px;background:#e8d5b0;margin:0 auto 1.2rem}
+.hero-divider{width:50px;height:1px;background:#d8e0d0;margin:0 auto 1.2rem}
 .hero-verse{font-style:italic;color:#666;font-size:0.9rem;max-width:380px;line-height:1.9;margin:0 auto 2rem}
 .hero-scroll{display:flex;flex-direction:column;align-items:center;gap:0.4rem;margin-top:0.5rem;cursor:pointer;opacity:0.5}
 .hero-scroll span{font-family:sans-serif;font-size:0.62rem;letter-spacing:0.3em;color:#888;text-transform:uppercase}
@@ -101,9 +101,9 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 /* TIMELINE */
 .view-songs-btn:hover{transform:scale(1.05);opacity:0.9}
 @keyframes songBtnPulse{
-  0%{box-shadow:0 0 0 0 rgba(201,169,110,0.6);transform:scale(1)}
-  50%{box-shadow:0 0 0 8px rgba(201,169,110,0);transform:scale(1.04)}
-  100%{box-shadow:0 0 0 0 rgba(201,169,110,0);transform:scale(1)}
+  0%{box-shadow:0 0 0 0 rgba(138,154,123,0.6);transform:scale(1)}
+  50%{box-shadow:0 0 0 8px rgba(138,154,123,0);transform:scale(1.04)}
+  100%{box-shadow:0 0 0 0 rgba(138,154,123,0);transform:scale(1)}
 }
 .tl-item{display:flex;gap:1rem;align-items:flex-start;padding-bottom:2rem}
 .tl-item:last-child{padding-bottom:0}
@@ -111,7 +111,7 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .tl-time{font-family:sans-serif;font-size:0.75rem;color:var(--gold);font-weight:600;letter-spacing:0.05em}
 .tl-dot{width:12px;height:12px;border:2px solid var(--gold);border-radius:50%;background:var(--bg);flex-shrink:0;margin-top:3px;transition:all 0.3s}
 .tl-dot.upcoming{border-color:var(--gold);background:var(--bg)}
-.tl-dot.current{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,0.25)}
+.tl-dot.current{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 3px rgba(138,154,123,0.25)}
 .tl-dot.past{border-color:#ccc;background:#ccc}
 .tl-name{font-size:0.95rem;color:var(--dark);margin-bottom:0.15rem;font-weight:500;text-align:left}
 .tl-venue{font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.5;text-align:left}
@@ -228,7 +228,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 .toast-msg{opacity:0.85;font-size:0.78rem}
 .toast.success{background:#fff;border-left:4px solid #6abf6a;color:#2a5c2a}
 .toast.error{background:#fff;border-left:4px solid #e05c5c;color:#5c1a1a}
-.toast.info{background:#fff;border-left:4px solid var(--gold);color:#4a3a10}
+.toast.info{background:#fff;border-left:4px solid var(--gold);color:#3a4530}
 @keyframes toastIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:translateX(0)}}
 @keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(60px)}}
 
@@ -237,7 +237,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 .upload-banner.show{display:flex}
 .upload-banner.success{background:#f0faf0;border:1px solid #a8d5a8;color:#2a5c2a}
 .upload-banner.error{background:#fdf4f4;border:1px solid #e8b4b4;color:#5c1a1a}
-.upload-banner.partial{background:#fffbf0;border:1px solid var(--gold-light);color:#4a3a10}
+.upload-banner.partial{background:#f4f6ef;border:1px solid var(--gold-light);color:#3a4530}
 .upload-banner-icon{font-size:1.2rem;flex-shrink:0}
 .upload-banner-text .title{font-weight:600;margin-bottom:0.25rem}
 .upload-banner-text .detail{font-size:0.78rem;opacity:0.85}
@@ -248,7 +248,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 .admin-box{background:#fff;border-radius:10px;width:100%;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:0 12px 50px rgba(0,0,0,0.25)}
 .admin-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--gold-light);position:sticky;top:0;background:#fff;z-index:1}
 .admin-header h2{font-family:'Georgia',serif;font-size:1.15rem;color:var(--dark);font-weight:400}
-.admin-header span{font-family:sans-serif;font-size:0.7rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;background:#fff8ee;padding:0.25rem 0.6rem;border-radius:20px;border:1px solid var(--gold-light)}
+.admin-header span{font-family:sans-serif;font-size:0.7rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;background:#f0f3e9;padding:0.25rem 0.6rem;border-radius:20px;border:1px solid var(--gold-light)}
 .admin-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);line-height:1;padding:0.2rem}
 .admin-body{padding:1.5rem}
 .admin-section-title{font-family:sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid var(--gold-light)}
@@ -260,7 +260,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 .admin-photo-cell .adm-del span{opacity:0;font-size:1.5rem;color:#fff;transition:opacity 0.2s}
 .admin-photo-cell:hover .adm-del span{opacity:1}
 .admin-upload-zone{border:2px dashed var(--gold-light);border-radius:8px;padding:2rem;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;margin-bottom:1rem}
-.admin-upload-zone:hover{border-color:var(--gold);background:#fff8ee}
+.admin-upload-zone:hover{border-color:var(--gold);background:#f0f3e9}
 .admin-upload-zone p{font-family:sans-serif;font-size:0.82rem;color:var(--muted);margin-top:0.5rem}
 .admin-upload-zone .icon{font-size:2rem}
 .admin-progress{display:none;margin-top:1rem}
@@ -291,10 +291,10 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 
 <!-- SPLASH -->
 <div id="splash">
-  <svg class="floral-tl" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#e8d5a0" opacity="0.75"/><circle cx="62" cy="18" r="13" fill="#f0dfa8" opacity="0.65"/><circle cx="18" cy="62" r="15" fill="#ddc880" opacity="0.7"/><circle cx="85" cy="42" r="11" fill="#f5e8b8" opacity="0.55"/><circle cx="42" cy="85" r="12" fill="#e8d090" opacity="0.65"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a050" opacity="0.35" transform="rotate(45 55 55)"/></svg>
-  <svg class="floral-tr" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#e8d5a0" opacity="0.75"/><circle cx="62" cy="18" r="13" fill="#f0dfa8" opacity="0.65"/><circle cx="18" cy="62" r="15" fill="#ddc880" opacity="0.7"/><circle cx="85" cy="42" r="11" fill="#f5e8b8" opacity="0.55"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a050" opacity="0.35" transform="rotate(45 55 55)"/></svg>
-  <svg class="floral-bl" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#f0e0b0" opacity="0.7"/><circle cx="62" cy="18" r="13" fill="#e8d898" opacity="0.6"/><circle cx="18" cy="62" r="15" fill="#ddc878" opacity="0.65"/><circle cx="85" cy="42" r="11" fill="#f5e8b0" opacity="0.5"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a048" opacity="0.35" transform="rotate(45 55 55)"/></svg>
-  <svg class="floral-br" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#f0e0b0" opacity="0.7"/><circle cx="62" cy="18" r="13" fill="#e8d898" opacity="0.6"/><circle cx="18" cy="62" r="15" fill="#ddc878" opacity="0.65"/><circle cx="85" cy="42" r="11" fill="#f5e8b0" opacity="0.5"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a048" opacity="0.35" transform="rotate(45 55 55)"/></svg>
+  <svg class="floral-tl" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#cadabb" opacity="0.75"/><circle cx="62" cy="18" r="13" fill="#d1dec3" opacity="0.65"/><circle cx="18" cy="62" r="15" fill="#b6cc9c" opacity="0.7"/><circle cx="85" cy="42" r="11" fill="#dbe6d3" opacity="0.55"/><circle cx="42" cy="85" r="12" fill="#c5d6b5" opacity="0.65"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#7d9366" opacity="0.35" transform="rotate(45 55 55)"/></svg>
+  <svg class="floral-tr" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#cadabb" opacity="0.75"/><circle cx="62" cy="18" r="13" fill="#d1dec3" opacity="0.65"/><circle cx="18" cy="62" r="15" fill="#b6cc9c" opacity="0.7"/><circle cx="85" cy="42" r="11" fill="#dbe6d3" opacity="0.55"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#7d9366" opacity="0.35" transform="rotate(45 55 55)"/></svg>
+  <svg class="floral-bl" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#d3e0c6" opacity="0.7"/><circle cx="62" cy="18" r="13" fill="#c8d8ba" opacity="0.6"/><circle cx="18" cy="62" r="15" fill="#b5cb9b" opacity="0.65"/><circle cx="85" cy="42" r="11" fill="#dbe6d1" opacity="0.5"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#7c9265" opacity="0.35" transform="rotate(45 55 55)"/></svg>
+  <svg class="floral-br" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#d3e0c6" opacity="0.7"/><circle cx="62" cy="18" r="13" fill="#c8d8ba" opacity="0.6"/><circle cx="18" cy="62" r="15" fill="#b5cb9b" opacity="0.65"/><circle cx="85" cy="42" r="11" fill="#dbe6d1" opacity="0.5"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#7c9265" opacity="0.35" transform="rotate(45 55 55)"/></svg>
   <div class="splash-rays"></div>
   <div class="splash-glow"></div>
   <div class="splash-monogram"><span>M&amp;E</span></div>
@@ -364,28 +364,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div class="photo-strip-item"><img src="photo3.jpg" alt="" onclick="openLightbox('photo3.jpg')"/></div>
     <div class="photo-strip-item"><img src="photo5.jpg" alt="" style="object-position:center 75%" onclick="openLightbox('photo5.jpg')"/></div>
     <div class="photo-strip-item"><img src="photo7.jpg" alt="" onclick="openLightbox('photo7.jpg')"/></div>
-  </div>
-
-  <!-- EVENT TIMELINE -->
-  <div style="background:var(--section-alt);padding:5rem 1.5rem">
-    <div style="max-width:900px;margin:0 auto;text-align:center">
-      <p class="section-tag">The Day's Events</p>
-      <h2 class="section-title">Event Timeline</h2>
-      <p style="font-family:sans-serif;font-size:0.78rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem">September 19, 2026 · Washington, DC</p>
-      <div class="divider"></div>
-      <div class="timeline">
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">1:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Ceremony Begins</div><div class="tl-venue">Mt Horeb Baptist Church — Doors open · Please be seated by 1:00 PM</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">1:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride &amp; Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">2:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb &amp; Kene</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">2:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Food &amp; Drinks Served</div><div class="tl-venue">Dinner served · Drinks available 1:00 PM – 6:30 PM</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">3:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Mezmure <span onclick="openMezmureModal()" class="view-songs-btn" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;animation:songBtnPulse 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:0.3rem;box-shadow:0 0 0 0 rgba(201,169,110,0.5)">♪ View Songs</span></div><div class="tl-venue">Ethiopian spiritual songs &amp; celebration</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">4:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Kene</div><div class="tl-venue">Traditional Ethiopian poetry recitation</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">4:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Cake Cutting 🎂</div><div class="tl-venue">Cake time + Mezmure continues</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Family Speeches</div><div class="tl-venue">Heartfelt words from loved ones</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Closing Mezmure <span onclick="openMezmureModal()" class="view-songs-btn" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;animation:songBtnPulse 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:0.3rem;box-shadow:0 0 0 0 rgba(201,169,110,0.5)">♪ View Songs</span></div><div class="tl-venue">Final celebration &amp; program ends at 6:30 PM</div></div></div>
-      </div>
-      <p style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);margin-top:2.5rem;letter-spacing:0.05em;font-style:italic">✦ All times are approximate and subject to slight changes on the day</p>
-    </div>
   </div>
 
   <!-- SHARE MEMORIES (HOME) -->
@@ -590,7 +568,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div style="padding:1.25rem 1.5rem">
 
       <!-- Intro -->
-      <div style="background:linear-gradient(135deg,#fff8ee,#fdf3e0);border:1px solid var(--gold-light);border-radius:8px;padding:0.9rem 1.1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem">
+      <div style="background:linear-gradient(135deg,#f0f3e9,#f0f3e9);border:1px solid var(--gold-light);border-radius:8px;padding:0.9rem 1.1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem">
         <span style="font-size:1.4rem">🎵</span>
         <div style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.6">Tap any song below to read the lyrics. These mezmures will be sung during the celebration of Mas &amp; Elsa's wedding.</div>
       </div>
@@ -1072,7 +1050,7 @@ async function handleFiles(files, progressId, barId, statusId) {
     showToast('error', 'Upload Failed', 'None saved. Try Google Photos below.', 8000);
   } else {
     statusEl.textContent = `⚠ ${successCount} uploaded, ${failedFiles.length} failed.`;
-    statusEl.style.color = '#c9a96e';
+    statusEl.style.color = '#8a9a7b';
     showUploadBanner(bannerId, 'partial', `${successCount} uploaded, ${failedFiles.length} failed`, `Failed: ${failedFiles.join(', ')}. Try Google Photos below.`);
     showToast('info', 'Partial Upload', `${successCount} ok, ${failedFiles.length} failed.`, 8000);
   }
@@ -1771,7 +1749,7 @@ function buildMezmureList() {
 
     // Header row (always visible, clickable)
     const header = document.createElement('div');
-    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.9rem 1.1rem;cursor:pointer;background:linear-gradient(135deg,#fdf8ef,#f9f0e0);transition:all 0.2s;position:relative';
+    header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.9rem 1.1rem;cursor:pointer;background:linear-gradient(135deg,#f6f7f1,#eef1e6);transition:all 0.2s;position:relative';
     header.innerHTML = `
       <div style="flex:1;min-width:0">
         <div style="font-family:sans-serif;font-size:0.62rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:0.15rem">Song ${i+1}</div>
@@ -1784,7 +1762,7 @@ function buildMezmureList() {
           style="display:inline-flex;align-items:center;gap:0.3rem;background:#e05c5c;color:#fff;font-family:sans-serif;font-size:0.65rem;padding:0.3rem 0.65rem;border-radius:20px;text-decoration:none;white-space:nowrap;transition:transform 0.15s;active:transform:scale(0.95)">
           ▶ Listen
         </a>
-        <span class="mez-arrow" style="color:var(--gold);font-size:1rem;transition:transform 0.3s;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(201,169,110,0.12)">▾</span>
+        <span class="mez-arrow" style="color:var(--gold);font-size:1rem;transition:transform 0.3s;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:rgba(138,154,123,0.12)">▾</span>
       </div>`;
 
     // Pulse ring on first 3 cards to draw attention
@@ -1815,14 +1793,14 @@ function buildMezmureList() {
 
     header.addEventListener('mouseenter', () => {
       if (body.style.display === 'none') {
-        header.style.background = 'linear-gradient(135deg,#fdf3e0,#f5e8c0)';
-        header.style.boxShadow = '0 2px 12px rgba(201,169,110,0.2)';
+        header.style.background = 'linear-gradient(135deg,#f0f3e9,#dde7d5)';
+        header.style.boxShadow = '0 2px 12px rgba(138,154,123,0.2)';
         header.style.transform = 'translateY(-1px)';
       }
     });
     header.addEventListener('mouseleave', () => {
       if (body.style.display === 'none') {
-        header.style.background = 'linear-gradient(135deg,#fdf8ef,#f9f0e0)';
+        header.style.background = 'linear-gradient(135deg,#f6f7f1,#eef1e6)';
         header.style.boxShadow = 'none';
         header.style.transform = 'translateY(0)';
       }
@@ -1836,10 +1814,10 @@ function buildMezmureList() {
       }
       header.querySelector('.mez-arrow').style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
       header.style.background = open
-        ? 'linear-gradient(135deg,#fdf8ef,#f9f0e0)'
-        : 'linear-gradient(135deg,#f5e8c8,#eddcaa)';
+        ? 'linear-gradient(135deg,#f6f7f1,#eef1e6)'
+        : 'linear-gradient(135deg,#dfe8d7,#d6e0c5)';
       header.style.transform = 'translateY(0)';
-      header.style.boxShadow = open ? 'none' : '0 2px 12px rgba(201,169,110,0.15)';
+      header.style.boxShadow = open ? 'none' : '0 2px 12px rgba(138,154,123,0.15)';
     };
 
     card.appendChild(header);
@@ -1857,9 +1835,9 @@ function buildMezmureList() {
         to   { opacity:1; transform:translateY(0); }
       }
       @keyframes cardPulse {
-        0%,100% { box-shadow:0 0 0 0 rgba(201,169,110,0); }
-        40%      { box-shadow:0 0 0 6px rgba(201,169,110,0.35); }
-        70%      { box-shadow:0 0 0 10px rgba(201,169,110,0.1); }
+        0%,100% { box-shadow:0 0 0 0 rgba(138,154,123,0); }
+        40%      { box-shadow:0 0 0 6px rgba(138,154,123,0.35); }
+        70%      { box-shadow:0 0 0 10px rgba(138,154,123,0.1); }
       }
       @keyframes lyricsSlideIn {
         from { opacity:0; transform:translateY(-6px); }

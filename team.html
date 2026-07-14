@@ -7,22 +7,22 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --gold:#c9a96e;--gold-light:#e8d5b0;--gold-dark:#a8843f;
-  --dark:#1a1a1a;--muted:#888;--bg:#fdfaf6;--white:#fff;
+  --gold:#8a9a7b;--gold-light:#d8e0d0;--gold-dark:#5f6f52;
+  --dark:#1a1a1a;--muted:#888;--bg:#faf8f3;--white:#fff;
   --green:#4caf7d;--red:#e05c5c;--blue:#5b8dee;
   --card-bg:#fffdf9;--border:#eedfc4;
 }
 body{font-family:'Georgia',serif;background:var(--bg);color:var(--dark);min-height:100vh;overflow-x:hidden}
 
 /* -- HEADER -- */
-header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.3)}
+header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.3)}
 .header-logo{font-family:'Georgia',serif;font-size:1rem;color:var(--gold);letter-spacing:0.15em}
 .header-date{font-family:sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.45);letter-spacing:0.2em;text-transform:uppercase}
-.header-admin-btn{font-family:sans-serif;font-size:0.68rem;letter-spacing:0.12em;color:var(--gold);background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.3);padding:0.4rem 0.85rem;border-radius:20px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
-.header-admin-btn:hover{background:rgba(201,169,110,0.25)}
+.header-admin-btn{font-family:sans-serif;font-size:0.68rem;letter-spacing:0.12em;color:var(--gold);background:rgba(138,154,123,0.12);border:1px solid rgba(138,154,123,0.3);padding:0.4rem 0.85rem;border-radius:20px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
+.header-admin-btn:hover{background:rgba(138,154,123,0.25)}
 
 /* -- HERO BANNER -- */
-.hero-banner{background:linear-gradient(160deg,#fdf8ef,#f5e8cc);padding:2rem 1.5rem 1.5rem;text-align:center;border-bottom:1px solid var(--border)}
+.hero-banner{background:linear-gradient(160deg,#f6f7f1,#dee8d6);padding:2rem 1.5rem 1.5rem;text-align:center;border-bottom:1px solid var(--border)}
 .hero-banner h1{font-family:'Georgia',serif;font-size:clamp(1.4rem,4vw,2rem);font-weight:400;color:var(--dark);margin-bottom:0.3rem}
 .hero-banner p{font-family:sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.1em}
 
@@ -42,9 +42,9 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .person-card{display:flex;flex-direction:column;align-items:center;gap:0.6rem;cursor:pointer;transition:transform 0.2s}
 .person-card:hover{transform:translateY(-3px)}
 .person-avatar{position:relative;width:90px;height:90px;border-radius:50%;overflow:hidden;border:3px solid var(--gold);background:var(--gold-light);flex-shrink:0;transition:box-shadow 0.2s}
-.person-card:hover .person-avatar{box-shadow:0 0 0 4px rgba(201,169,110,0.3)}
+.person-card:hover .person-avatar{box-shadow:0 0 0 4px rgba(138,154,123,0.3)}
 .person-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
-.person-avatar-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;background:linear-gradient(135deg,var(--gold-light),#f5e0b0)}
+.person-avatar-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;background:linear-gradient(135deg,var(--gold-light),#d2dfc5)}
 .person-name{font-family:'Georgia',serif;font-size:0.9rem;color:var(--dark);text-align:center}
 .person-role-badge{font-family:sans-serif;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:20px;background:var(--gold);color:#fff}
 .person-role-badge.blue{background:var(--blue)}
@@ -108,7 +108,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .pin-wrap{text-align:center;padding:0.5rem 0 1rem}
 .pin-avatar{width:72px;height:72px;border-radius:50%;overflow:hidden;border:3px solid var(--gold);margin:0 auto 0.75rem;background:var(--gold-light)}
 .pin-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
-.pin-avatar-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;background:linear-gradient(135deg,var(--gold-light),#f5e0b0)}
+.pin-avatar-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;background:linear-gradient(135deg,var(--gold-light),#d2dfc5)}
 .pin-name{font-family:'Georgia',serif;font-size:1rem;color:var(--dark);margin-bottom:0.25rem}
 .pin-role{font-family:sans-serif;font-size:0.7rem;color:var(--muted);margin-bottom:1.2rem;letter-spacing:0.08em}
 .pin-input{width:100%;max-width:200px;padding:0.75rem 1rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:1.2rem;text-align:center;letter-spacing:0.4em;outline:none;transition:border-color 0.2s;display:block;margin:0 auto 0.5rem}
@@ -141,7 +141,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 /* Task list view */
 .task-list{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem}
 .task-item{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:all 0.2s}
-.task-item:hover{border-color:var(--gold-light);box-shadow:0 2px 12px rgba(201,169,110,0.1)}
+.task-item:hover{border-color:var(--gold-light);box-shadow:0 2px 12px rgba(138,154,123,0.1)}
 .task-item.done{opacity:0.55}
 .task-item-header{display:flex;align-items:flex-start;gap:0.85rem;padding:0.9rem 1rem;cursor:pointer}
 .task-checkbox{width:22px;height:22px;border-radius:50%;border:2px solid var(--gold-light);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;margin-top:2px}
@@ -161,7 +161,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .task-expand-btn.open{transform:rotate(180deg)}
 
 /* Task detail panel */
-.task-detail{display:none;border-top:1px solid var(--border);padding:0.85rem 1rem;background:#fdfaf6}
+.task-detail{display:none;border-top:1px solid var(--border);padding:0.85rem 1rem;background:#faf8f3}
 .task-detail.open{display:block}
 .task-detail-section{margin-bottom:0.85rem}
 .task-detail-label{font-family:sans-serif;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem}
@@ -176,7 +176,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .reminder-item .rem-countdown{font-size:0.68rem;color:var(--gold);background:#fff8ee;padding:0.15rem 0.45rem;border-radius:10px;white-space:nowrap}
 .reminder-item .rem-del{background:none;border:none;color:#ccc;cursor:pointer;font-size:0.9rem;line-height:1;padding:0.1rem;flex-shrink:0}
 .reminder-item .rem-del:hover{color:var(--red)}
-.add-reminder-form{background:#fdfaf6;border:1.5px dashed var(--gold-light);border-radius:8px;padding:0.85rem;margin-top:0.4rem}
+.add-reminder-form{background:#faf8f3;border:1.5px dashed var(--gold-light);border-radius:8px;padding:0.85rem;margin-top:0.4rem}
 .add-reminder-form-title{font-family:sans-serif;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.6rem}
 .add-reminder-form input,.add-reminder-form textarea{width:100%;padding:0.55rem 0.75rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.85rem;color:var(--dark);outline:none;transition:border-color 0.2s;background:#fff;margin-bottom:0.5rem;font-size:1rem}
 .add-reminder-form input:focus,.add-reminder-form textarea:focus{border-color:var(--gold)}
@@ -217,7 +217,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .hour-row{display:flex;align-items:flex-start;border-bottom:1px solid #f5efe0;min-height:52px}
 .hour-row:last-child{border-bottom:none}
 .hour-row.current-hour{background:#fff8ee}
-.hour-label{width:56px;flex-shrink:0;padding:0.6rem 0.5rem;text-align:right;font-family:sans-serif;font-size:0.68rem;color:var(--muted);border-right:1px solid #f0e8d5;line-height:1.2;padding-top:0.7rem}
+.hour-label{width:56px;flex-shrink:0;padding:0.6rem 0.5rem;text-align:right;font-family:sans-serif;font-size:0.68rem;color:var(--muted);border-right:1px solid #dde6d2;line-height:1.2;padding-top:0.7rem}
 .hour-tasks{flex:1;padding:0.4rem 0.6rem;display:flex;flex-direction:column;gap:0.3rem}
 .timeline-task-chip{border-radius:6px;padding:0.35rem 0.6rem;font-family:sans-serif;font-size:0.72rem;line-height:1.35;cursor:pointer;transition:opacity 0.2s;border-left:3px solid transparent}
 .timeline-task-chip:hover{opacity:0.85}
@@ -228,7 +228,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 /* Day timeline (week view) */
 .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:1rem}
 .week-day-col{border:1px solid var(--border);border-radius:8px;overflow:hidden;min-height:120px}
-.week-day-header{padding:0.4rem;text-align:center;border-bottom:1px solid var(--border);background:#fdfaf6}
+.week-day-header{padding:0.4rem;text-align:center;border-bottom:1px solid var(--border);background:#faf8f3}
 .week-day-name{font-family:sans-serif;font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em}
 .week-day-num{font-family:'Georgia',serif;font-size:1rem;color:var(--dark)}
 .week-day-col.today .week-day-header{background:var(--gold)}
@@ -237,7 +237,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .week-task-dot{border-radius:4px;padding:0.25rem 0.4rem;font-family:sans-serif;font-size:0.62rem;line-height:1.3;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 
 /* Role colors */
-.role-color-couple{background:#f0e8d5;color:#6b4c12;border-left-color:#c9a96e}
+.role-color-couple{background:#dde6d2;color:#3d4a32;border-left-color:#8a9a7b}
 .role-color-protocol{background:#fef9e6;color:#8a6a00;border-left-color:#f0c000}
 .role-color-timekeeper{background:#fef0f0;color:#8a1a1a;border-left-color:#e05c5c}
 .role-color-coordinator{background:#e8f7ee;color:#1a5c38;border-left-color:#4caf7d}
@@ -269,7 +269,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .nb-sec{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden}
 .nb-scr{overflow-x:auto;-webkit-overflow-scrolling:touch;width:100%}
 .nb-t{width:100%;border-collapse:collapse;font-family:sans-serif;font-size:0.78rem;min-width:520px}
-.nb-t th{padding:0.45rem 0.65rem;text-align:left;font-size:0.6rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);background:#fafaf8;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;z-index:1;-webkit-tap-highlight-color:transparent}
+.nb-t th{padding:0.45rem 0.65rem;text-align:left;font-size:0.6rem;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--muted);background:#f7f6f0;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:0;z-index:1;-webkit-tap-highlight-color:transparent}
 .nb-t th:nth-child(3){min-width:160px}
 .nb-t th.nr{text-align:right}
 .nb-t td{padding:0.55rem 0.65rem;border-bottom:1px solid #f4efe6;vertical-align:middle}
@@ -360,7 +360,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 /* Overview cards */
 .overview-grid{display:block;margin-bottom:2rem}
 .overview-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem;cursor:pointer;transition:all 0.2s}
-.overview-card:hover{border-color:var(--gold-light);transform:translateY(-2px);box-shadow:0 4px 16px rgba(201,169,110,0.12)}
+.overview-card:hover{border-color:var(--gold-light);transform:translateY(-2px);box-shadow:0 4px 16px rgba(138,154,123,0.12)}
 .ov-top{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem}
 .ov-avatar{width:42px;height:42px;border-radius:50%;overflow:hidden;border:2px solid var(--gold-light);flex-shrink:0;background:var(--gold-light)}
 .ov-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
@@ -416,13 +416,13 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 @keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateX(40px)}}
 
 /* GPS Gate */
-#gps-gate{position:fixed;inset:0;z-index:5000;background:linear-gradient(160deg,#1a1a1a,#2d2416);display:none;align-items:center;justify-content:center;padding:2rem}
+#gps-gate{position:fixed;inset:0;z-index:5000;background:linear-gradient(160deg,#1a1a1a,#1f2b1a);display:none;align-items:center;justify-content:center;padding:2rem}
 #gps-gate.open{display:flex}
 .gps-gate-box{background:#fff;border-radius:16px;padding:2.5rem 2rem;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4)}
 .gps-gate-icon{font-size:3rem;margin-bottom:1rem}
 .gps-gate-title{font-family:'Georgia',serif;font-size:1.3rem;color:var(--dark);margin-bottom:0.5rem}
 .gps-gate-subtitle{font-family:sans-serif;font-size:0.82rem;color:var(--muted);line-height:1.6;margin-bottom:1.5rem}
-.gps-gate-steps{text-align:left;background:#fdfaf6;border:1px solid var(--border);border-radius:8px;padding:0.85rem 1rem;margin-bottom:1.5rem;font-family:sans-serif;font-size:0.75rem;color:var(--dark);line-height:1.8}
+.gps-gate-steps{text-align:left;background:#faf8f3;border:1px solid var(--border);border-radius:8px;padding:0.85rem 1rem;margin-bottom:1.5rem;font-family:sans-serif;font-size:0.75rem;color:var(--dark);line-height:1.8}
 .gps-gate-steps strong{color:var(--gold)}
 
 /* GPS Settings (admin) */
@@ -432,7 +432,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 
 /* ── WEDDING ROAD ── */
 .wr-wrap{font-family:sans-serif;position:relative;padding-bottom:2rem}
-.wr-hero{background:linear-gradient(160deg,#1a1a1a,#2d2416);border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:0.85rem;text-align:center}
+.wr-hero{background:linear-gradient(160deg,#1a1a1a,#1f2b1a);border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:0.85rem;text-align:center}
 .wr-hero-title{font-family:'Georgia',serif;font-size:1.1rem;color:var(--gold);margin-bottom:0.2rem}
 .wr-hero-sub{font-family:sans-serif;font-size:0.62rem;color:rgba(255,255,255,0.4);letter-spacing:0.18em;text-transform:uppercase}
 .wr-now-strip{background:#fff8ee;border:1px solid var(--gold-light);border-radius:8px;padding:0.55rem 0.85rem;display:flex;align-items:center;gap:0.55rem;margin-bottom:1.1rem;font-family:sans-serif;font-size:0.8rem;color:var(--gold-dark)}
@@ -460,23 +460,23 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 /* Event cards */
 .wr-card{background:#fff;border:1px solid var(--border);border-radius:7px;padding:0.38rem 0.55rem;max-width:132px;transition:all 0.15s}
 .wr-split-grid:hover .wr-card,.wr-together-grid:hover .wr-card{border-color:var(--gold-light)}
-.wr-card.wr-now{border-color:var(--gold);background:#fff8ee;box-shadow:0 0 0 2px rgba(201,169,110,0.2)}
+.wr-card.wr-now{border-color:var(--gold);background:#fff8ee;box-shadow:0 0 0 2px rgba(138,154,123,0.2)}
 .wr-card-time{font-size:0.55rem;color:var(--gold);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.1rem}
 .wr-card-text{font-size:0.68rem;color:var(--dark);line-height:1.3}
 .wr-card-cam{font-size:0.58rem;color:#4a7a4a;margin-top:0.12rem;font-style:italic}
 /* Cars */
-.wr-car{position:absolute;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:#fff;border:2.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.8rem;z-index:10;box-shadow:0 0 10px rgba(201,169,110,0.5),0 2px 6px rgba(0,0,0,0.2)}
+.wr-car{position:absolute;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:#fff;border:2.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.8rem;z-index:10;box-shadow:0 0 10px rgba(138,154,123,0.5),0 2px 6px rgba(0,0,0,0.2)}
 .wr-car-couple{width:38px;border-radius:13px;font-size:0.7rem}
 /* Edit button in hero */
-.wr-edit-btn{display:none;align-items:center;gap:0.3rem;margin-top:0.65rem;background:rgba(201,169,110,0.15);color:var(--gold-light);border:1px solid rgba(201,169,110,0.35);border-radius:20px;padding:0.28rem 0.75rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer;letter-spacing:0.06em;transition:all 0.15s}
-.wr-edit-btn:hover{background:rgba(201,169,110,0.28)}
+.wr-edit-btn{display:none;align-items:center;gap:0.3rem;margin-top:0.65rem;background:rgba(138,154,123,0.15);color:var(--gold-light);border:1px solid rgba(138,154,123,0.35);border-radius:20px;padding:0.28rem 0.75rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer;letter-spacing:0.06em;transition:all 0.15s}
+.wr-edit-btn:hover{background:rgba(138,154,123,0.28)}
 /* Timeline edit modal */
 #wr-edit-modal{position:fixed;inset:0;z-index:4500;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);padding:1rem}
 #wr-edit-modal.open{display:flex}
 .wr-edit-box{background:#fff;border-radius:14px;width:100%;max-width:480px;max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.22)}
 .wr-edit-header{padding:0.9rem 1.1rem 0.7rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:0.6rem}
 .wr-edit-header-title{font-family:'Georgia',serif;font-size:0.92rem;color:var(--gold-dark);flex:1}
-.wr-edit-opts{padding:0.55rem 1.1rem;background:#fdfaf6;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem}
+.wr-edit-opts{padding:0.55rem 1.1rem;background:#faf8f3;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem}
 .wr-cascade-lbl{display:flex;align-items:center;gap:0.35rem;font-family:sans-serif;font-size:0.76rem;color:var(--dark);cursor:pointer}
 .wr-cascade-lbl input{accent-color:var(--gold);width:14px;height:14px}
 .wr-edit-reset{background:none;border:none;font-family:sans-serif;font-size:0.72rem;color:var(--muted);cursor:pointer;padding:0;text-decoration:underline}
@@ -516,7 +516,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .wr-popup-tasks-lbl{font-family:sans-serif;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:0.45rem}
 
 /* Reminder modal */
-.remind-msg{font-family:sans-serif;font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;padding:0.85rem;background:#fdfaf6;border-radius:6px;border:1px solid var(--border)}
+.remind-msg{font-family:sans-serif;font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;padding:0.85rem;background:#faf8f3;border-radius:6px;border:1px solid var(--border)}
 .whatsapp-btn{display:flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;padding:0.75rem;background:#25d366;color:#fff;border:none;border-radius:6px;font-family:sans-serif;font-size:0.82rem;letter-spacing:0.08em;cursor:pointer;text-decoration:none;margin-bottom:0.5rem}
 .sms-btn{display:flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;padding:0.75rem;background:var(--blue);color:#fff;border:none;border-radius:6px;font-family:sans-serif;font-size:0.82rem;letter-spacing:0.08em;cursor:pointer;text-decoration:none}
 
@@ -539,7 +539,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .cl-slot-toggle.open{transform:rotate(90deg)}
 .cl-items{display:flex;flex-direction:column;gap:0.5rem}
 .cl-item{display:flex;align-items:flex-start;gap:0.75rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.75rem 0.85rem;transition:all 0.2s;position:relative}
-.cl-item:hover{border-color:var(--gold-light);box-shadow:0 2px 8px rgba(201,169,110,0.08)}
+.cl-item:hover{border-color:var(--gold-light);box-shadow:0 2px 8px rgba(138,154,123,0.08)}
 .cl-item.done{opacity:0.5}
 .cl-item.high{border-left:3px solid var(--red)}
 .cl-item.medium{border-left:3px solid var(--gold)}
@@ -576,7 +576,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 .cl-add-btn:hover{border-color:var(--gold);background:#fff8ee}
 /* Admin checklist person section */
 .cl-person-section{margin-bottom:1.5rem}
-.cl-person-header{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.9rem;background:linear-gradient(135deg,#fdf8ef,#f5e8cc);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light);cursor:pointer}
+.cl-person-header{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.9rem;background:linear-gradient(135deg,#f6f7f1,#dee8d6);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light);cursor:pointer}
 .cl-person-body{border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:0.75rem;display:none}
 .cl-person-body.open{display:block}
 
@@ -764,7 +764,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <select id="at-person" onchange="updateAssignAvatar()" size="1" style="font-size:1rem">
           <option value="">— Select team member —</option>
         </select>
-        <div id="at-person-preview" style="margin-top:0.5rem;display:none;align-items:center;gap:0.6rem;padding:0.5rem 0.75rem;background:#fdfaf6;border-radius:6px;border:1px solid var(--border)">
+        <div id="at-person-preview" style="margin-top:0.5rem;display:none;align-items:center;gap:0.6rem;padding:0.5rem 0.75rem;background:#faf8f3;border-radius:6px;border:1px solid var(--border)">
           <div id="at-avatar" style="width:36px;height:36px;border-radius:50%;background:var(--gold-light);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;overflow:hidden"></div>
           <div>
             <div id="at-person-name" style="font-family:'Georgia',serif;font-size:0.9rem;color:var(--dark);font-weight:500"></div>
@@ -1333,7 +1333,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
           </div>
 
           <!-- Add venue form (hidden by default) -->
-          <div id="add-venue-form" style="display:none;background:#fdfaf6;border:1.5px solid var(--gold-light);border-radius:10px;padding:1rem 1.1rem;margin-bottom:1rem">
+          <div id="add-venue-form" style="display:none;background:#faf8f3;border:1.5px solid var(--gold-light);border-radius:10px;padding:1rem 1.1rem;margin-bottom:1rem">
             <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">New Venue</div>
             <div style="display:flex;flex-direction:column;gap:0.5rem">
               <input type="text" id="new-venue-name" placeholder="Name / Header  (e.g. The Park)" style="padding:0.5rem 0.7rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.85rem;outline:none"/>
@@ -3227,7 +3227,7 @@ function renderAllTasksCoord() {
       sorted.forEach(task => {
         const row = document.createElement('div');
         row.style.cssText = 'display:flex;align-items:center;gap:0.75rem;padding:0.65rem 1rem;border-bottom:1px solid var(--border);font-family:sans-serif;font-size:0.8rem;cursor:pointer;transition:background 0.15s';
-        row.onmouseover  = () => row.style.background = '#fdfaf6';
+        row.onmouseover  = () => row.style.background = '#faf8f3';
         row.onmouseleave = () => row.style.background = '';
         const check = task.done ? '✅' : '⬜';
         const timeStr = task.startDate ? formatDT(task.startDate) : '—';
@@ -3893,7 +3893,7 @@ function renderOverviewGrid() {
 
     // Group header
     const header = document.createElement('div');
-    header.style.cssText = 'display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.85rem;background:linear-gradient(135deg,#fdf8ef,#f5e8cc);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light)';
+    header.style.cssText = 'display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.85rem;background:linear-gradient(135deg,#f6f7f1,#dee8d6);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light)';
 
     // Calculate group totals
     const groupDone  = group.ids.reduce((s,id) => s + ((appData[id]?.tasks||[]).filter(t=>t.done).length), 0);
@@ -3932,7 +3932,7 @@ function renderOverviewGrid() {
 
       const card = document.createElement('div');
       card.style.cssText = `display:flex;align-items:center;gap:0.85rem;padding:0.85rem 1rem;background:#fff;cursor:pointer;transition:background 0.15s;${!isLast?'border-bottom:1px solid var(--border);':''}`;
-      card.onmouseover = () => card.style.background = '#fdfaf6';
+      card.onmouseover = () => card.style.background = '#faf8f3';
       card.onmouseleave = () => card.style.background = '#fff';
 
       card.innerHTML = `
@@ -4170,7 +4170,7 @@ function renderRemindersTab() {
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1.1rem">
       <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">✍️ New Message</div>
       <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:0.75rem">
-        ${TEMPLATES.map(t => `<button onclick="setTgTemplate(this.dataset.text)" data-text="${t.text.replace(/"/g,'&quot;')}" style="background:#fdf8ef;border:1px solid var(--gold-light);border-radius:20px;padding:0.28rem 0.65rem;font-family:sans-serif;font-size:0.68rem;cursor:pointer;color:var(--dark)">${t.label}</button>`).join('')}
+        ${TEMPLATES.map(t => `<button onclick="setTgTemplate(this.dataset.text)" data-text="${t.text.replace(/"/g,'&quot;')}" style="background:#f6f7f1;border:1px solid var(--gold-light);border-radius:20px;padding:0.28rem 0.65rem;font-family:sans-serif;font-size:0.68rem;cursor:pointer;color:var(--dark)">${t.label}</button>`).join('')}
       </div>
       <textarea id="tg-msg-input" rows="3" placeholder="Type your message… or tap a template above" style="width:100%;padding:0.65rem 0.75rem;border:1.5px solid var(--border);border-radius:8px;font-family:sans-serif;font-size:0.85rem;resize:vertical;box-sizing:border-box;outline:none;line-height:1.5"></textarea>
       <div style="display:flex;align-items:center;gap:0.6rem;margin-top:0.65rem">
@@ -4229,7 +4229,7 @@ function renderRemindersTab() {
               const p    = TEAM[id];
               const name = (appData[id]?.profile?.name) || p.name;
               const link = `https://t.me/${TG_BOT_USERNAME}?start=${id}`;
-              return `<div style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.55rem;background:#fdfaf6;border:1px solid var(--border);border-radius:7px">
+              return `<div style="display:flex;align-items:center;gap:0.5rem;padding:0.35rem 0.55rem;background:#faf8f3;border:1px solid var(--border);border-radius:7px">
                 <span>${p.emoji}</span>
                 <span style="flex:1;font-family:sans-serif;font-size:0.76rem">${name}</span>
                 <button onclick="copyTgLink('${link}','${name}')" style="background:none;border:1px solid var(--border);border-radius:5px;padding:0.15rem 0.45rem;font-family:sans-serif;font-size:0.63rem;cursor:pointer;color:var(--muted)">Copy</button>
@@ -4653,11 +4653,11 @@ function openCheckInModal() {
   }
   list.forEach(v => {
     const btn = document.createElement('button');
-    btn.style.cssText = 'background:#fdf8ef;border:1px solid var(--gold-light);border-radius:8px;padding:0.55rem 0.85rem;font-family:sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.55rem;width:100%;transition:background 0.12s';
+    btn.style.cssText = 'background:#f6f7f1;border:1px solid var(--gold-light);border-radius:8px;padding:0.55rem 0.85rem;font-family:sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.55rem;width:100%;transition:background 0.12s';
     btn.innerHTML = `<span>${_venueIcon(v.name)}</span><span>${v.name}</span>`;
     btn.onclick = () => {
       document.getElementById('checkin-custom').value = '';
-      opts.querySelectorAll('button').forEach(b => { b.style.background = '#fdf8ef'; b._selected = false; });
+      opts.querySelectorAll('button').forEach(b => { b.style.background = '#f6f7f1'; b._selected = false; });
       btn.style.background = '#fde98a';
       btn._selected = true;
       btn._loc = v.name;
@@ -4831,7 +4831,7 @@ function renderMap() {
   renderVenuesAdmin();
   const locList = document.getElementById('location-list');
   locList.innerHTML = '';
-  const colors = ['#e05c5c','#5b8dee','#4caf7d','#c9a96e','#9c5de0','#f0a500','#00b4d8','#ff6b6b'];
+  const colors = ['#e05c5c','#5b8dee','#4caf7d','#8a9a7b','#9c5de0','#f0a500','#00b4d8','#ff6b6b'];
   let ci = 0;
   let hasAny = false;
 
@@ -4948,7 +4948,7 @@ function renderTeamMgmt() {
     section.style.cssText = 'margin-bottom:1.25rem';
 
     const header = document.createElement('div');
-    header.style.cssText = 'display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.85rem;background:linear-gradient(135deg,#fdf8ef,#f5e8cc);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light);margin-bottom:0';
+    header.style.cssText = 'display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.85rem;background:linear-gradient(135deg,#f6f7f1,#dee8d6);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light);margin-bottom:0';
     header.innerHTML = `
       <span style="font-size:1.1rem">${group.icon}</span>
       <span style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dark);font-weight:600">${group.label}</span>
@@ -5607,7 +5607,7 @@ function renderBudget() {
           }
         }
         rows += `
-        <tr class="${sp?'np':''}" style="background:${sp?'#f0fdf6':'#fafaf8'}">
+        <tr class="${sp?'np':''}" style="background:${sp?'#f0fdf6':'#f7f6f0'}">
           <td class="nb-rn" style="color:#ddd">${ri+1}.${si+1}</td>
           <td class="nb-acol">
             <button class="nb-ab" onclick="editSubItem(${idx},${si})" style="opacity:1" title="Edit">&#9998;</button>
@@ -5625,7 +5625,7 @@ function renderBudget() {
       });
       /* Add sub-item row */
       rows += `
-      <tr style="background:#fafaf8">
+      <tr style="background:#f7f6f0">
         <td colspan="2"></td>
         <td colspan="${2+visibleCols.length}">
           <button onclick="addSubItem(${idx})" style="background:none;border:1.5px dashed var(--gold-light);border-radius:5px;color:var(--gold);font-family:sans-serif;font-size:0.72rem;padding:0.28rem 0.75rem;cursor:pointer;margin:0.3rem 0 0.3rem 22px;transition:border-color 0.15s" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--gold-light)'">
@@ -5698,12 +5698,12 @@ function renderBudget() {
             <th>Item</th>
             <th>Category</th>
             ${visibleCols.map(c=>colHeader(c)).join('')}
-            ${collapsedCols.map(c=>`<th style="cursor:pointer;background:#fafaf8;width:28px;padding:0.42rem 0.3rem;text-align:center" onclick="toggleCol('${c.key}')" title="Expand: ${c.label}"><span style="font-size:0.55rem;color:var(--muted);writing-mode:vertical-rl;letter-spacing:0.06em;text-transform:uppercase">+${c.label}</span></th>`).join('')}
+            ${collapsedCols.map(c=>`<th style="cursor:pointer;background:#f7f6f0;width:28px;padding:0.42rem 0.3rem;text-align:center" onclick="toggleCol('${c.key}')" title="Expand: ${c.label}"><span style="font-size:0.55rem;color:var(--muted);writing-mode:vertical-rl;letter-spacing:0.06em;text-transform:uppercase">+${c.label}</span></th>`).join('')}
           </tr>
         </thead>
         <tbody>${rows}</tbody>
         <tfoot>
-          <tr style="background:#fafaf8;border-top:2px solid var(--border)">
+          <tr style="background:#f7f6f0;border-top:2px solid var(--border)">
             <td colspan="3" style="padding:0.55rem 0.75rem;font-family:sans-serif;font-size:0.67rem;font-weight:700;color:var(--muted);text-transform:uppercase">SUM · ${filtered.length} items</td>
             <td></td>
             ${visibleCols.map(c=>{
@@ -5850,7 +5850,7 @@ function renderModalSubtasks(parentIdx) {
   }
 
   list.innerHTML = subs.map((sub, si) => `
-    <div style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.6rem;background:#fafaf8;border:1px solid var(--border);border-radius:6px;margin-bottom:0.4rem">
+    <div style="display:flex;align-items:center;gap:0.5rem;padding:0.5rem 0.6rem;background:#f7f6f0;border:1px solid var(--border);border-radius:6px;margin-bottom:0.4rem">
       <span style="font-size:0.75rem;color:var(--muted)">└─</span>
       <div style="flex:1;min-width:0">
         <div style="font-family:sans-serif;font-size:0.82rem;font-weight:600;color:var(--dark)">${sub.item}</div>
