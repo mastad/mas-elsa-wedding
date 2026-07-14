@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>A&B Wedding Team · Aug 2, 2026</title>
+<title>M&E Wedding Team · Sep 19, 2026</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -643,7 +643,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 
       <div class="form-row">
         <label>Item Name <span style="color:var(--red)">*</span></label>
-        <input id="bm-item" type="text" placeholder="e.g. Venue(Beza Event Center)"/>
+        <input id="bm-item" type="text" placeholder="e.g. Venue(Mt Horeb Baptist Church)"/>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
@@ -827,10 +827,13 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 <!-- HEADER -->
 <header>
   <div>
-    <div class="header-logo">A &amp; B · Team</div>
-    <div class="header-date">August 2, 2026 · Columbus, Ohio</div>
+    <div class="header-logo">M &amp; E · Team</div>
+    <div class="header-date">September 19, 2026 · Washington, DC</div>
   </div>
-  <button class="header-admin-btn" onclick="promptAdmin()">⚙ Admin</button>
+  <div style="display:flex;align-items:center;gap:0.6rem">
+    <a href="index.html" class="header-admin-btn" style="text-decoration:none;display:inline-block">← Site</a>
+    <button class="header-admin-btn" onclick="promptAdmin()">⚙ Admin</button>
+  </div>
 </header>
 
 <!-- COUNTDOWN BAR -->
@@ -844,7 +847,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 <!-- HERO BANNER -->
 <div class="hero-banner">
   <h1>Wedding Day Team</h1>
-  <p>Tap your photo to view your tasks · August 2, 2026</p>
+  <p>Tap your photo to view your tasks · September 19, 2026</p>
 </div>
 
 <!-- MAIN CONTENT -->
@@ -858,8 +861,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
     <!-- COUPLE -->
     <div class="couple-row">
       <div class="person-card" onclick="tapPerson('abrham')">
-        <div class="person-avatar"><div class="person-avatar-placeholder">🤵</div></div>
-        <div class="person-name">Abrham</div>
+        <div class="person-name">Mas</div>
         <div class="person-role-badge dark">Groom</div>
         <div class="progress-pill none" id="prog-abrham">— tasks</div>
       </div>
@@ -867,8 +869,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div style="font-family:Georgia,serif;font-size:1.4rem;color:var(--gold)">&amp;</div>
       </div>
       <div class="person-card" onclick="tapPerson('blen')">
-        <div class="person-avatar"><div class="person-avatar-placeholder">👰</div></div>
-        <div class="person-name">Blen</div>
+        <div class="person-name">Elsa</div>
         <div class="person-role-badge dark">Bride</div>
         <div class="progress-pill none" id="prog-blen">— tasks</div>
       </div>
@@ -883,15 +884,13 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div class="support-group-title">Protocol</div>
         <div class="support-people">
           <div class="person-card sm" onclick="tapPerson('protocol_a')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">📋</div></div>
             <div class="person-name">Protocol A</div>
-            <div class="person-role-badge muted">Abrham's</div>
+            <div class="person-role-badge muted">Mas's</div>
             <div class="progress-pill none" id="prog-protocol_a">—</div>
           </div>
           <div class="person-card sm" onclick="tapPerson('protocol_b')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">📋</div></div>
             <div class="person-name">Protocol B</div>
-            <div class="person-role-badge muted">Blen's</div>
+            <div class="person-role-badge muted">Elsa's</div>
             <div class="progress-pill none" id="prog-protocol_b">—</div>
           </div>
         </div>
@@ -900,15 +899,13 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div class="support-group-title">Time Keeper</div>
         <div class="support-people">
           <div class="person-card sm" onclick="tapPerson('timekeeper_a')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🕖️</div></div>
             <div class="person-name">Time Keep A</div>
-            <div class="person-role-badge blue">Abrham's</div>
+            <div class="person-role-badge blue">Mas's</div>
             <div class="progress-pill none" id="prog-timekeeper_a">—</div>
           </div>
           <div class="person-card sm" onclick="tapPerson('timekeeper_b')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🕖️</div></div>
             <div class="person-name">Time Keep B</div>
-            <div class="person-role-badge blue">Blen's</div>
+            <div class="person-role-badge blue">Elsa's</div>
             <div class="progress-pill none" id="prog-timekeeper_b">—</div>
           </div>
         </div>
@@ -921,7 +918,6 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
     <!-- MAIN COORDINATOR -->
     <div class="couple-row" style="margin-bottom:0.5rem">
       <div class="person-card sm" onclick="tapPerson('coordinator')">
-        <div class="person-avatar"><div class="person-avatar-placeholder">🎯</div></div>
         <div class="person-name">Main Coordinator</div>
         <div class="person-role-badge green">Coordinator</div>
         <div class="progress-pill none" id="prog-coordinator">—</div>
@@ -942,12 +938,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div class="role-label">🎤 Host</div>
         <div class="role-people">
           <div class="person-card xs" onclick="tapPerson('host_1')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🎙️</div></div>
             <div class="person-name">Host 1</div>
             <div class="progress-pill none" id="prog-host_1">—</div>
           </div>
           <div class="person-card xs" onclick="tapPerson('host_2')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🎙️</div></div>
             <div class="person-name">Host 2</div>
             <div class="progress-pill none" id="prog-host_2">—</div>
           </div>
@@ -959,12 +953,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div class="role-label">🍽️ Food</div>
         <div class="role-people">
           <div class="person-card xs" onclick="tapPerson('food_1')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">👨‍🍳</div></div>
             <div class="person-name">Food 1</div>
             <div class="progress-pill none" id="prog-food_1">—</div>
           </div>
           <div class="person-card xs" onclick="tapPerson('food_2')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">👩‍🍳</div></div>
             <div class="person-name">Food 2</div>
             <div class="progress-pill none" id="prog-food_2">—</div>
           </div>
@@ -976,17 +968,14 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div class="role-label">📸 Camera</div>
         <div class="role-people-3">
           <div class="person-card xs" onclick="tapPerson('camera_1')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">📸</div></div>
             <div class="person-name">Camera 1</div>
             <div class="progress-pill none" id="prog-camera_1">—</div>
           </div>
           <div class="person-card xs" onclick="tapPerson('camera_2')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">📸</div></div>
             <div class="person-name">Camera 2</div>
             <div class="progress-pill none" id="prog-camera_2">—</div>
           </div>
           <div class="person-card xs" onclick="tapPerson('camera_3')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🎬</div></div>
             <div class="person-name">Camera 3</div>
             <div class="progress-pill none" id="prog-camera_3">—</div>
           </div>
@@ -998,12 +987,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div class="role-label">🥂 Drink</div>
         <div class="role-people">
           <div class="person-card xs" onclick="tapPerson('drink_1')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🍾</div></div>
             <div class="person-name">Drink 1</div>
             <div class="progress-pill none" id="prog-drink_1">—</div>
           </div>
           <div class="person-card xs" onclick="tapPerson('drink_2')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🥂</div></div>
             <div class="person-name">Drink 2</div>
             <div class="progress-pill none" id="prog-drink_2">—</div>
           </div>
@@ -1015,12 +1002,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div class="role-label">🚗 Transport</div>
         <div class="role-people">
           <div class="person-card xs" onclick="tapPerson('transport_1')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🚙</div></div>
             <div class="person-name">Transport 1</div>
             <div class="progress-pill none" id="prog-transport_1">—</div>
           </div>
           <div class="person-card xs" onclick="tapPerson('transport_2')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">🚗</div></div>
             <div class="person-name">Transport 2</div>
             <div class="progress-pill none" id="prog-transport_2">—</div>
           </div>
@@ -1032,12 +1017,10 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
         <div class="role-label">👗 Cloth</div>
         <div class="role-people">
           <div class="person-card xs" onclick="tapPerson('cloth_1')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">👗</div></div>
             <div class="person-name">Cloth 1</div>
             <div class="progress-pill none" id="prog-cloth_1">—</div>
           </div>
           <div class="person-card xs" onclick="tapPerson('cloth_2')">
-            <div class="person-avatar"><div class="person-avatar-placeholder">👘</div></div>
             <div class="person-name">Cloth 2</div>
             <div class="progress-pill none" id="prog-cloth_2">—</div>
           </div>
@@ -1189,8 +1172,8 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
       <div id="view-wedding" style="display:none">
         <div class="wr-wrap">
           <div class="wr-hero">
-            <div class="wr-hero-title">🎊 August 2, 2026 · The Big Day</div>
-            <div class="wr-hero-sub">Columbus, Ohio · Live Wedding Road</div>
+            <div class="wr-hero-title">🎊 September 19, 2026 · The Big Day</div>
+            <div class="wr-hero-sub">Washington, DC · Live Wedding Road</div>
             <button id="wr-edit-btn" class="wr-edit-btn" onclick="openWrEditModal()">✏️ Edit Timeline</button>
           </div>
           <div class="wr-now-strip" id="wr-now-strip">
@@ -1284,7 +1267,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
           📋 Assign Task
         </button>
       </div>
-      <div class="admin-subtitle">August 2, 2026 · See all tasks and team locations</div>
+      <div class="admin-subtitle">September 19, 2026 · See all tasks and team locations</div>
 
       <div class="admin-tabs">
         <button class="admin-tab" onclick="switchAdminTab('broadcast',this)">📢 Broadcast</button>
@@ -1356,7 +1339,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
             <div style="display:flex;flex-direction:column;gap:0.5rem">
               <input type="text" id="new-venue-name" placeholder="Name / Header  (e.g. The Park)" style="padding:0.5rem 0.7rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.85rem;outline:none"/>
               <input type="text" id="new-venue-desc" placeholder="Description  (e.g. Meet at the main entrance on Oak St)" style="padding:0.5rem 0.7rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.85rem;outline:none"/>
-              <input type="text" id="new-venue-addr" placeholder="Full address  (e.g. 100 Oak St, Columbus OH)" style="padding:0.5rem 0.7rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.85rem;outline:none"/>
+              <input type="text" id="new-venue-addr" placeholder="Full address  (e.g. 100 Oak St, Washington DC)" style="padding:0.5rem 0.7rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:0.85rem;outline:none"/>
               <div style="display:flex;gap:0.5rem;justify-content:flex-end;margin-top:0.25rem">
                 <button onclick="closeAddVenueForm()" class="btn btn-outline btn-sm">Cancel</button>
                 <button onclick="saveNewVenue()" class="btn btn-gold btn-sm">＋ Add</button>
@@ -1533,7 +1516,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
       <div class="pin-wrap">
         <div style="font-size:2.5rem;margin-bottom:0.75rem">🔐</div>
         <div class="pin-name">Admin Dashboard</div>
-        <div class="pin-role" style="margin-bottom:1.2rem">Abrham &amp; Blen only</div>
+        <div class="pin-role" style="margin-bottom:1.2rem">Mas &amp; Elsa only</div>
         <input class="pin-input" id="admin-pin-input" type="password" inputmode="numeric" maxlength="4" placeholder="••••"
           onkeydown="if(event.key==='Enter') submitAdminPin()"/>
         <p class="pin-error" id="admin-pin-error">❌ Incorrect password.</p>
@@ -1562,12 +1545,12 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2d2416 100%);padding:1.2rem
 /* DATA — TEAM MEMBERS
    Fill in: name, pin (last 4 of phone), role, emoji, phone */
 const TEAM = {
-  abrham:       { name: 'Abrham',          role: 'Groom',            emoji: '🤵', pin: '2324', phone: '', group: 'couple',      isAdmin: true },
-  blen:         { name: 'Blen',            role: 'Bride',            emoji: '👰', pin: '2324', phone: '', group: 'couple',      isAdmin: true },
-  protocol_a:   { name: 'Protocol A',      role: "Abrham Protocol",emoji: '📋', pin: '0000', phone: '', group: 'protocol' },
-  protocol_b:   { name: 'Protocol B',      role: "Blen Protocol",  emoji: '📋', pin: '0000', phone: '', group: 'protocol' },
-  timekeeper_a: { name: 'Time Keeper A',   role: "Abrham Keeper",  emoji: '🕖', pin: '0000', phone: '', group: 'timekeeper' },
-  timekeeper_b: { name: 'Time Keeper B',   role: "Blen Keeper",    emoji: '🕖', pin: '0000', phone: '', group: 'timekeeper' },
+  abrham:       { name: 'Mas',          role: 'Groom',            emoji: '🤵', pin: '2324', phone: '', group: 'couple',      isAdmin: true },
+  blen:         { name: 'Elsa',            role: 'Bride',            emoji: '👰', pin: '2324', phone: '', group: 'couple',      isAdmin: true },
+  protocol_a:   { name: 'Protocol A',      role: "Mas Protocol",emoji: '📋', pin: '0000', phone: '', group: 'protocol' },
+  protocol_b:   { name: 'Protocol B',      role: "Elsa Protocol",  emoji: '📋', pin: '0000', phone: '', group: 'protocol' },
+  timekeeper_a: { name: 'Time Keeper A',   role: "Mas Keeper",  emoji: '🕖', pin: '0000', phone: '', group: 'timekeeper' },
+  timekeeper_b: { name: 'Time Keeper B',   role: "Elsa Keeper",    emoji: '🕖', pin: '0000', phone: '', group: 'timekeeper' },
   coordinator:  { name: 'Coordinator',     role: 'Main Coordinator', emoji: '🎯', pin: '0000', phone: '', group: 'coordinator' },
   food_1:       { name: 'Food Team 1',     role: 'Food',             emoji: '🧑', pin: '0000', phone: '', group: 'food' },
   food_2:       { name: 'Food Team 2',     role: 'Food',             emoji: '🧑', pin: '0000', phone: '', group: 'food' },
@@ -1587,76 +1570,76 @@ const TEAM = {
 /* Default tasks per role */
 const DEFAULT_TASKS = {
   couple:      [
-    { text: 'Review final timeline with coordinator', time: '3:00 PM', priority: 'high', done: false },
-    { text: 'Get ready and dressed', time: '3:30 PM', priority: 'high', done: false },
-    { text: 'Ceremony entrance', time: '5:30 PM', priority: 'high', done: false },
+    { text: 'Review final timeline with coordinator', time: '11:00 AM', priority: 'high', done: false },
+    { text: 'Get ready and dressed', time: '11:30 AM', priority: 'high', done: false },
+    { text: 'Ceremony entrance', time: '1:30 PM', priority: 'high', done: false },
   ],
   protocol:    [
-    { text: 'Brief all guests on ceremony etiquette', time: '4:30 PM', priority: 'high', done: false },
-    { text: 'Coordinate seating arrangement', time: '4:45 PM', priority: 'high', done: false },
-    { text: 'Manage guest flow during entrance', time: '5:00 PM', priority: 'high', done: false },
-    { text: 'Ensure phones are put away (unplugged ceremony)', time: '5:50 PM', priority: 'medium', done: false },
+    { text: 'Brief all guests on ceremony etiquette', time: '12:30 PM', priority: 'high', done: false },
+    { text: 'Coordinate seating arrangement', time: '12:45 PM', priority: 'high', done: false },
+    { text: 'Manage guest flow during entrance', time: '1:00 PM', priority: 'high', done: false },
+    { text: 'Ensure phones are put away (unplugged ceremony)', time: '1:50 PM', priority: 'medium', done: false },
   ],
   timekeeper:  [
-    { text: 'Confirm timeline with coordinator', time: '3:30 PM', priority: 'high', done: false },
+    { text: 'Confirm timeline with coordinator', time: '11:30 AM', priority: 'high', done: false },
     { text: 'Give 15-min warning before each event', time: 'Ongoing', priority: 'high', done: false },
     { text: 'Alert couple when 5 min behind schedule', time: 'Ongoing', priority: 'high', done: false },
-    { text: 'Signal start of speeches', time: '9:10 PM', priority: 'medium', done: false },
-    { text: 'Signal program end at 10:30 PM', time: '10:25 PM', priority: 'high', done: false },
+    { text: 'Signal start of speeches', time: '5:10 PM', priority: 'medium', done: false },
+    { text: 'Signal program end at 6:30 PM', time: '6:25 PM', priority: 'high', done: false },
   ],
   coordinator: [
-    { text: 'Confirm venue setup with Beza Event Center', time: '2:00 PM', priority: 'high', done: false },
-    { text: 'Brief all team leads on their roles', time: '3:00 PM', priority: 'high', done: false },
-    { text: 'Coordinate food and drink service start', time: '6:20 PM', priority: 'high', done: false },
-    { text: 'Manage Mezmure transitions', time: '7:25 PM', priority: 'medium', done: false },
-    { text: 'Coordinate cake cutting setup', time: '8:20 PM', priority: 'medium', done: false },
-    { text: 'Ensure speeches run on time', time: '9:05 PM', priority: 'high', done: false },
-    { text: 'Signal final Mezmure and program close', time: '9:55 PM', priority: 'high', done: false },
+    { text: 'Confirm venue setup with Mt Horeb Baptist Church', time: '10:00 AM', priority: 'high', done: false },
+    { text: 'Brief all team leads on their roles', time: '11:00 AM', priority: 'high', done: false },
+    { text: 'Coordinate food and drink service start', time: '2:20 PM', priority: 'high', done: false },
+    { text: 'Manage Mezmure transitions', time: '3:25 PM', priority: 'medium', done: false },
+    { text: 'Coordinate cake cutting setup', time: '4:20 PM', priority: 'medium', done: false },
+    { text: 'Ensure speeches run on time', time: '5:05 PM', priority: 'high', done: false },
+    { text: 'Signal final Mezmure and program close', time: '5:55 PM', priority: 'high', done: false },
   ],
   camera:      [
-    { text: 'Arrive early & set up equipment at venue', time: '2:00 PM', priority: 'high', done: false },
-    { text: 'Film getting-ready preparations', time: '3:00 PM', priority: 'high', done: false },
-    { text: 'Capture entrance & ceremony', time: '5:00 PM', priority: 'high', done: false },
-    { text: 'Cover reception & Mezmure segments', time: '7:25 PM', priority: 'high', done: false },
-    { text: 'Photograph cake cutting', time: '8:25 PM', priority: 'medium', done: false },
-    { text: 'Group & family photos after ceremony', time: '6:30 PM', priority: 'high', done: false },
-    { text: 'Wrap equipment and confirm footage backed up', time: '10:30 PM', priority: 'high', done: false },
+    { text: 'Arrive early & set up equipment at venue', time: '10:00 AM', priority: 'high', done: false },
+    { text: 'Film getting-ready preparations', time: '11:00 AM', priority: 'high', done: false },
+    { text: 'Capture entrance & ceremony', time: '1:00 PM', priority: 'high', done: false },
+    { text: 'Cover reception & Mezmure segments', time: '3:25 PM', priority: 'high', done: false },
+    { text: 'Photograph cake cutting', time: '4:25 PM', priority: 'medium', done: false },
+    { text: 'Group & family photos after ceremony', time: '2:30 PM', priority: 'high', done: false },
+    { text: 'Wrap equipment and confirm footage backed up', time: '6:30 PM', priority: 'high', done: false },
   ],
   food:        [
-    { text: 'Confirm food delivery / catering arrival', time: '3:00 PM', priority: 'high', done: false },
-    { text: 'Set up food stations and serving area', time: '4:00 PM', priority: 'high', done: false },
-    { text: 'Begin food service', time: '6:30 PM', priority: 'high', done: false },
-    { text: 'Ensure all guests are served', time: '7:00 PM', priority: 'medium', done: false },
-    { text: 'Clear and clean food area after service', time: '9:00 PM', priority: 'low', done: false },
+    { text: 'Confirm food delivery / catering arrival', time: '11:00 AM', priority: 'high', done: false },
+    { text: 'Set up food stations and serving area', time: '12:00 PM', priority: 'high', done: false },
+    { text: 'Begin food service', time: '2:30 PM', priority: 'high', done: false },
+    { text: 'Ensure all guests are served', time: '3:00 PM', priority: 'medium', done: false },
+    { text: 'Clear and clean food area after service', time: '5:00 PM', priority: 'low', done: false },
   ],
   drink:       [
-    { text: 'Set up drink station and ice', time: '4:00 PM', priority: 'high', done: false },
-    { text: 'Drinks available from 5:00 PM', time: '5:00 PM', priority: 'high', done: false },
+    { text: 'Set up drink station and ice', time: '12:00 PM', priority: 'high', done: false },
+    { text: 'Drinks available from 1:00 PM', time: '1:00 PM', priority: 'high', done: false },
     { text: 'Refill drinks throughout evening', time: 'Ongoing', priority: 'medium', done: false },
-    { text: 'Last call drinks at 10:15 PM', time: '10:15 PM', priority: 'medium', done: false },
-    { text: 'Close drink station at 10:30 PM', time: '10:30 PM', priority: 'low', done: false },
+    { text: 'Last call drinks at 6:15 PM', time: '6:15 PM', priority: 'medium', done: false },
+    { text: 'Close drink station at 6:30 PM', time: '6:30 PM', priority: 'low', done: false },
   ],
   transport:   [
-    { text: 'Confirm all transport vehicles and drivers', time: '12:00 PM', priority: 'high', done: false },
-    { text: 'Pick up bride from home', time: '4:00 PM', priority: 'high', done: false },
-    { text: 'Pick up groom from home', time: '4:15 PM', priority: 'high', done: false },
-    { text: 'Coordinate guest parking at venue', time: '4:45 PM', priority: 'medium', done: false },
-    { text: 'Arrange post-event transportation', time: '10:30 PM', priority: 'medium', done: false },
+    { text: 'Confirm all transport vehicles and drivers', time: '8:00 AM', priority: 'high', done: false },
+    { text: 'Pick up bride from home', time: '12:00 PM', priority: 'high', done: false },
+    { text: 'Pick up groom from home', time: '12:15 PM', priority: 'high', done: false },
+    { text: 'Coordinate guest parking at venue', time: '12:45 PM', priority: 'medium', done: false },
+    { text: 'Arrange post-event transportation', time: '6:30 PM', priority: 'medium', done: false },
   ],
   host:        [
-    { text: 'Welcome guests at entrance', time: '4:45 PM', priority: 'high', done: false },
-    { text: 'Introduce ceremony program', time: '5:00 PM', priority: 'high', done: false },
-    { text: 'Announce Mezmure segments', time: '7:25 PM', priority: 'medium', done: false },
-    { text: 'Introduce Kene recitation', time: '8:05 PM', priority: 'medium', done: false },
-    { text: 'Announce cake cutting', time: '8:25 PM', priority: 'medium', done: false },
-    { text: 'Introduce speakers for family speeches', time: '9:05 PM', priority: 'medium', done: false },
-    { text: 'Close program at 10:30 PM', time: '10:28 PM', priority: 'high', done: false },
+    { text: 'Welcome guests at entrance', time: '12:45 PM', priority: 'high', done: false },
+    { text: 'Introduce ceremony program', time: '1:00 PM', priority: 'high', done: false },
+    { text: 'Announce Mezmure segments', time: '3:25 PM', priority: 'medium', done: false },
+    { text: 'Introduce Kene recitation', time: '4:05 PM', priority: 'medium', done: false },
+    { text: 'Announce cake cutting', time: '4:25 PM', priority: 'medium', done: false },
+    { text: 'Introduce speakers for family speeches', time: '5:05 PM', priority: 'medium', done: false },
+    { text: 'Close program at 6:30 PM', time: '6:28 PM', priority: 'high', done: false },
   ],
   cloth:       [
     { text: 'Prepare and steam wedding outfits', time: '10:00 AM', priority: 'high', done: false },
-    { text: 'Assist bride getting dressed', time: '3:00 PM', priority: 'high', done: false },
-    { text: 'Assist groom getting dressed', time: '3:30 PM', priority: 'high', done: false },
-    { text: 'Final outfit check before entrance', time: '5:15 PM', priority: 'high', done: false },
+    { text: 'Assist bride getting dressed', time: '11:00 AM', priority: 'high', done: false },
+    { text: 'Assist groom getting dressed', time: '11:30 AM', priority: 'high', done: false },
+    { text: 'Final outfit check before entrance', time: '1:15 PM', priority: 'high', done: false },
     { text: 'Carry backup pins / accessories', time: 'Ongoing', priority: 'medium', done: false },
   ],
 };
@@ -1665,8 +1648,8 @@ const DEFAULT_TASKS = {
 const JSONBIN_BIN_ID  = '6a32b911da38895dfed1046d';
 const JSONBIN_API_KEY = '$2a$10$/tx4IIldlETW051PNUzUu.yxGAm7zC8Tebd2i4cRUzPuskqhDsvi.';
 const JSONBIN_URL     = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
-const CLOUD_NAME      = 'dta5qfkow';
-const UPLOAD_PRESET   = 'Abrham';
+const CLOUD_NAME      = 'docn0sds';
+const UPLOAD_PRESET   = 'mas-elsa';
 
 let appData = {};
 let liveBudget = [];
@@ -1696,7 +1679,7 @@ const DEFAULT_VENUES = [
   { id:'v3', name:'Downtown Columbus',     description:'Downtown photo location', address:'Downtown Columbus, OH 43215', mapsUrl:'https://maps.google.com/?q=Downtown+Columbus+OH+43215' },
   { id:'v4', name:'Airbnb',               description:'Rest & refresh stop', address:'', mapsUrl:'' },
   { id:'v5', name:'The Park',             description:'Bridal party photos', address:'', mapsUrl:'' },
-  { id:'v6', name:'The Hall / Venue',     description:'Wedding reception venue', address:'', mapsUrl:'' },
+  { id:'v6', name:'The Hall / Venue',     description:'Wedding reception venue', address:'2914 Bladensburg Rd NE, Washington, DC 20018', mapsUrl:'https://maps.google.com/?q=2914+Bladensburg+Rd+NE+Washington+DC+20018' },
 ];
 
 /* INIT */
@@ -2005,7 +1988,7 @@ function renderJsonBinStats() {
 
 /* COUNTDOWN */
 function startCountdown() {
-  const target = new Date('2026-08-02T17:00:00');
+  const target = new Date('2026-09-19T13:00:00');
   function tick() {
     const diff = target - new Date();
     const mini = document.getElementById('tv-countdown');
@@ -2158,7 +2141,7 @@ function closeAdminPinModal() {
 
 function submitAdminPin() {
   const val = document.getElementById('admin-pin-input').value.trim();
-  if (val === '2324') {
+  if (val === '2026') {
     closeAdminPinModal();
     openAdmin();
   } else {
@@ -2235,7 +2218,7 @@ function openAdmin() {
   if (grid) grid.style.display = 'block';
 
   renderOverviewGrid();
-  showToast('success', 'Admin Access', 'Welcome, Abrham & Blen 👑', 3000);
+  showToast('success', 'Admin Access', 'Welcome, Mas & Elsa 👑', 3000);
 }
 
 /* TASK VIEW */
@@ -2835,7 +2818,7 @@ function _wrUpdateNowStrip() {
   const isWeddingDay = now.getFullYear()===2026 && now.getMonth()===7 && now.getDate()===2;
   const timeStr = now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
   if (!isWeddingDay) {
-    lbl.textContent = 'Preview — Wedding day is August 2, 2026';
+    lbl.textContent = 'Preview — Wedding day is September 19, 2026';
     if (tm) tm.textContent = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
     return;
   }
@@ -5163,8 +5146,8 @@ const ROLE_GROUPS = {
 function remindRole(role) {
   const group = ROLE_GROUPS[role];
   const members = group.ids.map(id => TEAM[id]);
-  const weddingDate = 'August 2, 2026 at 5:00 PM';
-  const msg = `Hi! 👋 This is a reminder from Abrham & Blen's wedding team.\n\nWedding day is ${weddingDate} at Beza Event Center, Columbus Ohio.\n\nPlease check your tasks and make sure you're ready. Thank you! 🙏💍`;
+  const weddingDate = 'September 19, 2026 at 1:00 PM';
+  const msg = `Hi! 👋 This is a reminder from Mas & Elsa's wedding team.\n\nWedding day is ${weddingDate} at Mt Horeb Baptist Church, Washington DC.\n\nPlease check your tasks and make sure you're ready. Thank you! 🙏💍`;
 
   document.getElementById('remind-modal-title').textContent = `Remind ${group.label}`;
   document.getElementById('remind-msg-preview').textContent = msg;
@@ -5400,7 +5383,7 @@ function showToast(type, title, msg, duration = 4000) {
 
 
 const BUDGET_ITEMS = [
-  {item:"Venue(Beza Event Center)",category:"Venue",estimated:5000,actual:5150,deposit:1000,total_paid:5150,deposit_date:"December 24, 2025",remaining:0,final_date:"May 15, 2026",reminder:"April 30, 2026",status:"Fully Paid",vendor:"614-604-9847",gifted_by:"",gifted_amount:0,note:"Deposit Return 500"},
+  {item:"Venue(Mt Horeb Baptist Church)",category:"Venue",estimated:5000,actual:5150,deposit:1000,total_paid:5150,deposit_date:"December 24, 2025",remaining:0,final_date:"May 15, 2026",reminder:"April 30, 2026",status:"Fully Paid",vendor:"614-604-9847",gifted_by:"",gifted_amount:0,note:"Deposit Return 500"},
   {item:"Real Vision Studio (RVS)",category:"Photography",estimated:10000,actual:8500,deposit:2550,total_paid:2550,deposit_date:"October 8, 2025",remaining:5950,final_date:"July 31, 2026",reminder:"July 26, 2026",status:"Deposit Paid",vendor:"510-677-2548",gifted_by:"",gifted_amount:0,note:""},
   {item:"Eura Event Decore",category:"Decorations",estimated:8000,actual:6600,deposit:500,total_paid:500,deposit_date:"February 3, 2026",remaining:6100,final_date:"July 18, 2026",reminder:"May 1, 2026",status:"Deposit Paid",vendor:"678-907-2881",gifted_by:"",gifted_amount:0,note:""},
   {item:"Ymelse Libse",category:"Clothing",estimated:350,actual:248,deposit:0,total_paid:248,deposit_date:"",remaining:0,final_date:"",reminder:"",status:"Fully Paid",vendor:"",gifted_by:"",gifted_amount:0,note:""},

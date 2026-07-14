@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Abrham & Blen — August 2, 2026</title>
+<title>Mas & Elsa — September 19, 2026</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--gold:#c9a96e;--gold-light:#e8d5b0;--gold-dark:#a8843f;--dark:#1a1a1a;--text:#333;--muted:#888;--bg:#fdfaf6;--white:#fff;--nav-h:60px;--section-alt:#fffdf9}
@@ -43,15 +43,29 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow
 @keyframes corePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,250,246,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--gold-light);height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;gap:1rem}
-nav .logo{font-size:1rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;white-space:nowrap}
-nav ul{list-style:none;display:flex;gap:1.2rem;flex-wrap:wrap}
-nav ul li a{text-decoration:none;font-family:sans-serif;font-size:0.75rem;letter-spacing:0.1em;color:var(--text);text-transform:uppercase;cursor:pointer;transition:color 0.2s}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,250,246,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--gold-light);height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;gap:1rem}
+nav .logo{font-family:'Georgia',serif;font-size:1.05rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;white-space:nowrap}
+.nav-right{display:flex;align-items:center;gap:2.4rem}
+nav ul{list-style:none;display:flex;gap:1.9rem}
+nav ul li a{position:relative;text-decoration:none;font-family:sans-serif;font-size:0.74rem;letter-spacing:0.12em;color:var(--text);text-transform:uppercase;cursor:pointer;transition:color 0.2s;padding-bottom:0.35rem;display:inline-block}
+nav ul li a::after{content:'';position:absolute;left:0;right:100%;bottom:0;height:1.5px;background:var(--gold);transition:right 0.25s ease}
 nav ul li a:hover,nav ul li a.active{color:var(--gold)}
+nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none}
 .hamburger span{width:22px;height:1.5px;background:var(--dark);display:block}
 .page{display:none;min-height:100vh;padding-top:var(--nav-h)}
 .page.active{display:block}
+@media(max-width:920px){
+  nav ul{display:none;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--bg);padding:1rem 2rem;border-bottom:1px solid var(--gold-light);gap:1rem;z-index:99}
+  nav ul.open{display:flex}
+  nav ul li a::after{display:none}
+  .nav-right{gap:1rem}
+  .hamburger{display:flex}
+  .story-grid{grid-template-columns:1fr}
+  .photos-grid,.photo-strip{grid-template-columns:repeat(2,1fr)}
+  .countdown{gap:1.2rem}
+  .count-num{font-size:2.2rem}
+}
 
 /* HERO */
 .hero{display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}
@@ -100,8 +114,8 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .tl-dot.upcoming{border-color:var(--gold);background:var(--bg)}
 .tl-dot.current{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 3px rgba(201,169,110,0.25)}
 .tl-dot.past{border-color:#ccc;background:#ccc}
-.tl-name{font-size:0.95rem;color:var(--dark);margin-bottom:0.15rem;font-weight:500}
-.tl-venue{font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.5}
+.tl-name{font-size:0.95rem;color:var(--dark);margin-bottom:0.15rem;font-weight:500;text-align:left}
+.tl-venue{font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.5;text-align:left}
 
 /* STORY */
 .story-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;text-align:left;max-width:800px;margin:2rem auto;align-items:start}
@@ -122,6 +136,8 @@ nav ul li a:hover,nav ul li a.active{color:var(--gold)}
 .party-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2rem;max-width:860px;margin:1.5rem auto;text-align:center}
 .party-card{display:flex;flex-direction:column;align-items:center}
 .party-avatar-wrap{width:120px;height:120px;border-radius:50%;overflow:hidden;border:3px solid var(--gold);background:var(--gold-light);flex-shrink:0;margin:0 auto 1rem}
+.party-monogram{width:120px;height:120px;border-radius:50%;border:3px solid var(--gold);background:radial-gradient(circle,#fff 55%,var(--gold-light) 100%);flex-shrink:0;margin:0 auto 1rem;display:flex;align-items:center;justify-content:center}
+.party-monogram span{font-family:'Georgia',serif;font-style:italic;font-size:2.2rem;color:var(--gold-dark)}
 .party-avatar-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;border-radius:0}
 .party-card .name{font-size:0.95rem;color:var(--dark);margin-bottom:0.25rem;font-weight:500}
 .party-card .role{font-family:sans-serif;font-size:0.72rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase}
@@ -260,14 +276,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 .admin-pwd-gate input:focus{border-color:var(--gold)}
 .admin-pwd-error{font-family:sans-serif;font-size:0.75rem;color:#e05c5c;display:none;margin-bottom:0.75rem}
 .admin-pwd-gate .btn{font-family:sans-serif;font-size:0.78rem;letter-spacing:0.15em;padding:0.7rem 2rem}
-  nav ul{display:none;flex-direction:column;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--bg);padding:1rem 2rem;border-bottom:1px solid var(--gold-light);gap:1rem;z-index:99}
-  nav ul.open{display:flex}
-  .hamburger{display:flex}
-  .story-grid{grid-template-columns:1fr}
-  .photos-grid,.photo-strip{grid-template-columns:repeat(2,1fr)}
-  .countdown{gap:1.2rem}
-  .count-num{font-size:2.2rem}
-}
 
 </style>
 </head>
@@ -289,11 +297,11 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   <svg class="floral-br" viewBox="0 0 200 200" fill="none"><circle cx="30" cy="30" r="18" fill="#f0e0b0" opacity="0.7"/><circle cx="62" cy="18" r="13" fill="#e8d898" opacity="0.6"/><circle cx="18" cy="62" r="15" fill="#ddc878" opacity="0.65"/><circle cx="85" cy="42" r="11" fill="#f5e8b0" opacity="0.5"/><ellipse cx="55" cy="55" rx="6" ry="15" fill="#c8a048" opacity="0.35" transform="rotate(45 55 55)"/></svg>
   <div class="splash-rays"></div>
   <div class="splash-glow"></div>
-  <div class="splash-monogram"><span>A&amp;B</span></div>
-  <div class="splash-names">Abrham &amp; Blen</div>
+  <div class="splash-monogram"><span>M&amp;E</span></div>
+  <div class="splash-names">Mas &amp; Elsa</div>
   <div class="splash-line"></div>
-  <div class="splash-savedate">Save the Date</div>
-  <div class="splash-date">August 2, 2026</div>
+  <div class="splash-savedate">You're Invited</div>
+  <div class="splash-date">September 19, 2026</div>
   <div class="splash-guest">To : Guest</div>
   <div class="splash-enter">✦ Click to Open Invitation ✦</div>
   <div style="position:relative;z-index:2;margin-top:1.2rem;display:flex;flex-direction:column;align-items:center;gap:0.4rem">
@@ -305,34 +313,36 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </div>
 
 <nav>
-  <div class="logo">Abrham &amp; Blen</div>
-  <button id="musicToggle" onclick="toggleMusic()" style="background:none; border:none; color:var(--gold); font-size:1.1rem; cursor:pointer; padding:0 0.5rem;" aria-label="Toggle Music">🔊</button>
-  <ul id="navMenu">
-    <li><a href="#" class="active" onclick="show('home',this);return false">Home</a></li>
-    <li><a href="#" onclick="show('story',this);return false">Our Story</a></li>
-    <li><a href="#" onclick="show('party',this);return false">Wedding Party</a></li>
-    <li><a href="#" onclick="show('rsvp',this);return false">RSVP</a></li>
-    <li><a href="#" onclick="show('photos',this);return false">Photos</a></li>
-    <li><a href="#" onclick="show('qa',this);return false">Q&amp;A</a></li>
-    <li><a href="team.html">Team</a></li>
-  </ul>
-  <button class="hamburger" onclick="document.getElementById('navMenu').classList.toggle('open')" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="logo">Mas &amp; Elsa</div>
+  <div class="nav-right">
+    <ul id="navMenu">
+      <li><a href="#" class="active" onclick="show('home',this);return false">Home</a></li>
+      <li><a href="#" onclick="show('story',this);return false">Our Story</a></li>
+      <li><a href="#" onclick="show('party',this);return false">Wedding Party</a></li>
+      <li><a href="#" onclick="show('rsvp',this);return false">RSVP</a></li>
+      <li><a href="#" onclick="show('photos',this);return false">Photos</a></li>
+      <li><a href="#" onclick="show('qa',this);return false">Q&amp;A</a></li>
+      <li><a href="team.html">Team</a></li>
+    </ul>
+    <button id="musicToggle" onclick="toggleMusic()" style="background:none; border:none; color:var(--gold); font-size:1.1rem; cursor:pointer; padding:0;" aria-label="Toggle Music">🔊</button>
+    <button class="hamburger" onclick="document.getElementById('navMenu').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
 
 <!-- HOME -->
 <div id="home" class="page active">
   <div class="hero">
     <div class="hero-photo">
-      <img src="photo1.jpg" alt="Abrham and Blen"/>
+      <img src="photo1.jpg" alt="Mas and Elsa"/>
     </div>
     <div class="hero-text-box">
-      <p class="hero-eyebrow">Save the Date</p>
-      <h1 class="hero-names">Abrham <span class="hero-amp">&amp;</span> Blen</h1>
-      <p class="hero-date">August 2<sup>nd</sup>, 2026 &nbsp;·&nbsp; 5:00 PM &nbsp;·&nbsp; Columbus, Ohio</p>
+      <p class="hero-eyebrow">You're Invited</p>
+      <h1 class="hero-names">Mas <span class="hero-amp">&amp;</span> Elsa</h1>
+      <p class="hero-date">September 19<sup>th</sup>, 2026 &nbsp;·&nbsp; 1:00 PM &nbsp;·&nbsp; Washington, DC</p>
       <div class="hero-divider"></div>
-      <p class="hero-verse">"So they are no longer two, but one flesh. Therefore what God has joined together, let no one separate." — Matthew 19:6</p>
+      <p class="hero-verse">"And a threefold cord is not quickly broken." — Ecclesiastes 4:12</p>
       <a class="btn btn-solid" href="#" onclick="show('rsvp',null);return false" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">RSVP Now</a>
     </div>
   </div>
@@ -350,9 +360,9 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   </div>
 
   <div class="photo-strip">
-    <div class="photo-strip-item"><img src="photo2.jpg" alt="" onclick="openLightbox('photo2.jpg')"/></div>
+    <div class="photo-strip-item"><img src="photo2.jpg" alt="" style="object-position:center 30%" onclick="openLightbox('photo2.jpg')"/></div>
     <div class="photo-strip-item"><img src="photo3.jpg" alt="" onclick="openLightbox('photo3.jpg')"/></div>
-    <div class="photo-strip-item"><img src="photo5.jpg" alt="" onclick="openLightbox('photo5.jpg')"/></div>
+    <div class="photo-strip-item"><img src="photo5.jpg" alt="" style="object-position:center 75%" onclick="openLightbox('photo5.jpg')"/></div>
     <div class="photo-strip-item"><img src="photo7.jpg" alt="" onclick="openLightbox('photo7.jpg')"/></div>
   </div>
 
@@ -361,18 +371,18 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div style="max-width:900px;margin:0 auto;text-align:center">
       <p class="section-tag">The Day's Events</p>
       <h2 class="section-title">Event Timeline</h2>
-      <p style="font-family:sans-serif;font-size:0.78rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem">August 2, 2026 · Columbus, Ohio</p>
+      <p style="font-family:sans-serif;font-size:0.78rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem">September 19, 2026 · Washington, DC</p>
       <div class="divider"></div>
       <div class="timeline">
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Ceremony Begins</div><div class="tl-venue">Beza Event Center — Doors open · Please be seated by 5:00 PM</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride &amp; Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb &amp; Kene</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Food &amp; Drinks Served</div><div class="tl-venue">Dinner served · Drinks available 5:00 PM – 10:30 PM</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">7:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Mezmure <span onclick="openMezmureModal()" class="view-songs-btn" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;animation:songBtnPulse 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:0.3rem;box-shadow:0 0 0 0 rgba(201,169,110,0.5)">♪ View Songs</span></div><div class="tl-venue">Ethiopian spiritual songs &amp; celebration</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">8:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Kene</div><div class="tl-venue">Traditional Ethiopian poetry recitation</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">8:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Cake Cutting 🎂</div><div class="tl-venue">Cake time + Mezmure continues</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">9:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Family Speeches</div><div class="tl-venue">Heartfelt words from loved ones</div></div></div>
-        <div class="tl-item"><div class="tl-left"><div class="tl-time">10:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Closing Mezmure <span onclick="openMezmureModal()" class="view-songs-btn" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;animation:songBtnPulse 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:0.3rem;box-shadow:0 0 0 0 rgba(201,169,110,0.5)">♪ View Songs</span></div><div class="tl-venue">Final celebration &amp; program ends at 10:30 PM</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">1:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Ceremony Begins</div><div class="tl-venue">Mt Horeb Baptist Church — Doors open · Please be seated by 1:00 PM</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">1:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Bride &amp; Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">2:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb &amp; Kene</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">2:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Food &amp; Drinks Served</div><div class="tl-venue">Dinner served · Drinks available 1:00 PM – 6:30 PM</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">3:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Mezmure <span onclick="openMezmureModal()" class="view-songs-btn" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;animation:songBtnPulse 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:0.3rem;box-shadow:0 0 0 0 rgba(201,169,110,0.5)">♪ View Songs</span></div><div class="tl-venue">Ethiopian spiritual songs &amp; celebration</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">4:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Kene</div><div class="tl-venue">Traditional Ethiopian poetry recitation</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">4:30 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Cake Cutting 🎂</div><div class="tl-venue">Cake time + Mezmure continues</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">5:10 PM</div></div><div class="tl-dot"></div><div><div class="tl-name">Family Speeches</div><div class="tl-venue">Heartfelt words from loved ones</div></div></div>
+        <div class="tl-item"><div class="tl-left"><div class="tl-time">6:00 PM</div></div><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Closing Mezmure <span onclick="openMezmureModal()" class="view-songs-btn" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;animation:songBtnPulse 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:0.3rem;box-shadow:0 0 0 0 rgba(201,169,110,0.5)">♪ View Songs</span></div><div class="tl-venue">Final celebration &amp; program ends at 6:30 PM</div></div></div>
       </div>
       <p style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);margin-top:2.5rem;letter-spacing:0.05em;font-style:italic">✦ All times are approximate and subject to slight changes on the day</p>
     </div>
@@ -404,34 +414,15 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   <div class="section">
     <p class="section-tag">Location</p>
     <h2 class="section-title">Getting There</h2>
-    <div class="share-tabs" style="border:none">
-      <div class="share-tab" style="background:transparent;border-color:var(--gold);color:var(--gold)" onclick="setLocationTab(this,'bride')">Bride Location</div>
-      <div class="share-tab" style="background:transparent;border-color:var(--gold);color:var(--gold)" onclick="setLocationTab(this,'groom')">Groom Location</div>
-      <div class="share-tab active" style="background:var(--gold);border-color:var(--gold);color:#fff" onclick="setLocationTab(this,'venue')">Venue Location</div>
-    </div>
     <div class="divider"></div>
-    <p id="location-text" style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem">Beza Event Center · 1815 Woodland Ave, Columbus, Ohio 43219</p>
+    <p id="location-text" style="font-family:sans-serif;font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem">Mt Horeb Baptist Church · 2914 Bladensburg Rd NE, Washington, DC 20018</p>
     <div style="width:100%;border-radius:8px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);margin-bottom:1.5rem">
       <iframe id="location-map"
-        src="https://www.google.com/maps?q=1815+Woodland+Ave+Columbus+Ohio+43219&output=embed"
+        src="https://www.google.com/maps?q=2914+Bladensburg+Rd+NE+Washington+DC+20018&output=embed"
         width="100%" height="420" style="border:0;display:block" allowfullscreen="" loading="lazy">
       </iframe>
     </div>
-    <a id="location-link" href="https://maps.google.com/?q=1815+Woodland+Ave+Columbus+Ohio+43219" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">📍 Get Directions</a>
-  </div>
-
-  <!-- HOTELS -->
-  <div style="background:var(--section-alt);padding:5rem 1.5rem">
-    <div style="max-width:900px;margin:0 auto;text-align:center">
-      <p class="section-tag">For Our Traveling Guests</p>
-      <h2 class="section-title">Nearby Hotels</h2>
-      <div class="divider"></div>
-      <div class="hotels-grid">
-        <div class="hotel-card"><div class="hotel-name">Comfort Inn</div><div class="hotel-dist">Pickerington, OH</div><div class="hotel-note">1800 Hill Rd N, Pickerington, OH — convenient stay for out-of-town guests.</div><a href="https://maps.google.com/?q=1800+Hill+Rd+N+Pickerington+OH" target="_blank" class="btn" style="display:inline-block;margin-top:1rem;font-size:0.72rem">View on Map</a></div>
-        <div class="hotel-card"><div class="hotel-name">Hampton Inn Columbus East</div><div class="hotel-dist">~8 min from venue</div><div class="hotel-note">Comfortable and affordable option close to Beza Event Center.</div></div>
-        <div class="hotel-card"><div class="hotel-name">Hilton Garden Inn Columbus</div><div class="hotel-dist">~12 min from venue</div><div class="hotel-note">Modern rooms with great amenities for a relaxing stay.</div></div>
-      </div>
-    </div>
+    <a id="location-link" href="https://maps.google.com/?q=2914+Bladensburg+Rd+NE+Washington+DC+20018" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">📍 Get Directions</a>
   </div>
 </div>
 
@@ -444,17 +435,19 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   </div>
   <div style="padding:0 2rem 5rem;max-width:800px;margin:0 auto">
     <div class="story-grid">
-      <div class="story-img"><img src="photo6.jpg" alt="Abrham and Blen"/></div>
+      <div class="story-img"><img src="photo6.jpg" alt="Mas and Elsa"/></div>
       <div class="story-text">
-        <p>Some love stories begin with a glance across a crowded room. Ours began with a smile that neither of us could quite explain — warm, familiar, and full of quiet promise.</p>
-        <p>Abrham and Blen crossed paths in the kind of unexpected way that only makes sense in hindsight. What started as a friendship built on laughter, long conversations, and shared faith quickly blossomed into something neither of them saw coming — but both of them knew was right.</p>
-        <p>Through every season, every challenge, and every quiet moment in between, they chose each other. And on August 2nd, 2026, in front of the people they love most, they'll choose each other one more time — for always.</p>
+        <p>Ours isn't a love story that began with a glance across a room — it began years earlier, in the small town of Wolliso, Ethiopia, where two children shared books, laughter, and a childhood neither of them ever forgot.</p>
+        <p>Life pulled them apart — different universities, different cities, different continents — until a Facebook "people you may know" suggestion brought them back together. A simple "endet neh?" turned into long phone calls, coffee dates in Silver Spring, and the realization that some bonds only grow stronger with distance and time.</p>
+        <p>On a quiet evening in Alexandria, Virginia, Mas got down on one knee and told Elsa she was his first love, his answered prayer, his greatest blessing. She said yes. 💍 Now, on September 19th, 2026, in Washington, DC — what started in Wolliso becomes forever.</p>
         <div style="margin-top:2rem">
-          <div class="milestone-item"><div class="milestone-year">💕</div><div class="milestone-desc">Two strangers meet and feel something they can't quite name</div></div>
-          <div class="milestone-item"><div class="milestone-year">🤝</div><div class="milestone-desc">Friendship turns into something deeper — and undeniable</div></div>
-          <div class="milestone-item"><div class="milestone-year">🌍</div><div class="milestone-desc">Adventures together, growing side by side</div></div>
-          <div class="milestone-item"><div class="milestone-year">🌹</div><div class="milestone-desc">A beach proposal surrounded by hundreds of red roses — she said yes 💍</div></div>
-          <div class="milestone-item"><div class="milestone-year">💒</div><div class="milestone-desc">Forever begins on August 2nd</div></div>
+          <div class="milestone-item"><div class="milestone-year">✝️</div><div class="milestone-desc">Two children in Wolliso share books, laughter, and an unspoken bond</div></div>
+          <div class="milestone-item"><div class="milestone-year">🌍</div><div class="milestone-desc">Life takes them across the world — different cities, different journeys</div></div>
+          <div class="milestone-item"><div class="milestone-year">📱</div><div class="milestone-desc">A Facebook reconnection sparks something neither expected</div></div>
+          <div class="milestone-item"><div class="milestone-year">☕</div><div class="milestone-desc">Friendship deepens over calls and coffee in Silver Spring</div></div>
+          <div class="milestone-item"><div class="milestone-year">🙏</div><div class="milestone-desc">Faith and shared roots bring them closer than ever</div></div>
+          <div class="milestone-item"><div class="milestone-year">💍</div><div class="milestone-desc">A proposal in Alexandria, Virginia — she said yes</div></div>
+          <div class="milestone-item"><div class="milestone-year">💒</div><div class="milestone-desc">Forever begins September 19th, 2026, in Washington, DC</div></div>
         </div>
       </div>
     </div>
@@ -475,17 +468,17 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div class="divider"></div>
     <div class="party-section-title" style="border-top:none;padding-top:0;margin-top:0">Groomsmen</div>
     <div class="party-grid">
-      <div class="party-card"><div class="party-avatar-wrap"><img src="keb.jpg" alt="Keb"/></div><div class="name">Keb</div><div class="role">Best Man</div></div>
-      <div class="party-card"><div class="party-avatar-wrap"><img src="bele.jpg" alt="Bele"/></div><div class="name">Bele</div><div class="role">Groomsman</div></div>
-      <div class="party-card"><div class="party-avatar-wrap"><img src="hermon.jpg" alt="Hermon"/></div><div class="name">Hermon</div><div class="role">Groomsman</div></div>
-      <div class="party-card"><div class="party-avatar-wrap"><img src="mike.jpg" alt="Mike"/></div><div class="name">Mike</div><div class="role">Groomsman</div></div>
+      <div class="party-card"><div class="party-monogram"><span>D</span></div><div class="name">Dave</div><div class="role">Best Man</div></div>
+      <div class="party-card"><div class="party-monogram"><span>M</span></div><div class="name">Mule</div><div class="role">Groomsman</div></div>
+      <div class="party-card"><div class="party-monogram"><span>B</span></div><div class="name">Bre</div><div class="role">Groomsman</div></div>
+      <div class="party-card"><div class="party-monogram"><span>J</span></div><div class="name">Jojo</div><div class="role">Groomsman</div></div>
     </div>
     <div class="party-section-title" style="border-top:none;padding-top:0;margin-top:0">Bridesmaids</div>
     <div class="party-grid">
-      <div class="party-card"><div class="party-avatar-wrap"><img src="bri.jpg" alt="Bri"/></div><div class="name">Bri</div><div class="role">Maid of Honor</div></div>
-      <div class="party-card"><div class="party-avatar-wrap"><img src="ruth.jpg" alt="Ruth"/></div><div class="name">Ruth</div><div class="role">Bridesmaid</div></div>
-      <div class="party-card"><div class="party-avatar-wrap"><img src="hana.jpg" alt="Hana"/></div><div class="name">Hana</div><div class="role">Bridesmaid</div></div>
-      <div class="party-card"><div class="party-avatar-wrap"><img src="sosi.jpg" alt="Sosi"/></div><div class="name">Sosi</div><div class="role">Bridesmaid</div></div>
+      <div class="party-card"><div class="party-monogram"><span>B</span></div><div class="name">Betty</div><div class="role">Maid of Honor</div></div>
+      <div class="party-card"><div class="party-monogram"><span>H</span></div><div class="name">Hiwot</div><div class="role">Bridesmaid</div></div>
+      <div class="party-card"><div class="party-monogram"><span>H</span></div><div class="name">Helina</div><div class="role">Bridesmaid</div></div>
+      <div class="party-card"><div class="party-monogram"><span>L</span></div><div class="name">Lily</div><div class="role">Bridesmaid</div></div>
     </div>
   </div>
 </div>
@@ -493,7 +486,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 <!-- RSVP -->
 <div id="rsvp" class="page">
   <div class="section">
-    <p class="section-tag">Kindly Reply By July 30, 2026</p>
+    <p class="section-tag">Kindly Reply By August 22, 2026</p>
     <h2 class="section-title">RSVP</h2>
     <div class="divider"></div>
     <p style="color:var(--muted);font-size:0.92rem;margin-bottom:2rem;line-height:1.8">We would be so honored to have you celebrate with us!</p>
@@ -505,7 +498,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="form-group"><label>Message (optional)</label><textarea id="f-message" placeholder="Share your wishes and blessings..."></textarea></div>
       <button class="btn btn-solid" style="width:100%;font-family:sans-serif;font-size:0.8rem;letter-spacing:0.2em;border:none;cursor:pointer" onclick="submitRSVP()">Send RSVP</button>
     </div>
-    <div id="rsvpSuccess" class="rsvp-success"><h3>Thank You! 🤍</h3><p>Your RSVP has been received. Abrham and Blen can't wait to celebrate with you on August 2nd!</p></div>
+    <div id="rsvpSuccess" class="rsvp-success"><h3>Thank You! 🤍</h3><p>Your RSVP has been received. Mas and Elsa can't wait to celebrate with you on September 19th!</p></div>
   </div>
 </div>
 
@@ -552,7 +545,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div style="padding:1.5rem;border:1px solid var(--gold-light);border-radius:4px;background:var(--white);text-align:center;margin-bottom:1.5rem">
         <p style="font-family:sans-serif;font-size:0.85rem;color:var(--dark);font-weight:500;margin-bottom:0.4rem">📸 Backup Option</p>
         <p style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-bottom:1rem;line-height:1.6">Prefer Google Photos? Upload directly to our shared album:</p>
-        <a href="https://photos.app.goo.gl/vGAjpnyw2DZ76uvV6" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.15em">Upload to Google Photos</a>
+        <a href="https://photos.app.goo.gl/Nj6wcCJz3bztywwt9" target="_blank" class="btn btn-solid" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.15em">Upload to Google Photos</a>
       </div>
     </div>
   </div>
@@ -567,17 +560,18 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div class="qa-list">
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div><div class="qa-a">We kindly ask all guests to dress in <strong>white or silver</strong> attire — formal or semi-formal. Please avoid bright colors. Let's keep the look elegant and cohesive!</div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Are children allowed? <span class="arrow">▾</span></div><div class="qa-a">Children are welcome! However, parents are fully responsible for supervising their children throughout the event.</div></div>
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where is the venue? <span class="arrow">▾</span></div><div class="qa-a">Beza Event Center, 1815 Woodland Ave, Columbus, Ohio 43219. Complimentary parking available.</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where is the venue? <span class="arrow">▾</span></div><div class="qa-a">Mt Horeb Baptist Church, 2914 Bladensburg Rd NE, Washington, DC 20018.</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where should I park? <span class="arrow">▾</span></div><div class="qa-a">Parking at the venue itself is limited, so please park at Debre Meheret Kedus Michael Ethiopian Orthodox Cathedral, 3010 Earl Pl NE, Washington, DC 20018, directly in front of the venue — this is the main parking spot for guests.</div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Can I take photos during the ceremony? <span class="arrow">▾</span></div><div class="qa-a">We are having an unplugged ceremony — please put phones away. You're welcome to take photos during the reception!</div></div>
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">When should I RSVP by? <span class="arrow">▾</span></div><div class="qa-a">Please RSVP by July 30, 2026. We appreciate your timely response!</div></div>
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What time should I arrive? <span class="arrow">▾</span></div><div class="qa-a">The ceremony begins at 5:00 PM. We recommend arriving 15–20 minutes early.</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">When should I RSVP by? <span class="arrow">▾</span></div><div class="qa-a">Please RSVP by August 22, 2026. We appreciate your timely response!</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What time should I arrive? <span class="arrow">▾</span></div><div class="qa-a">The ceremony begins at 1:00 PM. We recommend arriving 15–20 minutes early.</div></div>
     </div>
   </div>
 </div>
 
 <footer>
-  <p style="font-size:1.2rem;font-family:Georgia,serif;color:var(--gold);margin-bottom:0.5rem">Abrham &amp; Blen</p>
-  <p>August 2nd, 2026 · Beza Event Center · Columbus, Ohio</p>
+  <p style="font-size:1.2rem;font-family:Georgia,serif;color:var(--gold);margin-bottom:0.5rem">Mas &amp; Elsa</p>
+  <p>September 19th, 2026 · Mt Horeb Baptist Church · Washington, DC</p>
   <p style="margin-top:0.75rem;font-size:0.7rem">Made with love ♡</p>
   <button onclick="openAdminPanel()" style="background:none;border:none;cursor:pointer;margin-top:1.5rem;opacity:0.18;font-size:0.62rem;font-family:sans-serif;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase" title="Admin">⚙ Admin</button>
 </footer>
@@ -589,7 +583,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <!-- Header -->
     <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--gold-light);position:sticky;top:0;background:#fff;z-index:1">
       <div>
-        <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:0.2rem">Abrham &amp; Blen · August 2, 2026</div>
+        <div style="font-family:sans-serif;font-size:0.68rem;letter-spacing:0.25em;color:var(--gold);text-transform:uppercase;margin-bottom:0.2rem">Mas &amp; Elsa · September 19, 2026</div>
         <h2 style="font-family:'Georgia',serif;font-size:1.15rem;color:var(--dark);font-weight:400">♪ Wedding Mezmure</h2>
       </div>
       <button onclick="closeMezmureModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);line-height:1">✕</button>
@@ -600,7 +594,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <!-- Intro -->
       <div style="background:linear-gradient(135deg,#fff8ee,#fdf3e0);border:1px solid var(--gold-light);border-radius:8px;padding:0.9rem 1.1rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem">
         <span style="font-size:1.4rem">🎵</span>
-        <div style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.6">Tap any song below to read the lyrics. These mezmures will be sung during the celebration of Abrham &amp; Blen's wedding.</div>
+        <div style="font-family:sans-serif;font-size:0.78rem;color:var(--muted);line-height:1.6">Tap any song below to read the lyrics. These mezmures will be sung during the celebration of Mas &amp; Elsa's wedding.</div>
       </div>
 
       <!-- Song list -->
@@ -696,38 +690,6 @@ function toggleQA(el) {
   el.nextElementSibling.classList.toggle('open');
 }
 
-/* ── LOCATION TABS ───────────────────────────────────────────────────────── */
-function setLocationTab(element, type) {
-  document.querySelectorAll('.share-tab').forEach(tab => {
-    tab.style.background = 'transparent';
-    tab.style.color = 'var(--gold)';
-  });
-  element.style.background = 'var(--gold)';
-  element.style.color = '#fff';
-
-  const locations = {
-    groom: {
-      text: "Groom's Home · 3291 Tumwater Valley Dr, Pickerington, Ohio 43147",
-      map:  "https://www.google.com/maps?q=3291+Tumwater+Valley+Dr+Pickerington+Ohio+43147&output=embed",
-      link: "https://maps.google.com/?q=3291+Tumwater+Valley+Dr+Pickerington+Ohio+43147"
-    },
-    bride: {
-      text: "Bride's Home · 9132 Palomino Dr, Pickerington, Ohio 43147",
-      map:  "https://www.google.com/maps?q=9132+Palomino+Dr+Pickerington+Ohio+43147&output=embed",
-      link: "https://maps.google.com/?q=9132+Palomino+Dr+Pickerington+Ohio+43147"
-    },
-    venue: {
-      text: "Beza Event Center · 1815 Woodland Ave, Columbus, Ohio 43219",
-      map:  "https://www.google.com/maps?q=1815+Woodland+Ave+Columbus+Ohio+43219&output=embed",
-      link: "https://maps.google.com/?q=1815+Woodland+Ave+Columbus+Ohio+43219"
-    }
-  };
-
-  document.getElementById('location-text').innerText = locations[type].text;
-  document.getElementById('location-map').src = locations[type].map;
-  document.getElementById('location-link').href = locations[type].link;
-}
-
 function toggleMusic() {
   const music = document.getElementById('bgMusic');
   const btn = document.getElementById('musicToggle');
@@ -742,7 +704,7 @@ function toggleMusic() {
 
 /* ── RSVP ────────────────────────────────────────────────────────────────── */
 async function submitRSVP() {
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwhzqtXoQiWgDoOxJiL3XUCayF-VOPxSSRWvJ4nXVcaby3rsNl33k7gJnu2mJLV7ejNaQ/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxqod-J5T_8UEprdR8ZP10LTNE8BRSurSb2pwJDrTvIVCmd4jMg8kmF1VZoJLjnRy1zxQ/exec";
 
   const nameVal    = document.getElementById('f-name').value.trim();
   const emailVal   = document.getElementById('f-email').value.trim();
@@ -798,8 +760,8 @@ const DEFAULT_COUPLE_PHOTOS = [
 ];
 
 // JSONBin config
-const JSONBIN_BIN_ID  = '6a26ce2ada38895dfe9a41e2';
-const JSONBIN_API_KEY = '$2a$10$/tx4IIldlETW051PNUzUu.yxGAm7zC8Tebd2i4cRUzPuskqhDsvi.';
+const JSONBIN_BIN_ID  = '6a5572f4f5f4af5e298ae453';
+const JSONBIN_API_KEY = '$2a$10$OD2WEQxp.4FREgExSlJcXulFvhREmdNQJQS9VC04KFHGRa9sbVZjG';
 const JSONBIN_URL     = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
 let couplePhotos = [...DEFAULT_COUPLE_PHOTOS]; // managed via admin panel
@@ -1042,7 +1004,7 @@ function showUploadBanner(bannerId, type, title, detail) {
 }
 
 /* ── CLOUDINARY UPLOAD (XHR — more reliable for binary) ─────────────────── */
-const CLOUD_NAME = 'dta5qfkow', UPLOAD_PRESET = 'Abrham';
+const CLOUD_NAME = 'docn0sds', UPLOAD_PRESET = 'mas-elsa';
 
 async function handleFiles(files, progressId, barId, statusId) {
   if (!files.length) return;
@@ -1101,7 +1063,7 @@ async function handleFiles(files, progressId, barId, statusId) {
   if (failedFiles.length === 0) {
     statusEl.textContent = `✓ ${successCount} file${successCount > 1 ? 's' : ''} uploaded!`;
     statusEl.style.color = '#6abf6a';
-    showUploadBanner(bannerId, 'success', `🎉 All ${successCount} uploaded!`, 'Thank you for sharing your memories with Abrham & Blen. 🤍');
+    showUploadBanner(bannerId, 'success', `🎉 All ${successCount} uploaded!`, 'Thank you for sharing your memories with Mas & Elsa. 🤍');
     showToast('success', 'All Done!', `${successCount} file${successCount > 1 ? 's' : ''} saved to the gallery! 🤍`, 7000);
     const guestBtn = document.querySelector('.gallery-filter:nth-child(3)');
     if (guestBtn) filterGallery('guest', guestBtn);
@@ -1931,7 +1893,7 @@ document.getElementById('mezmure-modal').addEventListener('click', e => {
 });
 
 /* ── ADMIN PANEL ─────────────────────────────────────────────────────────── */
-const ADMIN_PASSWORD = '2324';
+const ADMIN_PASSWORD = '2026';
 
 function openAdminPanel() {
   document.getElementById('admin-modal').classList.add('open');
@@ -2132,7 +2094,7 @@ updateTimelineDots();
 setInterval(updateTimelineDots, 60000); // update every minute
 
 /* ── COUNTDOWN ───────────────────────────────────────────────────────────── */
-const weddingDate = new Date('2026-08-02T17:00:00');
+const weddingDate = new Date('2026-09-19T13:00:00');
 function updateCountdown() {
   const diff = weddingDate - new Date();
   if (diff <= 0) { ['cd-d','cd-h','cd-m','cd-s'].forEach(id => document.getElementById(id).textContent = '0'); return; }
