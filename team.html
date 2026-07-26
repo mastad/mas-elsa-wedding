@@ -7,7 +7,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --gold:#8a9a7b;--gold-light:#d8e0d0;--gold-dark:#5f6f52;
+  --gold:#b0568a;--gold-light:#f0d9e6;--gold-dark:#6b2545;
   --dark:#1a1a1a;--muted:#888;--bg:#faf8f3;--white:#fff;
   --green:#4caf7d;--red:#e05c5c;--blue:#5b8dee;
   --card-bg:#fffdf9;--border:#eedfc4;
@@ -15,14 +15,14 @@
 body{font-family:'Georgia',serif;background:var(--bg);color:var(--dark);min-height:100vh;overflow-x:hidden}
 
 /* -- HEADER -- */
-header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.3)}
+header{background:linear-gradient(135deg,#1a1a1a 0%,#2e1420 100%);padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.3)}
 .header-logo{font-family:'Georgia',serif;font-size:1rem;color:var(--gold);letter-spacing:0.15em}
 .header-date{font-family:sans-serif;font-size:0.7rem;color:rgba(255,255,255,0.45);letter-spacing:0.2em;text-transform:uppercase}
-.header-admin-btn{font-family:sans-serif;font-size:0.68rem;letter-spacing:0.12em;color:var(--gold);background:rgba(138,154,123,0.12);border:1px solid rgba(138,154,123,0.3);padding:0.4rem 0.85rem;border-radius:20px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
-.header-admin-btn:hover{background:rgba(138,154,123,0.25)}
+.header-admin-btn{font-family:sans-serif;font-size:0.68rem;letter-spacing:0.12em;color:var(--gold);background:rgba(176,86,138,0.12);border:1px solid rgba(176,86,138,0.3);padding:0.4rem 0.85rem;border-radius:20px;cursor:pointer;text-transform:uppercase;transition:all 0.2s}
+.header-admin-btn:hover{background:rgba(176,86,138,0.25)}
 
 /* -- HERO BANNER -- */
-.hero-banner{background:linear-gradient(160deg,#f6f7f1,#dee8d6);padding:2rem 1.5rem 1.5rem;text-align:center;border-bottom:1px solid var(--border)}
+.hero-banner{background:linear-gradient(160deg,#fcf0f3,#eacdd9);padding:2rem 1.5rem 1.5rem;text-align:center;border-bottom:1px solid var(--border)}
 .hero-banner h1{font-family:'Georgia',serif;font-size:clamp(1.4rem,4vw,2rem);font-weight:400;color:var(--dark);margin-bottom:0.3rem}
 .hero-banner p{font-family:sans-serif;font-size:0.78rem;color:var(--muted);letter-spacing:0.1em}
 
@@ -42,9 +42,9 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 .person-card{display:flex;flex-direction:column;align-items:center;gap:0.6rem;cursor:pointer;transition:transform 0.2s}
 .person-card:hover{transform:translateY(-3px)}
 .person-avatar{position:relative;width:90px;height:90px;border-radius:50%;overflow:hidden;border:3px solid var(--gold);background:var(--gold-light);flex-shrink:0;transition:box-shadow 0.2s}
-.person-card:hover .person-avatar{box-shadow:0 0 0 4px rgba(138,154,123,0.3)}
+.person-card:hover .person-avatar{box-shadow:0 0 0 4px rgba(176,86,138,0.3)}
 .person-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
-.person-avatar-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;background:linear-gradient(135deg,var(--gold-light),#d2dfc5)}
+.person-avatar-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;background:linear-gradient(135deg,var(--gold-light),#e2bccb)}
 .person-name{font-family:'Georgia',serif;font-size:0.9rem;color:var(--dark);text-align:center}
 .person-role-badge{font-family:sans-serif;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:20px;background:var(--gold);color:#fff}
 .person-role-badge.blue{background:var(--blue)}
@@ -108,7 +108,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 .pin-wrap{text-align:center;padding:0.5rem 0 1rem}
 .pin-avatar{width:72px;height:72px;border-radius:50%;overflow:hidden;border:3px solid var(--gold);margin:0 auto 0.75rem;background:var(--gold-light)}
 .pin-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
-.pin-avatar-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;background:linear-gradient(135deg,var(--gold-light),#d2dfc5)}
+.pin-avatar-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.6rem;background:linear-gradient(135deg,var(--gold-light),#e2bccb)}
 .pin-name{font-family:'Georgia',serif;font-size:1rem;color:var(--dark);margin-bottom:0.25rem}
 .pin-role{font-family:sans-serif;font-size:0.7rem;color:var(--muted);margin-bottom:1.2rem;letter-spacing:0.08em}
 .pin-input{width:100%;max-width:200px;padding:0.75rem 1rem;border:1.5px solid var(--border);border-radius:6px;font-family:sans-serif;font-size:1.2rem;text-align:center;letter-spacing:0.4em;outline:none;transition:border-color 0.2s;display:block;margin:0 auto 0.5rem}
@@ -141,7 +141,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 /* Task list view */
 .task-list{display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem}
 .task-item{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:all 0.2s}
-.task-item:hover{border-color:var(--gold-light);box-shadow:0 2px 12px rgba(138,154,123,0.1)}
+.task-item:hover{border-color:var(--gold-light);box-shadow:0 2px 12px rgba(176,86,138,0.1)}
 .task-item.done{opacity:0.55}
 .task-item-header{display:flex;align-items:flex-start;gap:0.85rem;padding:0.9rem 1rem;cursor:pointer}
 .task-checkbox{width:22px;height:22px;border-radius:50%;border:2px solid var(--gold-light);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.2s;margin-top:2px}
@@ -217,7 +217,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 .hour-row{display:flex;align-items:flex-start;border-bottom:1px solid #f5efe0;min-height:52px}
 .hour-row:last-child{border-bottom:none}
 .hour-row.current-hour{background:#fff8ee}
-.hour-label{width:56px;flex-shrink:0;padding:0.6rem 0.5rem;text-align:right;font-family:sans-serif;font-size:0.68rem;color:var(--muted);border-right:1px solid #dde6d2;line-height:1.2;padding-top:0.7rem}
+.hour-label{width:56px;flex-shrink:0;padding:0.6rem 0.5rem;text-align:right;font-family:sans-serif;font-size:0.68rem;color:var(--muted);border-right:1px solid #eacdd8;line-height:1.2;padding-top:0.7rem}
 .hour-tasks{flex:1;padding:0.4rem 0.6rem;display:flex;flex-direction:column;gap:0.3rem}
 .timeline-task-chip{border-radius:6px;padding:0.35rem 0.6rem;font-family:sans-serif;font-size:0.72rem;line-height:1.35;cursor:pointer;transition:opacity 0.2s;border-left:3px solid transparent}
 .timeline-task-chip:hover{opacity:0.85}
@@ -237,7 +237,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 .week-task-dot{border-radius:4px;padding:0.25rem 0.4rem;font-family:sans-serif;font-size:0.62rem;line-height:1.3;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 
 /* Role colors */
-.role-color-couple{background:#dde6d2;color:#3d4a32;border-left-color:#8a9a7b}
+.role-color-couple{background:#eacdd8;color:#4a1830;border-left-color:#b0568a}
 .role-color-protocol{background:#fef9e6;color:#8a6a00;border-left-color:#f0c000}
 .role-color-timekeeper{background:#fef0f0;color:#8a1a1a;border-left-color:#e05c5c}
 .role-color-coordinator{background:#e8f7ee;color:#1a5c38;border-left-color:#4caf7d}
@@ -360,7 +360,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 /* Overview cards */
 .overview-grid{display:block;margin-bottom:2rem}
 .overview-card{background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem;cursor:pointer;transition:all 0.2s}
-.overview-card:hover{border-color:var(--gold-light);transform:translateY(-2px);box-shadow:0 4px 16px rgba(138,154,123,0.12)}
+.overview-card:hover{border-color:var(--gold-light);transform:translateY(-2px);box-shadow:0 4px 16px rgba(176,86,138,0.12)}
 .ov-top{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem}
 .ov-avatar{width:42px;height:42px;border-radius:50%;overflow:hidden;border:2px solid var(--gold-light);flex-shrink:0;background:var(--gold-light)}
 .ov-avatar img{width:100%;height:100%;object-fit:cover;object-position:center top}
@@ -416,7 +416,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 @keyframes toastOut{from{opacity:1}to{opacity:0;transform:translateX(40px)}}
 
 /* GPS Gate */
-#gps-gate{position:fixed;inset:0;z-index:5000;background:linear-gradient(160deg,#1a1a1a,#1f2b1a);display:none;align-items:center;justify-content:center;padding:2rem}
+#gps-gate{position:fixed;inset:0;z-index:5000;background:linear-gradient(160deg,#1a1a1a,#2e1420);display:none;align-items:center;justify-content:center;padding:2rem}
 #gps-gate.open{display:flex}
 .gps-gate-box{background:#fff;border-radius:16px;padding:2.5rem 2rem;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4)}
 .gps-gate-icon{font-size:3rem;margin-bottom:1rem}
@@ -432,7 +432,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 
 /* ── WEDDING ROAD ── */
 .wr-wrap{font-family:sans-serif;position:relative;padding-bottom:2rem}
-.wr-hero{background:linear-gradient(160deg,#1a1a1a,#1f2b1a);border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:0.85rem;text-align:center}
+.wr-hero{background:linear-gradient(160deg,#1a1a1a,#2e1420);border-radius:12px;padding:1.2rem 1.5rem;margin-bottom:0.85rem;text-align:center}
 .wr-hero-title{font-family:'Georgia',serif;font-size:1.1rem;color:var(--gold);margin-bottom:0.2rem}
 .wr-hero-sub{font-family:sans-serif;font-size:0.62rem;color:rgba(255,255,255,0.4);letter-spacing:0.18em;text-transform:uppercase}
 .wr-now-strip{background:#fff8ee;border:1px solid var(--gold-light);border-radius:8px;padding:0.55rem 0.85rem;display:flex;align-items:center;gap:0.55rem;margin-bottom:1.1rem;font-family:sans-serif;font-size:0.8rem;color:var(--gold-dark)}
@@ -460,16 +460,16 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 /* Event cards */
 .wr-card{background:#fff;border:1px solid var(--border);border-radius:7px;padding:0.38rem 0.55rem;max-width:132px;transition:all 0.15s}
 .wr-split-grid:hover .wr-card,.wr-together-grid:hover .wr-card{border-color:var(--gold-light)}
-.wr-card.wr-now{border-color:var(--gold);background:#fff8ee;box-shadow:0 0 0 2px rgba(138,154,123,0.2)}
+.wr-card.wr-now{border-color:var(--gold);background:#fff8ee;box-shadow:0 0 0 2px rgba(176,86,138,0.2)}
 .wr-card-time{font-size:0.55rem;color:var(--gold);font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:0.1rem}
 .wr-card-text{font-size:0.68rem;color:var(--dark);line-height:1.3}
 .wr-card-cam{font-size:0.58rem;color:#4a7a4a;margin-top:0.12rem;font-style:italic}
 /* Cars */
-.wr-car{position:absolute;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:#fff;border:2.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.8rem;z-index:10;box-shadow:0 0 10px rgba(138,154,123,0.5),0 2px 6px rgba(0,0,0,0.2)}
+.wr-car{position:absolute;left:50%;transform:translate(-50%,-50%);width:26px;height:26px;border-radius:50%;background:#fff;border:2.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:0.8rem;z-index:10;box-shadow:0 0 10px rgba(176,86,138,0.5),0 2px 6px rgba(0,0,0,0.2)}
 .wr-car-couple{width:38px;border-radius:13px;font-size:0.7rem}
 /* Edit button in hero */
-.wr-edit-btn{display:none;align-items:center;gap:0.3rem;margin-top:0.65rem;background:rgba(138,154,123,0.15);color:var(--gold-light);border:1px solid rgba(138,154,123,0.35);border-radius:20px;padding:0.28rem 0.75rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer;letter-spacing:0.06em;transition:all 0.15s}
-.wr-edit-btn:hover{background:rgba(138,154,123,0.28)}
+.wr-edit-btn{display:none;align-items:center;gap:0.3rem;margin-top:0.65rem;background:rgba(176,86,138,0.15);color:var(--gold-light);border:1px solid rgba(176,86,138,0.35);border-radius:20px;padding:0.28rem 0.75rem;font-family:sans-serif;font-size:0.7rem;cursor:pointer;letter-spacing:0.06em;transition:all 0.15s}
+.wr-edit-btn:hover{background:rgba(176,86,138,0.28)}
 /* Timeline edit modal */
 #wr-edit-modal{position:fixed;inset:0;z-index:4500;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);padding:1rem}
 #wr-edit-modal.open{display:flex}
@@ -539,7 +539,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 .cl-slot-toggle.open{transform:rotate(90deg)}
 .cl-items{display:flex;flex-direction:column;gap:0.5rem}
 .cl-item{display:flex;align-items:flex-start;gap:0.75rem;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;padding:0.75rem 0.85rem;transition:all 0.2s;position:relative}
-.cl-item:hover{border-color:var(--gold-light);box-shadow:0 2px 8px rgba(138,154,123,0.08)}
+.cl-item:hover{border-color:var(--gold-light);box-shadow:0 2px 8px rgba(176,86,138,0.08)}
 .cl-item.done{opacity:0.5}
 .cl-item.high{border-left:3px solid var(--red)}
 .cl-item.medium{border-left:3px solid var(--gold)}
@@ -576,7 +576,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#1f2b1a 100%);padding:1.2rem
 .cl-add-btn:hover{border-color:var(--gold);background:#fff8ee}
 /* Admin checklist person section */
 .cl-person-section{margin-bottom:1.5rem}
-.cl-person-header{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.9rem;background:linear-gradient(135deg,#f6f7f1,#dee8d6);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light);cursor:pointer}
+.cl-person-header{display:flex;align-items:center;gap:0.7rem;padding:0.65rem 0.9rem;background:linear-gradient(135deg,#fcf0f3,#eacdd9);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light);cursor:pointer}
 .cl-person-body{border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:0.75rem;display:none}
 .cl-person-body.open{display:block}
 
@@ -3893,7 +3893,7 @@ function renderOverviewGrid() {
 
     // Group header
     const header = document.createElement('div');
-    header.style.cssText = 'display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.85rem;background:linear-gradient(135deg,#f6f7f1,#dee8d6);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light)';
+    header.style.cssText = 'display:flex;align-items:center;gap:0.6rem;padding:0.55rem 0.85rem;background:linear-gradient(135deg,#fcf0f3,#eacdd9);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light)';
 
     // Calculate group totals
     const groupDone  = group.ids.reduce((s,id) => s + ((appData[id]?.tasks||[]).filter(t=>t.done).length), 0);
@@ -4170,7 +4170,7 @@ function renderRemindersTab() {
     <div style="background:var(--card-bg);border:1px solid var(--border);border-radius:10px;padding:1.1rem 1.25rem;margin-bottom:1.1rem">
       <div style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.75rem">✍️ New Message</div>
       <div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-bottom:0.75rem">
-        ${TEMPLATES.map(t => `<button onclick="setTgTemplate(this.dataset.text)" data-text="${t.text.replace(/"/g,'&quot;')}" style="background:#f6f7f1;border:1px solid var(--gold-light);border-radius:20px;padding:0.28rem 0.65rem;font-family:sans-serif;font-size:0.68rem;cursor:pointer;color:var(--dark)">${t.label}</button>`).join('')}
+        ${TEMPLATES.map(t => `<button onclick="setTgTemplate(this.dataset.text)" data-text="${t.text.replace(/"/g,'&quot;')}" style="background:#fcf0f3;border:1px solid var(--gold-light);border-radius:20px;padding:0.28rem 0.65rem;font-family:sans-serif;font-size:0.68rem;cursor:pointer;color:var(--dark)">${t.label}</button>`).join('')}
       </div>
       <textarea id="tg-msg-input" rows="3" placeholder="Type your message… or tap a template above" style="width:100%;padding:0.65rem 0.75rem;border:1.5px solid var(--border);border-radius:8px;font-family:sans-serif;font-size:0.85rem;resize:vertical;box-sizing:border-box;outline:none;line-height:1.5"></textarea>
       <div style="display:flex;align-items:center;gap:0.6rem;margin-top:0.65rem">
@@ -4653,11 +4653,11 @@ function openCheckInModal() {
   }
   list.forEach(v => {
     const btn = document.createElement('button');
-    btn.style.cssText = 'background:#f6f7f1;border:1px solid var(--gold-light);border-radius:8px;padding:0.55rem 0.85rem;font-family:sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.55rem;width:100%;transition:background 0.12s';
+    btn.style.cssText = 'background:#fcf0f3;border:1px solid var(--gold-light);border-radius:8px;padding:0.55rem 0.85rem;font-family:sans-serif;font-size:0.82rem;cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.55rem;width:100%;transition:background 0.12s';
     btn.innerHTML = `<span>${_venueIcon(v.name)}</span><span>${v.name}</span>`;
     btn.onclick = () => {
       document.getElementById('checkin-custom').value = '';
-      opts.querySelectorAll('button').forEach(b => { b.style.background = '#f6f7f1'; b._selected = false; });
+      opts.querySelectorAll('button').forEach(b => { b.style.background = '#fcf0f3'; b._selected = false; });
       btn.style.background = '#fde98a';
       btn._selected = true;
       btn._loc = v.name;
@@ -4831,7 +4831,7 @@ function renderMap() {
   renderVenuesAdmin();
   const locList = document.getElementById('location-list');
   locList.innerHTML = '';
-  const colors = ['#e05c5c','#5b8dee','#4caf7d','#8a9a7b','#9c5de0','#f0a500','#00b4d8','#ff6b6b'];
+  const colors = ['#e05c5c','#5b8dee','#4caf7d','#b0568a','#9c5de0','#f0a500','#00b4d8','#ff6b6b'];
   let ci = 0;
   let hasAny = false;
 
@@ -4948,7 +4948,7 @@ function renderTeamMgmt() {
     section.style.cssText = 'margin-bottom:1.25rem';
 
     const header = document.createElement('div');
-    header.style.cssText = 'display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.85rem;background:linear-gradient(135deg,#f6f7f1,#dee8d6);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light);margin-bottom:0';
+    header.style.cssText = 'display:flex;align-items:center;gap:0.6rem;padding:0.6rem 0.85rem;background:linear-gradient(135deg,#fcf0f3,#eacdd9);border:1px solid var(--gold-light);border-radius:8px 8px 0 0;border-bottom:2px solid var(--gold-light);margin-bottom:0';
     header.innerHTML = `
       <span style="font-size:1.1rem">${group.icon}</span>
       <span style="font-family:sans-serif;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-dark);font-weight:600">${group.label}</span>
