@@ -102,6 +102,11 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .section{padding:5rem 1.5rem;max-width:900px;margin:0 auto;text-align:center}
 .section-tag{font-family:sans-serif;font-size:0.7rem;letter-spacing:0.35em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem}
 .section-title{font-size:clamp(1.8rem,4vw,3rem);font-weight:400;color:var(--dark);margin-bottom:1.5rem}
+.section-title.title-flanked{position:relative;display:inline-block}
+.section-title.title-flanked::before,.section-title.title-flanked::after{content:'';position:absolute;top:50%;width:52px;height:52px;transform:translateY(-50%);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='50' height='50' viewBox='0 0 50 50'%3E%3Cg transform='translate(25,25)'%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23dcabc2' opacity='0.85'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23dcabc2' opacity='0.85' transform='rotate(72)'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23dcabc2' opacity='0.85' transform='rotate(144)'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23dcabc2' opacity='0.85' transform='rotate(216)'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23dcabc2' opacity='0.85' transform='rotate(288)'/%3E%3Ccircle cx='0' cy='0' r='4.5' fill='%238b4064'/%3E%3C/g%3E%3Cpath d='M0,-3 L0.9,-0.9 L3,0 L0.9,0.9 L0,3 L-0.9,0.9 L-3,0 L-0.9,-0.9 Z' fill='%23d4af7a' opacity='0.7' transform='translate(40,10)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-size:contain;pointer-events:none}
+.section-title.title-flanked::before{left:-64px}
+.section-title.title-flanked::after{right:-64px;transform:translateY(-50%) scaleX(-1)}
+@media(max-width:600px){.section-title.title-flanked::before,.section-title.title-flanked::after{width:34px;height:34px}.section-title.title-flanked::before{left:-38px}.section-title.title-flanked::after{right:-38px}}
 .divider{width:150px;height:22px;margin:1.2rem auto;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='22' viewBox='0 0 150 22'%3E%3Cline x1='0' y1='11' x2='58' y2='11' stroke='%23b0568a' stroke-width='1'/%3E%3Cline x1='92' y1='11' x2='150' y2='11' stroke='%23b0568a' stroke-width='1'/%3E%3Cg transform='translate(75,11)'%3E%3Cellipse cx='0' cy='-5.5' rx='3.2' ry='5.5' fill='%23b0568a' opacity='0.8'/%3E%3Cellipse cx='0' cy='5.5' rx='3.2' ry='5.5' fill='%23b0568a' opacity='0.8'/%3E%3Cellipse cx='-5.5' cy='0' rx='5.5' ry='3.2' fill='%23b0568a' opacity='0.8'/%3E%3Cellipse cx='5.5' cy='0' rx='5.5' ry='3.2' fill='%23b0568a' opacity='0.8'/%3E%3Ccircle cx='0' cy='0' r='2.6' fill='%236b2545'/%3E%3C/g%3E%3C/svg%3E");background-repeat:no-repeat;background-position:center}
 
 /* COUNTDOWN */
@@ -142,6 +147,19 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .photo-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
 .photo-strip-item{aspect-ratio:1;overflow:hidden;cursor:pointer}
 .photo-strip-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
+.home-slideshow{position:relative;width:100%;height:65vh;overflow:hidden;background:var(--dark)}
+.slideshow-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-family:sans-serif;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase}
+.home-slideshow .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease;cursor:pointer}
+.home-slideshow .slide.active{opacity:1;z-index:1}
+.home-slideshow .slide-bg{position:absolute;inset:-20px;background-size:cover;background-position:center;filter:blur(28px) brightness(0.5) saturate(1.1);transform:scale(1.15);animation:cinematicZoom 10s ease-in-out infinite alternate}
+.home-slideshow .slide-fg-wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:1}
+.home-slideshow .slide-fg{max-width:92%;max-height:88%;object-fit:contain;display:block;box-shadow:0 20px 60px rgba(0,0,0,0.45);border-radius:3px;animation:slideFadeIn 1s ease}
+@keyframes slideFadeIn{0%{opacity:0;transform:translateY(14px) scale(0.98)}100%{opacity:1;transform:translateY(0) scale(1)}}
+.home-slideshow .slide-caption{position:absolute;left:0;right:0;bottom:0;padding:2.5rem 1.5rem 3.2rem;background:linear-gradient(to top,rgba(0,0,0,0.55),transparent);color:#fff;font-family:'Georgia',serif;font-style:italic;font-size:0.95rem;text-align:center;letter-spacing:0.02em}
+.slideshow-dots{position:absolute;left:0;right:0;bottom:1.1rem;z-index:2;display:flex;justify-content:center;gap:0.55rem}
+.slideshow-dots .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s;padding:0}
+.slideshow-dots .dot.active{background:var(--gold);border-color:var(--gold);transform:scale(1.3)}
+@media(max-width:600px){.home-slideshow{height:48vh}}
 .photo-strip-item:hover img{transform:scale(1.05)}
 
 /* PARTY */
@@ -164,6 +182,11 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 #rsvp .section::before,#rsvp .section::after{content:'';position:absolute;width:170px;height:170px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170' viewBox='0 0 170 170'%3E%3Cg transform='translate(38,38)'%3E%3Cpath d='M0,0 C-11,-9.5 -11,-23 0,-27 C11,-23 11,-9.5 0,0 Z' fill='%23dcabc2' opacity='0.7'/%3E%3Cpath d='M0,0 C-11,-9.5 -11,-23 0,-27 C11,-23 11,-9.5 0,0 Z' fill='%23dcabc2' opacity='0.7' transform='rotate(72)'/%3E%3Cpath d='M0,0 C-11,-9.5 -11,-23 0,-27 C11,-23 11,-9.5 0,0 Z' fill='%23dcabc2' opacity='0.7' transform='rotate(144)'/%3E%3Cpath d='M0,0 C-11,-9.5 -11,-23 0,-27 C11,-23 11,-9.5 0,0 Z' fill='%23dcabc2' opacity='0.7' transform='rotate(216)'/%3E%3Cpath d='M0,0 C-11,-9.5 -11,-23 0,-27 C11,-23 11,-9.5 0,0 Z' fill='%23dcabc2' opacity='0.7' transform='rotate(288)'/%3E%3Ccircle cx='0' cy='0' r='7' fill='%238b4064'/%3E%3C/g%3E%3Cg transform='translate(100,28)'%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23f0d9e6' opacity='0.6'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23f0d9e6' opacity='0.6' transform='rotate(72)'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23f0d9e6' opacity='0.6' transform='rotate(144)'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23f0d9e6' opacity='0.6' transform='rotate(216)'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23f0d9e6' opacity='0.6' transform='rotate(288)'/%3E%3Ccircle cx='0' cy='0' r='4.5' fill='%23b0568a'/%3E%3C/g%3E%3Cg transform='translate(32,100)'%3E%3Cpath d='M0,0 C-7.5,-6.5 -7.5,-16 0,-18 C7.5,-16 7.5,-6.5 0,0 Z' fill='%23d9a8bf' opacity='0.65'/%3E%3Cpath d='M0,0 C-7.5,-6.5 -7.5,-16 0,-18 C7.5,-16 7.5,-6.5 0,0 Z' fill='%23d9a8bf' opacity='0.65' transform='rotate(72)'/%3E%3Cpath d='M0,0 C-7.5,-6.5 -7.5,-16 0,-18 C7.5,-16 7.5,-6.5 0,0 Z' fill='%23d9a8bf' opacity='0.65' transform='rotate(144)'/%3E%3Cpath d='M0,0 C-7.5,-6.5 -7.5,-16 0,-18 C7.5,-16 7.5,-6.5 0,0 Z' fill='%23d9a8bf' opacity='0.65' transform='rotate(216)'/%3E%3Cpath d='M0,0 C-7.5,-6.5 -7.5,-16 0,-18 C7.5,-16 7.5,-6.5 0,0 Z' fill='%23d9a8bf' opacity='0.65' transform='rotate(288)'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%236b2545'/%3E%3C/g%3E%3Cg transform='translate(105,105)'%3E%3Cpath d='M0,0 C-5,-4.5 -5,-11 0,-13 C5,-11 5,-4.5 0,0 Z' fill='%23eacdd9' opacity='0.5'/%3E%3Cpath d='M0,0 C-5,-4.5 -5,-11 0,-13 C5,-11 5,-4.5 0,0 Z' fill='%23eacdd9' opacity='0.5' transform='rotate(72)'/%3E%3Cpath d='M0,0 C-5,-4.5 -5,-11 0,-13 C5,-11 5,-4.5 0,0 Z' fill='%23eacdd9' opacity='0.5' transform='rotate(144)'/%3E%3Cpath d='M0,0 C-5,-4.5 -5,-11 0,-13 C5,-11 5,-4.5 0,0 Z' fill='%23eacdd9' opacity='0.5' transform='rotate(216)'/%3E%3Cpath d='M0,0 C-5,-4.5 -5,-11 0,-13 C5,-11 5,-4.5 0,0 Z' fill='%23eacdd9' opacity='0.5' transform='rotate(288)'/%3E%3Ccircle cx='0' cy='0' r='3' fill='%238a3f63'/%3E%3C/g%3E%3Cpath d='M0,0 C-4,-9 -4,-22 0,-27 C4,-22 4,-9 0,0 Z' fill='%238fae7a' opacity='0.35' transform='translate(68,68) rotate(30)'/%3E%3Cpath d='M0,0 C-3,-7 -3,-17 0,-21 C3,-17 3,-7 0,0 Z' fill='%238fae7a' opacity='0.35' transform='translate(70,15) rotate(-25)'/%3E%3Cpath d='M0,-5 L1.4,-1.4 L5,0 L1.4,1.4 L0,5 L-1.4,1.4 L-5,0 L-1.4,-1.4 Z' fill='%23d4af7a' opacity='0.5' transform='translate(140,70)'/%3E%3Cpath d='M0,-4 L1.1,-1.1 L4,0 L1.1,1.1 L0,4 L-1.1,1.1 L-4,0 L-1.1,-1.1 Z' fill='%23d4af7a' opacity='0.45' transform='translate(15,25)'/%3E%3Cpath d='M0,-4 L1.1,-1.1 L4,0 L1.1,1.1 L0,4 L-1.1,1.1 L-4,0 L-1.1,-1.1 Z' fill='%23d4af7a' opacity='0.45' transform='translate(75,140)'/%3E%3C/svg%3E");background-repeat:no-repeat;pointer-events:none}
 #rsvp .section::before{top:0;left:0}
 #rsvp .section::after{bottom:0;right:0;transform:scale(-1)}
+.floral-page{position:relative;z-index:0}
+.floral-page>*{position:relative;z-index:1}
+.floral-page::before,.floral-page::after{content:'';position:absolute;width:170px;height:170px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='170' height='170' viewBox='0 0 170 170'%3E%3Cg transform='translate(38,38)'%3E%3Cpath d='M0,0 C-11,-9.5 -11,-23 0,-27 C11,-23 11,-9.5 0,0 Z' fill='%23dcabc2' opacity='0.7'/%3E%3Cpath d='M0,0 C-11,-9.5 -11,-23 0,-27 C11,-23 11,-9.5 0,0 Z' fill='%23dcabc2' opacity='0.7' transform='rotate(72)'/%3E%3Cpath d='M0,0 C-11,-9.5 -11,-23 0,-27 C11,-23 11,-9.5 0,0 Z' fill='%23dcabc2' opacity='0.7' transform='rotate(144)'/%3E%3Cpath d='M0,0 C-11,-9.5 -11,-23 0,-27 C11,-23 11,-9.5 0,0 Z' fill='%23dcabc2' opacity='0.7' transform='rotate(216)'/%3E%3Cpath d='M0,0 C-11,-9.5 -11,-23 0,-27 C11,-23 11,-9.5 0,0 Z' fill='%23dcabc2' opacity='0.7' transform='rotate(288)'/%3E%3Ccircle cx='0' cy='0' r='7' fill='%238b4064'/%3E%3C/g%3E%3Cg transform='translate(100,28)'%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23f0d9e6' opacity='0.6'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23f0d9e6' opacity='0.6' transform='rotate(72)'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23f0d9e6' opacity='0.6' transform='rotate(144)'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23f0d9e6' opacity='0.6' transform='rotate(216)'/%3E%3Cpath d='M0,0 C-7,-6 -7,-15 0,-17 C7,-15 7,-6 0,0 Z' fill='%23f0d9e6' opacity='0.6' transform='rotate(288)'/%3E%3Ccircle cx='0' cy='0' r='4.5' fill='%23b0568a'/%3E%3C/g%3E%3Cg transform='translate(32,100)'%3E%3Cpath d='M0,0 C-7.5,-6.5 -7.5,-16 0,-18 C7.5,-16 7.5,-6.5 0,0 Z' fill='%23d9a8bf' opacity='0.65'/%3E%3Cpath d='M0,0 C-7.5,-6.5 -7.5,-16 0,-18 C7.5,-16 7.5,-6.5 0,0 Z' fill='%23d9a8bf' opacity='0.65' transform='rotate(72)'/%3E%3Cpath d='M0,0 C-7.5,-6.5 -7.5,-16 0,-18 C7.5,-16 7.5,-6.5 0,0 Z' fill='%23d9a8bf' opacity='0.65' transform='rotate(144)'/%3E%3Cpath d='M0,0 C-7.5,-6.5 -7.5,-16 0,-18 C7.5,-16 7.5,-6.5 0,0 Z' fill='%23d9a8bf' opacity='0.65' transform='rotate(216)'/%3E%3Cpath d='M0,0 C-7.5,-6.5 -7.5,-16 0,-18 C7.5,-16 7.5,-6.5 0,0 Z' fill='%23d9a8bf' opacity='0.65' transform='rotate(288)'/%3E%3Ccircle cx='0' cy='0' r='5' fill='%236b2545'/%3E%3C/g%3E%3Cg transform='translate(105,105)'%3E%3Cpath d='M0,0 C-5,-4.5 -5,-11 0,-13 C5,-11 5,-4.5 0,0 Z' fill='%23eacdd9' opacity='0.5'/%3E%3Cpath d='M0,0 C-5,-4.5 -5,-11 0,-13 C5,-11 5,-4.5 0,0 Z' fill='%23eacdd9' opacity='0.5' transform='rotate(72)'/%3E%3Cpath d='M0,0 C-5,-4.5 -5,-11 0,-13 C5,-11 5,-4.5 0,0 Z' fill='%23eacdd9' opacity='0.5' transform='rotate(144)'/%3E%3Cpath d='M0,0 C-5,-4.5 -5,-11 0,-13 C5,-11 5,-4.5 0,0 Z' fill='%23eacdd9' opacity='0.5' transform='rotate(216)'/%3E%3Cpath d='M0,0 C-5,-4.5 -5,-11 0,-13 C5,-11 5,-4.5 0,0 Z' fill='%23eacdd9' opacity='0.5' transform='rotate(288)'/%3E%3Ccircle cx='0' cy='0' r='3' fill='%238a3f63'/%3E%3C/g%3E%3Cpath d='M0,0 C-4,-9 -4,-22 0,-27 C4,-22 4,-9 0,0 Z' fill='%238fae7a' opacity='0.35' transform='translate(68,68) rotate(30)'/%3E%3Cpath d='M0,0 C-3,-7 -3,-17 0,-21 C3,-17 3,-7 0,0 Z' fill='%238fae7a' opacity='0.35' transform='translate(70,15) rotate(-25)'/%3E%3Cpath d='M0,-5 L1.4,-1.4 L5,0 L1.4,1.4 L0,5 L-1.4,1.4 L-5,0 L-1.4,-1.4 Z' fill='%23d4af7a' opacity='0.5' transform='translate(140,70)'/%3E%3Cpath d='M0,-4 L1.1,-1.1 L4,0 L1.1,1.1 L0,4 L-1.1,1.1 L-4,0 L-1.1,-1.1 Z' fill='%23d4af7a' opacity='0.45' transform='translate(15,25)'/%3E%3Cpath d='M0,-4 L1.1,-1.1 L4,0 L1.1,1.1 L0,4 L-1.1,1.1 L-4,0 L-1.1,-1.1 Z' fill='%23d4af7a' opacity='0.45' transform='translate(75,140)'/%3E%3C/svg%3E");background-repeat:no-repeat;pointer-events:none}
+.floral-page::before{top:0;left:0}
+.floral-page::after{bottom:0;right:0;transform:scale(-1)}
 .form-group{margin-bottom:1.5rem}
 .form-group label{display:block;font-family:sans-serif;font-size:0.72rem;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-bottom:0.5rem}
 .form-group input,.form-group select,.form-group textarea{width:100%;padding:0.75rem 1rem;border:1px solid #ddd;background:var(--white);font-family:'Georgia',serif;font-size:1rem;color:var(--text);outline:none;transition:border-color 0.2s;border-radius:2px;-webkit-appearance:none;appearance:none}
@@ -339,11 +362,10 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <ul id="navMenu">
       <li><a href="#" class="active" onclick="show('home',this);return false">Home</a></li>
       <li><a href="#" onclick="show('story',this);return false">Our Story</a></li>
-      <li><a href="#" onclick="show('party',this);return false">Wedding Party</a></li>
+      <li><a href="#" onclick="show('party',this);return false">Wedding Team</a></li>
       <li><a href="#" onclick="show('rsvp',this);return false">RSVP</a></li>
       <li><a href="#" onclick="show('photos',this);return false">Photos</a></li>
       <li><a href="#" onclick="show('qa',this);return false">Q&amp;A</a></li>
-      <li><a href="team.html">Team</a></li>
     </ul>
     <button id="musicToggle" onclick="toggleMusic()" style="background:none; border:none; color:var(--gold); font-size:1.1rem; cursor:pointer; padding:0;" aria-label="Toggle Music">🔊</button>
     <button class="hamburger" onclick="document.getElementById('navMenu').classList.toggle('open')" aria-label="Menu">
@@ -380,11 +402,9 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
 
-  <div class="photo-strip">
-    <div class="photo-strip-item"><img src="photo2.jpg" alt="" style="object-position:center 30%" onclick="openLightbox('photo2.jpg')"/></div>
-    <div class="photo-strip-item"><img src="photo3.jpg" alt="" onclick="openLightbox('photo3.jpg')"/></div>
-    <div class="photo-strip-item"><img src="photo5.jpg" alt="" style="object-position:center 75%" onclick="openLightbox('photo5.jpg')"/></div>
-    <div class="photo-strip-item"><img src="photo7.jpg" alt="" onclick="openLightbox('photo7.jpg')"/></div>
+  <div class="home-slideshow" id="homeSlideshow">
+    <div class="slideshow-loading" id="slideshowLoading">Loading photos…</div>
+    <div class="slideshow-dots" id="slideshowDots"></div>
   </div>
 
   <!-- SHARE MEMORIES (HOME) -->
@@ -440,10 +460,10 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </div>
 
 <!-- OUR STORY -->
-<div id="story" class="page">
+<div id="story" class="page floral-page">
   <div class="section" style="padding-bottom:2rem">
     <p class="section-tag">How It All Began</p>
-    <h2 class="section-title">Our Story</h2>
+    <h2 class="section-title title-flanked">Our Story</h2>
     <div class="divider"></div>
   </div>
   <div style="padding:0 2rem 5rem;max-width:800px;margin:0 auto">
@@ -475,10 +495,10 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </div>
 
 <!-- WEDDING PARTY -->
-<div id="party" class="page">
+<div id="party" class="page floral-page">
   <div class="section">
     <p class="section-tag">The Ones Who Made It Possible</p>
-    <h2 class="section-title">Wedding Party</h2>
+    <h2 class="section-title title-flanked">Wedding Team</h2>
     <div class="divider"></div>
     <div class="party-section-title" style="border-top:none;padding-top:0;margin-top:0">Groomsmen</div>
     <div class="party-grid">
@@ -494,6 +514,12 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="party-card"><div class="party-avatar-wrap"><img src="helu.jpg" alt="Helu"/></div><div class="name">Helu</div><div class="role">Bridesmaid</div></div>
       <div class="party-card"><div class="party-avatar-wrap"><img src="lily.jpg" alt="Lily"/></div><div class="name">Lily</div><div class="role">Bridesmaid</div></div>
     </div>
+    <div class="party-section-title">Protocol Team</div>
+    <div class="party-grid">
+      <div class="party-card"><div class="party-monogram"><span>M</span></div><div class="name">Mulu</div><div class="role">Master of Protocol</div></div>
+      <div class="party-card"><div class="party-avatar-wrap"><img src="feven.jpg" alt="Feven"/></div><div class="name">Feven</div><div class="role">Protocol</div></div>
+      <div class="party-card"><div class="party-monogram"><span>B</span></div><div class="name">Blen</div><div class="role">Protocol</div></div>
+    </div>
   </div>
 </div>
 
@@ -501,7 +527,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 <div id="rsvp" class="page">
   <div class="section">
     <p class="section-tag">Kindly Reply By August 22, 2026</p>
-    <h2 class="section-title">RSVP</h2>
+    <h2 class="section-title title-flanked">RSVP</h2>
     <div class="divider"></div>
     <p style="color:var(--muted);font-size:0.92rem;margin-bottom:2rem;line-height:1.8">We would be so honored to have you celebrate with us!</p>
     <div id="rsvpForm" class="rsvp-form">
@@ -517,10 +543,10 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </div>
 
 <!-- PHOTOS -->
-<div id="photos" class="page">
+<div id="photos" class="page floral-page">
   <div class="section">
     <p class="section-tag">Our Memories</p>
-    <h2 class="section-title">Photos &amp; Videos</h2>
+    <h2 class="section-title title-flanked">Photos &amp; Videos</h2>
     <div class="divider"></div>
 
     <!-- Filter + Legend bar -->
@@ -566,10 +592,10 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </div>
 
 <!-- Q&A -->
-<div id="qa" class="page">
+<div id="qa" class="page floral-page">
   <div class="section">
     <p class="section-tag">Everything You Need to Know</p>
-    <h2 class="section-title">Questions &amp; Answers</h2>
+    <h2 class="section-title title-flanked">Questions &amp; Answers</h2>
     <div class="divider"></div>
     <div class="qa-list">
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div><div class="qa-a">We kindly ask all guests to dress in <strong>white or silver</strong> attire — formal or semi-formal. Please avoid bright colors. Let's keep the look elegant and cohesive!</div></div>
@@ -751,6 +777,84 @@ async function submitRSVP() {
     alert('Something went wrong. Please try again.');
   }
 }
+
+/* ── HOME SLIDESHOW ──────────────────────────────────────────────────────── */
+const SLIDESHOW_FOLDER = 'slideshow';
+const SLIDESHOW_REPO_API = 'https://api.github.com/repos/mastad/mas-elsa-wedding/contents/' + SLIDESHOW_FOLDER + '?ref=main';
+const SLIDESHOW_FALLBACK = ['photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg','photo5.jpg','photo6.jpg','photo7.jpg','photo12.jpg'];
+let homeSlideIdx = 0;
+let homeSlideTimer = null;
+
+async function loadSlideshowPhotos() {
+  let names = null;
+  try {
+    const res = await fetch(SLIDESHOW_REPO_API, { headers: { Accept: 'application/vnd.github.v3+json' } });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        names = data
+          .filter(f => f.type === 'file' && /\.(jpe?g|png|webp)$/i.test(f.name))
+          .map(f => f.name)
+          .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
+      }
+    }
+  } catch (e) {
+    console.warn('Slideshow folder listing failed, using fallback:', e);
+  }
+  if (!names || names.length === 0) names = SLIDESHOW_FALLBACK;
+  buildSlideshow(names);
+}
+
+function buildSlideshow(names) {
+  const wrap = document.getElementById('homeSlideshow');
+  const loading = document.getElementById('slideshowLoading');
+  const dotsWrap = document.getElementById('slideshowDots');
+  if (!wrap) return;
+
+  names.forEach((name, i) => {
+    const src = SLIDESHOW_FOLDER + '/' + name;
+    const slide = document.createElement('div');
+    slide.className = 'slide' + (i === 0 ? ' active' : '');
+    slide.onclick = () => openLightbox(src);
+    slide.innerHTML = `<div class="slide-bg" style="background-image:url('${src}')"></div><div class="slide-fg-wrap"><img class="slide-fg" src="${src}" alt=""/></div>`;
+    wrap.insertBefore(slide, dotsWrap);
+
+    const dot = document.createElement('button');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+    dot.onclick = () => goToHomeSlide(i);
+    dotsWrap.appendChild(dot);
+  });
+
+  if (loading) loading.remove();
+  restartHomeSlideshow();
+}
+
+function setHomeSlide(idx) {
+  const wrap = document.getElementById('homeSlideshow');
+  if (!wrap) return;
+  const slides = wrap.querySelectorAll('.slide');
+  const dots = wrap.querySelectorAll('.dot');
+  slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+  homeSlideIdx = idx;
+}
+function goToHomeSlide(idx) {
+  setHomeSlide(idx);
+  restartHomeSlideshow();
+}
+function advanceHomeSlide() {
+  const wrap = document.getElementById('homeSlideshow');
+  if (!wrap) return;
+  const total = wrap.querySelectorAll('.slide').length;
+  if (total === 0) return;
+  setHomeSlide((homeSlideIdx + 1) % total);
+}
+function restartHomeSlideshow() {
+  if (homeSlideTimer) clearInterval(homeSlideTimer);
+  homeSlideTimer = setInterval(advanceHomeSlide, 4500);
+}
+loadSlideshowPhotos();
 
 /* ── LIGHTBOX ────────────────────────────────────────────────────────────── */
 function openLightbox(src) {
