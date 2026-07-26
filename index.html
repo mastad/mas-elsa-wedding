@@ -87,7 +87,7 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .hero-eyebrow{font-family:sans-serif;font-size:0.68rem;letter-spacing:0.35em;color:#b0568a;text-transform:uppercase;margin-bottom:0.75rem}
 .hero-names{font-size:clamp(1.8rem,5vw,3.2rem);font-weight:400;color:#1a1a1a;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.5rem;line-height:1.1}
 .hero-amp{color:#b0568a;font-style:italic}
-.hero-date{font-family:sans-serif;font-size:0.75rem;letter-spacing:0.2em;color:#888;text-transform:uppercase;margin-bottom:1rem}
+.hero-date{font-family:'Georgia',serif;font-style:italic;font-size:1.05rem;letter-spacing:0.03em;color:#7a7a7a;text-transform:none;margin-bottom:1rem}
 .hero-divider{width:50px;height:1px;background:#f0d9e6;margin:0 auto 1.2rem}
 .hero-verse{font-style:italic;color:#666;font-size:0.9rem;max-width:380px;line-height:1.9;margin:0 auto 2rem}
 .hero-scroll{display:flex;flex-direction:column;align-items:center;gap:0.4rem;margin-top:0.5rem;cursor:pointer;opacity:0.5}
@@ -114,6 +114,11 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .count-box{text-align:center}
 .count-num{font-size:3rem;font-weight:400;color:var(--dark);line-height:1}
 .count-lbl{font-family:sans-serif;font-size:0.7rem;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:0.25rem}
+@media(max-width:420px){
+  .countdown{gap:0.6rem;flex-wrap:nowrap}
+  .count-num{font-size:1.7rem}
+  .count-lbl{font-size:0.55rem;letter-spacing:0.1em}
+}
 
 /* TIMELINE */
 .view-songs-btn:hover{transform:scale(1.05);opacity:0.9}
@@ -325,7 +330,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 
 <!-- music -->
 <audio id="bgMusic" loop>
-  <source src="music.mp3" type="audio/mpeg">
+  <source src="He's Done Wonders for Me.mp3" type="audio/mpeg">
   Your browser does not support the audio element.
 </audio>
 
@@ -387,6 +392,28 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="hero-divider"></div>
       <p class="hero-verse">"And now these three remain: faith, hope and love. But the greatest of these is love." — 1 Corinthians 13:13</p>
       <a class="btn btn-solid" href="#" onclick="show('rsvp',null);return false" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">RSVP Now</a>
+    </div>
+  </div>
+
+  <!-- EVENT TIMELINE -->
+  <div style="background:var(--section-alt);padding:5rem 1.5rem 0">
+    <div style="max-width:900px;margin:0 auto;text-align:center">
+      <p class="section-tag">The Day's Events</p>
+      <h2 class="section-title">Order of Events</h2>
+      <p style="font-family:sans-serif;font-size:0.78rem;color:var(--gold);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.5rem">September 19, 2026 · Washington, DC</p>
+      <div class="divider"></div>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name">Ceremony Begins</div><div class="tl-venue">Mt Horeb Baptist Church — Doors open, please be seated</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name">Bride &amp; Groom Arrive</div><div class="tl-venue">Grand entrance of the couple</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name">Spiritual Ceremony</div><div class="tl-venue">Ethiopian Orthodox Tewahedo — Wereb &amp; Kene</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name">Food &amp; Drinks Served</div><div class="tl-venue">Dinner and drinks served</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Mezmure <span onclick="openMezmureModal()" class="view-songs-btn" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;animation:songBtnPulse 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:0.3rem;box-shadow:0 0 0 0 rgba(176,86,138,0.5)">♪ View Songs</span></div><div class="tl-venue">Ethiopian spiritual songs &amp; celebration</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name">Kene</div><div class="tl-venue">Traditional Ethiopian poetry recitation</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name">Cake Cutting 🎂</div><div class="tl-venue">Cake time + Mezmure continues</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name">Family Speeches</div><div class="tl-venue">Heartfelt words from loved ones</div></div></div>
+        <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-name" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap">Closing Mezmure <span onclick="openMezmureModal()" class="view-songs-btn" style="font-family:sans-serif;font-size:0.65rem;letter-spacing:0.1em;background:var(--gold);color:#fff;padding:0.2rem 0.55rem;border-radius:20px;cursor:pointer;text-transform:uppercase;animation:songBtnPulse 2s ease-in-out infinite;display:inline-flex;align-items:center;gap:0.3rem;box-shadow:0 0 0 0 rgba(176,86,138,0.5)">♪ View Songs</span></div><div class="tl-venue">Final celebration to close the evening</div></div></div>
+      </div>
+      <p style="font-family:sans-serif;font-size:0.72rem;color:var(--muted);margin-top:2.5rem;letter-spacing:0.05em;font-style:italic">✦ A detailed schedule will be shared closer to the day</p>
     </div>
   </div>
 
@@ -503,7 +530,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div class="party-section-title" style="border-top:none;padding-top:0;margin-top:0">Groomsmen</div>
     <div class="party-grid">
       <div class="party-card"><div class="party-monogram"><span>D</span></div><div class="name">Dave</div><div class="role">Best Man</div></div>
-      <div class="party-card"><div class="party-monogram"><span>M</span></div><div class="name">Mule</div><div class="role">Groomsman</div></div>
+      <div class="party-card"><div class="party-avatar-wrap"><img src="mule.jpg" alt="Mule"/></div><div class="name">Mule</div><div class="role">Groomsman</div></div>
       <div class="party-card"><div class="party-monogram"><span>B</span></div><div class="name">Bre</div><div class="role">Groomsman</div></div>
       <div class="party-card"><div class="party-monogram"><span>J</span></div><div class="name">Jojo</div><div class="role">Groomsman</div></div>
     </div>
