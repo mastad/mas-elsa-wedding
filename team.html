@@ -1515,7 +1515,7 @@ header{background:linear-gradient(135deg,#1a1a1a 0%,#2e1420 100%);padding:1.2rem
       <div class="pin-wrap">
         <div style="font-size:2.5rem;margin-bottom:0.75rem">🔐</div>
         <div class="pin-name">Admin Dashboard</div>
-        <div class="pin-role" style="margin-bottom:1.2rem">Mas &amp; Elsa only</div>
+        <div class="pin-role" style="margin-bottom:1.2rem">Masresha &amp; Elsa only</div>
         <input class="pin-input" id="admin-pin-input" type="password" inputmode="numeric" maxlength="4" placeholder="••••"
           onkeydown="if(event.key==='Enter') submitAdminPin()"/>
         <p class="pin-error" id="admin-pin-error">❌ Incorrect password.</p>
@@ -2217,7 +2217,7 @@ function openAdmin() {
   if (grid) grid.style.display = 'block';
 
   renderOverviewGrid();
-  showToast('success', 'Admin Access', 'Welcome, Mas & Elsa 👑', 3000);
+  showToast('success', 'Admin Access', 'Welcome, Masresha & Elsa 👑', 3000);
 }
 
 /* TASK VIEW */
@@ -5146,7 +5146,7 @@ function remindRole(role) {
   const group = ROLE_GROUPS[role];
   const members = group.ids.map(id => TEAM[id]);
   const weddingDate = 'September 19, 2026 at 1:00 PM';
-  const msg = `Hi! 👋 This is a reminder from Mas & Elsa's wedding team.\n\nWedding day is ${weddingDate} at Mt Horeb Baptist Church, Washington DC.\n\nPlease check your tasks and make sure you're ready. Thank you! 🙏💍`;
+  const msg = `Hi! 👋 This is a reminder from Masresha & Elsa's wedding team.\n\nWedding day is ${weddingDate} at Mt Horeb Baptist Church, Washington DC.\n\nPlease check your tasks and make sure you're ready. Thank you! 🙏💍`;
 
   document.getElementById('remind-modal-title').textContent = `Remind ${group.label}`;
   document.getElementById('remind-msg-preview').textContent = msg;
