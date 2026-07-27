@@ -843,11 +843,13 @@ function buildSlideshow(names) {
   const dotsWrap = document.getElementById('slideshowDots');
   if (!wrap) return;
 
+  const slideshowLightboxItems = names.map(name => ({ src: SLIDESHOW_FOLDER + '/' + name, type: 'image' }));
+
   names.forEach((name, i) => {
     const src = SLIDESHOW_FOLDER + '/' + name;
     const slide = document.createElement('div');
     slide.className = 'slide' + (i === 0 ? ' active' : '');
-    slide.onclick = () => openLightbox(src);
+    slide.onclick = () => openLightbox(src, slideshowLightboxItems);
     slide.innerHTML = `<div class="slide-bg" style="background-image:url('${src}')"></div><div class="slide-fg-wrap"><img class="slide-fg" src="${src}" alt=""/></div>`;
     wrap.insertBefore(slide, dotsWrap);
 
@@ -889,30 +891,32 @@ function restartHomeSlideshow() {
 loadSlideshowPhotos();
 
 /* ── LIGHTBOX ────────────────────────────────────────────────────────────── */
-let lightboxItems = [];
+let lightboxItems = [];        // main photos-page gallery (kept in sync by renderGallery)
+let activeLightboxList = [];   // list the currently-open lightbox navigates through
 let lightboxIndex = -1;
 
-function openLightbox(src) {
-  lightboxIndex = lightboxItems.findIndex(it => it.src === src && (it.type || 'image') === 'image');
-  renderLightboxMedia(lightboxIndex > -1 ? lightboxItems[lightboxIndex] : { src, type: 'image' });
+function openLightbox(src, list) {
+  activeLightboxList = list || lightboxItems;
+  lightboxIndex = activeLightboxList.findIndex(it => it.src === src && (it.type || 'image') === 'image');
+  renderLightboxMedia(lightboxIndex > -1 ? activeLightboxList[lightboxIndex] : { src, type: 'image' });
 }
 function renderLightboxMedia(item) {
   const lb = document.getElementById('lightbox');
-  const hasNav = lightboxIndex > -1 && lightboxItems.length > 1;
+  const hasNav = lightboxIndex > -1 && activeLightboxList.length > 1;
   const media = item.type === 'video'
     ? `<video src="${item.src}" controls autoplay style="max-width:90vw;max-height:90vh;border-radius:2px"></video>`
     : `<img src="${item.src}" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:2px"/>`;
   lb.innerHTML = `<button class="lightbox-close" onclick="closeLightbox()">✕</button>${
     hasNav ? `<button class="lightbox-nav prev" onclick="event.stopPropagation();lightboxStep(-1)">‹</button>` : ''
   }${media}${
-    hasNav ? `<button class="lightbox-nav next" onclick="event.stopPropagation();lightboxStep(1)">›</button><div class="lightbox-counter">${lightboxIndex + 1} / ${lightboxItems.length}</div>` : ''
+    hasNav ? `<button class="lightbox-nav next" onclick="event.stopPropagation();lightboxStep(1)">›</button><div class="lightbox-counter">${lightboxIndex + 1} / ${activeLightboxList.length}</div>` : ''
   }`;
   lb.classList.add('open');
 }
 function lightboxStep(dir) {
-  if (lightboxIndex === -1 || lightboxItems.length === 0) return;
-  lightboxIndex = (lightboxIndex + dir + lightboxItems.length) % lightboxItems.length;
-  renderLightboxMedia(lightboxItems[lightboxIndex]);
+  if (lightboxIndex === -1 || activeLightboxList.length === 0) return;
+  lightboxIndex = (lightboxIndex + dir + activeLightboxList.length) % activeLightboxList.length;
+  renderLightboxMedia(activeLightboxList[lightboxIndex]);
 }
 document.addEventListener('keydown', (e) => {
   const lb = document.getElementById('lightbox');
@@ -1314,9 +1318,10 @@ function uploadToCloudinary(file, onProgress) {
 }
 
 /* ── LIGHTBOX (extended for video) ──────────────────────────────────────── */
-function openLightboxVideo(src) {
-  lightboxIndex = lightboxItems.findIndex(it => it.src === src && it.type === 'video');
-  renderLightboxMedia(lightboxIndex > -1 ? lightboxItems[lightboxIndex] : { src, type: 'video' });
+function openLightboxVideo(src, list) {
+  activeLightboxList = list || lightboxItems;
+  lightboxIndex = activeLightboxList.findIndex(it => it.src === src && it.type === 'video');
+  renderLightboxMedia(lightboxIndex > -1 ? activeLightboxList[lightboxIndex] : { src, type: 'video' });
 }
 function closeLightbox() {
   const lb = document.getElementById('lightbox');
