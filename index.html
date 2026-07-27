@@ -242,10 +242,16 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .share-tab.active,.share-tab:hover{background:var(--gold);border-color:var(--gold);color:#fff}
 
 /* LIGHTBOX */
-.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;align-items:center;justify-content:center}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;align-items:center;justify-content:center;touch-action:pan-y}
 .lightbox.open{display:flex}
 .lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:2px}
-.lightbox-close{position:absolute;top:1.5rem;right:2rem;font-size:2rem;color:#fff;cursor:pointer;background:none;border:none}
+.lightbox-close{position:absolute;top:1.5rem;right:2rem;font-size:2rem;color:#fff;cursor:pointer;background:none;border:none;z-index:2}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.12);border:none;color:#fff;font-size:1.5rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.2s;z-index:2}
+.lightbox-nav:hover{background:rgba(255,255,255,0.25)}
+.lightbox-nav.prev{left:1rem}
+.lightbox-nav.next{right:1rem}
+@media(max-width:600px){.lightbox-nav{width:40px;height:40px;font-size:1.2rem}.lightbox-nav.prev{left:0.4rem}.lightbox-nav.next{right:0.4rem}}
+.lightbox-counter{position:absolute;bottom:1.25rem;left:0;right:0;text-align:center;color:rgba(255,255,255,0.75);font-family:sans-serif;font-size:0.78rem;letter-spacing:0.08em;z-index:2}
 
 /* QA */
 .qa-list{max-width:640px;margin:2rem auto;text-align:left}
@@ -625,11 +631,10 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <h2 class="section-title title-flanked">Questions &amp; Answers</h2>
     <div class="divider"></div>
     <div class="qa-list">
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div><div class="qa-a">We kindly ask all guests to dress in <strong>white or silver</strong> attire — formal or semi-formal. Please avoid bright colors. Let's keep the look elegant and cohesive!</div></div>
-      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Are children allowed? <span class="arrow">▾</span></div><div class="qa-a">Children are welcome! However, parents are fully responsible for supervising their children throughout the event.</div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where is the venue? <span class="arrow">▾</span></div><div class="qa-a">Mt Horeb Baptist Church, 2914 Bladensburg Rd NE, Washington, DC 20018. <a href="https://maps.google.com/?q=2914+Bladensburg+Rd+NE+Washington+DC+20018" target="_blank" style="color:var(--gold);text-decoration:underline">📍 View on Map</a></div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where should I park? <span class="arrow">▾</span></div><div class="qa-a">Parking at the venue itself is limited, so please park at Debre Meheret Kedus Michael Ethiopian Orthodox Cathedral, 3010 Earl Pl NE, Washington, DC 20018, directly in front of the venue — this is the main parking spot for guests. <a href="https://maps.google.com/?q=3010+Earl+Pl+NE+Washington+DC+20018" target="_blank" style="color:var(--gold);text-decoration:underline">📍 View on Map</a></div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">When should I RSVP by? <span class="arrow">▾</span></div><div class="qa-a">Please RSVP by August 22, 2026. We appreciate your timely response!</div></div>
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Are children allowed? <span class="arrow">▾</span></div><div class="qa-a">Children are welcome! However, parents are fully responsible for supervising their children throughout the event.</div></div>
     </div>
   </div>
 </div>
@@ -884,11 +889,51 @@ function restartHomeSlideshow() {
 loadSlideshowPhotos();
 
 /* ── LIGHTBOX ────────────────────────────────────────────────────────────── */
+let lightboxItems = [];
+let lightboxIndex = -1;
+
 function openLightbox(src) {
+  lightboxIndex = lightboxItems.findIndex(it => it.src === src && (it.type || 'image') === 'image');
+  renderLightboxMedia(lightboxIndex > -1 ? lightboxItems[lightboxIndex] : { src, type: 'image' });
+}
+function renderLightboxMedia(item) {
   const lb = document.getElementById('lightbox');
-  lb.innerHTML = `<button class="lightbox-close" onclick="closeLightbox()">✕</button><img src="${src}" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:2px"/>`;
+  const hasNav = lightboxIndex > -1 && lightboxItems.length > 1;
+  const media = item.type === 'video'
+    ? `<video src="${item.src}" controls autoplay style="max-width:90vw;max-height:90vh;border-radius:2px"></video>`
+    : `<img src="${item.src}" alt="" style="max-width:90vw;max-height:90vh;object-fit:contain;border-radius:2px"/>`;
+  lb.innerHTML = `<button class="lightbox-close" onclick="closeLightbox()">✕</button>${
+    hasNav ? `<button class="lightbox-nav prev" onclick="event.stopPropagation();lightboxStep(-1)">‹</button>` : ''
+  }${media}${
+    hasNav ? `<button class="lightbox-nav next" onclick="event.stopPropagation();lightboxStep(1)">›</button><div class="lightbox-counter">${lightboxIndex + 1} / ${lightboxItems.length}</div>` : ''
+  }`;
   lb.classList.add('open');
 }
+function lightboxStep(dir) {
+  if (lightboxIndex === -1 || lightboxItems.length === 0) return;
+  lightboxIndex = (lightboxIndex + dir + lightboxItems.length) % lightboxItems.length;
+  renderLightboxMedia(lightboxItems[lightboxIndex]);
+}
+document.addEventListener('keydown', (e) => {
+  const lb = document.getElementById('lightbox');
+  if (!lb || !lb.classList.contains('open')) return;
+  if (e.key === 'ArrowLeft') lightboxStep(-1);
+  else if (e.key === 'ArrowRight') lightboxStep(1);
+  else if (e.key === 'Escape') closeLightbox();
+});
+(function setupLightboxSwipe() {
+  const lb = document.getElementById('lightbox');
+  if (!lb) return;
+  let startX = null;
+  lb.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener('touchend', (e) => {
+    if (startX === null) return;
+    const dx = e.changedTouches[0].clientX - startX;
+    startX = null;
+    if (Math.abs(dx) < 40) return;
+    lightboxStep(dx > 0 ? -1 : 1);
+  }, { passive: true });
+})();
 
 /* ── GALLERY STATE ───────────────────────────────────────────────────────── */
 // Default couple photos — used only if JSONBin has none yet
@@ -1004,6 +1049,8 @@ function renderGallery() {
     return;
   }
   if (emptyMsg) emptyMsg.style.display = 'none';
+
+  lightboxItems = items;
 
   items.forEach(item => {
     const cell = document.createElement('div');
@@ -1268,13 +1315,13 @@ function uploadToCloudinary(file, onProgress) {
 
 /* ── LIGHTBOX (extended for video) ──────────────────────────────────────── */
 function openLightboxVideo(src) {
-  const lb = document.getElementById('lightbox');
-  lb.innerHTML = `<button class="lightbox-close" onclick="closeLightbox()">✕</button><video src="${src}" controls autoplay style="max-width:90vw;max-height:90vh;border-radius:2px"></video>`;
-  lb.classList.add('open');
+  lightboxIndex = lightboxItems.findIndex(it => it.src === src && it.type === 'video');
+  renderLightboxMedia(lightboxIndex > -1 ? lightboxItems[lightboxIndex] : { src, type: 'video' });
 }
 function closeLightbox() {
   const lb = document.getElementById('lightbox');
   lb.classList.remove('open');
+  lightboxIndex = -1;
   // Restore default lightbox structure
   lb.innerHTML = `<button class="lightbox-close">✕</button><img id="lightbox-img" src="" alt=""/>`;
   lb.querySelector('.lightbox-close').onclick = closeLightbox;
