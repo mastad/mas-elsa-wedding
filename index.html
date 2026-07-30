@@ -119,7 +119,7 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .btn-solid{background:var(--gold);color:var(--white);border-color:var(--gold)}
 .btn-solid:hover{background:var(--gold-dark)}
 .cal-wrap{position:relative;display:inline-block}
-.cal-menu{display:none;position:absolute;top:calc(100% + 0.6rem);left:50%;transform:translateX(-50%);background:var(--white);border:1px solid var(--gold-light);border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.15);min-width:210px;z-index:20;overflow:hidden;text-align:left}
+.cal-menu{display:none;position:fixed;background:var(--white);border:1px solid var(--gold-light);border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.15);min-width:210px;z-index:9997;overflow:hidden;text-align:left}
 .cal-menu.open{display:block}
 .cal-menu a{display:block;padding:0.8rem 1.1rem;font-family:sans-serif;font-size:0.78rem;color:var(--text);text-decoration:none;transition:background 0.2s}
 .cal-menu a:hover{background:var(--section-alt);color:var(--gold-dark)}
@@ -690,6 +690,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <h2 class="section-title title-flanked">Questions &amp; Answers</h2>
     <div class="divider"></div>
     <div class="qa-list">
+      <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">What is the dress code? <span class="arrow">▾</span></div><div class="qa-a">Traditional Ethiopian attire preferred</div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where is the venue? <span class="arrow">▾</span></div><div class="qa-a">Mt Horeb Baptist Church, 2914 Bladensburg Rd NE, Washington, DC 20018. <a href="https://maps.google.com/?q=2914+Bladensburg+Rd+NE+Washington+DC+20018" target="_blank" style="color:var(--gold);text-decoration:underline">📍 View on Map</a></div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">Where should I park? <span class="arrow">▾</span></div><div class="qa-a">Parking at the venue itself is limited, so please park at Debre Meheret Kedus Michael Ethiopian Orthodox Cathedral, 3010 Earl Pl NE, Washington, DC 20018, directly in front of the venue — this is the main parking spot for guests. <a href="https://maps.google.com/?q=3010+Earl+Pl+NE+Washington+DC+20018" target="_blank" style="color:var(--gold);text-decoration:underline">📍 View on Map</a></div></div>
       <div class="qa-item"><div class="qa-q" onclick="toggleQA(this)">When should I RSVP by? <span class="arrow">▾</span></div><div class="qa-a">Please RSVP by August 29, 2026. We appreciate your timely response!</div></div>
@@ -829,8 +830,21 @@ const WEDDING_EVENT = {
   endUTC: '20260919T230000Z'
 };
 function toggleCalendarMenu(id) {
-  document.querySelectorAll('.cal-menu').forEach(m => { if (m.id !== id) m.classList.remove('open'); });
-  document.getElementById(id).classList.toggle('open');
+  const menu = document.getElementById(id);
+  const wasOpen = menu.classList.contains('open');
+  document.querySelectorAll('.cal-menu').forEach(m => m.classList.remove('open'));
+  if (wasOpen) return;
+
+  const btn = menu.previousElementSibling;
+  const r = btn.getBoundingClientRect();
+  menu.classList.add('open');
+  const menuWidth = menu.offsetWidth;
+  let left = r.left + (r.width / 2) - (menuWidth / 2);
+  left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
+  let top = r.bottom + 10;
+  if (top + menu.offsetHeight > window.innerHeight - 8) top = r.top - menu.offsetHeight - 10;
+  menu.style.left = left + 'px';
+  menu.style.top = top + 'px';
 }
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.cal-wrap')) document.querySelectorAll('.cal-menu').forEach(m => m.classList.remove('open'));
