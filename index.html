@@ -588,7 +588,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div class="party-grid">
       <div class="party-card"><div class="party-avatar-wrap"><img src="team/mulu.jpg" alt="Mulu" loading="lazy"/></div><div class="name">Mulu</div><div class="role">Master of Protocol</div></div>
       <div class="party-card"><div class="party-avatar-wrap"><img src="team/feven.jpg" alt="Feven" loading="lazy"/></div><div class="name">Feven</div><div class="role">Protocol</div></div>
-      <div class="party-card"><div class="party-monogram"><span>B</span></div><div class="name">Blen</div><div class="role">Protocol</div></div>
+      <div class="party-card"><div class="party-avatar-wrap"><img src="team/blen.jpg" alt="Blen" loading="lazy"/></div><div class="name">Blen</div><div class="role">Protocol</div></div>
     </div>
   </div>
 </div>
@@ -835,19 +835,35 @@ function toggleCalendarMenu(id) {
   document.querySelectorAll('.cal-menu').forEach(m => m.classList.remove('open'));
   if (wasOpen) return;
 
+  // visualViewport reflects the true visible area on mobile even while the
+  // browser's address bar is animating in/out; innerWidth/innerHeight can be
+  // briefly stale right after a tap and cause the menu to misjudge available space.
+  const vv = window.visualViewport;
+  const viewportWidth  = vv ? vv.width  : window.innerWidth;
+  const viewportHeight = vv ? vv.height : window.innerHeight;
+  const viewportOffsetTop = vv ? vv.offsetTop : 0;
+
   const btn = menu.previousElementSibling;
   const r = btn.getBoundingClientRect();
   menu.classList.add('open');
   const menuWidth = menu.offsetWidth;
   let left = r.left + (r.width / 2) - (menuWidth / 2);
-  left = Math.max(8, Math.min(left, window.innerWidth - menuWidth - 8));
+  left = Math.max(8, Math.min(left, viewportWidth - menuWidth - 8));
   let top = r.bottom + 10;
-  if (top + menu.offsetHeight > window.innerHeight - 8) top = r.top - menu.offsetHeight - 10;
+  if (top + menu.offsetHeight > viewportOffsetTop + viewportHeight - 8) top = r.top - menu.offsetHeight - 10;
   menu.style.left = left + 'px';
   menu.style.top = top + 'px';
 }
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.cal-wrap')) document.querySelectorAll('.cal-menu').forEach(m => m.classList.remove('open'));
+});
+// Close on scroll instead of letting a position:fixed menu float disconnected
+// from the button that opened it.
+window.addEventListener('scroll', () => {
+  document.querySelectorAll('.cal-menu.open').forEach(m => m.classList.remove('open'));
+}, { passive: true, capture: true });
+window.addEventListener('resize', () => {
+  document.querySelectorAll('.cal-menu.open').forEach(m => m.classList.remove('open'));
 });
 function addToGoogleCalendar() {
   const url = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
