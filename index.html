@@ -119,6 +119,8 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .btn-solid{background:var(--gold);color:var(--white);border-color:var(--gold)}
 .btn-solid:hover{background:var(--gold-dark)}
 .cal-wrap{position:relative;display:inline-block}
+.cal-backdrop{display:none;position:fixed;inset:0;background:rgba(20,10,15,0.45);z-index:9996}
+.cal-backdrop.open{display:block}
 .cal-menu{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--white);border:1px solid var(--gold-light);border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,0.3);min-width:220px;z-index:9997;overflow:hidden;text-align:left}
 .cal-menu.open{display:block}
 .cal-menu a{display:block;padding:0.8rem 1.1rem;font-family:sans-serif;font-size:0.78rem;color:var(--text);text-decoration:none;transition:background 0.2s}
@@ -369,6 +371,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 </audio>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()"></div>
+<div class="cal-backdrop" id="calBackdrop"></div>
 
 <!-- SPLASH -->
 <div id="splash">
@@ -822,12 +825,28 @@ const WEDDING_EVENT = {
 // scroll position, or viewport quirks.
 function toggleCalendarMenu(id) {
   const menu = document.getElementById(id);
+  const backdrop = document.getElementById('calBackdrop');
   const wasOpen = menu.classList.contains('open');
-  document.querySelectorAll('.cal-menu').forEach(m => m.classList.remove('open'));
-  if (!wasOpen) menu.classList.add('open');
+  document.querySelectorAll('.cal-menu').forEach(m => {
+    m.classList.remove('open');
+    // Clear any leftover inline left/top from an older cached version of this
+    // script — those would override the CSS centering below since inline
+    // styles always beat stylesheet rules.
+    m.style.left = '';
+    m.style.top = '';
+  });
+  if (backdrop) backdrop.classList.remove('open');
+  if (!wasOpen) {
+    menu.classList.add('open');
+    if (backdrop) backdrop.classList.add('open');
+  }
 }
 document.addEventListener('click', (e) => {
-  if (!e.target.closest('.cal-wrap')) document.querySelectorAll('.cal-menu').forEach(m => m.classList.remove('open'));
+  if (!e.target.closest('.cal-wrap')) {
+    document.querySelectorAll('.cal-menu').forEach(m => m.classList.remove('open'));
+    const backdrop = document.getElementById('calBackdrop');
+    if (backdrop) backdrop.classList.remove('open');
+  }
 });
 function addToGoogleCalendar() {
   const url = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
