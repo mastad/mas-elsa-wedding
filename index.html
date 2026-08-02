@@ -119,7 +119,7 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .btn-solid{background:var(--gold);color:var(--white);border-color:var(--gold)}
 .btn-solid:hover{background:var(--gold-dark)}
 .cal-wrap{position:relative;display:inline-block}
-.cal-menu{display:none;position:fixed;background:var(--white);border:1px solid var(--gold-light);border-radius:6px;box-shadow:0 10px 30px rgba(0,0,0,0.15);min-width:210px;z-index:9997;overflow:hidden;text-align:left}
+.cal-menu{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--white);border:1px solid var(--gold-light);border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,0.3);min-width:220px;z-index:9997;overflow:hidden;text-align:left}
 .cal-menu.open{display:block}
 .cal-menu a{display:block;padding:0.8rem 1.1rem;font-family:sans-serif;font-size:0.78rem;color:var(--text);text-decoration:none;transition:background 0.2s}
 .cal-menu a:hover{background:var(--section-alt);color:var(--gold-dark)}
@@ -814,47 +814,20 @@ const WEDDING_EVENT = {
   startUTC: '20260919T170000Z',
   endUTC: '20260919T230000Z'
 };
+// Centered as a fixed action-sheet-style overlay (CSS: top/left 50% + translate)
+// instead of anchored next to the button — anchored positioning depended on
+// accurately reading the visible viewport size, which proved unreliable on
+// real mobile browsers (address bar show/hide, etc.). Centering sidesteps
+// that entirely: it's always fully visible regardless of button position,
+// scroll position, or viewport quirks.
 function toggleCalendarMenu(id) {
   const menu = document.getElementById(id);
   const wasOpen = menu.classList.contains('open');
   document.querySelectorAll('.cal-menu').forEach(m => m.classList.remove('open'));
-  if (wasOpen) return;
-
-  // visualViewport reflects the true visible area on mobile even while the
-  // browser's address bar is animating in/out; innerWidth/innerHeight can be
-  // briefly stale right after a tap and cause the menu to misjudge available space.
-  const vv = window.visualViewport;
-  const viewportWidth  = vv ? vv.width  : window.innerWidth;
-  const viewportHeight = vv ? vv.height : window.innerHeight;
-  const viewportOffsetTop = vv ? vv.offsetTop : 0;
-
-  const btn = menu.previousElementSibling;
-  const r = btn.getBoundingClientRect();
-  menu.classList.add('open');
-  const menuWidth = menu.offsetWidth;
-  let left = r.left + (r.width / 2) - (menuWidth / 2);
-  left = Math.max(8, Math.min(left, viewportWidth - menuWidth - 8));
-  let top = r.bottom + 10;
-  const margin = 24; // generous buffer so a borderline fit reliably flips instead of clipping
-  if (top + menu.offsetHeight > viewportOffsetTop + viewportHeight - margin) {
-    top = r.top - menu.offsetHeight - 10;
-  }
-  // Hard safety clamp: whatever the flip decision above, never let the menu
-  // render outside the visible viewport top/bottom.
-  top = Math.max(viewportOffsetTop + 8, Math.min(top, viewportOffsetTop + viewportHeight - menu.offsetHeight - 8));
-  menu.style.left = left + 'px';
-  menu.style.top = top + 'px';
+  if (!wasOpen) menu.classList.add('open');
 }
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.cal-wrap')) document.querySelectorAll('.cal-menu').forEach(m => m.classList.remove('open'));
-});
-// Close on scroll instead of letting a position:fixed menu float disconnected
-// from the button that opened it.
-window.addEventListener('scroll', () => {
-  document.querySelectorAll('.cal-menu.open').forEach(m => m.classList.remove('open'));
-}, { passive: true, capture: true });
-window.addEventListener('resize', () => {
-  document.querySelectorAll('.cal-menu.open').forEach(m => m.classList.remove('open'));
 });
 function addToGoogleCalendar() {
   const url = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
