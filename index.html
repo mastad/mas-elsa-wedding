@@ -835,7 +835,13 @@ function toggleCalendarMenu(id) {
   let left = r.left + (r.width / 2) - (menuWidth / 2);
   left = Math.max(8, Math.min(left, viewportWidth - menuWidth - 8));
   let top = r.bottom + 10;
-  if (top + menu.offsetHeight > viewportOffsetTop + viewportHeight - 8) top = r.top - menu.offsetHeight - 10;
+  const margin = 24; // generous buffer so a borderline fit reliably flips instead of clipping
+  if (top + menu.offsetHeight > viewportOffsetTop + viewportHeight - margin) {
+    top = r.top - menu.offsetHeight - 10;
+  }
+  // Hard safety clamp: whatever the flip decision above, never let the menu
+  // render outside the visible viewport top/bottom.
+  top = Math.max(viewportOffsetTop + 8, Math.min(top, viewportOffsetTop + viewportHeight - menu.offsetHeight - 8));
   menu.style.left = left + 'px';
   menu.style.top = top + 'px';
 }
