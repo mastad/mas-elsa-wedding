@@ -2421,64 +2421,16 @@ document.getElementById('admin-modal').addEventListener('click', e => {
 });
 
 /* ── TIMELINE DOT STATUS ─────────────────────────────────────────────────── */
+// No per-event times are shown anymore ("a detailed schedule will be shared
+// closer to the day"), so there's no reliable way to compute past/current/
+// upcoming per item — just show every dot in the upcoming (gold outline) style.
 function updateTimelineDots() {
-  const now = new Date();
-  // Use local date (not UTC) to avoid timezone issues
-  const yyyy = now.getFullYear();
-  const mm   = String(now.getMonth() + 1).padStart(2, '0');
-  const dd   = String(now.getDate()).padStart(2, '0');
-  const todayStr = `${yyyy}-${mm}-${dd}`;
-  const weddingDay = '2026-08-02';
-
-  const isWeddingDay    = todayStr === weddingDay;
-  const isBeforeWedding = todayStr < weddingDay;
-
-  const eventTimes = [
-    { hour: 17, min: 0  },
-    { hour: 17, min: 30 },
-    { hour: 18, min: 0  },
-    { hour: 18, min: 30 },
-    { hour: 19, min: 30 },
-    { hour: 20, min: 10 },
-    { hour: 20, min: 30 },
-    { hour: 21, min: 10 },
-    { hour: 22, min: 0  },
-  ];
-
-  const dots  = document.querySelectorAll('.tl-dot');
-  const names = document.querySelectorAll('.tl-name');
-
-  dots.forEach((dot, i) => {
-    dot.classList.remove('upcoming', 'current', 'past');
-    if (names[i]) names[i].classList.remove('upcoming-label', 'current-label', 'past-label');
-
-    if (isBeforeWedding || (!isWeddingDay && !isBeforeWedding === false)) {
-      // Before wedding day — ALL dots upcoming gold
-      dot.classList.add('upcoming');
-    } else if (isWeddingDay) {
-      const nowMin = now.getHours() * 60 + now.getMinutes();
-      const evtMin = eventTimes[i].hour * 60 + eventTimes[i].min;
-      const nxtMin = i + 1 < eventTimes.length
-        ? eventTimes[i+1].hour * 60 + eventTimes[i+1].min
-        : evtMin + 60;
-      if (nowMin < evtMin) {
-        dot.classList.add('upcoming');
-        if (names[i]) names[i].classList.add('upcoming-label');
-      } else if (nowMin >= evtMin && nowMin < nxtMin) {
-        dot.classList.add('current');
-        if (names[i]) names[i].classList.add('current-label');
-      } else {
-        dot.classList.add('past');
-        if (names[i]) names[i].classList.add('past-label');
-      }
-    } else {
-      // After wedding — all past
-      dot.classList.add('past');
-    }
+  document.querySelectorAll('.tl-dot').forEach(dot => {
+    dot.classList.remove('current', 'past');
+    dot.classList.add('upcoming');
   });
 }
 updateTimelineDots();
-setInterval(updateTimelineDots, 60000); // update every minute
 
 /* ── COUNTDOWN ───────────────────────────────────────────────────────────── */
 const weddingDate = new Date('2026-09-19T13:00:00');
