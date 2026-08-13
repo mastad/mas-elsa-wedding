@@ -11,13 +11,13 @@
 <meta property="og:url" content="https://masandelsa.com/"/>
 <meta property="og:title" content="Mas & Elsa — September 19, 2026"/>
 <meta property="og:description" content="You're invited to the wedding of Masresha &amp; Elsa — September 19th, 2026 in Washington, DC. RSVP, view the schedule, and share your photos with us!"/>
-<meta property="og:image" content="https://masandelsa.com/photo1.jpg"/>
+<meta property="og:image" content="https://masandelsa.com/gallery/photo1.jpg"/>
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="Mas & Elsa — September 19, 2026"/>
 <meta name="twitter:description" content="You're invited to the wedding of Masresha &amp; Elsa — September 19th, 2026 in Washington, DC."/>
-<meta name="twitter:image" content="https://masandelsa.com/photo1.jpg"/>
+<meta name="twitter:image" content="https://masandelsa.com/gallery/photo1.jpg"/>
 
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
@@ -255,7 +255,7 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 
 /* SHARE MEMORIES HERO */
 .share-memories-hero{position:relative;width:100%;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:3.5rem 1.5rem}
-.share-memories-bg{position:absolute;inset:0;background-image:url('photo1.jpg');background-size:cover;background-position:center;filter:brightness(0.35)}
+.share-memories-bg{position:absolute;inset:0;background-image:url('gallery/photo1.jpg');background-size:cover;background-position:center;filter:brightness(0.35)}
 .share-memories-content{position:relative;z-index:1}
 
 /* SHARE MEMORIES BOTTOM */
@@ -420,14 +420,14 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 <div id="home" class="page active">
   <div class="hero">
     <div class="hero-photo">
-      <img src="photo1.jpg" alt="Masresha and Elsa"/>
+      <img src="gallery/photo1.jpg" alt="Masresha and Elsa"/>
     </div>
     <div class="hero-text-box">
       <p class="hero-eyebrow">You're Invited to Our Wedding</p>
       <h1 class="hero-names">Masresha <span class="hero-amp">&amp;</span> Elsa</h1>
       <p class="hero-date">September 19<sup>th</sup>, 2026 &nbsp;·&nbsp; 1:00 PM &nbsp;·&nbsp; Washington, DC</p>
       <div class="hero-divider"></div>
-      <p class="hero-verse">"Therefore what God has joined together, let no one separate." — Matthew 19:6</p>
+      <p class="hero-verse">"So they are no longer two, but one flesh. Therefore what God has joined together, let no one separate." — Matthew 19:6</p>
       <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
         <a class="btn btn-solid" href="#" onclick="show('rsvp',null);return false" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">RSVP Now</a>
         <div class="cal-wrap">
@@ -528,7 +528,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
   </div>
   <div style="padding:0 2rem 5rem;max-width:800px;margin:0 auto">
     <div class="story-grid">
-      <div class="story-img"><img src="photo6.jpg" alt="Masresha and Elsa" loading="lazy"/></div>
+      <div class="story-img"><img src="gallery/photo6.jpg" alt="Masresha and Elsa" loading="lazy"/></div>
       <div class="story-text">
         <p>God writes the best love stories — and ours began long before either of us understood it.</p>
         <p>We grew up in the same small town of Wolliso, Ethiopia, sharing a childhood friendship that life eventually pulled apart — different universities, different cities, different worlds. But some bonds are simply meant to find their way home.</p>
@@ -547,8 +547,8 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
   </div>
   <div style="max-width:500px;margin:0 auto 5rem;padding:0 1.5rem">
-    <div style="border-radius:4px;overflow:hidden;cursor:pointer" onclick="openLightbox('photo4.jpg')">
-      <img src="photo4.jpg" alt="The ring" loading="lazy" style="width:100%;display:block;object-fit:cover;max-height:400px"/>
+    <div style="border-radius:4px;overflow:hidden;cursor:pointer" onclick="openLightbox('gallery/photo4.jpg')">
+      <img src="gallery/photo4.jpg" alt="The ring" loading="lazy" style="width:100%;display:block;object-fit:cover;max-height:400px"/>
     </div>
     <p style="text-align:center;font-family:sans-serif;font-size:0.78rem;color:var(--muted);margin-top:0.75rem;letter-spacing:0.1em">She said yes 💍</p>
   </div>
@@ -931,9 +931,9 @@ async function submitRSVP() {
 }
 
 /* ── HOME SLIDESHOW ──────────────────────────────────────────────────────── */
-const SLIDESHOW_FOLDER = 'slideshow';
+const SLIDESHOW_FOLDER = 'gallery';
 const SLIDESHOW_REPO_API = 'https://api.github.com/repos/mastad/mas-elsa-wedding/contents/' + SLIDESHOW_FOLDER + '?ref=main';
-const SLIDESHOW_FALLBACK = ['photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg','photo5.jpg','photo6.jpg','photo7.jpg','photo8.jpg','photo9.jpg'];
+const SLIDESHOW_FALLBACK = ['photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg','photo5.jpg','photo6.jpg','photo7.jpg','photo8.jpg','photo9.jpg','photo10.jpg'];
 let homeSlideIdx = 0;
 let homeSlideTimer = null;
 
@@ -1062,14 +1062,16 @@ document.addEventListener('keydown', (e) => {
 /* ── GALLERY STATE ───────────────────────────────────────────────────────── */
 // Default couple photos — used only if JSONBin has none yet
 const DEFAULT_COUPLE_PHOTOS = [
-  { src: 'photo1.jpg', type: 'image' },
-  { src: 'photo2.jpg', type: 'image' },
-  { src: 'photo3.jpg', type: 'image' },
-  { src: 'photo4.jpg', type: 'image' },
-  { src: 'photo5.jpg', type: 'image' },
-  { src: 'photo6.jpg', type: 'image' },
-  { src: 'photo7.jpg', type: 'image' },
-  { src: 'photo12.jpg', type: 'image' },
+  { src: 'gallery/photo1.jpg', type: 'image' },
+  { src: 'gallery/photo2.jpg', type: 'image' },
+  { src: 'gallery/photo3.jpg', type: 'image' },
+  { src: 'gallery/photo4.jpg', type: 'image' },
+  { src: 'gallery/photo5.jpg', type: 'image' },
+  { src: 'gallery/photo6.jpg', type: 'image' },
+  { src: 'gallery/photo7.jpg', type: 'image' },
+  { src: 'gallery/photo8.jpg', type: 'image' },
+  { src: 'gallery/photo9.jpg', type: 'image' },
+  { src: 'gallery/photo10.jpg', type: 'image' },
 ];
 
 // JSONBin config
