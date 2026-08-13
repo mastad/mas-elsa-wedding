@@ -968,7 +968,8 @@ async function loadBin() {
   const countEl = document.getElementById('gallery-count');
   if (countEl) countEl.textContent = 'Loading guest photos…';
   try {
-    const r = await fetch(JSONBIN_URL + '/latest', {
+    const r = await fetch(JSONBIN_URL + '/latest?t=' + Date.now(), {
+      cache: 'no-store',
       headers: { 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta': 'false' }
     });
     if (r.ok) {
@@ -1006,12 +1007,22 @@ async function saveBin() {
     localStorage.setItem('wishes',       JSON.stringify(wishes));
   } catch(_) {}
   try {
-    await fetch(JSONBIN_URL, {
+    const r = await fetch(JSONBIN_URL, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', 'X-Master-Key': JSONBIN_API_KEY },
       body: JSON.stringify(payload)
     });
-  } catch(e) { console.warn('JSONBin save failed:', e); }
+    if (!r.ok) {
+      console.warn('JSONBin save failed:', r.status, await r.text().catch(() => ''));
+      showToast('error', 'Save Failed', 'Your change was not saved to the server. Please check your connection and try again.', 7000);
+      return false;
+    }
+  } catch(e) {
+    console.warn('JSONBin save failed:', e);
+    showToast('error', 'Save Failed', 'Your change was not saved to the server. Please check your connection and try again.', 7000);
+    return false;
+  }
+  return true;
 }
 
 /* ── WELL WISHES ─────────────────────────────────────────────────────────── */
