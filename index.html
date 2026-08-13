@@ -31,8 +31,6 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow
 
 /* SPLASH */
 #splash{position:fixed;inset:0;z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#fcf0f3 0%,#f7e5ec 45%,#faecf0 100%);transition:opacity 0.8s ease;overflow:hidden}
-.petal{position:absolute;top:-40px;opacity:0;animation:fall linear infinite;pointer-events:none;z-index:1}
-@keyframes fall{0%{opacity:0;transform:translateY(0) rotate(0deg) scale(0.8)}10%{opacity:0.8}80%{opacity:0.6}100%{opacity:0;transform:translateY(110vh) rotate(360deg) scale(1.1)}}
 .floral-tl,.floral-tr,.floral-bl,.floral-br{position:absolute;z-index:1;width:190px;height:190px;opacity:0.6}
 .floral-tl{top:0;left:0}.floral-tr{top:0;right:0;transform:scaleX(-1)}.floral-bl{bottom:0;left:0;transform:scaleY(-1)}.floral-br{bottom:0;right:0;transform:scale(-1)}
 .floral-ml,.floral-mr{position:absolute;z-index:1;width:260px;height:260px;opacity:0.6;top:50%}
@@ -48,8 +46,6 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow
 @keyframes rotateBorder{to{transform:rotate(360deg)}}
 .splash-monogram span{font-family:'Georgia',serif;font-style:italic;font-size:2.4rem;color:var(--gold);letter-spacing:-0.05em;animation:letterDance 4s ease-in-out infinite;display:inline-block}
 @keyframes letterDance{0%,100%{transform:scale(1) rotate(0deg)}25%{transform:scale(1.12) rotate(-3deg)}50%{transform:scale(1.07)}75%{transform:scale(1.12) rotate(3deg)}}
-.splash-flowers-row{position:relative;z-index:2;font-size:1.5rem;letter-spacing:0.3em;margin-bottom:0.8rem;animation:floatRow 3s ease-in-out infinite}
-@keyframes floatRow{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 .splash-names{position:relative;z-index:2;font-family:'Georgia',serif;font-size:1.7rem;font-style:italic;color:var(--gold-dark);letter-spacing:0.06em;margin-bottom:0.6rem}
 .splash-line{width:280px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);margin:0 auto 0.8rem}
 .splash-savedate{position:relative;z-index:2;font-family:sans-serif;font-size:0.7rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:0.3rem}
@@ -61,8 +57,6 @@ body{font-family:'Georgia',serif;background:var(--bg);color:var(--text);overflow
 .ripple-ring{position:absolute;border-radius:50%;border:1.5px solid rgba(176,86,138,0.45);animation:ripple 2.5s ease-out infinite}
 .r1{width:64px;height:64px;animation-delay:0s}.r2{width:64px;height:64px;animation-delay:0.8s}.r3{width:64px;height:64px;animation-delay:1.6s}
 @keyframes ripple{0%{transform:scale(1);opacity:0.7}100%{transform:scale(2.4);opacity:0}}
-.ripple-core{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(176,86,138,0.8);background:rgba(176,86,138,0.1);display:flex;align-items:center;justify-content:center;font-size:1.1rem;animation:corePulse 2s ease-in-out infinite}
-@keyframes corePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,250,246,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--gold-light);height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;gap:1rem}
@@ -83,7 +77,7 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
   nav ul li a::after{display:none}
   .nav-right{gap:1rem}
   .hamburger{display:flex}
-  .photos-grid,.photo-strip{grid-template-columns:repeat(2,1fr)}
+  .photos-grid{grid-template-columns:repeat(2,1fr)}
   .countdown{gap:1.2rem}
   .count-num{font-size:2.2rem}
 }
@@ -109,10 +103,6 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .hero-date{font-family:'Georgia',serif;font-style:italic;font-size:1.05rem;letter-spacing:0.03em;color:#7a7a7a;text-transform:none;margin-bottom:1rem}
 .hero-divider{width:50px;height:1px;background:#f0d9e6;margin:0 auto 1.2rem}
 .hero-verse{font-style:italic;color:#666;font-size:0.9rem;max-width:380px;line-height:1.9;margin:0 auto 2rem}
-.hero-scroll{display:flex;flex-direction:column;align-items:center;gap:0.4rem;margin-top:0.5rem;cursor:pointer;opacity:0.5}
-.hero-scroll span{font-family:sans-serif;font-size:0.62rem;letter-spacing:0.3em;color:#888;text-transform:uppercase}
-.hero-scroll-arrow{width:1px;height:35px;background:linear-gradient(to bottom,#888,transparent);animation:scrollPulse 2s ease-in-out infinite}
-@keyframes scrollPulse{0%,100%{opacity:0.4}50%{opacity:1}}
 
 .btn{display:inline-block;padding:0.75rem 2.5rem;border:1px solid var(--gold);color:var(--gold);font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;background:transparent;transition:all 0.25s}
 .btn:hover{background:var(--gold);color:var(--white)}
@@ -155,8 +145,6 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 }
 .tl-item{display:flex;gap:1rem;align-items:flex-start;padding-bottom:2rem}
 .tl-item:last-child{padding-bottom:0}
-.tl-left{width:90px;flex-shrink:0;text-align:right}
-.tl-time{font-family:sans-serif;font-size:0.75rem;color:var(--gold);font-weight:600;letter-spacing:0.05em}
 .tl-dot{width:12px;height:12px;border:2px solid var(--gold);border-radius:50%;background:var(--bg);flex-shrink:0;margin-top:3px;transition:all 0.3s}
 .tl-dot.upcoming{border-color:var(--gold);background:var(--bg)}
 .tl-dot.current{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 3px rgba(176,86,138,0.25)}
@@ -175,31 +163,12 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .milestone-desc{font-size:0.9rem;color:#666;line-height:1.6}
 
 /* PHOTO STRIP */
-.photo-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}
-.photo-strip-item{aspect-ratio:1;overflow:hidden;cursor:pointer}
-.photo-strip-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s}
-.home-slideshow{position:relative;width:100%;height:65vh;overflow:hidden;background:var(--dark)}
-.slideshow-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.6);font-family:sans-serif;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase}
-.home-slideshow .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.4s ease;cursor:pointer}
-.home-slideshow .slide.active{opacity:1;z-index:1}
-.home-slideshow .slide-bg{position:absolute;inset:-20px;background-size:cover;background-position:center;filter:blur(28px) brightness(0.5) saturate(1.1);transform:scale(1.15);animation:cinematicZoom 10s ease-in-out infinite alternate}
-.home-slideshow .slide-fg-wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;z-index:1}
-.home-slideshow .slide-fg{max-width:92%;max-height:88%;object-fit:contain;display:block;box-shadow:0 20px 60px rgba(0,0,0,0.45);border-radius:3px;animation:slideFadeIn 1s ease}
-@keyframes slideFadeIn{0%{opacity:0;transform:translateY(14px) scale(0.98)}100%{opacity:1;transform:translateY(0) scale(1)}}
-.home-slideshow .slide-caption{position:absolute;left:0;right:0;bottom:0;padding:2.5rem 1.5rem 3.2rem;background:linear-gradient(to top,rgba(0,0,0,0.55),transparent);color:#fff;font-family:'Georgia',serif;font-style:italic;font-size:0.95rem;text-align:center;letter-spacing:0.02em}
-.slideshow-dots{position:absolute;left:0;right:0;bottom:1.1rem;z-index:2;display:flex;justify-content:center;gap:0.55rem}
-.slideshow-dots .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.8);cursor:pointer;transition:all 0.3s;padding:0}
-.slideshow-dots .dot.active{background:var(--gold);border-color:var(--gold);transform:scale(1.3)}
-@media(max-width:600px){.home-slideshow{height:48vh}}
-.photo-strip-item:hover img{transform:scale(1.05)}
 
 /* PARTY */
 .party-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2.5rem 2rem;max-width:900px;margin:2rem auto;text-align:center}
 .party-card{display:flex;flex-direction:column;align-items:center}
 .party-avatar-wrap{position:relative;width:160px;height:160px;border-radius:50%;overflow:hidden;border:4px solid var(--gold);background:var(--gold-light);flex-shrink:0;margin:0 auto 1.1rem;box-shadow:0 8px 20px rgba(0,0,0,0.12);transition:transform 0.3s ease,box-shadow 0.3s ease;cursor:pointer}
-.party-monogram{position:relative;width:160px;height:160px;border-radius:50%;border:4px solid var(--gold);background:radial-gradient(circle,#fff 55%,var(--gold-light) 100%);flex-shrink:0;margin:0 auto 1.1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px rgba(0,0,0,0.1);transition:transform 0.3s ease,box-shadow 0.3s ease}
-.party-avatar-wrap:hover,.party-monogram:hover{transform:translateY(-4px) scale(1.22);box-shadow:0 16px 34px rgba(0,0,0,0.22);z-index:5}
-.party-monogram span{font-family:'Georgia',serif;font-style:italic;font-size:3rem;color:var(--gold-dark)}
+.party-avatar-wrap:hover{transform:translateY(-4px) scale(1.22);box-shadow:0 16px 34px rgba(0,0,0,0.22);z-index:5}
 .party-avatar-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;border-radius:0;transition:transform 0.35s ease}
 .party-avatar-wrap:hover img{transform:scale(1.12)}
 .party-card .name{font-size:1.05rem;color:var(--dark);margin-bottom:0.3rem;font-weight:500}
@@ -226,7 +195,7 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .form-group textarea{height:100px;resize:vertical}
 .radio-group{display:flex;flex-direction:column;gap:0.85rem;margin-top:0.5rem}
 .radio-group label{font-family:sans-serif;font-size:0.9rem;color:var(--text);display:flex;align-items:center;gap:0.6rem;letter-spacing:0;text-transform:none;cursor:pointer}
-.radio-group input[type="radio"]{width:18px;height:18px;flex-shrink:0;accent-color:var(--gold);cursor:pointer}
+.radio-group input[type="radio"]{width:18px;height:18px;flex-shrink:0;accent-color:var(--gold);cursor:pointer;-webkit-appearance:radio;appearance:radio}
 .rsvp-success{display:none;text-align:center;padding:3rem;border:1px solid var(--gold-light);background:var(--section-alt);border-radius:4px}
 .rsvp-success h3{color:var(--gold);font-size:1.8rem;margin-bottom:1rem}
 
@@ -247,12 +216,6 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 .gallery-filter.active{background:var(--gold);border-color:var(--gold);color:#fff}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
-/* GALLERY LOADING */
-.gallery-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;gap:1rem;grid-column:1/-1}
-.gallery-spinner{width:36px;height:36px;border:3px solid var(--gold-light);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.gallery-loading p{font-family:sans-serif;font-size:0.8rem;color:var(--muted);letter-spacing:0.1em}
-
 /* SHARE MEMORIES HERO */
 .share-memories-hero{position:relative;width:100%;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:3.5rem 1.5rem}
 .share-memories-bg{position:absolute;inset:0;background-image:url('gallery/photo1.jpg');background-size:cover;background-position:center;filter:brightness(0.35)}
@@ -261,11 +224,6 @@ nav ul li a:hover::after,nav ul li a.active::after{right:0}
 /* SHARE MEMORIES BOTTOM */
 .share-upload-area{background:var(--section-alt);padding:3rem 1.5rem;border-top:1px solid var(--gold-light)}
 .share-upload-inner{max-width:600px;margin:0 auto;text-align:center}
-
-/* UPLOAD TABS */
-.share-tabs{display:flex;gap:0.75rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap}
-.share-tab{font-family:sans-serif;font-size:0.78rem;letter-spacing:0.1em;padding:0.6rem 1.4rem;border-radius:50px;border:1.5px solid rgba(255,255,255,0.6);color:#fff;cursor:pointer;background:rgba(0,0,0,0.3);transition:all 0.2s;text-transform:uppercase}
-.share-tab.active,.share-tab:hover{background:var(--gold);border-color:var(--gold);color:#fff}
 
 /* LIGHTBOX */
 .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;align-items:center;justify-content:center;touch-action:pan-y}
@@ -342,6 +300,9 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
 .admin-photo-cell:hover .adm-del{background:rgba(180,30,30,0.65)}
 .admin-photo-cell .adm-del span{opacity:0;font-size:1.5rem;color:#fff;transition:opacity 0.2s}
 .admin-photo-cell:hover .adm-del span{opacity:1}
+.admin-photo-cell{cursor:grab}
+.admin-photo-cell.dragging{opacity:0.4;cursor:grabbing}
+.admin-photo-cell.drag-over{outline:2px dashed var(--gold);outline-offset:-2px}
 .admin-upload-zone{border:2px dashed var(--gold-light);border-radius:8px;padding:2rem;text-align:center;cursor:pointer;transition:border-color 0.2s,background 0.2s;margin-bottom:1rem}
 .admin-upload-zone:hover{border-color:var(--gold);background:#f8e8ee}
 .admin-upload-zone p{font-family:sans-serif;font-size:0.82rem;color:var(--muted);margin-top:0.5rem}
@@ -427,7 +388,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <h1 class="hero-names">Masresha <span class="hero-amp">&amp;</span> Elsa</h1>
       <p class="hero-date">September 19<sup>th</sup>, 2026 &nbsp;·&nbsp; 1:00 PM &nbsp;·&nbsp; Washington, DC</p>
       <div class="hero-divider"></div>
-      <p class="hero-verse">"So they are no longer two, but one flesh. Therefore what God has joined together, let no one separate." — Matthew 19:6</p>
+      <p class="hero-verse">"So they are no longer two, but one flesh. Therefore what God has joined together, let no one separate."<br>— Matthew 19:6</p>
       <div style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
         <a class="btn btn-solid" href="#" onclick="show('rsvp',null);return false" style="font-family:sans-serif;font-size:0.78rem;letter-spacing:0.2em">RSVP Now</a>
         <div class="cal-wrap">
@@ -474,11 +435,6 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
       <div class="count-box"><div class="count-num" id="cd-m">--</div><div class="count-lbl">Minutes</div></div>
       <div class="count-box"><div class="count-num" id="cd-s">--</div><div class="count-lbl">Seconds</div></div>
     </div>
-  </div>
-
-  <div class="home-slideshow" id="homeSlideshow">
-    <div class="slideshow-loading" id="slideshowLoading">Loading photos…</div>
-    <div class="slideshow-dots" id="slideshowDots"></div>
   </div>
 
   <!-- SHARE MEMORIES (HOME) -->
@@ -599,7 +555,7 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     </div>
     <div id="rsvpForm" class="rsvp-form">
       <div class="form-group"><label>Full Name</label><input id="f-name" type="text" placeholder="Your full name"/></div>
-      <div class="form-group"><label>Email Address</label><input id="f-email" type="email" placeholder="your@email.com"/></div>
+      <div class="form-group"><label>Email Address (optional)</label><input id="f-email" type="email" placeholder="your@email.com"/></div>
       <div class="form-group"><label>Number of Guests</label><select id="f-guests"><option>1 guest</option><option>2 guests</option><option>3 guests</option><option>4 guests</option><option>5 guests</option><option>6 guests</option><option>7 guests</option><option>8 guests</option><option>9 guests</option><option>10 guests</option><option>10+ guests</option></select></div>
       <div class="form-group"><label>Will you attend?</label><div class="radio-group"><label><input type="radio" name="attend" value="yes"/> Joyfully accepts</label><label><input type="radio" name="attend" value="no"/> Regretfully declines</label></div></div>
       <div class="form-group"><label>Message (optional)</label><textarea id="f-message" placeholder="Share your wishes and blessings..."></textarea></div>
@@ -930,86 +886,6 @@ async function submitRSVP() {
   }
 }
 
-/* ── HOME SLIDESHOW ──────────────────────────────────────────────────────── */
-const SLIDESHOW_FOLDER = 'gallery';
-const SLIDESHOW_REPO_API = 'https://api.github.com/repos/mastad/mas-elsa-wedding/contents/' + SLIDESHOW_FOLDER + '?ref=main';
-const SLIDESHOW_FALLBACK = ['photo1.jpg','photo2.jpg','photo3.jpg','photo4.jpg','photo5.jpg','photo6.jpg','photo7.jpg','photo8.jpg','photo9.jpg','photo10.jpg'];
-let homeSlideIdx = 0;
-let homeSlideTimer = null;
-
-async function loadSlideshowPhotos() {
-  let names = null;
-  try {
-    const res = await fetch(SLIDESHOW_REPO_API, { headers: { Accept: 'application/vnd.github.v3+json' } });
-    if (res.ok) {
-      const data = await res.json();
-      if (Array.isArray(data)) {
-        names = data
-          .filter(f => f.type === 'file' && /\.(jpe?g|png|webp)$/i.test(f.name))
-          .map(f => f.name)
-          .sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
-      }
-    }
-  } catch (e) {
-    console.warn('Slideshow folder listing failed, using fallback:', e);
-  }
-  if (!names || names.length === 0) names = SLIDESHOW_FALLBACK;
-  buildSlideshow(names);
-}
-
-function buildSlideshow(names) {
-  const wrap = document.getElementById('homeSlideshow');
-  const loading = document.getElementById('slideshowLoading');
-  const dotsWrap = document.getElementById('slideshowDots');
-  if (!wrap) return;
-
-  const slideshowLightboxItems = names.map(name => ({ src: SLIDESHOW_FOLDER + '/' + name, type: 'image' }));
-
-  names.forEach((name, i) => {
-    const src = SLIDESHOW_FOLDER + '/' + name;
-    const slide = document.createElement('div');
-    slide.className = 'slide' + (i === 0 ? ' active' : '');
-    slide.onclick = () => openLightbox(src, slideshowLightboxItems);
-    slide.innerHTML = `<div class="slide-bg" style="background-image:url('${src}')"></div><div class="slide-fg-wrap"><img class="slide-fg" src="${src}" alt=""/></div>`;
-    wrap.insertBefore(slide, dotsWrap);
-
-    const dot = document.createElement('button');
-    dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
-    dot.onclick = () => goToHomeSlide(i);
-    dotsWrap.appendChild(dot);
-  });
-
-  if (loading) loading.remove();
-  restartHomeSlideshow();
-}
-
-function setHomeSlide(idx) {
-  const wrap = document.getElementById('homeSlideshow');
-  if (!wrap) return;
-  const slides = wrap.querySelectorAll('.slide');
-  const dots = wrap.querySelectorAll('.dot');
-  slides.forEach((s, i) => s.classList.toggle('active', i === idx));
-  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
-  homeSlideIdx = idx;
-}
-function goToHomeSlide(idx) {
-  setHomeSlide(idx);
-  restartHomeSlideshow();
-}
-function advanceHomeSlide() {
-  const wrap = document.getElementById('homeSlideshow');
-  if (!wrap) return;
-  const total = wrap.querySelectorAll('.slide').length;
-  if (total === 0) return;
-  setHomeSlide((homeSlideIdx + 1) % total);
-}
-function restartHomeSlideshow() {
-  if (homeSlideTimer) clearInterval(homeSlideTimer);
-  homeSlideTimer = setInterval(advanceHomeSlide, 4500);
-}
-loadSlideshowPhotos();
-
 /* ── LIGHTBOX ────────────────────────────────────────────────────────────── */
 let lightboxItems = [];        // main photos-page gallery (kept in sync by renderGallery)
 let activeLightboxList = [];   // list the currently-open lightbox navigates through
@@ -1081,6 +957,7 @@ const JSONBIN_URL     = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
 
 let couplePhotos = [...DEFAULT_COUPLE_PHOTOS]; // managed via admin panel
 let isAdminUnlocked = false;
+let adminDragIdx = null;
 let deletedUrls  = [];
 let guestPhotos  = [];
 let wishes       = [];
@@ -2318,6 +2195,27 @@ function renderAdminGrid() {
   couplePhotos.forEach((photo, idx) => {
     const cell = document.createElement('div');
     cell.className = 'admin-photo-cell';
+    cell.draggable = true;
+
+    cell.ondragstart = (e) => {
+      adminDragIdx = idx;
+      cell.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    };
+    cell.ondragover = (e) => {
+      e.preventDefault();
+      if (idx !== adminDragIdx) cell.classList.add('drag-over');
+    };
+    cell.ondragleave = () => cell.classList.remove('drag-over');
+    cell.ondrop = (e) => {
+      e.preventDefault();
+      cell.classList.remove('drag-over');
+      if (adminDragIdx !== null && adminDragIdx !== idx) reorderAdminPhoto(adminDragIdx, idx);
+    };
+    cell.ondragend = () => {
+      adminDragIdx = null;
+      grid.querySelectorAll('.admin-photo-cell').forEach(c => c.classList.remove('dragging', 'drag-over'));
+    };
 
     if (photo.type === 'video') {
       const v = document.createElement('video');
@@ -2347,6 +2245,14 @@ function renderAdminGrid() {
 
     grid.appendChild(cell);
   });
+}
+
+async function reorderAdminPhoto(fromIdx, toIdx) {
+  const [moved] = couplePhotos.splice(fromIdx, 1);
+  couplePhotos.splice(toIdx, 0, moved);
+  renderAdminGrid();
+  renderGallery();
+  await saveBin();
 }
 
 async function adminDeletePhoto(idx, cell) {
