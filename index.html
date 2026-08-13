@@ -938,16 +938,16 @@ document.addEventListener('keydown', (e) => {
 /* ── GALLERY STATE ───────────────────────────────────────────────────────── */
 // Default couple photos — used only if JSONBin has none yet
 const DEFAULT_COUPLE_PHOTOS = [
-  { src: 'gallery/photo1.jpg', type: 'image' },
-  { src: 'gallery/photo2.jpg', type: 'image' },
-  { src: 'gallery/photo3.jpg', type: 'image' },
-  { src: 'gallery/photo4.jpg', type: 'image' },
-  { src: 'gallery/photo5.jpg', type: 'image' },
-  { src: 'gallery/photo6.jpg', type: 'image' },
-  { src: 'gallery/photo7.jpg', type: 'image' },
-  { src: 'gallery/photo8.jpg', type: 'image' },
-  { src: 'gallery/photo9.jpg', type: 'image' },
-  { src: 'gallery/photo10.jpg', type: 'image' },
+  { src: 'https://res.cloudinary.com/docn0sds/image/upload/v1786589296/abrham-blen-wedding/va4q1u5pex4spx2wzj7r.jpg', type: 'image' },
+  { src: 'https://res.cloudinary.com/docn0sds/image/upload/v1786589304/abrham-blen-wedding/c7t4b4imp8kwf1lpgc5r.jpg', type: 'image' },
+  { src: 'https://res.cloudinary.com/docn0sds/image/upload/v1786589305/abrham-blen-wedding/oegr7yj3ajyb13m9vww7.jpg', type: 'image' },
+  { src: 'https://res.cloudinary.com/docn0sds/image/upload/v1786589306/abrham-blen-wedding/lnun1aa9a8xfiuetvnsw.jpg', type: 'image' },
+  { src: 'https://res.cloudinary.com/docn0sds/image/upload/v1786589306/abrham-blen-wedding/h3qdcm4fbiw9r5thys2t.jpg', type: 'image' },
+  { src: 'https://res.cloudinary.com/docn0sds/image/upload/v1786589307/abrham-blen-wedding/cwqmun2g5safgtl53wqd.jpg', type: 'image' },
+  { src: 'https://res.cloudinary.com/docn0sds/image/upload/v1786589308/abrham-blen-wedding/tcevcpvxjmuop5sh8ws8.jpg', type: 'image' },
+  { src: 'https://res.cloudinary.com/docn0sds/image/upload/v1786589308/abrham-blen-wedding/nz7vefmregwijbugmvn8.jpg', type: 'image' },
+  { src: 'https://res.cloudinary.com/docn0sds/image/upload/v1786589309/abrham-blen-wedding/nkpulxltnqpxv3vupj8x.jpg', type: 'image' },
+  { src: 'https://res.cloudinary.com/docn0sds/image/upload/v1786589310/abrham-blen-wedding/k5gvm2ztdzt5isui3mzo.jpg', type: 'image' },
 ];
 
 // JSONBin config
@@ -1221,7 +1221,7 @@ function filterGallery(type, btn) {
   renderGallery();
 }
 
-// Init gallery — show couple photos instantly, then load guest photos from JSONBin
+// Init gallery — wait for JSONBin so the real photos render once, no placeholder swap
 document.addEventListener('DOMContentLoaded', () => {
   // Read hash FIRST before anything else renders
   const hash = window.location.hash.replace('#', '');
@@ -1238,7 +1238,6 @@ document.addEventListener('DOMContentLoaded', () => {
     show(hash, navLink);
   }
 
-  renderGallery();
   loadBin();
 
   // Listen for hash changes (back/forward navigation)
