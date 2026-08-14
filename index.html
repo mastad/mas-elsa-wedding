@@ -556,7 +556,13 @@ footer{text-align:center;padding:3rem 1rem;border-top:1px solid var(--gold-light
     <div id="rsvpForm" class="rsvp-form">
       <div class="form-group"><label>Full Name</label><input id="f-name" type="text" placeholder="Your full name"/></div>
       <div class="form-group"><label>Email Address (optional)</label><input id="f-email" type="email" placeholder="your@email.com"/></div>
-      <div class="form-group"><label>Number of Guests</label><select id="f-guests"><option>1 guest</option><option>2 guests</option><option>3 guests</option><option>4 guests</option><option>5 guests</option><option>6 guests</option><option>7 guests</option><option>8 guests</option><option>9 guests</option><option>10 guests</option><option>10+ guests</option></select></div>
+      <div class="form-group">
+        <label>Number of Guests</label>
+        <div style="display:flex;gap:0.75rem">
+          <select id="f-guests-adults" style="flex:1"><option value="1">1 Adult</option><option value="2">2 Adults</option><option value="3">3 Adults</option><option value="4">4 Adults</option><option value="5">5 Adults</option><option value="6">6 Adults</option><option value="7">7 Adults</option><option value="8">8 Adults</option></select>
+          <select id="f-guests-kids" style="flex:1"><option value="0">0 Children</option><option value="1">1 Child</option><option value="2">2 Children</option><option value="3">3 Children</option><option value="4">4 Children</option><option value="5">5 Children</option><option value="6">6 Children</option></select>
+        </div>
+      </div>
       <div class="form-group"><label>Will you attend?</label><div class="radio-group"><label><input type="radio" name="attend" value="yes"/> Joyfully accepts</label><label><input type="radio" name="attend" value="no"/> Regretfully declines</label></div></div>
       <div class="form-group"><label>Message (optional)</label><textarea id="f-message" placeholder="Share your wishes and blessings..."></textarea></div>
       <button class="btn btn-solid" style="width:100%;font-family:sans-serif;font-size:0.8rem;letter-spacing:0.2em;border:none;cursor:pointer" onclick="submitRSVP()">Send RSVP</button>
@@ -854,7 +860,12 @@ async function submitRSVP() {
 
   const nameVal    = document.getElementById('f-name').value.trim();
   const emailVal   = document.getElementById('f-email').value.trim();
-  const guestsVal  = document.getElementById('f-guests').value;
+  const adultsVal  = parseInt(document.getElementById('f-guests-adults').value, 10);
+  const kidsVal    = parseInt(document.getElementById('f-guests-kids').value, 10);
+  const guestsVal  = [
+    adultsVal + ' Adult' + (adultsVal !== 1 ? 's' : ''),
+    kidsVal > 0 ? kidsVal + ' Child' + (kidsVal !== 1 ? 'ren' : '') : null
+  ].filter(Boolean).join(', ');
   const attendVal  = document.querySelector('#rsvpForm input[name="attend"]:checked');
   const messageVal = document.getElementById('f-message').value.trim();
 
@@ -873,6 +884,8 @@ async function submitRSVP() {
         name:      nameVal,
         email:     emailVal,
         guests:    guestsVal,
+        adults:    adultsVal,
+        children:  kidsVal,
         attending: attendVal.value,
         message:   messageVal
       })
@@ -964,38 +977,65 @@ let wishes       = [];
 let currentFilter = 'all';
 let binLoaded = false;
 
-async function loadBin() {
+async function fetchBinRecord() {
+  const r = await fetch(JSONBIN_URL + '/latest?t=' + Date.now(), {
+    cache: 'no-store',
+    headers: { 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta': 'false' }
+  });
+  if (r.status === 404) { await saveBin(); return null; }
+  if (!r.ok) throw new Error('JSONBin responded ' + r.status);
+  const d = await r.json();
+  return d.record || d || {};
+}
+
+let offlineToastShown = false;
+
+async function loadBin({ isRetry = false } = {}) {
   const countEl = document.getElementById('gallery-count');
-  if (countEl) countEl.textContent = 'Loading guest photos…';
-  try {
-    const r = await fetch(JSONBIN_URL + '/latest?t=' + Date.now(), {
-      cache: 'no-store',
-      headers: { 'X-Master-Key': JSONBIN_API_KEY, 'X-Bin-Meta': 'false' }
-    });
-    if (r.ok) {
-      const d = await r.json();
-      const rec = d.record || d || {};
-      deletedUrls  = Array.isArray(rec.deletedUrls)   ? rec.deletedUrls   : [];
-      guestPhotos  = Array.isArray(rec.guestPhotos)    ? rec.guestPhotos   : [];
-      wishes       = Array.isArray(rec.wishes)         ? rec.wishes        : [];
-      couplePhotos = Array.isArray(rec.couplePhotos) && rec.couplePhotos.length
-        ? rec.couplePhotos
-        : [...DEFAULT_COUPLE_PHOTOS];
-    } else if (r.status === 404) {
-      await saveBin();
-    }
-  } catch(e) {
-    console.warn('JSONBin load failed, using local fallback:', e);
+  if (countEl && !isRetry) countEl.textContent = 'Loading guest photos…';
+
+  const ATTEMPTS = 3;
+  for (let attempt = 1; attempt <= ATTEMPTS; attempt++) {
     try {
-      deletedUrls  = JSON.parse(localStorage.getItem('deletedUrls')  || '[]');
-      guestPhotos  = JSON.parse(localStorage.getItem('guestPhotos')  || '[]');
-      wishes       = JSON.parse(localStorage.getItem('wishes')       || '[]');
-      couplePhotos = JSON.parse(localStorage.getItem('couplePhotos') || 'null') || [...DEFAULT_COUPLE_PHOTOS];
-    } catch(_) {}
+      const rec = await fetchBinRecord();
+      if (rec) {
+        deletedUrls  = Array.isArray(rec.deletedUrls)   ? rec.deletedUrls   : [];
+        guestPhotos  = Array.isArray(rec.guestPhotos)    ? rec.guestPhotos   : [];
+        wishes       = Array.isArray(rec.wishes)         ? rec.wishes        : [];
+        couplePhotos = Array.isArray(rec.couplePhotos) && rec.couplePhotos.length
+          ? rec.couplePhotos
+          : [...DEFAULT_COUPLE_PHOTOS];
+      }
+      binLoaded = true;
+      renderGallery();
+      renderWishes();
+      return;
+    } catch(e) {
+      console.warn(`JSONBin load attempt ${attempt}/${ATTEMPTS} failed:`, e);
+      if (attempt < ATTEMPTS) await new Promise(res => setTimeout(res, attempt * 800));
+    }
   }
+
+  // All retries exhausted — fall back to this device's last-known local copy,
+  // which can be stale (e.g. missing recent deletes) if the network stays down.
+  try {
+    deletedUrls  = JSON.parse(localStorage.getItem('deletedUrls')  || '[]');
+    guestPhotos  = JSON.parse(localStorage.getItem('guestPhotos')  || '[]');
+    wishes       = JSON.parse(localStorage.getItem('wishes')       || '[]');
+    couplePhotos = JSON.parse(localStorage.getItem('couplePhotos') || 'null') || [...DEFAULT_COUPLE_PHOTOS];
+  } catch(_) {}
   binLoaded = true;
   renderGallery();
   renderWishes();
+  if (!offlineToastShown) {
+    offlineToastShown = true;
+    showToast('info', 'Showing offline copy', 'Could not reach the photo server — you may be seeing outdated photos. Pull to refresh once you have a connection.', 8000);
+  }
+
+  // Self-heal in the background: if connectivity comes back, silently re-sync
+  // without waiting for the visitor to manually reload the page. Once this
+  // succeeds it returns early above and this loop stops on its own.
+  setTimeout(() => loadBin({ isRetry: true }), 6000);
 }
 
 async function saveBin() {
